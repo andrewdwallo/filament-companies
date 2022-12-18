@@ -19,7 +19,5 @@
                 </div>
             @endif
 
-            <x-filament-companies::section-border />
-
         </div>
 </x-filament::page>
