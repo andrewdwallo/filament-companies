@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Filament\Pages\User;
+namespace App\Filament\Pages\Companies;
 
 use Filament\Pages\Page;
 
-class Profile extends Page
+class Create extends Page
 {
     protected static ?string $navigationIcon = 'heroicon-o-document-text';
 
-    protected static string $view = 'filament.pages.user.profile';
+    protected static string $view = 'filament.pages.companies.create';
 
     protected static bool $shouldRegisterNavigation = false;
 }

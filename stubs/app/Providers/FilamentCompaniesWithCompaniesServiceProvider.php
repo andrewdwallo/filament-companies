@@ -10,11 +10,10 @@ use App\Actions\FilamentCompanies\InviteCompanyEmployee;
 use App\Actions\FilamentCompanies\RemoveCompanyEmployee;
 use App\Actions\FilamentCompanies\UpdateCompanyName;
 use Illuminate\Support\ServiceProvider;
-use Filament\Facades\Filament;
-use Filament\Navigation\UserMenuItem;
-use App\Filament\Pages\User\Profile;
-use App\Filament\Pages\Company\Settings;
 use Wallo\FilamentCompanies\FilamentCompanies;
+use Filament\Facades\Filament;
+use Illuminate\Contracts\View\View;
+use Filament\Navigation\UserMenuItem;
 
 class FilamentCompaniesServiceProvider extends ServiceProvider
 {
@@ -35,26 +34,38 @@ class FilamentCompaniesServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        if (config('filament-companies.enable_profile_page') && config('filament-companies.show_profile_page_in_user_menu')) {
+
+        if (FilamentCompanies::hasCompanyFeatures()) {
+            Filament::registerRenderHook(
+                'global-search.start',
+                fn (): View => view('navigation-menu'),
+            );
+        }
+
+        Filament::serving(function () {
+            Filament::registerUserMenuItems([
+                'account' => UserMenuItem::make()->url(route('filament.pages.profile')),
+                // ...
+            ]);
+        });
+
+        if (FilamentCompanies::hasApiFeatures()) {
             Filament::serving(function () {
                 Filament::registerUserMenuItems([
-                    'account' => UserMenuItem::make()->url(Profile::getUrl()),
+                    UserMenuItem::make()
+                    ->label('API Tokens')
+                    ->icon('heroicon-s-lock-open')
+                    ->url(route('filament.pages.api-tokens')),
                 ]);
             });
         }
 
-        if (config('filament-companies.enable_company_settings_page') && config('filament-companies.show_company_settings_page_in_user_menu')) {
-            Filament::serving(function () {
-                Filament::registerUserMenuItems([
-                    'settings' => UserMenuItem::make()->label('Settings')->url(Settings::getUrl())->icon('heroicon-s-cog'),
-                ]);
-            });
-        }
+        Filament::serving(function() {
+            Filament::registerUserMenuItems([
+                'logout' => UserMenuItem::make()->url(route('logout'))
+            ]);
+        });
 
-        $this->app->singleton(
-            \Laravel\Fortify\Contracts\LogoutResponse::class,
-            \Wallo\FilamentCompanies\Http\Responses\LogoutResponse::class,
-        );
         $this->configurePermissions();
 
         FilamentCompanies::createCompaniesUsing(CreateCompany::class);

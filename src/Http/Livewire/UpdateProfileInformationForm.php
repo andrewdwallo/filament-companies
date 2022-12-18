@@ -6,7 +6,6 @@ use Illuminate\Support\Facades\Auth;
 use Laravel\Fortify\Contracts\UpdatesUserProfileInformation;
 use Livewire\Component;
 use Livewire\WithFileUploads;
-use Illuminate\Support\Facades\Redirect;
 
 class UpdateProfileInformationForm extends Component
 {
@@ -61,7 +60,7 @@ class UpdateProfileInformationForm extends Component
         );
 
         if (isset($this->photo)) {
-            return Redirect::to('admin/user/profile');
+            return redirect()->route('filament.pages.profile');
         }
 
         $this->emit('saved');

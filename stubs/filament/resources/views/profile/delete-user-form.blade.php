@@ -10,7 +10,7 @@
     <div class="mt-10 sm:mt-0">
         <x-filament::card class="col-span-2 sm:col-span-1 mt-5 md:mt-0">
 
-            <div class="max-w-xl text-sm text-gray-600 dark:text-gray-400 dark:text-gray-300">
+            <div class="max-w-xl text-sm text-gray-600 dark:text-gray-400">
                 {{ __('Once your account is deleted, all of its resources and data will be permanently deleted. Before deleting your account, please download any data or information that you wish to retain.') }}
             </div>
 

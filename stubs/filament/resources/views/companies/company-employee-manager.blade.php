@@ -59,7 +59,7 @@
                         </div>
                     @endif
 
-                    <x-filament-companies::action-message>
+                    <x-filament-companies::action-message class="mr-3" on="saved">
                         {{ __('Added.') }}
                     </x-filament-companies::action-message>
 

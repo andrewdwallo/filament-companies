@@ -26,18 +26,20 @@ Route::group(['middleware' => config('filament-companies.middleware', ['web'])],
 
     Route::group(['middleware' => array_values(array_filter([$authMiddleware, $authSessionMiddleware]))], function () {
         // User & Profile...
-        Route::get('/user/profile', [UserProfileController::class, 'show'])->name('profile.show');
+        Route::get('/user/profile', [UserProfileController::class, 'show'])->name('filament.pages.profile');
 
         Route::group(['middleware' => 'verified'], function () {
             // API...
             if (FilamentCompanies::hasApiFeatures()) {
-                Route::get('/user/api-tokens', [ApiTokenController::class, 'index'])->name('api-tokens.index');
+                Route::get('/user/api-tokens', [ApiTokenController::class, 'index'])->name('filament.pages.api-tokens');
+
             }
 
             // Companies...
             if (FilamentCompanies::hasCompanyFeatures()) {
-                Route::get('/companies/create', [CompanyController::class, 'create'])->name('companies.create');
-                Route::get('/companies/{company}', [CompanyController::class, 'show'])->name('companies.show');
+                Route::get('/companies/create', [CompanyController::class, 'create'])->name('filament.pages.create');
+
+                Route::get('/companies/{company}', [CompanyController::class, 'show'])->name('filament.pages.show');
                 Route::put('/current-company', [CurrentCompanyController::class, 'update'])->name('current-company.update');
 
                 Route::get('/company-invitations/{invitation}', [CompanyInvitationController::class, 'accept'])

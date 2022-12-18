@@ -24,7 +24,7 @@ class CompanyController extends Controller
             abort(403);
         }
 
-        return view('filament.pages.company.settings', [
+        return view('filament.pages.show', [
             'user' => $request->user(),
             'company' => $company,
         ]);
@@ -40,7 +40,7 @@ class CompanyController extends Controller
     {
         Gate::authorize('create', FilamentCompanies::newCompanyModel());
 
-        return view('filament.pages.company.settings', [
+        return view('filament.pages.create', [
             'user' => $request->user(),
         ]);
     }

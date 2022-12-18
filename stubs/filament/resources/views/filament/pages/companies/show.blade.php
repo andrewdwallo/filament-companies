@@ -1,0 +1,25 @@
+<x-filament::page>
+        @if (Wallo\FilamentCompanies\FilamentCompanies::hasCompanyFeatures())
+            @foreach (Auth::user()->allCompanies() as $company)
+            @endforeach
+        @endif
+        <div class="mt-10 sm:mt-0">
+            @livewire('companies.update-company-name-form', ['company' => $company])
+
+            <x-filament-companies::section-border />
+
+            @livewire('companies.company-employee-manager', ['company' => $company])
+
+            <x-filament-companies::section-border />
+
+            @if (Gate::check('delete', $company) && ! $company->personal_company)
+
+                <div class="mt-10 sm:mt-0">
+                    @livewire('companies.delete-company-form', ['company' => $company])
+                </div>
+            @endif
+
+            <x-filament-companies::section-border />
+
+        </div>
+</x-filament::page>

@@ -16,7 +16,7 @@ return [
     |
     */
 
-    'stack' => 'filament',
+    'stack' => 'livewire',
 
     /*
      |--------------------------------------------------------------------------
@@ -46,38 +46,6 @@ return [
 
     'guard' => 'sanctum',
 
-    'redirects' => [
-        'logout' => 'login',
-    ],
-
-    /*
-    |--------------------------------------------------------------------------
-    | User Profile Page
-    |--------------------------------------------------------------------------
-    |
-    | Whether or not to automatically display the Profile page in the navigation of Filament. NOTE: if enable_profile_page => false then this value is ignored.
-    |
-    */
-    'enable_profile_page' => true,
-
-    'show_profile_page_in_user_menu' => true,
-
-    "show_profile_page_in_navbar" => false,
-
-    /*
-    |--------------------------------------------------------------------------
-    | Company Settings Page
-    |--------------------------------------------------------------------------
-    |
-    | Whether or not to automatically display the Profile page in the navigation of Filament. NOTE: if enable_profile_page => false then this value is ignored.
-    |
-    */
-    'enable_company_settings_page' => true,
-
-    'show_company_settings_page_in_user_menu' => true,
-
-    "show_company_settings_page_in_navbar" => false,
-
     /*
     |--------------------------------------------------------------------------
     | Features
@@ -90,10 +58,10 @@ return [
     */
 
     'features' => [
-        // Features::termsAndPrivacyPolicy(),
-        // Features::profilePhotos(),
-        // Features::api(),
-        // Features::companies(['invitations' => true]),
+        Features::termsAndPrivacyPolicy(),
+        Features::profilePhotos(),
+        Features::api(),
+        Features::companies(['invitations' => true]),
         Features::accountDeletion(),
     ],
 
