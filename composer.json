@@ -23,6 +23,7 @@
     "require": {
         "php": "^8.0.26",
         "ext-json": "*",
+        "filament/filament": "^2.16",
         "illuminate/console": "^9.21",
         "illuminate/support": "^9.21",
         "jenssegers/agent": "^2.6",
