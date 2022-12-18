@@ -15,7 +15,7 @@
 </span>
 
 @once
-    <x-context-dialog-modal wire:model="confirmingPassword">
+    <x-filament-companies::dialog-modal wire:model="confirmingPassword">
         <x-slot name="title">
             {{ $title }}
         </x-slot>
@@ -25,26 +25,26 @@
 
             <div class="mt-4" x-data="{}"
                  x-on:confirming-password.window="setTimeout(() => $refs.confirmable_password.focus(), 250)">
-                <x-context-input type="password" class="mt-1 block w-3/4"
+                <x-filament-companies::input type="password" class="mt-1 block w-3/4"
                                                      placeholder="{{ __('Password') }}"
                                                      x-ref="confirmable_password"
                                                      wire:model.defer="confirmablePassword"
                                                      wire:keydown.enter="confirmPassword"/>
 
-                <x-context-input-error for="confirmable_password" class="mt-2"/>
+                <x-filament-companies::input-error for="confirmable_password" class="mt-2"/>
             </div>
         </x-slot>
 
         <x-slot name="footer">
-            <x-context-secondary-button wire:click="stopConfirmingPassword"
+            <x-filament-companies::secondary-button wire:click="stopConfirmingPassword"
                                                             wire:loading.attr="disabled">
                 {{ __('Cancel') }}
-            </x-context-secondary-button>
+            </x-filament-companies::secondary-button>
 
             <x-filament::button class="ml-3" dusk="confirm-password-button"
                                 wire:click="confirmPassword" wire:loading.attr="disabled">
                 {{ $button }}
             </x-filament::button>
         </x-slot>
-    </x-context-dialog-modal>
+    </x-filament-companies::dialog-modal>
 @endonce

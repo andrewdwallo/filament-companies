@@ -56,11 +56,11 @@ class InstallCommand extends Command
         $this->callSilent('storage:link');
 
         // "Home" Route...
-        $this->replaceInFile('/home', '/dashboard', app_path('Providers/RouteServiceProvider.php'));
+        $this->replaceInFile('/home', '/admin', app_path('Providers/RouteServiceProvider.php'));
 
         if (file_exists(resource_path('views/welcome.blade.php'))) {
-            $this->replaceInFile('/home', '/dashboard', resource_path('views/welcome.blade.php'));
-            $this->replaceInFile('Home', 'Dashboard', resource_path('views/welcome.blade.php'));
+            $this->replaceInFile('/home', '/admin', resource_path('views/welcome.blade.php'));
+            $this->replaceInFile('Home', 'Admin', resource_path('views/welcome.blade.php'));
         }
 
         // Fortify Provider...
@@ -81,7 +81,7 @@ class InstallCommand extends Command
 
         // Install Stack...
         if ($this->argument('stack') === 'filament') {
-            $this->installLivewireStack();
+            $this->installFilamentStack();
         }
 
         // Tests...
@@ -127,10 +127,10 @@ class InstallCommand extends Command
      *
      * @return void
      */
-    protected function installLivewireStack()
+    protected function installFilamentStack()
     {
         // Install Livewire...
-        $this->requireComposerPackages('filament/filament:^2.5');
+        $this->requireComposerPackages('livewire/livewire:^2.5');
 
         // Sanctum...
         (new Process([$this->phpBinary(), 'artisan', 'vendor:publish', '--provider=Laravel\Sanctum\SanctumServiceProvider', '--force'], base_path()))
@@ -153,6 +153,7 @@ class InstallCommand extends Command
                 'autoprefixer' => '^10.4.7',
                 'postcss' => '^8.4.14',
                 'tailwindcss' => '^3.1.0',
+                '@awcodes/alpine-floating-ui' => '^3.4.0',
             ] + $packages;
         });
 
@@ -214,7 +215,7 @@ class InstallCommand extends Command
         // Routes...
         $this->replaceInFile('auth:api', 'auth:sanctum', base_path('routes/api.php'));
 
-        if (! Str::contains(file_get_contents(base_path('routes/web.php')), "'/dashboard'")) {
+        if (! Str::contains(file_get_contents(base_path('routes/web.php')), "'/admin'")) {
             (new Filesystem)->append(base_path('routes/web.php'), $this->livewireRouteDefinition());
         }
 
@@ -236,7 +237,7 @@ class InstallCommand extends Command
 
         // Companies...
         if ($this->option('companies')) {
-            $this->installLivewireCompanyStack();
+            $this->installFilamentCompanyStack();
         }
 
         if (file_exists(base_path('pnpm-lock.yaml'))) {
@@ -248,7 +249,7 @@ class InstallCommand extends Command
         }
 
         $this->line('');
-        $this->components->info('Livewire scaffolding installed successfully.');
+        $this->components->info('Filament scaffolding installed successfully.');
     }
 
     /**
@@ -256,13 +257,17 @@ class InstallCommand extends Command
      *
      * @return void
      */
-    protected function installLivewireCompanyStack()
+    protected function installFilamentCompanyStack()
     {
         // Directories...
         (new Filesystem)->ensureDirectoryExists(resource_path('views/companies'));
 
+        (new Filesystem)->ensureDirectoryExists(resource_path('views/filament'));
+
         // Other Views...
         (new Filesystem)->copyDirectory(__DIR__.'/../../stubs/filament/resources/views/companies', resource_path('views/companies'));
+
+        (new Filesystem)->copyDirectory(__DIR__.'/../../stubs/filament/resources/views/filament', resource_path('views/filament'));
 
         // Tests...
         $stubs = $this->getTestStubsPath();
@@ -310,13 +315,28 @@ EOF;
         // Publish Company Migrations...
         $this->callSilent('vendor:publish', ['--tag' => 'filament-companies-company-migrations', '--force' => true]);
 
+        $this->callSilent('vendor:publish', ['--tag' => 'filament-config', '--force' => true]);
+
         // Configuration...
         $this->replaceInFile('// Features::companies([\'invitations\' => true])', 'Features::companies([\'invitations\' => true])', config_path('filament-companies.php'));
+
+        $this->replaceInFile('// Features::api(),', 'Features::api(),', config_path('filament-companies.php'));
+
+
+        $this->replaceInFile('use Filament\Http\Middleware\Authenticate', 'use App\Http\Middleware\Authenticate', config_path('filament.php'));
+
+        $this->replaceInFile('use Illuminate\Session\Middleware\AuthenticateSession', 'use Wallo\FilamentCompanies\Http\Middleware\AuthenticateSession', config_path('filament.php'));
+
+        $this->replaceInFile('\Filament\Http\Livewire\Auth\Login::class', 'null', config_path('filament.php'));
+
 
         // Directories...
         (new Filesystem)->ensureDirectoryExists(app_path('Actions/FilamentCompanies'));
         (new Filesystem)->ensureDirectoryExists(app_path('Events'));
+        (new Filesystem)->ensureDirectoryExists(app_path('Filament/Pages/User'));
+        (new Filesystem)->ensureDirectoryExists(app_path('Filament/Pages/Company'));
         (new Filesystem)->ensureDirectoryExists(app_path('Policies'));
+
 
         // Service Providers...
         copy(__DIR__.'/../../stubs/app/Providers/AuthServiceProvider.php', app_path('Providers/AuthServiceProvider.php'));
@@ -338,6 +358,9 @@ EOF;
         copy(__DIR__.'/../../stubs/app/Actions/FilamentCompanies/UpdateCompanyName.php', app_path('Actions/FilamentCompanies/UpdateCompanyName.php'));
 
         copy(__DIR__.'/../../stubs/app/Actions/Fortify/CreateNewUserWithCompanies.php', app_path('Actions/Fortify/CreateNewUser.php'));
+
+        copy(__DIR__.'/../../stubs/app/Filament/Pages/User/Profile.php', app_path('Filament/Pages/User/Profile.php'));
+        copy(__DIR__.'/../../stubs/app/Filament/Pages/Company/Settings.php', app_path('Filament/Pages/Company/Settings.php'));
 
         // Policies...
         (new Filesystem)->copyDirectory(__DIR__.'/../../stubs/app/Policies', app_path('Policies'));

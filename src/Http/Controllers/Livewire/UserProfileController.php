@@ -15,7 +15,7 @@ class UserProfileController extends Controller
      */
     public function show(Request $request)
     {
-        return view('profile.show', [
+        return view('filament.pages.user.profile', [
             'request' => $request,
             'user' => $request->user(),
         ]);

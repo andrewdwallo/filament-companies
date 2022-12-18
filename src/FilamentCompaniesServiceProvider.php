@@ -115,6 +115,7 @@ class FilamentCompaniesServiceProvider extends ServiceProvider
             $this->registerComponent('dropdown');
             $this->registerComponent('dropdown-link');
             $this->registerComponent('form-section');
+            $this->registerComponent('grid-section');
             $this->registerComponent('input');
             $this->registerComponent('checkbox');
             $this->registerComponent('input-error');
@@ -187,8 +188,10 @@ class FilamentCompaniesServiceProvider extends ServiceProvider
         if (FilamentCompanies::$registersRoutes) {
             Route::group([
                 'namespace' => 'Wallo\FilamentCompanies\Http\Controllers',
-                'domain' => config('filament-companies.domain', null),
-                'prefix' => config('filament-companies.prefix', config('filament-companies.path')),
+                'domain' => config('filament.domain'),
+                'middleware' => config('filament.middleware.base', 'web'),
+                'name' => ('filament.'),
+                'prefix' => config('filament.path'),
             ], function () {
                 $this->loadRoutesFrom(__DIR__.'/../routes/'.config('filament-companies.stack').'.php');
             });

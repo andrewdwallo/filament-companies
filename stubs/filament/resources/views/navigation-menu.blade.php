@@ -5,14 +5,14 @@
             <div class="flex">
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center">
-                    <a href="{{ route('dashboard') }}">
+                    <a href="{{ route('admin') }}">
                         <x-filament-companies::application-mark class="block h-9 w-auto" />
                     </a>
                 </div>
 
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                    <x-filament-companies::nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
+                    <x-filament-companies::nav-link href="{{ route('admin') }}" :active="request()->routeIs('admin')">
                         {{ __('Dashboard') }}
                     </x-filament-companies::nav-link>
                 </div>
@@ -43,12 +43,12 @@
                                     </div>
 
                                     <!-- Company Settings -->
-                                    <x-filament-companies::dropdown-link href="{{ route('companies.show', Auth::user()->currentCompany->id) }}">
+                                    <x-filament-companies::dropdown-link href="{{ route('filament.pages.company.settings', Auth::user()->currentCompany->id) }}">
                                         {{ __('Company Settings') }}
                                     </x-filament-companies::dropdown-link>
 
                                     @can('create', Wallo\FilamentCompanies\FilamentCompanies::newCompanyModel())
-                                        <x-filament-companies::dropdown-link href="{{ route('companies.create') }}">
+                                        <x-filament-companies::dropdown-link href="{{ route('filament.pages.company.settings') }}">
                                             {{ __('Create New Company') }}
                                         </x-filament-companies::dropdown-link>
                                     @endcan
@@ -96,7 +96,7 @@
                                 {{ __('Manage Account') }}
                             </div>
 
-                            <x-filament-companies::dropdown-link href="{{ route('profile.show') }}">
+                            <x-filament-companies::dropdown-link href="{{ route('filament.pages.user.profile') }}">
                                 {{ __('Profile') }}
                             </x-filament-companies::dropdown-link>
 
@@ -137,7 +137,7 @@
     <!-- Responsive Navigation Menu -->
     <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
         <div class="pt-2 pb-3 space-y-1">
-            <x-filament-companies::responsive-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
+            <x-filament-companies::responsive-nav-link href="{{ route('admin') }}" :active="request()->routeIs('admin')">
                 {{ __('Dashboard') }}
             </x-filament-companies::responsive-nav-link>
         </div>
@@ -159,7 +159,7 @@
 
             <div class="mt-3 space-y-1">
                 <!-- Account Management -->
-                <x-filament-companies::responsive-nav-link href="{{ route('profile.show') }}" :active="request()->routeIs('profile.show')">
+                <x-filament-companies::responsive-nav-link href="{{ route('filament.pages.user.profile') }}" :active="request()->routeIs('filament.pages.user.profile')">
                     {{ __('Profile') }}
                 </x-filament-companies::responsive-nav-link>
 
@@ -188,12 +188,12 @@
                     </div>
 
                     <!-- Company Settings -->
-                    <x-filament-companies::responsive-nav-link href="{{ route('companies.show', Auth::user()->currentCompany->id) }}" :active="request()->routeIs('companies.show')">
+                    <x-filament-companies::responsive-nav-link href="{{ route('filament.pages.company.settings', Auth::user()->currentCompany->id) }}" :active="request()->routeIs('filament.pages.company.settings')">
                         {{ __('Company Settings') }}
                     </x-filament-companies::responsive-nav-link>
 
                     @can('create', Wallo\FilamentCompanies\FilamentCompanies::newCompanyModel())
-                        <x-filament-companies::responsive-nav-link href="{{ route('companies.create') }}" :active="request()->routeIs('companies.create')">
+                        <x-filament-companies::responsive-nav-link href="{{ route('filament.pages.company.settings') }}" :active="request()->routeIs('filament.pages.company.settings')">
                             {{ __('Create New Company') }}
                         </x-filament-companies::responsive-nav-link>
                     @endcan
@@ -206,7 +206,7 @@
                     </div>
 
                     @foreach (Auth::user()->allCompanies() as $company)
-                        <x-filament-companies::switchable-company :company="$company" component="filament-companies::responsive-nav-link" />
+                        <x-filament-companies::switchable-company :company="$company" component="filament-companies-responsive-nav-link" />
                     @endforeach
                 @endif
             </div>

@@ -10,6 +10,10 @@ use App\Actions\FilamentCompanies\InviteCompanyEmployee;
 use App\Actions\FilamentCompanies\RemoveCompanyEmployee;
 use App\Actions\FilamentCompanies\UpdateCompanyName;
 use Illuminate\Support\ServiceProvider;
+use Filament\Facades\Filament;
+use Filament\Navigation\UserMenuItem;
+use App\Filament\Pages\User\Profile;
+use App\Filament\Pages\Company\Settings;
 use Wallo\FilamentCompanies\FilamentCompanies;
 
 class FilamentCompaniesServiceProvider extends ServiceProvider
@@ -31,6 +35,26 @@ class FilamentCompaniesServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        if (config('filament-companies.enable_profile_page') && config('filament-companies.show_profile_page_in_user_menu')) {
+            Filament::serving(function () {
+                Filament::registerUserMenuItems([
+                    'account' => UserMenuItem::make()->url(Profile::getUrl()),
+                ]);
+            });
+        }
+
+        if (config('filament-companies.enable_company_settings_page') && config('filament-companies.show_company_settings_page_in_user_menu')) {
+            Filament::serving(function () {
+                Filament::registerUserMenuItems([
+                    'settings' => UserMenuItem::make()->label('Settings')->url(Settings::getUrl())->icon('heroicon-s-cog'),
+                ]);
+            });
+        }
+
+        $this->app->singleton(
+            \Laravel\Fortify\Contracts\LogoutResponse::class,
+            \Wallo\FilamentCompanies\Http\Responses\LogoutResponse::class,
+        );
         $this->configurePermissions();
 
         FilamentCompanies::createCompaniesUsing(CreateCompany::class);

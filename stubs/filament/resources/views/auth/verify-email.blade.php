@@ -4,7 +4,7 @@
             <x-filament-companies::authentication-card-logo />
         </x-slot>
 
-        <div class="mb-4 text-sm text-gray-600">
+        <div class="mb-4 text-sm text-gray-600 dark:text-gray-400">
             {{ __('Before continuing, could you verify your email address by clicking on the link we just emailed to you? If you didn\'t receive the email, we will gladly send you another.') }}
         </div>
 
@@ -27,15 +27,15 @@
 
             <div>
                 <a
-                    href="{{ route('profile.show') }}"
-                    class="underline text-sm text-gray-600 hover:text-gray-900"
+                    href="{{ route('filament.pages.user.profile') }}"
+                    class="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900"
                 >
                     {{ __('Edit Profile') }}</a>
 
                 <form method="POST" action="{{ route('logout') }}" class="inline">
                     @csrf
 
-                    <button type="submit" class="underline text-sm text-gray-600 hover:text-gray-900 ml-2">
+                    <button type="submit" class="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 ml-2">
                         {{ __('Log Out') }}
                     </button>
                 </form>

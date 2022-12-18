@@ -3,9 +3,9 @@ const colors = require('tailwindcss/colors')
 /** @type {import('tailwindcss').Config} */
 module.exports = {
     content: [
-        './vendor/andrewdwallo/filament-companies/**/*.blade.php',
+        './resources/**/*.blade.php',
         './vendor/filament/**/*.blade.php',
-        './resources/views/**/*.blade.php',
+        './vendor/andrewdwallo/filament-companies/**/*.blade.php',
     ],
 
     theme: {

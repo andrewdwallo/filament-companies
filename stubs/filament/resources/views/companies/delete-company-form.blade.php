@@ -5,17 +5,14 @@
 
     <x-slot name="description">
         {{ __('Permanently delete this company.') }}
+        {{ __('Once a company is deleted, all of its resources and data will be permanently deleted. Before deleting this company, please download any data or information regarding this company that you wish to retain.') }}
     </x-slot>
 
     <x-slot name="content">
-        <div class="max-w-xl text-sm text-gray-600">
-            {{ __('Once a company is deleted, all of its resources and data will be permanently deleted. Before deleting this company, please download any data or information regarding this company that you wish to retain.') }}
-        </div>
-
-        <div class="mt-5">
-            <x-filament-companies::danger-button wire:click="$toggle('confirmingCompanyDeletion')" wire:loading.attr="disabled">
+        <div class="max-w-xl text-sm text-gray-600 dark:text-gray-400">
+            <x-filament::button wire:click="$toggle('confirmingCompanyDeletion')" wire:loading.attr="disabled">
                 {{ __('Delete Company') }}
-            </x-filament-companies::danger-button>
+            </x-filament::button>
         </div>
 
         <!-- Delete Company Confirmation Modal -->
@@ -29,13 +26,13 @@
             </x-slot>
 
             <x-slot name="footer">
-                <x-filament-companies::secondary-button wire:click="$toggle('confirmingCompanyDeletion')" wire:loading.attr="disabled">
+                <x-filament::button color="gray" class="mr-3" wire:click="$toggle('confirmingCompanyDeletion')" wire:loading.attr="disabled">
                     {{ __('Cancel') }}
-                </x-filament-companies::secondary-button>
+                </x-filament::button>
 
-                <x-filament-companies::danger-button class="ml-3" wire:click="deleteCompany" wire:loading.attr="disabled">
+                <x-filament::button color="danger" class="ml-3" wire:click="deleteCompany" wire:loading.attr="disabled">
                     {{ __('Delete Company') }}
-                </x-filament-companies::danger-button>
+                </x-filament::button>
             </x-slot>
         </x-filament-companies::confirmation-modal>
     </x-slot>
