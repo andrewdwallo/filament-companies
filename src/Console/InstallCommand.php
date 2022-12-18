@@ -334,7 +334,7 @@ EOF;
         (new Filesystem)->ensureDirectoryExists(app_path('Actions/FilamentCompanies'));
         (new Filesystem)->ensureDirectoryExists(app_path('Events'));
         (new Filesystem)->ensureDirectoryExists(app_path('Filament/Pages/User'));
-        (new Filesystem)->ensureDirectoryExists(app_path('Filament/Pages/Company'));
+        (new Filesystem)->ensureDirectoryExists(app_path('Filament/Pages/Companies'));
         (new Filesystem)->ensureDirectoryExists(app_path('Policies'));
 
 
@@ -360,7 +360,10 @@ EOF;
         copy(__DIR__.'/../../stubs/app/Actions/Fortify/CreateNewUserWithCompanies.php', app_path('Actions/Fortify/CreateNewUser.php'));
 
         copy(__DIR__.'/../../stubs/app/Filament/Pages/User/Profile.php', app_path('Filament/Pages/User/Profile.php'));
-        copy(__DIR__.'/../../stubs/app/Filament/Pages/Company/Settings.php', app_path('Filament/Pages/Company/Settings.php'));
+        copy(__DIR__.'/../../stubs/app/Filament/Pages/User/ApiTokens.php', app_path('Filament/Pages/User/ApiTokens.php'));
+
+        copy(__DIR__.'/../../stubs/app/Filament/Pages/Companies/Create.php', app_path('Filament/Pages/Companies/Create.php'));
+        copy(__DIR__.'/../../stubs/app/Filament/Pages/Companies/Show.php', app_path('Filament/Pages/Companies/Show.php'));
 
         // Policies...
         (new Filesystem)->copyDirectory(__DIR__.'/../../stubs/app/Policies', app_path('Policies'));
