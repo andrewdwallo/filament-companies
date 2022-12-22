@@ -36,10 +36,10 @@
         </x-slot>
 
         <x-slot name="footer">
-            <x-filament-companies::secondary-button wire:click="stopConfirmingPassword"
+            <x-filament::button color="gray" wire:click="stopConfirmingPassword"
                                                             wire:loading.attr="disabled">
                 {{ __('Cancel') }}
-            </x-filament-companies::secondary-button>
+            </x-filament::button>
 
             <x-filament::button class="ml-3" dusk="confirm-password-button"
                                 wire:click="confirmPassword" wire:loading.attr="disabled">
