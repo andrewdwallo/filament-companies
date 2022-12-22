@@ -1,12 +1,11 @@
 <x-guest-layout>
-    <x-filament-companies::authentication-card>
-        <x-slot name="logo">
-            <x-filament-companies::authentication-card-logo />
-        </x-slot>
 
+        <h2 class="text-2xl font-bold tracking-tight text-center">
+            {{ __('Register an account') }}
+        </h2>
         <x-filament-companies::validation-errors class="mb-4" />
 
-        <form method="POST" action="{{ route('register') }}">
+        <form method="POST" class="space-y-8" action="{{ route('register') }}">
             @csrf
 
             <div>
@@ -37,8 +36,8 @@
 
                             <div class="ml-2">
                                 {!! __('I agree to the :terms_of_service and :privacy_policy', [
-                                        'terms_of_service' => '<a target="_blank" href="'.route('terms.show').'" class="underline text-sm text-gray-600 hover:text-gray-900">'.__('Terms of Service').'</a>',
-                                        'privacy_policy' => '<a target="_blank" href="'.route('policy.show').'" class="underline text-sm text-gray-600 hover:text-gray-900">'.__('Privacy Policy').'</a>',
+                                        'terms_of_service' => '<a target="_blank" href="'.route('terms.show').'" class="underline font-bold text-sm text-primary-600">'.__('Terms of Service').'</a>',
+                                        'privacy_policy' => '<a target="_blank" href="'.route('policy.show').'" class="underline font-bold text-sm text-primary-600">'.__('Privacy Policy').'</a>',
                                 ]) !!}
                             </div>
                         </div>
@@ -47,14 +46,13 @@
             @endif
 
             <div class="flex items-center justify-end mt-4">
-                <a class="underline text-sm text-gray-600 hover:text-gray-900" href="{{ route('login') }}">
+                <a class="text-sm text-primary-600 font-medium" href="{{ route('login') }}">
                     {{ __('Already registered?') }}
                 </a>
 
-                <x-filament-companies::button class="ml-4">
+                <x-filament::button type="submit" class="ml-4">
                     {{ __('Register') }}
-                </x-filament-companies::button>
+                </x-filament::button>
             </div>
         </form>
-    </x-filament-companies::authentication-card>
 </x-guest-layout>

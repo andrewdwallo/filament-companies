@@ -38,7 +38,7 @@
                 {{ __('Saved.') }}
             </x-filament-companies::action-message>
 
-            <x-filament::button>
+            <x-filament::button type="submit">
                 {{ __('Save') }}
             </x-filament::button>
         @endif

@@ -1,8 +1,16 @@
 <x-guest-layout>
-    <x-filament-companies::authentication-card>
-        <x-slot name="logo">
-            <x-filament-companies::authentication-card-logo />
-        </x-slot>
+
+        <h2 class="text-2xl font-bold tracking-tight text-center">
+            {{ __('Login in to your account') }}
+        </h2>
+
+        <div class="mt-4 text-sm text-center font-medium">
+            {{__('Or') }}
+            <a class="text-sm text-primary-600" href="{{ route('register') }}">
+                {{ __('Register an account')}}
+            </a>
+        </div>
+
 
         <x-filament-companies::validation-errors class="mb-4" />
 
@@ -12,7 +20,7 @@
             </div>
         @endif
 
-        <form method="POST" action="{{ route('login') }}">
+        <form method="POST" class="space-y-8" action="{{ route('login') }}">
             @csrf
 
             <div>
@@ -28,21 +36,20 @@
             <div class="block mt-4">
                 <label for="remember_me" class="flex items-center">
                     <x-filament-companies::checkbox id="remember_me" name="remember" />
-                    <span class="ml-2 text-sm text-gray-600">{{ __('Remember me') }}</span>
+                    <span class="ml-2 text-sm font-medium">{{ __('Remember me') }}</span>
                 </label>
             </div>
 
             <div class="flex items-center justify-end mt-4">
                 @if (Route::has('password.request'))
-                    <a class="underline text-sm text-gray-600 hover:text-gray-900" href="{{ route('password.request') }}">
+                    <a class="text-sm text-primary-600 font-medium" href="{{ route('password.request') }}">
                         {{ __('Forgot your password?') }}
                     </a>
                 @endif
 
-                <x-filament-companies::button class="ml-4">
-                    {{ __('Log in') }}
-                </x-filament-companies::button>
+                <x-filament::button type="submit" class="ml-4">
+                    {{ __('Sign in') }}
+                </x-filament::button>
             </div>
         </form>
-    </x-filament-companies::authentication-card>
 </x-guest-layout>

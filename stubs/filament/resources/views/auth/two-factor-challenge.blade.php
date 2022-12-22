@@ -1,8 +1,4 @@
 <x-guest-layout>
-    <x-filament-companies::authentication-card>
-        <x-slot name="logo">
-            <x-filament-companies::authentication-card-logo />
-        </x-slot>
 
         <div x-data="{ recovery: false }">
             <div class="mb-4 text-sm text-gray-600" x-show="! recovery">
@@ -47,11 +43,10 @@
                         {{ __('Use an authentication code') }}
                     </button>
 
-                    <x-filament-companies::button class="ml-4">
+                    <x-filament::button type="submit" class="ml-4">
                         {{ __('Log in') }}
-                    </x-filament-companies::button>
+                    </x-filament::button>
                 </div>
             </form>
         </div>
-    </x-filament-companies::authentication-card>
 </x-guest-layout>

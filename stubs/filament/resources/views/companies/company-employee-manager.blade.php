@@ -104,7 +104,7 @@
                         @endforeach
                     </div>
                 </x-slot>
-            </x-filament-companies::grid-section>
+            </x-filament-companies::action-section>
         </div>
     @endif
 

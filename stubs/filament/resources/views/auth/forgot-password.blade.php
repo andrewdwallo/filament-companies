@@ -1,11 +1,11 @@
 <x-guest-layout>
-    <x-filament-companies::authentication-card>
-        <x-slot name="logo">
-            <x-filament-companies::authentication-card-logo />
-        </x-slot>
 
-        <div class="mb-4 text-sm text-gray-600">
-            {{ __('Forgot your password? No problem. Just let us know your email address and we will email you a password reset link that will allow you to choose a new one.') }}
+        <h2 class="text-2xl font-bold tracking-tight text-center">
+            {{ __('Forgot your password?') }}
+        </h2>
+
+        <div class="mt-4 text-sm text-center">
+            {{ __('Just let us know your email address and we will email you a password reset link that will allow you to choose a new one.') }}
         </div>
 
         @if (session('status'))
@@ -16,7 +16,7 @@
 
         <x-filament-companies::validation-errors class="mb-4" />
 
-        <form method="POST" action="{{ route('password.email') }}">
+        <form method="POST" class="space-y-8" action="{{ route('password.email') }}">
             @csrf
 
             <div class="block">
@@ -25,10 +25,9 @@
             </div>
 
             <div class="flex items-center justify-end mt-4">
-                <x-filament-companies::button>
+                <x-filament::button type="submit">
                     {{ __('Email Password Reset Link') }}
-                </x-filament-companies::button>
+                </x-filament::button>
             </div>
         </form>
-    </x-filament-companies::authentication-card>
 </x-guest-layout>

@@ -202,7 +202,6 @@ class InstallCommand extends Command
         (new Filesystem)->copyDirectory(__DIR__.'/../../stubs/filament/resources/views/layouts', resource_path('views/layouts'));
 
         // Single Blade Views...
-        copy(__DIR__.'/../../stubs/filament/resources/views/dashboard.blade.php', resource_path('views/dashboard.blade.php'));
         copy(__DIR__.'/../../stubs/filament/resources/views/navigation-menu.blade.php', resource_path('views/navigation-menu.blade.php'));
         copy(__DIR__.'/../../stubs/filament/resources/views/terms.blade.php', resource_path('views/terms.blade.php'));
         copy(__DIR__.'/../../stubs/filament/resources/views/policy.blade.php', resource_path('views/policy.blade.php'));
@@ -296,10 +295,6 @@ Route::middleware([
     'auth:sanctum',
     config('filament-companies.auth_session'),
     'verified'
-])->group(function () {
-    Route::get('/dashboard', function () {
-        return view('dashboard');
-    })->name('dashboard');
 });
 
 EOF;

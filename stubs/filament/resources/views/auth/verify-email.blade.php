@@ -1,8 +1,4 @@
 <x-guest-layout>
-    <x-filament-companies::authentication-card>
-        <x-slot name="logo">
-            <x-filament-companies::authentication-card-logo />
-        </x-slot>
 
         <div class="mb-4 text-sm text-gray-600">
             {{ __('Before continuing, could you verify your email address by clicking on the link we just emailed to you? If you didn\'t receive the email, we will gladly send you another.') }}
@@ -19,9 +15,9 @@
                 @csrf
 
                 <div>
-                    <x-filament-companies::button type="submit">
+                    <x-filament::button type="submit">
                         {{ __('Resend Verification Email') }}
-                    </x-filament-companies::button>
+                    </x-filament::button>
                 </div>
             </form>
 
@@ -41,5 +37,4 @@
                 </form>
             </div>
         </div>
-    </x-filament-companies::authentication-card>
 </x-guest-layout>

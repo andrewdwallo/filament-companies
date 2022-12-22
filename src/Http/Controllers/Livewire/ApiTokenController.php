@@ -15,7 +15,7 @@ class ApiTokenController extends Controller
      */
     public function index(Request $request)
     {
-        return view('api.index', [
+        return view('filament.pages.api-tokens', [
             'request' => $request,
             'user' => $request->user(),
         ]);

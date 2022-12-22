@@ -1,8 +1,4 @@
 <x-guest-layout>
-    <x-filament-companies::authentication-card>
-        <x-slot name="logo">
-            <x-filament-companies::authentication-card-logo />
-        </x-slot>
 
         <x-filament-companies::validation-errors class="mb-4" />
 
@@ -27,10 +23,9 @@
             </div>
 
             <div class="flex items-center justify-end mt-4">
-                <x-filament-companies::button>
+                <x-filament::button type="submit">
                     {{ __('Reset Password') }}
-                </x-filament-companies::button>
+                </x-filament::button>
             </div>
         </form>
-    </x-filament-companies::authentication-card>
 </x-guest-layout>

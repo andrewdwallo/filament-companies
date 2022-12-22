@@ -87,7 +87,7 @@
             @else
                 @if ($showingRecoveryCodes)
                     <x-filament-companies::confirms-password wire:then="regenerateRecoveryCodes">
-                        <x-filament::button class="mr-3">
+                        <x-filament::button type="submit" class="mr-3">
                             {{ __('Regenerate Recovery Codes') }}
                         </x-filament::button>
                     </x-filament-companies::confirms-password>
@@ -99,7 +99,7 @@
                     </x-filament-companies::confirms-password>
                 @else
                     <x-filament-companies::confirms-password wire:then="showRecoveryCodes">
-                        <x-filament::button class="mr-3">
+                        <x-filament::button type="submit" class="mr-3">
                             {{ __('Show Recovery Codes') }}
                         </x-filament::button>
                     </x-filament-companies::confirms-password>
