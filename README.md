@@ -80,6 +80,11 @@ npm run dev
 * You may also switch your current company.
 * You can also create API Tokens and manage your personal profile settings by clicking the filament user menu dropdown link.
 
+* You may publish the components and customize them to your liking.
+```
+php artisan vendor:publish --tag=filament-companies-views
+```
+
 
 ### Things to Note
 * The package has a bug that I haven't been able to fix.
