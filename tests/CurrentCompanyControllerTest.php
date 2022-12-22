@@ -35,7 +35,7 @@ class CurrentCompanyControllerTest extends OrchestraTestCase
 
         $response = $this->actingAs($user)->put('/current-company', ['company_id' => $company->id]);
 
-        $response->assertRedirect('/home');
+        $response->assertRedirect();
 
         $this->assertEquals($company->id, $user->fresh()->currentCompany->id);
         $this->assertTrue($user->isCurrentCompany($company));

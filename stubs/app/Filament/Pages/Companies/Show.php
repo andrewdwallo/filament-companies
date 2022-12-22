@@ -12,4 +12,11 @@ class Show extends Page
     protected static string $view = 'filament.pages.companies.show';
 
     protected static bool $shouldRegisterNavigation = false;
+
+    protected function getViewData(): array
+    {
+        return [
+            'company' => auth()->user()->currentCompany
+        ];
+    }
 }

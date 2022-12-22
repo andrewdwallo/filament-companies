@@ -22,6 +22,6 @@ class CurrentCompanyController extends Controller
             abort(403);
         }
 
-        return redirect(config('fortify.home'), 303);
+        return back();
     }
 }

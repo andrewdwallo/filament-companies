@@ -1,8 +1,4 @@
 <x-filament::page>
-        @if (Wallo\FilamentCompanies\FilamentCompanies::hasCompanyFeatures())
-            @foreach (Auth::user()->allCompanies() as $company)
-            @endforeach
-        @endif
         <div class="mt-10 sm:mt-0">
             @livewire('companies.update-company-name-form', ['company' => $company])
 
