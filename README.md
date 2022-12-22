@@ -13,6 +13,17 @@
 
 ## Getting Started
 
+### Features
+
+* Authentication via Laravel Fortify
+* Registration
+* Login
+* Profile Management
+* Two-factor Authentication
+* Browser Sessions
+* API via Laravel Sanctum
+* Company Creation (similar to Teams)
+
 ### Installing
 
 * This plugin requires a fresh Filament App
