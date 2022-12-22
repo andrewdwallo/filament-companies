@@ -49,12 +49,12 @@ Install the plugin/package in your app's `composer.json`:
 {
     ...
     "require": {
-        "andrewdwallo/filament-companies": "dev-main",
+        "andrewdwallo/filament-companies": "*",
     },
     "repositories": [
         {
             "type": "path",
-            "url": "filament-companies/"
+            "url": "filament-companies/*"
         }
     ],
     ...
