@@ -17,6 +17,8 @@
 * Authentication via Laravel Fortify
 * Registration
 * Login
+* Terms of Service 
+* Privacy Policy
 * Profile Management
 * Two-factor Authentication
 * Browser Sessions
