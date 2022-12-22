@@ -99,10 +99,3 @@ npm run dev
 ```
 php artisan vendor:publish --tag=filament-companies-views
 ```
-
-
-### Things to Note
-* The package has a bug that I haven't been able to fix.
-* The Current Company only updates to the last recently made company but not the current company that you switch to.. 
-* I believe this might have something to do with the switchable-company.blade.php component.. but could definitely be something else.
-* If you happen to find the problem I would heavily appreciate a pull request of the fix so that I can make this package available through composer. Thanks & Happy Coding!
