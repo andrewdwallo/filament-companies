@@ -29,12 +29,12 @@ Install the plugin/package in your app's `composer.json`:
 {
     ...
     "require": {
-        "andrewdwallo/filament-companies": "*",
+        "andrewdwallo/filament-companies": "dev-main",
     },
     "repositories": [
         {
             "type": "path",
-            "url": "filament-companies/*"
+            "url": "filament-companies/"
         }
     ],
     ...
