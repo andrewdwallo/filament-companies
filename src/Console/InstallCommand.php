@@ -295,7 +295,7 @@ Route::middleware([
     'auth:sanctum',
     config('filament-companies.auth_session'),
     'verified'
-});
+]});
 
 EOF;
     }
