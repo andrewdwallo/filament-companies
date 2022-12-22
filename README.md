@@ -70,7 +70,7 @@ Now, run `composer update`.
 php artisan filament-companies:install filament --companies
 ```
 
-* After Scaffolding is complete run the following commands. (Use either npm, pnpm, or yarn)
+* After Scaffolding is complete run the following commands. (Use either npm, pnpm, or yarn depending on what your package manager currently is before the scaffold)
 ```
 npm install
 ```
