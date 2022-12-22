@@ -68,7 +68,6 @@ npm run dev
 
 
 ### Things to Note
-* This package was heavily inspired by Laravel Jetstream but I had to make many modifications for this to work (You will notice on the register page)
 * The package has a bug that I haven't been able to fix.
 * The Current Company only updates to the last recently made company but not the current company that you switch to.. 
 * I believe this might have something to do with the switchable-company.blade.php component.. but could definitely be something else.
