@@ -19,6 +19,7 @@
 * Login
 * Terms of Service 
 * Privacy Policy
+* Password Reset
 * Profile Management
 * Two-factor Authentication
 * Browser Sessions
