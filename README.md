@@ -19,12 +19,14 @@
 * Login
 * Terms of Service 
 * Privacy Policy
-* Password Reset
+* Password Reset through Mail
 * Profile Management
 * Two-factor Authentication
 * Browser Sessions
 * API via Laravel Sanctum
 * Company Creation (similar to Teams)
+* Employee Invitation to Company through Mail
+
 
 ### Installing
 
