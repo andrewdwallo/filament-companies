@@ -2,12 +2,11 @@
 
 namespace Wallo\FilamentCompanies\Events;
 
-use Filament\Events\ServingFilament;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-abstract class CompanyEvent extends ServingFilament
+abstract class CompanyEvent
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
