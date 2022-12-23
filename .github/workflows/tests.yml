@@ -2,9 +2,9 @@ name: tests
 
 on:
   push:
-    branches: [filament]
+    branches: [main]
   pull_request:
-    branches: [filament]
+    branches: [main]
 
 jobs:
   tests:
@@ -15,12 +15,13 @@ jobs:
       matrix:
         php: ['8.0', 8.1, 8.2]
         laravel: [9.*]
+        dependency-version: [prefer-stable]
 
-    name: PHP ${{ matrix.php }} - Laravel ${{ matrix.laravel }}
+    name: PHP ${{ matrix.php }} - Laravel ${{ matrix.laravel }} - ${{ matrix.dependency-version }}
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v2
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
@@ -34,7 +35,7 @@ jobs:
       - name: Install dependencies
         run: |
           composer require "illuminate/contracts=${{ matrix.laravel }}" --dev --no-update
-          composer update --prefer-dist --no-interaction --no-progress
+          composer update --${{ matrix.dependency-version }} --prefer-dist --no-interaction --no-progress
       - name: Execute tests
         run: vendor/bin/phpunit --verbose
 
@@ -61,7 +62,7 @@ jobs:
       - name: Setup Laravel
         run: |
           composer create-project laravel/laravel:^9 .
-          composer require andrewdwallo/filament-companies:dev-filament --no-interaction --no-update
+          composer require andrewdwallo/filament-companies:dev-main --no-interaction --no-update
           composer config repositories.filament-companies '{"type": "path", "url": "filament-companies"}' --file composer.json
       - name: Checkout code
         uses: actions/checkout@v3
@@ -70,8 +71,8 @@ jobs:
 
       - name: Install FilamentCompanies
         run: |
-          composer update "andrewdwallo/filament-companies" --prefer-dist --no-interaction --no-progress -W
-          php artisan filament-companies:install ${{ matrix.stack }} --companies --api --verification
+          composer update "andrewdwallo/filament-companies" --${{ matrix.dependency-version }} --prefer-dist --no-interaction --no-progress -W
+          php artisan filament-companies:install ${{ matrix.stack }} --companies
       - name: Install NPM dependencies
         run: npm i
 
