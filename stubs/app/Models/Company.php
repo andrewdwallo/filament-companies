@@ -27,7 +27,6 @@ class Company extends FilamentCompaniesCompany
      * @var string[]
      */
     protected $fillable = [
-        'user_id',
         'name',
         'personal_company',
     ];
