@@ -41,35 +41,15 @@
 * Create a fresh Laravel Project
 * Configure your database
 * Install the filament admin package
+
 ```
 composer require filament/filament
 ```
 
-* This package is in beta as some things need to be fixed
-* Fork this repository to your GitHub account.
-* Clone your fork in your Laravel/Filament app's root directory.
-* In the `/filament-companies` directory, create a branch for your fix, e.g. `fix/error-message`.
-
-Install the plugin/package in your app's `composer.json`:
-
-```json
-{
-    ...
-    "require": {
-        "andrewdwallo/filament-companies": "*",
-    },
-    "repositories": [
-        {
-            "type": "path",
-            "url": "filament-companies/*"
-        }
-    ],
-    ...
-}
+* Install the package
 ```
-
-Now, run `composer update`.
-
+composer require andrewdwallo/filament-companies
+```
 
 * Now use the following command to scaffold the app.
 ```
@@ -109,3 +89,28 @@ https://jetstream.laravel.com/2.x/introduction.html
 ### Note
 Documentation specific to Filament will come as more modifications are made.
 
+### Contributing
+* Fork this repository to your GitHub account.
+* Create a fresh Laravel & Filament Project
+* Clone your fork in your Laravel/Filament app's root directory.
+* In the `/filament-companies` directory, create a branch for your fix, e.g. `fix/error-message`.
+
+Install the plugin/package in your app's `composer.json`:
+
+```json
+{
+    ...
+    "require": {
+        "andrewdwallo/filament-companies": "*",
+    },
+    "repositories": [
+        {
+            "type": "path",
+            "url": "filament-companies/*"
+        }
+    ],
+    ...
+}
+```
+
+Now, run `composer update`.
