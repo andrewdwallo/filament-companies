@@ -143,7 +143,7 @@ class FilamentCompaniesServiceProvider extends ServiceProvider
         ], 'filament-companies-company-migrations');
 
         $this->publishes([
-            __DIR__.'/../routes/'.config('filament-companies.stack').'.php' => base_path('routes/filament-companies.php'),
+            __DIR__.'/../routes/web.php' => base_path('routes/filament-companies.php'),
         ], 'filament-companies-routes');
     }
 
@@ -160,7 +160,7 @@ class FilamentCompaniesServiceProvider extends ServiceProvider
                 'domain' => config('filament-companies.domain', null),
                 'prefix' => config('filament-companies.prefix', config('filament-companies.path')),
             ], function () {
-                $this->loadRoutesFrom(__DIR__.'/../routes/'.config('filament-companies.stack').'.php');
+                $this->loadRoutesFrom(__DIR__.'/../routes/web.php');
             });
         }
     }
