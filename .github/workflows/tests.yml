@@ -15,13 +15,12 @@ jobs:
       matrix:
         php: ['8.0', 8.1, 8.2]
         laravel: [9.*]
-        dependency-version: [prefer-stable]
 
-    name: PHP ${{ matrix.php }} - Laravel ${{ matrix.laravel }} - ${{ matrix.dependency-version }}
+    name: PHP ${{ matrix.php }} - Laravel ${{ matrix.laravel }}
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
@@ -35,7 +34,7 @@ jobs:
       - name: Install dependencies
         run: |
           composer require "illuminate/contracts=${{ matrix.laravel }}" --dev --no-update
-          composer update --${{ matrix.dependency-version }} --prefer-dist --no-interaction --no-progress
+          composer update --prefer-dist --no-interaction --no-progress
       - name: Execute tests
         run: vendor/bin/phpunit --verbose
 
@@ -71,7 +70,7 @@ jobs:
 
       - name: Install FilamentCompanies
         run: |
-          composer update "andrewdwallo/filament-companies" --${{ matrix.dependency-version }} --prefer-dist --no-interaction --no-progress -W
+          composer update "andrewdwallo/filament-companies" --prefer-dist --no-interaction --no-progress -W
           php artisan filament-companies:install ${{ matrix.stack }} --companies
       - name: Install NPM dependencies
         run: npm i
