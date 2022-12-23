@@ -81,8 +81,8 @@ class DeleteCompanyTest extends OrchestraTestCase
         $action = new ValidateCompanyDeletion;
 
         $action->validate(User::forceCreate([
-            'name' => 'Adam Wathan',
-            'email' => 'adam@laravel.com',
+            'name' => 'Dan Harrin',
+            'email' => 'danharrin@filament.com',
             'password' => 'secret',
         ]), $company);
     }
@@ -92,8 +92,8 @@ class DeleteCompanyTest extends OrchestraTestCase
         $action = new CreateCompany;
 
         $user = User::forceCreate([
-            'name' => 'Taylor Otwell',
-            'email' => 'taylor@laravel.com',
+            'name' => 'Andrew Wallo',
+            'email' => 'andrewdwallo@gmail.com',
             'password' => 'secret',
         ]);
 

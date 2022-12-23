@@ -33,14 +33,14 @@ class AddCompanyEmployeeTest extends OrchestraTestCase
         $company = $this->createCompany();
 
         $otherUser = User::forceCreate([
-            'name' => 'Adam Wathan',
-            'email' => 'adam@laravel.com',
+            'name' => 'Dan Harrin',
+            'email' => 'danharrin@filament.com',
             'password' => 'secret',
         ]);
 
         $action = new AddCompanyEmployee;
 
-        $action->add($company->owner, $company, 'adam@laravel.com', 'admin');
+        $action->add($company->owner, $company, 'danharrin@filament.com', 'admin');
 
         $company = $company->fresh();
 
@@ -82,16 +82,16 @@ class AddCompanyEmployeeTest extends OrchestraTestCase
         $company = $this->createCompany();
 
         $otherUser = User::forceCreate([
-            'name' => 'Adam Wathan',
-            'email' => 'adam@laravel.com',
+            'name' => 'Dan Harrin',
+            'email' => 'danharrin@filament.com',
             'password' => 'secret',
         ]);
 
         $action = new AddCompanyEmployee;
 
-        $action->add($company->owner, $company, 'adam@laravel.com', 'admin');
+        $action->add($company->owner, $company, 'danharrin@filament.com', 'admin');
         $this->assertTrue(true);
-        $action->add($company->owner, $company->fresh(), 'adam@laravel.com', 'admin');
+        $action->add($company->owner, $company->fresh(), 'danharrin@gmail.com', 'admin');
     }
 
     protected function createCompany()
@@ -99,8 +99,8 @@ class AddCompanyEmployeeTest extends OrchestraTestCase
         $action = new CreateCompany;
 
         $user = User::forceCreate([
-            'name' => 'Taylor Otwell',
-            'email' => 'taylor@laravel.com',
+            'name' => 'Andrew Wallo',
+            'email' => 'andrewdwallo@gmail.com',
             'password' => 'secret',
         ]);
 

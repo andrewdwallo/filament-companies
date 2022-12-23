@@ -26,8 +26,8 @@ class CurrentCompanyControllerTest extends OrchestraTestCase
         $action = new CreateCompany;
 
         $user = User::forceCreate([
-            'name' => 'Taylor Otwell',
-            'email' => 'taylor@laravel.com',
+            'name' => 'Andrew Wallo',
+            'email' => 'andrewdwallo@gmail.com',
             'password' => 'secret',
         ]);
 
@@ -48,16 +48,16 @@ class CurrentCompanyControllerTest extends OrchestraTestCase
         $action = new CreateCompany;
 
         $user = User::forceCreate([
-            'name' => 'Taylor Otwell',
-            'email' => 'taylor@laravel.com',
+            'name' => 'Andrew Wallo',
+            'email' => 'andrewdwallo@gmail.com',
             'password' => 'secret',
         ]);
 
         $company = $action->create($user, ['name' => 'Test Company']);
 
         $otherUser = User::forceCreate([
-            'name' => 'Adam Wathan',
-            'email' => 'adam@laravel.com',
+            'name' => 'Dan Harrin',
+            'email' => 'danharrin@filament.com',
             'password' => 'secret',
         ]);
 

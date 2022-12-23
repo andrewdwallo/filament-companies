@@ -29,26 +29,26 @@ class CompanyEmployeeControllerTest extends OrchestraTestCase
 
         $company = $this->createCompany();
 
-        $adam = User::forceCreate([
-            'name' => 'Adam Wathan',
-            'email' => 'adam@laravel.com',
+        $dan = User::forceCreate([
+            'name' => 'Dan Harrin',
+            'email' => 'danharrin@filament.com',
             'password' => 'secret',
         ]);
 
-        $company->users()->attach($adam, ['role' => 'admin']);
+        $company->users()->attach($dan, ['role' => 'admin']);
 
-        $response = $this->actingAs($company->owner)->put('/companies/'.$company->id.'/employees/'.$adam->id, [
+        $response = $this->actingAs($company->owner)->put('/companies/'.$company->id.'/employees/'.$dan->id, [
             'role' => 'editor',
         ]);
 
         $response->assertRedirect();
 
-        $adam = $adam->fresh();
+        $dan = $dan->fresh();
 
-        $adam->withAccessToken(new TransientToken);
+        $dan->withAccessToken(new TransientToken);
 
-        $this->assertTrue($adam->hasCompanyPermission($company, 'baz'));
-        $this->assertTrue($adam->hasCompanyPermission($company, 'qux'));
+        $this->assertTrue($dan->hasCompanyPermission($company, 'baz'));
+        $this->assertTrue($dan->hasCompanyPermission($company, 'qux'));
     }
 
     public function test_company_employee_permissions_cant_be_updated_if_not_authorized()
@@ -57,15 +57,15 @@ class CompanyEmployeeControllerTest extends OrchestraTestCase
 
         $company = $this->createCompany();
 
-        $adam = User::forceCreate([
-            'name' => 'Adam Wathan',
-            'email' => 'adam@laravel.com',
+        $dan = User::forceCreate([
+            'name' => 'Dan Harrin',
+            'email' => 'danharrin@filament.com',
             'password' => 'secret',
         ]);
 
-        $company->users()->attach($adam, ['role' => 'admin']);
+        $company->users()->attach($dan, ['role' => 'admin']);
 
-        $response = $this->actingAs($adam)->put('/companies/'.$company->id.'/employees/'.$adam->id, [
+        $response = $this->actingAs($dan)->put('/companies/'.$company->id.'/employees/'.$dan->id, [
             'role' => 'admin',
         ]);
 
@@ -77,8 +77,8 @@ class CompanyEmployeeControllerTest extends OrchestraTestCase
         $action = new CreateCompany;
 
         $user = User::forceCreate([
-            'name' => 'Taylor Otwell',
-            'email' => 'taylor@laravel.com',
+            'name' => 'Andrew Wallo',
+            'email' => 'andrewdwallo@gmail.com',
             'password' => 'secret',
         ]);
 

@@ -57,7 +57,7 @@ class DeleteUserWithCompaniesTest extends OrchestraTestCase
 
         $user = User::forceCreate([
             'name' => Str::random(10),
-            'email' => Str::random(10).'@laravel.com',
+            'email' => Str::random(10).'@filament.com',
             'password' => 'secret',
         ]);
 

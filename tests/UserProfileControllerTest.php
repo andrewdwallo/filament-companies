@@ -7,7 +7,6 @@ use Laravel\Fortify\Actions\DisableTwoFactorAuthentication;
 use Laravel\Fortify\Features;
 use Wallo\FilamentCompanies\FilamentCompanies;
 use Wallo\FilamentCompanies\Tests\Fixtures\User;
-use Mockery as m;
 
 class UserProfileControllerTest extends OrchestraTestCase
 {
@@ -25,12 +24,9 @@ class UserProfileControllerTest extends OrchestraTestCase
         $disable = $this->mock(DisableTwoFactorAuthentication::class);
         $disable->shouldReceive('__invoke')->once();
 
-        FilamentCompanies::$inertiaManager = $inertia = m::mock();
-        $inertia->shouldReceive('render')->once();
-
         $user = User::forceCreate([
-            'name' => 'Taylor Otwell',
-            'email' => 'taylor@laravel.com',
+            'name' => 'Andrew Wallo',
+            'email' => 'andrewdwallo@gmail.com',
             'password' => 'secret',
         ]);
 
@@ -48,12 +44,9 @@ class UserProfileControllerTest extends OrchestraTestCase
         $disable = $this->mock(DisableTwoFactorAuthentication::class);
         $disable->shouldReceive('__invoke')->never();
 
-        FilamentCompanies::$inertiaManager = $inertia = m::mock();
-        $inertia->shouldReceive('render')->once();
-
         $user = User::forceCreate([
-            'name' => 'Taylor Otwell',
-            'email' => 'taylor@laravel.com',
+            'name' => 'Andrew Wallo',
+            'email' => 'andrewdwallo@gmail.com',
             'password' => 'secret',
             'two_factor_secret' => 'test-secret',
         ]);
@@ -72,12 +65,9 @@ class UserProfileControllerTest extends OrchestraTestCase
         $disable = $this->mock(DisableTwoFactorAuthentication::class);
         $disable->shouldReceive('__invoke')->once();
 
-        FilamentCompanies::$inertiaManager = $inertia = m::mock();
-        $inertia->shouldReceive('render')->once();
-
         $user = User::forceCreate([
-            'name' => 'Taylor Otwell',
-            'email' => 'taylor@laravel.com',
+            'name' => 'Andrew Wallo',
+            'email' => 'andrewdwallo@gmail.com',
             'password' => 'secret',
             'two_factor_secret' => 'test-secret',
         ]);
@@ -106,7 +96,7 @@ class UserProfileControllerTest extends OrchestraTestCase
     {
         parent::getEnvironmentSetUp($app);
 
-        $app['config']->set('filament-companies.stack', 'inertia');
+        $app['config']->set('filament-companies.stack', 'filament');
         $app['config']->set('fortify.features', [
             Features::registration(),
             Features::resetPasswords(),

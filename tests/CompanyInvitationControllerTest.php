@@ -32,7 +32,7 @@ class CompanyInvitationControllerTest extends OrchestraTestCase
 
         $company = $this->createCompany();
 
-        $invitation = $company->companyInvitations()->create(['email' => 'adam@laravel.com', 'role' => 'admin']);
+        $invitation = $company->companyInvitations()->create(['email' => 'danharrin@filament.com', 'role' => 'admin']);
 
         $url = URL::signedRoute('company-invitations.accept', ['invitation' => $invitation]);
 
@@ -46,8 +46,8 @@ class CompanyInvitationControllerTest extends OrchestraTestCase
         $action = new CreateCompany;
 
         $user = User::forceCreate([
-            'name' => 'Taylor Otwell',
-            'email' => 'taylor@laravel.com',
+            'name' => 'Andrew Wallo',
+            'email' => 'andrewdwallo@gmail.com',
             'password' => 'secret',
         ]);
 

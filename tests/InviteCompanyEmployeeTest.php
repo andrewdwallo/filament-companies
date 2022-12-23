@@ -34,20 +34,20 @@ class InviteCompanyEmployeeTest extends OrchestraTestCase
         $company = $this->createCompany();
 
         $otherUser = User::forceCreate([
-            'name' => 'Adam Wathan',
-            'email' => 'adam@laravel.com',
+            'name' => 'Dan Harrin',
+            'email' => 'danharrin@filament.com',
             'password' => 'secret',
         ]);
 
         $action = new InviteCompanyEmployee;
 
-        $action->invite($company->owner, $company, 'adam@laravel.com', 'admin');
+        $action->invite($company->owner, $company, 'danharrin@filament.com', 'admin');
 
         $company = $company->fresh();
 
         $this->assertCount(0, $company->users);
         $this->assertCount(1, $company->companyInvitations);
-        $this->assertEquals('adam@laravel.com', $company->companyInvitations->first()->email);
+        $this->assertEquals('danharrin@filament.com', $company->companyInvitations->first()->email);
         $this->assertEquals($company->id, $company->companyInvitations->first()->company->id);
     }
 
@@ -62,16 +62,16 @@ class InviteCompanyEmployeeTest extends OrchestraTestCase
         $company = $this->createCompany();
 
         $otherUser = User::forceCreate([
-            'name' => 'Adam Wathan',
-            'email' => 'adam@laravel.com',
+            'name' => 'Dan Harrin',
+            'email' => 'danharrin@filament.com',
             'password' => 'secret',
         ]);
 
         $action = new InviteCompanyEmployee;
 
-        $action->invite($company->owner, $company, 'adam@laravel.com', 'admin');
+        $action->invite($company->owner, $company, 'danharrin@filament.com', 'admin');
         $this->assertTrue(true);
-        $action->invite($company->owner, $company->fresh(), 'adam@laravel.com', 'admin');
+        $action->invite($company->owner, $company->fresh(), 'danharrin@filament.com', 'admin');
     }
 
     protected function createCompany()
@@ -79,8 +79,8 @@ class InviteCompanyEmployeeTest extends OrchestraTestCase
         $action = new CreateCompany;
 
         $user = User::forceCreate([
-            'name' => 'Taylor Otwell',
-            'email' => 'taylor@laravel.com',
+            'name' => 'Andrew Wallo',
+            'email' => 'andrewdwallo@gmail.com',
             'password' => 'secret',
         ]);
 

@@ -5,7 +5,6 @@ namespace Wallo\FilamentCompanies\Tests;
 use Laravel\Fortify\FortifyServiceProvider;
 use Wallo\FilamentCompanies\Features;
 use Wallo\FilamentCompanies\FilamentCompaniesServiceProvider;
-use Mockery;
 use Orchestra\Testbench\TestCase;
 
 abstract class OrchestraTestCase extends TestCase

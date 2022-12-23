@@ -36,8 +36,8 @@ class RemoveCompanyEmployeeTest extends OrchestraTestCase
         $company = $this->createCompany();
 
         $otherUser = User::forceCreate([
-            'name' => 'Adam Wathan',
-            'email' => 'adam@laravel.com',
+            'name' => 'Dan Harrin',
+            'email' => 'danharrin@filament.com',
             'password' => 'secret',
         ]);
 
@@ -81,26 +81,26 @@ class RemoveCompanyEmployeeTest extends OrchestraTestCase
 
         $company = $this->createCompany();
 
-        $adam = User::forceCreate([
-            'name' => 'Adam Wathan',
-            'email' => 'adam@laravel.com',
+        $dan = User::forceCreate([
+            'name' => 'Dan Harrin',
+            'email' => 'danharrin@filament.com',
             'password' => 'secret',
         ]);
 
-        $abigail = User::forceCreate([
-            'name' => 'Abigail Otwell',
-            'email' => 'abigail@laravel.com',
+        $jay = User::forceCreate([
+            'name' => 'Jay Wallo',
+            'email' => 'jaywallo@gmail.com',
             'password' => 'secret',
         ]);
 
-        $company->users()->attach($adam, ['role' => null]);
-        $company->users()->attach($abigail, ['role' => null]);
+        $company->users()->attach($dan, ['role' => null]);
+        $company->users()->attach($jay, ['role' => null]);
 
         Auth::login($company->owner);
 
         $action = new RemoveCompanyEmployee;
 
-        $action->remove($adam, $company, $abigail);
+        $action->remove($dan, $company, $jay);
     }
 
     protected function createCompany()
@@ -108,8 +108,8 @@ class RemoveCompanyEmployeeTest extends OrchestraTestCase
         $action = new CreateCompany;
 
         $user = User::forceCreate([
-            'name' => 'Taylor Otwell',
-            'email' => 'taylor@laravel.com',
+            'name' => 'Dan Harrin',
+            'email' => 'danharrin@filament.com',
             'password' => 'secret',
         ]);
 

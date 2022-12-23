@@ -28,8 +28,8 @@ class CompanyBehaviorTest extends OrchestraTestCase
         $action = new CreateCompany;
 
         $user = User::forceCreate([
-            'name' => 'Taylor Otwell',
-            'email' => 'taylor@laravel.com',
+            'name' => 'Andrew Wallo',
+            'email' => 'andrewdwallo@gmail.com',
             'password' => 'secret',
         ]);
 
@@ -50,8 +50,8 @@ class CompanyBehaviorTest extends OrchestraTestCase
 
         // Test with another user that isn't on the company...
         $otherUser = User::forceCreate([
-            'name' => 'Adam Wathan',
-            'email' => 'adam@laravel.com',
+            'name' => 'Dan Harrin',
+            'email' => 'danharrin@filament.com',
             'password' => 'secret',
         ]);
 
@@ -95,25 +95,25 @@ class CompanyBehaviorTest extends OrchestraTestCase
         $action = new CreateCompany;
 
         $user = User::forceCreate([
-            'name' => 'Taylor Otwell',
-            'email' => 'taylor@laravel.com',
+            'name' => 'Andrew Wallo',
+            'email' => 'andrewdwallo@gmail.com',
             'password' => 'secret',
         ]);
 
         $company = $action->create($user, ['name' => 'Test Company']);
 
-        $adam = User::forceCreate([
-            'name' => 'Adam Wathan',
-            'email' => 'adam@laravel.com',
+        $dan = User::forceCreate([
+            'name' => 'Dan Harrin',
+            'email' => 'danharrin@filament.com',
             'password' => 'secret',
         ]);
 
         $authToken = new Sanctum;
-        $adam = $authToken->actingAs($adam, ['bar'], []);
+        $dan = $authToken->actingAs($dan, ['bar'], []);
 
-        $company->users()->attach($adam, ['role' => 'admin']);
+        $company->users()->attach($dan, ['role' => 'admin']);
 
-        $this->assertFalse($adam->hasCompanyPermission($company, 'foo'));
+        $this->assertFalse($dan->hasCompanyPermission($company, 'foo'));
 
         $john = User::forceCreate([
             'name' => 'John Doe',
@@ -136,8 +136,8 @@ class CompanyBehaviorTest extends OrchestraTestCase
         $action = new CreateCompany;
 
         $user = User::forceCreate([
-            'name' => 'Taylor Otwell',
-            'email' => 'taylor@laravel.com',
+            'name' => 'Andrew Wallo',
+            'email' => 'andrewdwallo@gmail.com',
             'password' => 'secret',
         ]);
 
