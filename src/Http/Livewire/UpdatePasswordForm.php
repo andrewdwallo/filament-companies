@@ -2,6 +2,7 @@
 
 namespace Wallo\FilamentCompanies\Http\Livewire;
 
+use Filament\Notifications\Notification;
 use Illuminate\Support\Facades\Auth;
 use Laravel\Fortify\Contracts\UpdatesUserPasswords;
 use Livewire\Component;
@@ -43,7 +44,11 @@ class UpdatePasswordForm extends Component
             'password_confirmation' => '',
         ];
 
-        $this->emit('saved');
+        Notification::make()
+        ->title('Saved')
+        ->success()
+        ->body('Password updated')
+        ->send();
     }
 
     /**

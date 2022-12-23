@@ -36,10 +36,6 @@
                     </div>
                 @endif
 
-                <x-filament-companies::action-message class="mr-3" on="saved">
-                    {{ __('Created.') }}
-                </x-filament-companies::action-message>
-
                 <x-filament::button type="submit">
                     {{ __('Create') }}
                 </x-filament::button>

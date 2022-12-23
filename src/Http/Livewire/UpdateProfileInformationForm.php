@@ -2,6 +2,7 @@
 
 namespace Wallo\FilamentCompanies\Http\Livewire;
 
+use Filament\Notifications\Notification;
 use Illuminate\Support\Facades\Auth;
 use Laravel\Fortify\Contracts\UpdatesUserProfileInformation;
 use Livewire\Component;
@@ -63,7 +64,11 @@ class UpdateProfileInformationForm extends Component
             return redirect()->route('filament.pages.profile');
         }
 
-        $this->emit('saved');
+        Notification::make()
+        ->title('Saved')
+        ->success()
+        ->body('Profile information updated')
+        ->send();
 
         $this->emit('refresh-navigation-menu');
     }

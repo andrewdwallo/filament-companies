@@ -26,10 +26,6 @@
             <x-filament-companies::input-error for="password_confirmation" class="mt-2"/>
         </div>
 
-        <x-filament-companies::action-message class="mr-3" on="saved">
-            {{ __('Saved.') }}
-        </x-filament-companies::action-message>
-
         <x-filament::button type="submit">
             {{ __('Save') }}
         </x-filament::button>

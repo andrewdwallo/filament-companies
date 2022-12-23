@@ -2,6 +2,7 @@
 
 namespace Wallo\FilamentCompanies\Http\Livewire;
 
+use Filament\Notifications\Notification;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Wallo\FilamentCompanies\FilamentCompanies;
@@ -103,7 +104,11 @@ class ApiTokenManager extends Component
         $this->createApiTokenForm['name'] = '';
         $this->createApiTokenForm['permissions'] = FilamentCompanies::$defaultPermissions;
 
-        $this->emit('created');
+        Notification::make()
+        ->title('Created')
+        ->success()
+        ->body('A new API Token has been successfully created.')
+        ->send();
     }
 
     /**

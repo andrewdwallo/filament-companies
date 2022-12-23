@@ -2,6 +2,7 @@
 
 namespace Wallo\FilamentCompanies\Http\Livewire;
 
+use Filament\Notifications\Notification;
 use Illuminate\Support\Facades\Auth;
 use Wallo\FilamentCompanies\Contracts\UpdatesCompanyNames;
 use Livewire\Component;
@@ -47,7 +48,11 @@ class UpdateCompanyNameForm extends Component
 
         $updater->update($this->user, $this->company, $this->state);
 
-        $this->emit('saved');
+        Notification::make()
+        ->title('Updated')
+        ->success()
+        ->body('Company name updated.')
+        ->send();
 
         $this->emit('refresh-navigation-menu');
     }

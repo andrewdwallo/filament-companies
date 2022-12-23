@@ -82,11 +82,6 @@
             @endif
         </div>
 
-
-        <x-filament-companies::action-message class="mr-3" on="saved">
-            {{ __('Saved.') }}
-        </x-filament-companies::action-message>
-
         <x-filament::button type="submit" wire:loading.attr="disabled" wire:target="photo">
             {{ __('Save') }}
         </x-filament::button>
