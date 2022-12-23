@@ -25,9 +25,6 @@ class UserProfileControllerTest extends OrchestraTestCase
         $disable = $this->mock(DisableTwoFactorAuthentication::class);
         $disable->shouldReceive('__invoke')->once();
 
-        FilamentCompanies::$inertiaManager = $inertia = m::mock();
-        $inertia->shouldReceive('render')->once();
-
         $user = User::forceCreate([
             'name' => 'Taylor Otwell',
             'email' => 'taylor@laravel.com',
@@ -47,9 +44,6 @@ class UserProfileControllerTest extends OrchestraTestCase
 
         $disable = $this->mock(DisableTwoFactorAuthentication::class);
         $disable->shouldReceive('__invoke')->never();
-
-        FilamentCompanies::$inertiaManager = $inertia = m::mock();
-        $inertia->shouldReceive('render')->once();
 
         $user = User::forceCreate([
             'name' => 'Taylor Otwell',
@@ -71,9 +65,6 @@ class UserProfileControllerTest extends OrchestraTestCase
 
         $disable = $this->mock(DisableTwoFactorAuthentication::class);
         $disable->shouldReceive('__invoke')->once();
-
-        FilamentCompanies::$inertiaManager = $inertia = m::mock();
-        $inertia->shouldReceive('render')->once();
 
         $user = User::forceCreate([
             'name' => 'Taylor Otwell',
@@ -106,7 +97,7 @@ class UserProfileControllerTest extends OrchestraTestCase
     {
         parent::getEnvironmentSetUp($app);
 
-        $app['config']->set('filament-companies.stack', 'inertia');
+        $app['config']->set('filament-companies.stack', 'filament');
         $app['config']->set('fortify.features', [
             Features::registration(),
             Features::resetPasswords(),
