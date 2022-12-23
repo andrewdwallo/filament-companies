@@ -27,7 +27,7 @@
                                     </div>
 
                                     <!-- Company Settings -->
-                                    <x-filament-companies::dropdown-link href="{{ route('filament.pages.show', Auth::user()->currentCompany->id) }}">
+                                    <x-filament-companies::dropdown-link href="{{ route('filament.pages.show') }}">
                                         {{ __('Company Settings') }}
                                     </x-filament-companies::dropdown-link>
 
