@@ -99,3 +99,8 @@ npm run dev
 ```
 php artisan vendor:publish --tag=filament-companies-views
 ```
+
+### Usage
+This package is extensively "borrowed" from the work of Taylor Otwell, his contributors and the Laravel Jetstream package. You can get a full understanding of the capabilities by reviewing the Jetstream docs:
+https://jetstream.laravel.com/2.x/introduction.html
+
