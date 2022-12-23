@@ -2,9 +2,10 @@
 
 namespace Wallo\FilamentCompanies\Events;
 
+use Filament\Events\ServingFilament;
 use Illuminate\Foundation\Events\Dispatchable;
 
-class AddingCompanyEmployee
+class AddingCompanyEmployee extends ServingFilament
 {
     use Dispatchable;
 
