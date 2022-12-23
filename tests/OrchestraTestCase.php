@@ -2,10 +2,12 @@
 
 namespace Wallo\FilamentCompanies\Tests;
 
+use Filament\FilamentServiceProvider;
 use Laravel\Fortify\FortifyServiceProvider;
 use Wallo\FilamentCompanies\Features;
 use Wallo\FilamentCompanies\FilamentCompaniesServiceProvider;
 use Orchestra\Testbench\TestCase;
+use Livewire\LivewireServiceProvider;
 
 abstract class OrchestraTestCase extends TestCase
 {
@@ -21,7 +23,12 @@ abstract class OrchestraTestCase extends TestCase
 
     protected function getPackageProviders($app)
     {
-        return [FilamentCompaniesServiceProvider::class, FortifyServiceProvider::class];
+        return [
+            LivewireServiceProvider::class,
+            FilamentServiceProvider::class,
+            FilamentCompaniesServiceProvider::class,
+            FortifyServiceProvider::class
+        ];
     }
 
     protected function defineEnvironment($app)
