@@ -30,7 +30,9 @@
 
 ### Installing
 
-* This plugin requires a fresh Filament App
+* This plugin requires a fresh Filament project
+* If you install this plugin into an existing Filament project you will get errors
+* Do not install this plugin into an existing Filament project
 * No modifications need to be made to the filament config files
 * Everything is set once the plugin is installed
 
