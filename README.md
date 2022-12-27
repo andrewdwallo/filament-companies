@@ -108,7 +108,7 @@ Install the plugin/package in your app's `composer.json`:
     "repositories": [
         {
             "type": "path",
-            "url": "filament-companies/*"
+            "url": "filament-companies/"
         }
     ],
     ...
