@@ -21,20 +21,20 @@
         }
     ],
     "require": {
-        "php": "^8.0.26",
+        "php": "^8.0.2",
         "ext-json": "*",
         "filament/filament": "^2.16",
         "illuminate/console": "^9.21",
         "illuminate/contracts": "^9.45",
         "illuminate/support": "^9.21",
         "jenssegers/agent": "^2.6",
-        "laravel/fortify": "^1.13.3"
+        "laravel/fortify": "^1.12"
     },
     "require-dev": {
         "laravel/sanctum": "^3.0",
         "mockery/mockery": "^1.0",
         "orchestra/testbench": "^7.0",
-        "phpunit/phpunit": "^9.5"
+        "phpunit/phpunit": "^9.3"
     },
     "autoload": {
         "psr-4": {
