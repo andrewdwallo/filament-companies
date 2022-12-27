@@ -87,7 +87,9 @@ This package is extensively "borrowed" from the work of Taylor Otwell, his contr
 https://jetstream.laravel.com/2.x/introduction.html
 
 ### Note
-Documentation specific to Filament will come as more modifications are made.
+* Documentation specific to Filament will come as more modifications are made.
+* This package is supposed to be a Filament Context and is planning to be used as one in Filament V3
+* This is not supposed to be the "Admin" Context, this would be the view that a "company user" would see
 
 ### Contributing
 * Fork this repository to your GitHub account.
@@ -113,4 +115,16 @@ Install the plugin/package in your app's `composer.json`:
 }
 ```
 
-Now, run `composer update`.
+* Now, run `composer update`.
+* Follow installation instructions above.
+
+### For Contributors: A general list of things that need to be worked on/imporoved
+
+#### Before Starting,... take note that this package is supposed to be a Filament Context and is planning to be used as one in Filament V3.
+#### This is not supposed to be the "Admin" Context, this would be the view that a "company user" would see.
+
+* Dark Mode support for all components and views (example: navigation menu component)
+* Profile Photo needs to replace Filament Profile Photo in top-bar user-menu
+* NavigationMenu.php class component listener needs to actually refresh after a form is saved
+* Test need to be updated
+* Any other things you notice that you would like to improve that would benefit everyone as a whole
