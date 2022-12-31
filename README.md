@@ -123,10 +123,12 @@ php artisan filament-companies:install filament --companies
 ```
 * Now follow instructions above.
 
-### For Contributors: A general list of things that need to be worked on/improved
+### For Contributors:
 
-#### Before Starting take note that this package is supposed to be a Filament Context and is planning to be used as one in Filament V3
-#### This is not supposed to be the "Admin" Context, this would be the view that a "company user" would see
+#### Before Starting take note that this package is supposed to be a Filament Context and is planning to be used as one in Filament V3.
+#### This is not supposed to be the "Admin" Context, this would be the view that a "company user" would see.
+
+#### A general list of things that need to be worked on/improved:
 
 * Dark Mode support for some components
 * NavigationMenu.php class component listener needs to actually refresh after a form is saved (This is connected to a render hook in FilamentCompaniesServiceProvider)
