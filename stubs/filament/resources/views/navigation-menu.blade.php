@@ -7,7 +7,6 @@
                     'dark:bg-gray-800 dark:hover:bg-gray-700 dark:border-white dark:hover:border-primary-400 dark:text-white dark:hover:text-primary-400' => config('filament.dark_mode'),
                 ])>
                     {{ Auth::user()->currentCompany->name }}
-                    <x-heroicon-o-check-circle />
                 </button>
             </x-slot>
 
