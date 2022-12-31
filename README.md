@@ -117,7 +117,11 @@ Install the plugin/package in your app's `composer.json`:
 ```
 
 * Now, run `composer update`.
-* Follow installation instructions above.
+* Now use the following command to scaffold the app.
+```
+php artisan filament-companies:install filament --companies
+```
+* Now follow instructions above.
 
 ### For Contributors: A general list of things that need to be worked on/improved
 
