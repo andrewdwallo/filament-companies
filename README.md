@@ -1,3 +1,37 @@
+<p align="center">
+    <a href="https://filamentadmin.com/docs/2.x/admin/installation">
+        <img alt="FILAMENT 8.x" src="https://img.shields.io/badge/FILAMENT-2.x-EBB304?style=for-the-badge">
+    </a>
+    <a href="https://packagist.org/packages/andrewdwallo/filament-companies">
+        <img alt="Packagist" src="https://img.shields.io/packagist/v/andrewdwallo/filament-companies.svg?style=for-the-badge&logo=packagist">
+    </a>
+    <a href="https://packagist.org/packages/andrewdwallo/filament-companies">
+        <img alt="Downloads" src="https://img.shields.io/packagist/dt/andrewdwallo/filament-companies.svg?style=for-the-badge" >
+    </a>
+</p>
+
+<hr style="background-color: #ebb304">
+
+# Filament Companies
+
+A Complete Authentication System Kit based on Companies built using Filament:
+- :fire: **Authentication - Laravel Fortify** 
+- :fire: **Registration** 
+- :fire: **Login** 
+- :fire: **Terms of Service**
+- :fire: **Privacy Policy**
+- :fire: **Password Reset - Email**
+- :fire: **Personal Profile Management**
+- :fire: **Two-Factor Authentication (2FA)**
+- :fire: **Browser Session Management**
+- :fire: **API - Laravel Sanctum**
+- :fire: **Company Management**
+- :fire: **Complete Separation of Company Contexts**
+- :fire: **Employee Invitation to Company - Email**
+- :fire: **Roles & Permissions**
+- :fire: **And More to Come!**
+
+# Screenshots
 ![Screenshot_20221221_111616](https://user-images.githubusercontent.com/104294090/209055363-6bfefe27-12d3-4377-8a31-a2249408261b.png)
 ![Screenshot_20221221_111649](https://user-images.githubusercontent.com/104294090/209055364-bb1e37a9-6eff-4572-b836-1690b2642b42.png)
 ![Screenshot_20221221_111743](https://user-images.githubusercontent.com/104294090/209055365-9924d38b-61db-4e20-a981-784cab595a80.png)
@@ -8,26 +42,8 @@
 ![Screenshot_20221221_112048](https://user-images.githubusercontent.com/104294090/209055373-289b561c-389f-4e4b-b69b-b73b1a6367b9.png)
 ![Screenshot_20221221_112124](https://user-images.githubusercontent.com/104294090/209055374-21e18d5b-4c9c-4608-af30-a17216f09f51.png)
 ![Screenshot_20221221_112156](https://user-images.githubusercontent.com/104294090/209055375-a6e0dee6-bf10-487e-ab25-a69524fec524.png)
-# Filament Companies
-
 
 ## Getting Started
-
-### Features
-
-* Authentication via Laravel Fortify
-* Registration
-* Login
-* Terms of Service 
-* Privacy Policy
-* Password Reset through Mail
-* Profile Management
-* Two-factor Authentication
-* Browser Sessions
-* API via Laravel Sanctum
-* Company Creation (similar to Teams)
-* Employee Invitation to Company through Mail
-
 
 ### Installing
 
