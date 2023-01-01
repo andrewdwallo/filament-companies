@@ -14,7 +14,7 @@
 
 # Filament Companies
 
-A Complete Authentication System Kit based on Companies built using Filament:
+A Complete Authentication System Kit based on Companies:
 - :fire: **Authentication - Laravel Fortify** 
 - :fire: **Registration** 
 - :fire: **Login** 
