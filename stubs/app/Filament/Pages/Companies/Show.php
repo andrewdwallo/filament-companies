@@ -6,6 +6,9 @@ use Filament\Pages\Page;
 
 class Show extends Page
 {
+    protected static ?string $title = 'Company Settings';
+
+    protected static ?string $slug = 'show';
 
     protected static ?string $navigationIcon = 'heroicon-o-document-text';
 
