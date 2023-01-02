@@ -25,7 +25,7 @@ class Features
     public static function optionEnabled(string $feature, string $option)
     {
         return static::enabled($feature) &&
-               config("company-options.{$feature}.{$option}") === true;
+               config("filament-companies-options.{$feature}.{$option}") === true;
     }
 
     /**
@@ -117,7 +117,7 @@ class Features
     public static function companies(array $options = [])
     {
         if (! empty($options)) {
-            config(['company-options.companies' => $options]);
+            config(['filament-companies-options.companies' => $options]);
         }
 
         return 'companies';
