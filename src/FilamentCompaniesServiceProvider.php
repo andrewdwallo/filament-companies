@@ -156,7 +156,7 @@ class FilamentCompaniesServiceProvider extends ServiceProvider
     {
         if (FilamentCompanies::$registersRoutes) {
             Route::group([
-                'namespace' => 'Laravel\FilamentCompanies\Http\Controllers',
+                'namespace' => 'Wallo\FilamentCompanies\Http\Controllers',
                 'domain' => config('filament-companies.domain', null),
                 'prefix' => config('filament-companies.prefix', config('filament-companies.path')),
             ], function () {
