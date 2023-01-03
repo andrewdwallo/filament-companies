@@ -6,7 +6,7 @@
         <img alt="Packagist" src="https://img.shields.io/packagist/v/andrewdwallo/filament-companies.svg?style=for-the-badge&logo=packagist">
     </a>
     <a href="https://packagist.org/packages/andrewdwallo/filament-companies">
-        <img alt="Downloads" src="https://img.shields.io/github/downloads/andrewdwallo/filament-companies/total?style=for-the-badge" >
+        <img alt="Downloads" src="https://img.shields.io/packagist/dt/andrewdwallo/filament-companies.svg?style=for-the-badge" >
     </a>
 </p>
 
