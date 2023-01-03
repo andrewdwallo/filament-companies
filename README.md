@@ -105,6 +105,22 @@ php artisan vendor:publish --tag=filament-companies-views
 This package is extensively "borrowed" from the work of Taylor Otwell, his contributors and the Laravel Jetstream package. You can get a full understanding of the capabilities by reviewing the Jetstream docs:
 https://jetstream.laravel.com/2.x/introduction.html
 
+* If you want to change the filament path prefix to something such as "company", you may do so as you normally would in the filament.php config file:
+```
+/*
+    |--------------------------------------------------------------------------
+    | Filament Path
+    |--------------------------------------------------------------------------
+    |
+    | The default is `admin` but you can change it to whatever works best and
+    | doesn't conflict with the routing in your application.
+    |
+    */
+
+    'path' => env('FILAMENT_PATH', 'company'),
+```
+- The Laravel Welcome Page, Fortify, etc.. will respect your changes.
+
 ### Note
 * Documentation specific to Filament will come as more modifications are made.
 * This package is supposed to be a Filament Context and is planning to be used as one in Filament V3
