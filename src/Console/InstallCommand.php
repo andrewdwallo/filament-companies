@@ -322,6 +322,8 @@ EOF;
 
         $this->replaceInFile('\Filament\Http\Livewire\Auth\Login::class', 'null', config_path('filament.php'));
 
+        $this->replaceInFile("RouteServiceProvider::HOME", "config('filament.path')", config_path('fortify.php'));
+
 
         // Directories...
         (new Filesystem)->ensureDirectoryExists(app_path('Actions/FilamentCompanies'));
