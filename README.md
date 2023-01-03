@@ -89,7 +89,7 @@ php artisan migrate:fresh
 npm run dev
 ```
 
-* Go to the Register page at /register by clicking Register in the top right corner of the Laravel Welcome page.
+* Go to the Register page by clicking Register in the top right corner of the Laravel Welcome page.
 * You will be redirected to the admin panel.
 * You can create companies by clicking the dropdown navigation in the Filament topbar.
 * By clicking on your current company's settings in the topbar you can manage that current company.
