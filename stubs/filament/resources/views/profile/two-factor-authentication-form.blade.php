@@ -8,7 +8,7 @@
     </x-slot>
 
     <x-filament::card class="col-span-2 sm:col-span-1 mt-5 md:mt-0">
-        <p class="font-medium text-lg">
+        <p class="font-medium text-lg text-gray-900 dark:text-gray-100">
             @if ($this->enabled)
                 @if ($showingConfirmation)
                     {{ __('Finish enabling two factor authentication.') }}
@@ -20,7 +20,7 @@
             @endif
         </p>
 
-        <div class="mt-4">
+        <div class="mt-4 max-w-xl text-sm text-gray-600 dark:text-gray-400">
             <p class="font-normal antialiased text-base">
                 {{ __('When two factor authentication is enabled, you will be prompted for a secure, random token during authentication. You may retrieve this token from your phone\'s Google Authenticator application.') }}
             </p>

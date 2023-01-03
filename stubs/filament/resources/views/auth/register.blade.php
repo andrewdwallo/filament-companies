@@ -36,8 +36,8 @@
 
                             <div class="ml-2">
                                 {!! __('I agree to the :terms_of_service and :privacy_policy', [
-                                        'terms_of_service' => '<a target="_blank" href="'.route('terms.show').'" class="underline font-bold text-sm text-primary-600">'.__('Terms of Service').'</a>',
-                                        'privacy_policy' => '<a target="_blank" href="'.route('policy.show').'" class="underline font-bold text-sm text-primary-600">'.__('Privacy Policy').'</a>',
+                                        'terms_of_service' => '<a target="_blank" href="'.route('terms.show').'" class="underline font-bold text-sm text-primary-600 dark:text-primary-400">'.__('Terms of Service').'</a>',
+                                        'privacy_policy' => '<a target="_blank" href="'.route('policy.show').'" class="underline font-bold text-sm text-primary-600 dark:text-primary-400">'.__('Privacy Policy').'</a>',
                                 ]) !!}
                             </div>
                         </div>
@@ -46,7 +46,7 @@
             @endif
 
             <div class="flex items-center justify-end mt-4">
-                <a class="text-sm text-primary-600 font-medium" href="{{ route('login') }}">
+                <a class="text-sm text-primary-600 dark:text-primary-400 font-medium" href="{{ route('login') }}">
                     {{ __('Already registered?') }}
                 </a>
 

@@ -56,8 +56,8 @@
                         <!-- API Token List -->
                         @foreach ($this->user->tokens->sortBy('name') as $token)
                             <x-filament::hr />
-                            <div class="flex items-center justify-between text-sm">
-                                <div>
+                            <div class="flex items-center justify-between">
+                                <div class="break-all dark:text-white">
                                     {{ $token->name }}
                                 </div>
 

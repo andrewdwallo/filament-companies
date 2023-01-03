@@ -66,7 +66,7 @@
             <x-filament-companies::input-error for="email" class="mt-2"/>
 
             @if (Laravel\Fortify\Features::enabled(Laravel\Fortify\Features::emailVerification()) && ! $this->user-hasVerifiedEmail())
-                <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">
+                <p class="mt-2 text-sm dark:text-white">
                     {{ __('Before your email can be updated, you must verify your current email address.') }}
 
                     <x-filament::button type="button" class="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900" wire:click.prevent="sendEmailVerification">
@@ -75,7 +75,7 @@
                 </p>
 
                 @if ($this->verificationLinkSent)
-                    <p v-show="verificationLinkSent" class="mt-2 font-medium text-sm text-green-600 dark:text-green-700">
+                    <p v-show="verificationLinkSent" class="mt-2 font-medium text-sm text-green-600 dark:text-green-400">
                         {{ __('A new verification link has been sent to your email address.') }}
                     </p>
                 @endif

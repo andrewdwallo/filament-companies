@@ -17,8 +17,8 @@
                     alt="{{ $company->owner->name }}">
 
                 <div class="ml-4 leading-tight">
-                    <div>{{ $company->owner->name }}</div>
-                    <div class="text-gray-700 text-sm">{{ $company->owner->email }}</div>
+                    <div class="dark:text-white">{{ $company->owner->name }}</div>
+                    <div class="text-gray-700 dark:text-gray-300 text-sm">{{ $company->owner->email }}</div>
                 </div>
             </div>
         </div>
