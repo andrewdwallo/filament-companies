@@ -2,14 +2,10 @@
 
 namespace Wallo\FilamentCompanies\Contracts;
 
+/**
+ * @method \Illuminate\Database\Eloquent\Model create(\Illuminate\Foundation\Auth\User $user, array $input)
+ */
 interface CreatesCompanies
 {
-    /**
-     * Validate and create a new company for the given user.
-     *
-     * @param  mixed  $user
-     * @param  array  $input
-     * @return mixed
-     */
-    public function create($user, array $input);
+    //
 }

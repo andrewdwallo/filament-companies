@@ -13,10 +13,8 @@ class CompanyPolicy
     /**
      * Determine whether the user can view any models.
      *
-     * @param  \App\Models\User  $user
-     * @return mixed
      */
-    public function viewAny(User $user)
+    public function viewAny(User $user): bool
     {
         return true;
     }
@@ -24,11 +22,8 @@ class CompanyPolicy
     /**
      * Determine whether the user can view the model.
      *
-     * @param  \App\Models\User  $user
-     * @param  \App\Models\Company  $company
-     * @return mixed
      */
-    public function view(User $user, Company $company)
+    public function view(User $user, Company $company): bool
     {
         return $user->belongsToCompany($company);
     }
@@ -36,10 +31,8 @@ class CompanyPolicy
     /**
      * Determine whether the user can create models.
      *
-     * @param  \App\Models\User  $user
-     * @return mixed
      */
-    public function create(User $user)
+    public function create(User $user): bool
     {
         return true;
     }
@@ -47,11 +40,8 @@ class CompanyPolicy
     /**
      * Determine whether the user can update the model.
      *
-     * @param  \App\Models\User  $user
-     * @param  \App\Models\Company  $company
-     * @return mixed
      */
-    public function update(User $user, Company $company)
+    public function update(User $user, Company $company): bool
     {
         return $user->ownsCompany($company);
     }
@@ -59,11 +49,8 @@ class CompanyPolicy
     /**
      * Determine whether the user can add company employees.
      *
-     * @param  \App\Models\User  $user
-     * @param  \App\Models\Company  $company
-     * @return mixed
      */
-    public function addCompanyEmployee(User $user, Company $company)
+    public function addCompanyEmployee(User $user, Company $company): bool
     {
         return $user->ownsCompany($company);
     }
@@ -71,11 +58,8 @@ class CompanyPolicy
     /**
      * Determine whether the user can update company employee permissions.
      *
-     * @param  \App\Models\User  $user
-     * @param  \App\Models\Company  $company
-     * @return mixed
      */
-    public function updateCompanyEmployee(User $user, Company $company)
+    public function updateCompanyEmployee(User $user, Company $company): bool
     {
         return $user->ownsCompany($company);
     }
@@ -83,11 +67,8 @@ class CompanyPolicy
     /**
      * Determine whether the user can remove company employees.
      *
-     * @param  \App\Models\User  $user
-     * @param  \App\Models\Company  $company
-     * @return mixed
      */
-    public function removeCompanyEmployee(User $user, Company $company)
+    public function removeCompanyEmployee(User $user, Company $company): bool
     {
         return $user->ownsCompany($company);
     }
@@ -95,11 +76,8 @@ class CompanyPolicy
     /**
      * Determine whether the user can delete the model.
      *
-     * @param  \App\Models\User  $user
-     * @param  \App\Models\Company  $company
-     * @return mixed
      */
-    public function delete(User $user, Company $company)
+    public function delete(User $user, Company $company): bool
     {
         return $user->ownsCompany($company);
     }

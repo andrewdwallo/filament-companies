@@ -2,6 +2,9 @@
 
 namespace App\Actions\FilamentCompanies;
 
+use App\Models\Company;
+use App\Models\User;
+use Closure;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Validator;
 use Wallo\FilamentCompanies\Contracts\AddsCompanyEmployees;
@@ -15,13 +18,8 @@ class AddCompanyEmployee implements AddsCompanyEmployees
     /**
      * Add a new company employee to the given company.
      *
-     * @param  mixed  $user
-     * @param  mixed  $company
-     * @param  string  $email
-     * @param  string|null  $role
-     * @return void
      */
-    public function add($user, $company, string $email, string $role = null)
+    public function add(User $user, Company $company, string $email, string $role = null): void
     {
         Gate::forUser($user)->authorize('addCompanyEmployee', $company);
 
@@ -41,12 +39,8 @@ class AddCompanyEmployee implements AddsCompanyEmployees
     /**
      * Validate the add employee operation.
      *
-     * @param  mixed  $company
-     * @param  string  $email
-     * @param  string|null  $role
-     * @return void
      */
-    protected function validate($company, string $email, ?string $role)
+    protected function validate(Company $company, string $email, ?string $role): void
     {
         Validator::make([
             'email' => $email,
@@ -61,9 +55,9 @@ class AddCompanyEmployee implements AddsCompanyEmployees
     /**
      * Get the validation rules for adding a company employee.
      *
-     * @return array
+     * @return array<string, \Illuminate\Contracts\Validation\Rule|array|string>
      */
-    protected function rules()
+    protected function rules(): array
     {
         return array_filter([
             'email' => ['required', 'email', 'exists:users'],
@@ -76,11 +70,8 @@ class AddCompanyEmployee implements AddsCompanyEmployees
     /**
      * Ensure that the user is not already on the company.
      *
-     * @param  mixed  $company
-     * @param  string  $email
-     * @return \Closure
      */
-    protected function ensureUserIsNotAlreadyOnCompany($company, string $email)
+    protected function ensureUserIsNotAlreadyOnCompany(Company $company, string $email): Closure
     {
         return function ($validator) use ($company, $email) {
             $validator->errors()->addIf(

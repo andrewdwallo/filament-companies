@@ -12,7 +12,7 @@ class CreateCompanyTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_companies_can_be_created()
+    public function test_companies_can_be_created(): void
     {
         $this->actingAs($user = User::factory()->withPersonalCompany()->create());
 

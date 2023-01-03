@@ -12,7 +12,7 @@ class RemoveCompanyEmployeeTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_company_employees_can_be_removed_from_companies()
+    public function test_company_employees_can_be_removed_from_companies(): void
     {
         $this->actingAs($user = User::factory()->withPersonalCompany()->create());
 
@@ -27,7 +27,7 @@ class RemoveCompanyEmployeeTest extends TestCase
         $this->assertCount(0, $user->currentCompany->fresh()->users);
     }
 
-    public function test_only_company_owner_can_remove_company_employees()
+    public function test_only_company_owner_can_remove_company_employees(): void
     {
         $user = User::factory()->withPersonalCompany()->create();
 

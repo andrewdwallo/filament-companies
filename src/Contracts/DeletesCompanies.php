@@ -2,13 +2,10 @@
 
 namespace Wallo\FilamentCompanies\Contracts;
 
+/**
+ * @method void delete(\Illuminate\Database\Eloquent\Model $company)
+ */
 interface DeletesCompanies
 {
-    /**
-     * Delete the given company.
-     *
-     * @param  mixed  $company
-     * @return void
-     */
-    public function delete($company);
+    //
 }

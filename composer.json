@@ -28,7 +28,7 @@
         "illuminate/contracts": "^9.45",
         "illuminate/support": "^9.21",
         "jenssegers/agent": "^2.6",
-        "laravel/fortify": "^1.12"
+        "laravel/fortify": "1.15"
     },
     "require-dev": {
         "laravel/sanctum": "^3.0",
@@ -56,10 +56,7 @@
         }
     },
     "config": {
-        "sort-packages": true,
-        "allow-plugins": {
-            "pestphp/pest-plugin": false
-        }
+        "sort-packages": true
     },
     "minimum-stability": "dev",
     "prefer-stable": true

@@ -2,6 +2,7 @@
 
 namespace App\Actions\FilamentCompanies;
 
+use App\Models\User;
 use Wallo\FilamentCompanies\Contracts\DeletesUsers;
 
 class DeleteUser implements DeletesUsers
@@ -9,10 +10,8 @@ class DeleteUser implements DeletesUsers
     /**
      * Delete the given user.
      *
-     * @param  mixed  $user
-     * @return void
      */
-    public function delete($user)
+    public function delete(User $user): void
     {
         $user->deleteProfilePhoto();
         $user->tokens->each->delete();
