@@ -15,7 +15,7 @@
         <x-filament-companies::validation-errors class="mb-4" />
 
         @if (session('status'))
-            <div class="mb-4 font-medium text-sm text-green-600">
+            <div class="mb-4 font-medium text-sm text-green-600 dark:text-green-400">
                 {{ session('status') }}
             </div>
         @endif
@@ -36,19 +36,19 @@
             <div class="block mt-4">
                 <label for="remember_me" class="flex items-center">
                     <x-filament-companies::checkbox id="remember_me" name="remember" />
-                    <span class="ml-2 text-sm font-medium">{{ __('Remember me') }}</span>
+                    <span class="ml-2 text-sm font-medium text-gray-600 dark:text-gray-400">{{ __('Remember me') }}</span>
                 </label>
             </div>
 
             <div class="flex items-center justify-end mt-4">
                 @if (Route::has('password.request'))
-                    <a class="text-sm text-primary-600 font-medium" href="{{ route('password.request') }}">
+                    <a class="text-sm text-primary-600 dark:text-primary-400 font-medium" href="{{ route('password.request') }}">
                         {{ __('Forgot your password?') }}
                     </a>
                 @endif
 
                 <x-filament::button type="submit" class="ml-4">
-                    {{ __('Sign in') }}
+                    {{ __('Log in') }}
                 </x-filament::button>
             </div>
         </form>

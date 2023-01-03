@@ -4,12 +4,12 @@
             {{ __('Forgot your password?') }}
         </h2>
 
-        <div class="mt-4 text-sm text-center">
+        <div class="mt-4 text-sm text-center text-gray-600 dark:text-gray-400">
             {{ __('Just let us know your email address and we will email you a password reset link that will allow you to choose a new one.') }}
         </div>
 
         @if (session('status'))
-            <div class="mb-4 font-medium text-sm text-green-600">
+            <div class="mb-4 font-medium text-sm text-green-600 dark:text-green-400">
                 {{ session('status') }}
             </div>
         @endif
