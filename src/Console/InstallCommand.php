@@ -59,8 +59,8 @@ class InstallCommand extends Command
         $this->replaceInFile('/home', '', app_path('Providers/RouteServiceProvider.php'));
 
         if (file_exists(resource_path('views/welcome.blade.php'))) {
-            $this->replaceInFile('/home', config('filament.path'), resource_path('views/welcome.blade.php'));
-            $this->replaceInFile('Home', "{{ucfirst(trans(config('filament.path')))}}", resource_path('views/welcome.blade.php'));
+            $this->replaceInFile("/home", "config('filament.path')", resource_path('views/welcome.blade.php'));
+            $this->replaceInFile("Home", "{{ucfirst(trans(config('filament.path')))}}", resource_path('views/welcome.blade.php'));
         }
 
         // Fortify Provider...
