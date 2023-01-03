@@ -2,6 +2,8 @@
 
 namespace App\Actions\FilamentCompanies;
 
+use App\Models\Company;
+use App\Models\User;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Validation\ValidationException;
@@ -13,12 +15,8 @@ class RemoveCompanyEmployee implements RemovesCompanyEmployees
     /**
      * Remove the company employee from the given company.
      *
-     * @param  mixed  $user
-     * @param  mixed  $company
-     * @param  mixed  $companyEmployee
-     * @return void
      */
-    public function remove($user, $company, $companyEmployee)
+    public function remove(User $user, Company $company, User $companyEmployee): void
     {
         $this->authorize($user, $company, $companyEmployee);
 
@@ -32,12 +30,8 @@ class RemoveCompanyEmployee implements RemovesCompanyEmployees
     /**
      * Authorize that the user can remove the company employee.
      *
-     * @param  mixed  $user
-     * @param  mixed  $company
-     * @param  mixed  $companyEmployee
-     * @return void
      */
-    protected function authorize($user, $company, $companyEmployee)
+    protected function authorize(User $user, Company $company, User $companyEmployee): void
     {
         if (! Gate::forUser($user)->check('removeCompanyEmployee', $company) &&
             $user->id !== $companyEmployee->id) {
@@ -48,11 +42,8 @@ class RemoveCompanyEmployee implements RemovesCompanyEmployees
     /**
      * Ensure that the currently authenticated user does not own the company.
      *
-     * @param  mixed  $companyEmployee
-     * @param  mixed  $company
-     * @return void
      */
-    protected function ensureUserDoesNotOwnCompany($companyEmployee, $company)
+    protected function ensureUserDoesNotOwnCompany(User $companyEmployee, Company $company): void
     {
         if ($companyEmployee->id === $company->owner->id) {
             throw ValidationException::withMessages([

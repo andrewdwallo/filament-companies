@@ -20,9 +20,8 @@ class FilamentCompaniesServiceProvider extends ServiceProvider
     /**
      * Register any application services.
      *
-     * @return void
      */
-    public function register()
+    public function register(): void
     {
         //
     }
@@ -30,9 +29,8 @@ class FilamentCompaniesServiceProvider extends ServiceProvider
     /**
      * Bootstrap any application services.
      *
-     * @return void
      */
-    public function boot()
+    public function boot(): void
     {
 
         if (FilamentCompanies::hasCompanyFeatures()) {
@@ -80,9 +78,8 @@ class FilamentCompaniesServiceProvider extends ServiceProvider
     /**
      * Configure the roles and permissions that are available within the application.
      *
-     * @return void
      */
-    protected function configurePermissions()
+    protected function configurePermissions(): void
     {
         FilamentCompanies::defaultApiTokenPermissions(['read']);
 

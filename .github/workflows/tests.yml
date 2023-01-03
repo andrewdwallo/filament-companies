@@ -2,13 +2,16 @@ name: tests
 
 on:
   push:
-    branches: [main]
+    branches:
+      - main
+      - '*.x'
   pull_request:
-    branches: [main]
+  schedule:
+    - cron: '0 0 * * *'
 
 jobs:
   tests:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
 
     strategy:
       fail-fast: true
@@ -33,13 +36,14 @@ jobs:
 
       - name: Install dependencies
         run: |
-          composer require "laravel/framework:${{ matrix.laravel }}" --dev --no-update
+          composer require "illuminate/contracts=${{ matrix.laravel }}" --dev --no-update
           composer update --prefer-dist --no-interaction --no-progress
+
       - name: Execute tests
         run: vendor/bin/phpunit --verbose
 
   stub-tests:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
 
     strategy:
       fail-fast: true
@@ -61,17 +65,19 @@ jobs:
       - name: Setup Laravel
         run: |
           composer create-project laravel/laravel:^9 .
-          composer require andrewdwallo/filament-companies:dev-main --no-interaction --no-update
+          composer require andrewdwallo/filament-companies:* --no-interaction --no-update
           composer config repositories.filament-companies '{"type": "path", "url": "filament-companies"}' --file composer.json
+
       - name: Checkout code
         uses: actions/checkout@v3
         with:
           path: 'filament-companies'
 
-      - name: Install FilamentCompanies
+      - name: Install Filament Companies
         run: |
           composer update "andrewdwallo/filament-companies" --prefer-dist --no-interaction --no-progress -W
-          php artisan filament-companies:install ${{ matrix.stack }} --companies
+          php artisan filament-companies:install ${{ matrix.stack }} --companies --api --verification
+
       - name: Install NPM dependencies
         run: npm i
 

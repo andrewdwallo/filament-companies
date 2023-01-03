@@ -2,12 +2,12 @@
 
 namespace Wallo\FilamentCompanies\Tests\Fixtures;
 
-use Illuminate\Foundation\Auth\User as Authenticatable;
+use App\Models\User as BaseUser;
 use Wallo\FilamentCompanies\HasProfilePhoto;
 use Wallo\FilamentCompanies\HasCompanies;
 use Laravel\Sanctum\HasApiTokens;
 
-class User extends Authenticatable
+class User extends BaseUser
 {
     use HasApiTokens, HasCompanies, HasProfilePhoto;
 

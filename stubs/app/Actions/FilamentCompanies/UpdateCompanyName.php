@@ -2,6 +2,8 @@
 
 namespace App\Actions\FilamentCompanies;
 
+use App\Models\Company;
+use App\Models\User;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Validator;
 use Wallo\FilamentCompanies\Contracts\UpdatesCompanyNames;
@@ -11,12 +13,9 @@ class UpdateCompanyName implements UpdatesCompanyNames
     /**
      * Validate and update the given company's name.
      *
-     * @param  mixed  $user
-     * @param  mixed  $company
-     * @param  array  $input
-     * @return void
+     * @param array<string, string> $input
      */
-    public function update($user, $company, array $input)
+    public function update(User $user, Company $company, array $input): void
     {
         Gate::forUser($user)->authorize('update', $company);
 

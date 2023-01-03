@@ -2,6 +2,8 @@
 
 namespace App\Actions\FilamentCompanies;
 
+use App\Models\Company;
+use App\Models\User;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Validator;
 use Wallo\FilamentCompanies\Contracts\CreatesCompanies;
@@ -13,11 +15,9 @@ class CreateCompany implements CreatesCompanies
     /**
      * Validate and create a new company for the given user.
      *
-     * @param  mixed  $user
-     * @param  array  $input
-     * @return mixed
+     * @param array<string, string> $input
      */
-    public function create($user, array $input)
+    public function create(User $user, array $input): Company
     {
         Gate::forUser($user)->authorize('create', FilamentCompanies::newCompanyModel());
 
