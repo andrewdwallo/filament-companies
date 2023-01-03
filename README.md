@@ -32,16 +32,18 @@ A Complete Authentication System Kit based on Companies:
 - :fire: **And More to Come!**
 
 # Screenshots
-![Screenshot_20221221_111616](https://user-images.githubusercontent.com/104294090/209055363-6bfefe27-12d3-4377-8a31-a2249408261b.png)
-![Screenshot_20221221_111649](https://user-images.githubusercontent.com/104294090/209055364-bb1e37a9-6eff-4572-b836-1690b2642b42.png)
-![Screenshot_20221221_111743](https://user-images.githubusercontent.com/104294090/209055365-9924d38b-61db-4e20-a981-784cab595a80.png)
-![Screenshot_20221221_111835](https://user-images.githubusercontent.com/104294090/209055367-e8928278-ca2c-4d7a-ba99-455ed31f2aaa.png)
-![Screenshot_20221221_111914](https://user-images.githubusercontent.com/104294090/209055369-af8ab8e7-cf3e-4c17-91ec-a6846b705462.png)
-![Screenshot_20221231_123900](https://user-images.githubusercontent.com/104294090/210151569-ab0ccbaf-2c3e-440f-9e6f-9cceabaa0e2f.png)
-![Screenshot_20221231_123950](https://user-images.githubusercontent.com/104294090/210151570-d36cfa65-aefa-4efd-a5e3-7579e7c20212.png)
-![Screenshot_20221221_112048](https://user-images.githubusercontent.com/104294090/209055373-289b561c-389f-4e4b-b69b-b73b1a6367b9.png)
-![Screenshot_20221221_112124](https://user-images.githubusercontent.com/104294090/209055374-21e18d5b-4c9c-4608-af30-a17216f09f51.png)
-![Screenshot_20221221_112156](https://user-images.githubusercontent.com/104294090/209055375-a6e0dee6-bf10-487e-ab25-a69524fec524.png)
+![Registration](https://user-images.githubusercontent.com/104294090/210308649-6b5ad244-4d8a-4359-adbe-dbcbd131ab19.png)
+![Login](https://user-images.githubusercontent.com/104294090/210308646-411bbbd1-cc8a-434b-8545-567e784c107b.png)
+![Forgot Password](https://user-images.githubusercontent.com/104294090/210308645-ad800d02-7259-4a24-aee4-978b36614428.png)
+![Terms of Service](https://user-images.githubusercontent.com/104294090/210308650-fe2e39a8-b77d-4e02-b106-5b8f855a7a5f.png)
+![Privacy Policy](https://user-images.githubusercontent.com/104294090/210308648-9d3b3876-c59b-47be-9fd3-666f8496d279.png)
+![Company Dropdown](https://user-images.githubusercontent.com/104294090/210308642-52aa9631-0d61-4a6f-a414-cf04ee2a884b.png)
+![Company Settings](https://user-images.githubusercontent.com/104294090/210308643-2505b7e4-8878-47bf-82c2-00f394cd4efc.png)
+![User Profile](https://user-images.githubusercontent.com/104294090/210308651-ee2dabd6-42e4-4729-b5b3-ea1c8cc626a1.png)
+![2FA](https://user-images.githubusercontent.com/104294090/210308631-3e5d69e7-ead2-4625-b5f0-f92954b09b19.png)
+![API Tokens](https://user-images.githubusercontent.com/104294090/210308640-e2dd9aac-ea08-4281-848e-290c363aab5d.png)
+![New Company](https://user-images.githubusercontent.com/104294090/210308647-c2a37825-5bfa-4c1d-8c89-bc592da9464c.png)
+
 
 ## Getting Started
 
