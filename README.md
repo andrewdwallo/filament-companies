@@ -123,6 +123,7 @@ https://jetstream.laravel.com/2.x/introduction.html
 ```
 - The Laravel Welcome Page, Fortify, etc.. will respect your changes.
 
+
 ### Example #1: Only allowing a certain company ID to see a filament page, resource, etc...
 
 ```
@@ -138,7 +139,8 @@ public function mount(): void
 ```
 - In this example only the current_company_id value of 3 will be able to see this page (as well as only if the user has Company Features).
 
-### Example #2: Having to know the current_company_id of every Company can be a hastle so instead you can use the Current Company Name
+
+### Example #2: Having to know the ID of every Company can be a hastle so instead you can use the Current Company Name
 
 ```
 protected static function shouldRegisterNavigation(): bool
@@ -151,7 +153,7 @@ public function mount(): void
     abort_unless(FilamentCompanies::hasCompanyFeatures() && Auth::user()->currentCompany->name === "ERPSAAS", 403);
 }
 ```
-- In this example only the current_company_name of "ERPSAAS" will be able to see this page (as well as only if the user has Company Features).
+- In this example only the current company name of "ERPSAAS" will be able to see this page.
 
 ### Note
 * Documentation specific to Filament will come as more modifications are made.
