@@ -124,7 +124,7 @@ https://jetstream.laravel.com/2.x/introduction.html
 - The Laravel Welcome Page, Fortify, etc.. will respect your changes.
 
 
-#### Example #1: Only allowing a certain company ID to see a filament page, resource, etc...
+#### Example #1: Only allowing a certain company ID to see & visit a filament page, resource, etc...
 
 ```
 protected static function shouldRegisterNavigation(): bool
