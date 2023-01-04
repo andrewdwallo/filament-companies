@@ -155,6 +155,8 @@ public function mount(): void
 ```
 - In this example only the current company name of "ERPSAAS" will be able to see this page.
 
+#### You may also use collections of different companies and group them together, or you may use ranges of values, and more. 
+
 ### Note
 * Documentation specific to Filament will come as more modifications are made.
 * This package is supposed to be a Filament Context and is planning to be used as one in Filament V3
