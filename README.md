@@ -123,6 +123,36 @@ https://jetstream.laravel.com/2.x/introduction.html
 ```
 - The Laravel Welcome Page, Fortify, etc.. will respect your changes.
 
+### Example #1: Only allowing a certain company ID to see a filament page, resource, etc...
+
+```
+protected static function shouldRegisterNavigation(): bool
+{
+    return FilamentCompanies::hasCompanyFeatures() && Auth::user()->currentCompany->id === 3;
+}
+
+public function mount(): void
+{
+    abort_unless(FilamentCompanies::hasCompanyFeatures() && Auth::user()->currentCompany->id === 3, 403);
+}
+```
+- In this example only the current_company_id value of 3 will be able to see this page (as well as only if the user has Company Features).
+
+### Example #2: Having to know the current_company_id of every Company can be a hastle so instead you can use the Current Company Name
+
+```
+protected static function shouldRegisterNavigation(): bool
+{
+    return FilamentCompanies::hasCompanyFeatures() && Auth::user()->currentCompany->name === "ERPSAAS";
+}
+
+public function mount(): void
+{
+    abort_unless(FilamentCompanies::hasCompanyFeatures() && Auth::user()->currentCompany->name === "ERPSAAS", 403);
+}
+```
+- In this example only the current_company_name of "ERPSAAS" will be able to see this page (as well as only if the user has Company Features).
+
 ### Note
 * Documentation specific to Filament will come as more modifications are made.
 * This package is supposed to be a Filament Context and is planning to be used as one in Filament V3
