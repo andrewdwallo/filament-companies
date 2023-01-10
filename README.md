@@ -197,7 +197,6 @@ php artisan filament-companies:install filament --companies
 
 #### A general list of things that need to be worked on/improved:
 
-* Dark Mode support for some components
 * NavigationMenu.php class component listener needs to actually refresh after a form is saved (This is connected to a render hook in FilamentCompaniesServiceProvider)
 * Test need to be updated
 * Any other things you notice that you would like to improve that would benefit everyone as a whole
