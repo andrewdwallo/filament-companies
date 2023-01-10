@@ -37,13 +37,13 @@ A Complete Authentication System Kit based on Companies:
 ![Forgot Password](https://user-images.githubusercontent.com/104294090/210308645-ad800d02-7259-4a24-aee4-978b36614428.png)
 ![Terms of Service](https://user-images.githubusercontent.com/104294090/210308650-fe2e39a8-b77d-4e02-b106-5b8f855a7a5f.png)
 ![Privacy Policy](https://user-images.githubusercontent.com/104294090/210308648-9d3b3876-c59b-47be-9fd3-666f8496d279.png)
-![Company Dropdown](https://user-images.githubusercontent.com/104294090/210308642-52aa9631-0d61-4a6f-a414-cf04ee2a884b.png)
-![Company Settings](https://user-images.githubusercontent.com/104294090/210308643-2505b7e4-8878-47bf-82c2-00f394cd4efc.png)
-![User Profile](https://user-images.githubusercontent.com/104294090/210308651-ee2dabd6-42e4-4729-b5b3-ea1c8cc626a1.png)
-![2FA](https://user-images.githubusercontent.com/104294090/210308631-3e5d69e7-ead2-4625-b5f0-f92954b09b19.png)
-![API Tokens](https://user-images.githubusercontent.com/104294090/210308640-e2dd9aac-ea08-4281-848e-290c363aab5d.png)
-![New Company](https://user-images.githubusercontent.com/104294090/210308647-c2a37825-5bfa-4c1d-8c89-bc592da9464c.png)
-![Screenshot_20230103_051858](https://user-images.githubusercontent.com/104294090/210339884-62da2a4c-97cd-4711-b2f3-5e04a72c4a68.png)
+![Company Dropdown](https://user-images.githubusercontent.com/104294090/211498279-ab142a63-3915-4fc7-971d-70cc7b2e3237.png)
+![Company Settings](https://user-images.githubusercontent.com/104294090/211498297-10b17ede-e0b1-4fa5-a471-10c8af8b3e7a.png)
+![Create Company](https://user-images.githubusercontent.com/104294090/211498285-a663b1ea-cb7a-4316-bc0d-cfca7ba07616.png)
+![User Profile](https://user-images.githubusercontent.com/104294090/211498287-a0c36890-88a7-4ee2-9ee9-cd2580bb82fb.png)
+![2FA](https://user-images.githubusercontent.com/104294090/211498291-1085449c-f3e6-4896-bf0a-ed9f39a8e0b0.png)
+![API Tokens](https://user-images.githubusercontent.com/104294090/211498294-88cdd753-f690-41c4-a48a-3fed9ae58dd3.png)
+![Registration Dark](https://user-images.githubusercontent.com/104294090/210339884-62da2a4c-97cd-4711-b2f3-5e04a72c4a68.png)
 
 
 
