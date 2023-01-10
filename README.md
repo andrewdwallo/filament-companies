@@ -199,4 +199,5 @@ php artisan filament-companies:install filament --companies
 
 * NavigationMenu.php class component listener needs to actually refresh after a form is saved (This is connected to a render hook in FilamentCompaniesServiceProvider)
 * Test need to be updated
+* Documentation specific to Filament (e.g. Examples of using FilamentCompanies' Traits, Closures, Permissions/Roles, etc...)
 * Any other things you notice that you would like to improve that would benefit everyone as a whole
