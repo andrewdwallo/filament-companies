@@ -63,6 +63,8 @@ class FilamentCompaniesServiceProvider extends ServiceProvider
     {
         $this->loadViewsFrom(__DIR__.'/../resources/views', 'filament-companies');
 
+        $this->loadTranslationsFrom(__DIR__.'/../lang', 'filament-companies');
+
         Fortify::viewPrefix('auth.');
 
         $this->configureComponents();

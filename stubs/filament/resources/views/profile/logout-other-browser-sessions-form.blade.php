@@ -1,19 +1,17 @@
 <x-filament-companies::grid-section class="mt-8">
     <x-slot name="title">
-        {{ __('Browser Sessions') }}
+        {{ __('filament-companies::default.grid_section_titles.browser_sessions') }}
     </x-slot>
 
     <x-slot name="description">
-        {{ __('Manage and log out your active sessions on other browsers and devices.') }}
+        {{ __('filament-companies::default.grid_section_descriptions.browser_sessions') }}
     </x-slot>
 
 
     <x-filament::card class="col-span-2 mt-5 sm:col-span-1 md:mt-0">
 
         <div class="max-w-xl text-sm text-gray-600 dark:text-gray-400">
-            {{ __('If necessary, you may log out of all of your other browser sessions across all of your devices. Some
-                        of your recent sessions are listed below; however, this list may not be exhaustive. If you feel your account
-                        has been compromised, you should also update your password.') }}
+            {{ __('filament-companies::default.subheadings.profile.logout_other_browser_sessions') }}
         </div>
 
         @if (count($this->sessions) > 0)
@@ -44,8 +42,8 @@
 
                         <div class="ml-3">
                             <div class="text-sm text-gray-600 dark:text-gray-400">
-                                {{ $session->agent->platform() ? $session->agent->platform() : 'Unknown' }} -
-                                {{ $session->agent->browser() ? $session->agent->browser() : 'Unknown' }}
+                                {{ $session->agent->platform() ? $session->agent->platform() : 'filament-companies::default.labels.unknown' }} -
+                                {{ $session->agent->browser() ? $session->agent->browser() : 'filament-companies::default.labels.unknown' }}
                             </div>
 
                             <div>
@@ -53,9 +51,9 @@
                                     {{ $session->ip_address }},
 
                                     @if ($session->is_current_device)
-                                        <span class="font-semibold text-primary-500">{{ __('This device') }}</span>
+                                        <span class="font-semibold text-primary-500">{{ __('filament-companies::default.labels.this_device') }}</span>
                                     @else
-                                        {{ __('Last active') }} {{ $session->last_active }}
+                                        {{ __('filament-companies::default.labels.last_active') }} {{ $session->last_active }}
                                     @endif
                                 </div>
                             </div>
@@ -68,11 +66,11 @@
         <x-slot name="footer">
             <div class="text-left">
                 <x-filament::button wire:click="confirmLogout" wire:loading.attr="disabled">
-                    {{ __('Log Out Other Browser Sessions') }}
+                    {{ __('filament-companies::default.buttons.logout_browser_sessions') }}
                 </x-filament::button>
 
                 <x-filament-companies::action-message class="ml-3" on="loggedOut">
-                    {{ __('Done.') }}
+                    {{ __('filament-companies::default.buttons.done') }}
                 </x-filament-companies::action-message>
             </div>
         </x-slot>
@@ -81,17 +79,16 @@
         <x-filament-companies::dialog-modal wire:model="confirmingLogout" maxWidth="md"
             class="flex items-center justify-center space-x-2 rtl:space-x-reverse">
             <x-slot name="title">
-                {{ __('Log Out Other Browser Sessions') }}
+                {{ __('filament-companies::default.modal_titles.logout_browser_sessions') }}
             </x-slot>
 
             <x-slot name="content">
-                {{ __('Please enter your password to confirm you would like to log out of your other browser sessions
-                                across all of your devices.') }}
+                {{ __('filament-companies::default.modal_descriptions.logout_browser_sessions') }}
 
                 <div class="mt-4" x-data="{}"
                     x-on:confirming-logout-other-browser-sessions.window="setTimeout(() => $refs.password.focus(), 250)">
                     <x-filament-companies::input type="password" class="mt-1 block w-3/4"
-                        placeholder="{{ __('Password') }}" x-ref="password" wire:model.defer="password"
+                        placeholder="{{ __('filament-companies::default.fields.password') }}" x-ref="password" wire:model.defer="password"
                         wire:keydown.enter="logoutOtherBrowserSessions" />
 
                     <x-filament-companies::input-error for="password" class="mt-2" />
@@ -101,11 +98,11 @@
             <x-slot name="footer">
                 <x-filament::button color="gray" class="mr-3" wire:click="$toggle('confirmingLogout')"
                     wire:loading.attr="disabled">
-                    {{ __('Cancel') }}
+                    {{ __('filament-companies::default.buttons.cancel') }}
                 </x-filament::button>
 
                 <x-filament::button class="ml-3" wire:click="logoutOtherBrowserSessions" wire:loading.attr="disabled">
-                    {{ __('Log Out Other Browser Sessions') }}
+                    {{ __('filament-companies::default.buttons.logout_browser_sessions') }}
                 </x-filament::button>
             </x-slot>
         </x-filament-companies::dialog-modal>

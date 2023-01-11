@@ -2,11 +2,11 @@
     <!-- Generate API Token -->
     <x-filament-companies::grid-section class="mt-8">
         <x-slot name="title">
-            {{ __('Create API Token') }}
+            {{ __('filament-companies::default.grid_section_titles.create_api_token') }}
         </x-slot>
 
         <x-slot name="description">
-            {{ __('API tokens allow third-party services to authenticate with our application on your behalf.') }}
+            {{ __('filament-companies::default.grid_section_descriptions.create_api_token') }}
         </x-slot>
 
         <div class="space-y-3">
@@ -14,7 +14,7 @@
             <form wire:submit.prevent="createApiToken" class="col-span-2 mt-5 sm:col-span-1 md:mt-0">
                 <x-filament::card>
                     <div class="col-span-6 sm:col-span-4">
-                        <x-filament-companies::label for="name" :value="__('Token Name')" />
+                        <x-filament-companies::label for="name" :value="__('filament-companies::default.labels.token_name')" />
                         <x-filament-companies::input id="name" type="text" class="mt-1 block w-full"
                             wire:model.defer="createApiTokenForm.name" autofocus />
                         <x-filament-companies::input-error for="name" class="mt-2" />
@@ -23,7 +23,7 @@
                     <!-- Token Permissions -->
                     @if (Wallo\FilamentCompanies\FilamentCompanies::hasPermissions())
                         <div class="col-span-6">
-                            <x-filament-companies::label for="permissions" value="{{ __('Permissions') }}" />
+                            <x-filament-companies::label for="permissions" value="{{ __('filament-companies::default.labels.permissions') }}" />
 
                             <div class="mt-2 grid grid-cols-1 gap-4 md:grid-cols-2">
                                 @foreach (Wallo\FilamentCompanies\FilamentCompanies::$permissions as $permission)
@@ -42,7 +42,7 @@
                     <x-slot name="footer">
                         <div class="text-left">
                             <x-filament::button type="submit">
-                                {{ __('Create') }}
+                                {{ __('filament-companies::default.buttons.create') }}
                             </x-filament::button>
                         </div>
                     </x-slot>
@@ -57,7 +57,7 @@
                 <div class="mt-10 sm:mt-0">
                     <x-filament::card class="col-span-2 mt-5 sm:col-span-1 md:mt-0">
                         <h3 class="text-lg font-medium text-gray-900 dark:text-white">
-                            {{ __('Manage API Tokens') }}
+                            {{ __('filament-companies::default.headings.api.api_token_manager.manage_api_tokens') }}
                         </h3>
 
                         <!-- API Token List -->
@@ -71,18 +71,18 @@
                                 <div class="flex items-center">
                                     @if ($token->last_used_at)
                                         <div class="text-sm text-gray-400">
-                                            {{ __('Last used') }} {{ $token->last_used_at->diffForHumans() }}
+                                            {{ __('filament-companies::default.labels.last_used') }} {{ $token->last_used_at->diffForHumans() }}
                                         </div>
                                     @endif
 
                                     @if (Wallo\FilamentCompanies\FilamentCompanies::hasPermissions())
                                         <x-filament::icon-button icon="heroicon-o-key" class="mr-3"
-                                            tooltip="Permissions"
+                                            tooltip="{{ __('filament-companies::default.buttons.permissions') }}"
                                             wire:click="manageApiTokenPermissions({{ $token->id }})" />
                                     @endif
 
                                     <x-filament::icon-button color="danger" icon="heroicon-o-trash" class="ml-3"
-                                        tooltip="Delete" wire:click="confirmApiTokenDeletion({{ $token->id }})" />
+                                        tooltip="{{ __('filament-companies::default.buttons.delete') }}" wire:click="confirmApiTokenDeletion({{ $token->id }})" />
                                 </div>
                             </div>
                         @endforeach
@@ -94,12 +94,12 @@
             <x-filament-companies::dialog-modal wire:model="displayingToken" maxWidth="md"
                 class="flex items-center justify-center space-x-2 rtl:space-x-reverse">
                 <x-slot name="title">
-                    {{ __('API Token') }}
+                    {{ __('filament-companies::default.modal_titles.api_token') }}
                 </x-slot>
 
                 <x-slot name="content">
                     <div>
-                        {{ __('Please copy your new API token. For your security, it won\'t be shown again.') }}
+                        {{ __('filament-companies::default.modal_descriptions.api_token') }}
                     </div>
 
                     <x-filament-companies::input x-ref="plaintextToken" type="text" readonly :value="$plainTextToken"
@@ -111,7 +111,7 @@
                 <x-slot name="footer">
                     <x-filament::button color="gray" wire:click="$set('displayingToken', false)"
                         wire:loading.attr="disabled">
-                        {{ __('Close') }}
+                        {{ __('filament-companies::default.buttons.close') }}
                     </x-filament::button>
                 </x-slot>
             </x-filament-companies::dialog-modal>
@@ -120,7 +120,7 @@
             <x-filament-companies::dialog-modal wire:model="managingApiTokenPermissions" maxWidth="md"
                 class="flex items-center justify-center space-x-2 rtl:space-x-reverse">
                 <x-slot name="title">
-                    {{ __('API Token Permissions') }}
+                    {{ __('filament-companies::default.modal_titles.api_token_permissions') }}
                 </x-slot>
 
                 <x-slot name="content">
@@ -138,12 +138,12 @@
                 <x-slot name="footer">
                     <x-filament::button color="gray" class="mr-3"
                         wire:click="$set('managingApiTokenPermissions', false)" wire:loading.attr="disabled">
-                        {{ __('Cancel') }}
+                        {{ __('filament-companies::default.buttons.cancel') }}
                     </x-filament::button>
 
                     <x-filament::button type="submit" class="ml-3" wire:click="updateApiToken"
                         wire:loading.attr="disabled">
-                        {{ __('Save') }}
+                        {{ __('filament-companies::default.buttons.save') }}
                     </x-filament::button>
                 </x-slot>
             </x-filament-companies::dialog-modal>
@@ -152,22 +152,22 @@
             <x-filament-companies::dialog-modal wire:model="confirmingApiTokenDeletion" maxWidth="md"
                 class="flex items-center justify-center space-x-2 rtl:space-x-reverse">
                 <x-slot name="title">
-                    {{ __('Delete API Token') }}
+                    {{ __('filament-companies::default.modal_titles.delete_api_token') }}
                 </x-slot>
 
                 <x-slot name="content">
-                    {{ __('Are you sure you would like to delete this API token?') }}
+                    {{ __('filament-companies::default.modal_descriptions.delete_api_token') }}
                 </x-slot>
 
                 <x-slot name="footer">
                     <x-filament::button color="gray" class="mr-3" wire:click="$toggle('confirmingApiTokenDeletion')"
                         wire:loading.attr="disabled">
-                        {{ __('Cancel') }}
+                        {{ __('filament-companies::default.buttons.cancel') }}
                     </x-filament::button>
 
                     <x-filament::button color="danger" class="ml-3" wire:click="deleteApiToken"
                         wire:loading.attr="disabled">
-                        {{ __('Delete') }}
+                        {{ __('filament-companies::default.buttons.delete') }}
                     </x-filament::button>
                 </x-slot>
             </x-filament-companies::dialog-modal>

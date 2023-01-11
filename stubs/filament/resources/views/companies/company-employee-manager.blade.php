@@ -5,25 +5,24 @@
         <div class="mt-10 sm:mt-0">
             <x-filament-companies::grid-section class="mt-8">
                 <x-slot name="title">
-                    {{ __('Add Company Employee') }}
+                    {{ __('filament-companies::default.grid_section_titles.add_company_employee') }}
                 </x-slot>
 
                 <x-slot name="description">
-                    {{ __('Add a new company employee to your company, allowing them to collaborate with you.') }}
+                    {{ __('filament-companies::default.grid_section_descriptions.add_company_employee') }}
                 </x-slot>
 
                 <form wire:submit.prevent="addCompanyEmployee" class="col-span-2 mt-5 sm:col-span-1 md:mt-0">
                     <x-filament::card class="col-span-2 mt-5 sm:col-span-1 md:mt-0">
                         <div class="col-span-6">
                             <p class="mt-1 text-sm text-gray-600 dark:text-gray-100">
-                                {{ __('Please provide the email address of the person you would like to add to this
-                                                            company.') }}
+                                {{ __('filament-companies::default.subheadings.companies.company_employee_manager') }}
                             </p>
                         </div>
 
                         <!-- Employee Email -->
                         <div class="col-span-6 sm:col-span-4">
-                            <x-filament-companies::label for="email" value="{{ __('Email') }}" />
+                            <x-filament-companies::label for="email" value="{{ __('filament-companies::default.fields.email') }}" />
                             <x-filament-companies::input id="email" type="email" class="mt-1 block w-full"
                                 wire:model.defer="addCompanyEmployeeForm.email" />
                             <x-filament-companies::input-error for="email" class="mt-2" />
@@ -32,7 +31,7 @@
                         <!-- Role -->
                         @if (count($this->roles) > 0)
                             <div class="col-span-6 lg:col-span-4">
-                                <x-filament-companies::label for="role" value="{{ __('Role') }}" />
+                                <x-filament-companies::label for="role" value="{{ __('filament-companies::default.labels.role') }}" />
                                 <x-filament-companies::input-error for="role" class="mt-2" />
 
                                 <div
@@ -74,7 +73,7 @@
                         <x-slot name="footer">
                             <div class="text-left">
                                 <x-filament::button type="submit">
-                                    {{ __('Add') }}
+                                    {{ __('filament-companies::default.buttons.add') }}
                                 </x-filament::button>
                             </div>
                         </x-slot>
@@ -91,18 +90,17 @@
         <div class="mt-10 sm:mt-0">
             <x-filament-companies::action-section class="mt-8">
                 <x-slot name="title">
-                    {{ __('Pending Company Invitations') }}
+                    {{ __('filament-companies::default.action_section_titles.pending_company_invitations') }}
                 </x-slot>
 
                 <x-slot name="description">
-                    {{ __('These people have been invited to your company and have been sent an invitation email. They may
-                                    join the company by accepting the email invitation.') }}
+                    {{ __('filament-companies::default.action_section_descriptions.pending_company_invitations') }}
                 </x-slot>
 
                 <x-slot name="content">
                     <x-filament::card class="col-span-2 mt-5 sm:col-span-1 md:mt-0">
                         <h3 class="text-lg font-medium text-gray-900 dark:text-white">
-                            {{ __('Pending Invitations') }}
+                            {{ __('filament-companies::default.headings.companies.company_employee_manager.pending_invitations') }}
                         </h3>
 
                         @foreach ($company->companyInvitations as $invitation)
@@ -114,7 +112,7 @@
                                     @if (Gate::check('removeCompanyEmployee', $company))
                                         <!-- Cancel Company Invitation -->
                                         <x-filament::icon-button color="gray" icon="heroicon-o-x-circle"
-                                            tooltip="Cancel"
+                                            tooltip="{{ __('filament-companies::default.buttons.cancel') }}"
                                             wire:click="cancelCompanyInvitation({{ $invitation->id }})" />
                                     @endif
                                 </div>
@@ -134,18 +132,18 @@
         <div class="mt-10 sm:mt-0">
             <x-filament-companies::action-section class="mt-8">
                 <x-slot name="title">
-                    {{ __('Company Employees') }}
+                    {{ __('filament-companies::default.action_section_titles.company_employees') }}
                 </x-slot>
 
                 <x-slot name="description">
-                    {{ __('All of the people that are part of this company.') }}
+                    {{ __('filament-companies::default.action_section_descriptions.company_employees') }}
                 </x-slot>
 
                 <!-- Company Employee List -->
                 <x-slot name="content">
                     <x-filament::card class="col-span-2 mt-5 sm:col-span-1 md:mt-0">
                         <h3 class="text-lg font-medium text-gray-900 dark:text-white">
-                            {{ __('Manage Employees') }}
+                            {{ __('filament-companies::default.headings.companies.company_employee_manager.manage_employees') }}
                         </h3>
 
                         @foreach ($company->users->sortBy('name') as $user)
@@ -174,14 +172,14 @@
                                     @if ($this->user->id === $user->id)
                                         <x-filament::button color="danger" class="ml-6 cursor-pointer text-sm"
                                             wire:click="$toggle('confirmingLeavingCompany')">
-                                            {{ __('Leave') }}
+                                            {{ __('filament-companies::default.buttons.leave') }}
                                         </x-filament::button>
 
                                         <!-- Remove Company Employee -->
                                     @elseif (Gate::check('removeCompanyEmployee', $company))
                                         <x-filament::button color="danger" class="ml-6 cursor-pointer text-sm"
                                             wire:click="confirmCompanyEmployeeRemoval('{{ $user->id }}')">
-                                            {{ __('Remove') }}
+                                            {{ __('filament-companies::default.buttons.remove') }}
                                         </x-filament::button>
                                     @endif
                                 </div>
@@ -197,7 +195,7 @@
     <!-- Role Management Modal -->
     <x-filament-companies::dialog-modal wire:model="currentlyManagingRole">
         <x-slot name="title">
-            {{ __('Manage Role') }}
+            {{ __('filament-companies::default.modal_titles.manage_role') }}
         </x-slot>
 
         <x-slot name="content">
@@ -236,11 +234,11 @@
         <x-slot name="footer">
             <x-filament::button color="gray" class="mr-3" wire:click="stopManagingRole"
                 wire:loading.attr="disabled">
-                {{ __('Cancel') }}
+                {{ __('filament-companies::default.buttons.cancel') }}
             </x-filament::button>
 
             <x-filament::button class="ml-3" wire:click="updateRole" wire:loading.attr="disabled">
-                {{ __('Save') }}
+                {{ __('filament-companies::default.buttons.save') }}
             </x-filament::button>
         </x-slot>
     </x-filament-companies::dialog-modal>
@@ -248,20 +246,20 @@
     <!-- Leave Company Confirmation Modal -->
     <x-filament-companies::dialog-modal wire:model="confirmingLeavingCompany">
         <x-slot name="title">
-            {{ __('Leave Company') }}
+            {{ __('filament-companies::default.modal_titles.leave_company') }}
         </x-slot>
 
         <x-slot name="content">
-            {{ __('Are you sure you would like to leave this company?') }}
+            {{ __('filament-companies::default.modal_descriptions.leave_company') }}
         </x-slot>
 
         <x-slot name="footer">
             <x-filament::button wire:click="$toggle('confirmingLeavingCompany')" wire:loading.attr="disabled">
-                {{ __('Cancel') }}
+                {{ __('filament-companies::default.buttons.cancel') }}
             </x-filament::button>
 
             <x-filament::button class="ml-3" wire:click="leaveCompany" wire:loading.attr="disabled">
-                {{ __('Leave') }}
+                {{ __('filament-companies::default.buttons.leave') }}
             </x-filament::button>
         </x-slot>
     </x-filament-companies::dialog-modal>
@@ -269,20 +267,20 @@
     <!-- Remove Company Employee Confirmation Modal -->
     <x-filament-companies::dialog-modal wire:model="confirmingCompanyEmployeeRemoval">
         <x-slot name="title">
-            {{ __('Remove Company Employee') }}
+            {{ __('filament-companies::default.modal_titles.remove_company_employee') }}
         </x-slot>
 
         <x-slot name="content">
-            {{ __('Are you sure you would like to remove this person from the company?') }}
+            {{ __('filament-companies::default.modal_descriptions.remove_company_employee') }}
         </x-slot>
 
         <x-slot name="footer">
             <x-filament::button wire:click="$toggle('confirmingCompanyEmployeeRemoval')" wire:loading.attr="disabled">
-                {{ __('Cancel') }}
+                {{ __('filament-companies::default.buttons.cancel') }}
             </x-filament::button>
 
             <x-filament::button class="ml-3" wire:click="removeCompanyEmployee" wire:loading.attr="disabled">
-                {{ __('Remove') }}
+                {{ __('filament-companies::default.buttons.remove') }}
             </x-filament::button>
         </x-slot>
     </x-filament-companies::dialog-modal>
