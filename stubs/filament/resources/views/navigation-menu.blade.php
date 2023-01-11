@@ -15,21 +15,21 @@
 
             <!-- Company Management -->
             <x-filament::dropdown.header :icon="'heroicon-s-user-group'">
-                {{ __('Manage Company') }}
+                {{ __('filament-companies::default.navigation.headers.manage_company') }}
             </x-filament::dropdown.header>
 
             <!-- Company Settings -->
             <x-filament::dropdown.list>
                 <x-filament::dropdown.list.item :icon="'heroicon-s-cog'">
                     <x-filament-companies::dropdown-link href="{{ route('filament.pages.show') }}">
-                        {{ __('Company Settings') }}
+                        {{ __('filament-companies::default.navigation.links.company_settings') }}
                     </x-filament-companies::dropdown-link>
                 </x-filament::dropdown.list.item>
 
                 @can('create', Wallo\FilamentCompanies\FilamentCompanies::newCompanyModel())
                     <x-filament::dropdown.list.item :icon="'heroicon-s-plus-circle'">
                         <x-filament-companies::dropdown-link href="{{ route('filament.pages.create') }}">
-                            {{ __('New Company') }}
+                            {{ __('filament-companies::default.navigation.links.new_company') }}
                         </x-filament-companies::dropdown-link>
                     </x-filament::dropdown.list.item>
                 @endcan
@@ -38,7 +38,7 @@
 
                 <!-- Company Switcher -->
                 <x-filament::dropdown.header :icon="'heroicon-s-adjustments'">
-                    {{ __('Switch Companies') }}
+                    {{ __('filament-companies::default.navigation.headers.switch_companies') }}
                 </x-filament::dropdown.header>
 
                 <div class="border-t border-gray-100"></div>
