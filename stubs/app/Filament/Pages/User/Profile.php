@@ -11,4 +11,9 @@ class Profile extends Page
     protected static string $view = 'filament.pages.user.profile';
 
     protected static bool $shouldRegisterNavigation = false;
+
+    protected function getTitle(): string
+    {
+        return __('filament-companies::default.pages.titles.profile');
+    }
 }
