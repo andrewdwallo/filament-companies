@@ -85,6 +85,7 @@ return [
             "create_company" => "Create Company",
             "company_settings" => "Company Settings",
             "api_tokens" => "API Tokens",
+            "profile" => "Profile",
         ],
     ],
 
