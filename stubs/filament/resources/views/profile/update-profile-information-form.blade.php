@@ -1,10 +1,10 @@
 <x-filament-companies::grid-section class="mt-8">
     <x-slot name="title">
-        {{ __('Profile Information') }}
+        {{ __('filament-companies::default.grid_section_titles.profile_information') }}
     </x-slot>
 
     <x-slot name="description">
-        {{ __('Update your account\'s profile information and email address.') }}
+        {{ __('filament-companies::default.grid_section_descriptions.profile_information') }}
     </x-slot>
 
     <form wire:submit.prevent="updateProfileInformation" class="col-span-2 mt-5 sm:col-span-1 md:mt-0">
@@ -23,7 +23,7 @@
                                         reader.readAsDataURL($refs.photo.files[0]);
                                 " />
 
-                    <x-filament-companies::label for="photo" value="{{ __('Photo') }}" />
+                    <x-filament-companies::label for="photo" value="{{ __('filament-companies::default.labels.photo') }}" />
 
                     <!-- Current Profile Photo -->
                     <div class="mt-2" x-show="! photoPreview">
@@ -40,12 +40,12 @@
 
                     <div class="text-left">
                         <x-filament::button class="mt-2 mr-2" x-on:click.prevent="$refs.photo.click()">
-                            {{ __('Select A New Photo') }}
+                            {{ __('filament-companies::default.buttons.new_photo') }}
                         </x-filament::button>
 
                         @if ($this->user->profile_photo_path)
                             <x-filament::button color="danger" class="mt-2" wire:click="deleteProfilePhoto">
-                                {{ __('Remove Photo') }}
+                                {{ __('filament-companies::default.buttons.remove_photo') }}
                             </x-filament::button>
                         @endif
 
@@ -56,7 +56,7 @@
 
             <!-- Name -->
             <div class="col-span-6 sm:col-span-4">
-                <x-filament-companies::label for="name" value="{{ __('Name') }}" />
+                <x-filament-companies::label for="name" value="{{ __('filament-companies::default.fields.name') }}" />
                 <x-filament-companies::input id="name" type="text" class="mt-1 block w-full"
                     wire:model.defer="state.name" autocomplete="name" />
                 <x-filament-companies::input-error for="name" class="mt-2" />
@@ -64,7 +64,7 @@
 
             <!-- Email -->
             <div class="col-span-6 sm:col-span-4">
-                <x-filament-companies::label for="email" value="{{ __('Email') }}" />
+                <x-filament-companies::label for="email" value="{{ __('filament-companies::default.fields.email') }}" />
                 <x-filament-companies::input id="email" type="email" class="mt-1 block w-full"
                     wire:model.defer="state.email" />
                 <x-filament-companies::input-error for="email" class="mt-2" />
@@ -72,19 +72,19 @@
                 @if (Laravel\Fortify\Features::enabled(Laravel\Fortify\Features::emailVerification()) &&
                     !$this->user - hasVerifiedEmail())
                     <p class="mt-2 text-sm dark:text-white">
-                        {{ __('Before your email can be updated, you must verify your current email address.') }}
+                        {{ __('filament-companies::default.headings.profile.update_profile_information.verification_link_not_sent') }}
 
                         <x-filament::button type="button"
                             class="text-sm text-gray-600 underline hover:text-gray-900 dark:text-gray-400"
                             wire:click.prevent="sendEmailVerification">
-                            {{ __('Resend Verification Email') }}
+                            {{ __('filament-companies::default.buttons.resend_verification_email') }}
                         </x-filament::button>
                     </p>
 
                     @if ($this->verificationLinkSent)
                         <p v-show="verificationLinkSent"
                             class="mt-2 text-sm font-medium text-green-600 dark:text-green-400">
-                            {{ __('A new verification link has been sent to your email address.') }}
+                            {{ __('filament-companies::default.headings.profile.update_profile_information.verification_link_sent') }}
                         </p>
                     @endif
                 @endif
@@ -93,7 +93,7 @@
             <x-slot name="footer">
                 <div class="text-left">
                     <x-filament::button type="submit" wire:loading.attr="disabled" wire:target="photo">
-                        {{ __('Save') }}
+                        {{ __('filament-companies::default.buttons.save') }}
                     </x-filament::button>
                 </div>
             </x-slot>

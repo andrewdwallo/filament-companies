@@ -39,6 +39,7 @@ return [
         "leave" => "Leave",
         "remove" => "Remove",
         "delete_company" => "Delete Company",
+        "remember_me" => "Remember me",
     ],
 
     "labels" => [
@@ -51,6 +52,10 @@ return [
         "token_name" => "Token Name",
         "permissions" => "Permissions",
         "new_password" => "New Password",
+        "unknown" => "Unknown",
+        "this_device" => "This device",
+        "last_active" => "Last active",
+        "last_used" => "Last used",
     ],
 
     "links" => [
@@ -96,13 +101,13 @@ return [
     ],
 
     "grid_section_descriptions" => [
-        "profile_information" => "Update your account\'s profile information and email address.",
+        "profile_information" => "Update your account's profile information and email address.",
         "update_password" => "Ensure your account is using a long, random password to stay secure.",
         "two_factor_authentication" => "Add additional security to your account using two factor authentication.",
         "browser_sessions" => "Manage and log out your active sessions on other browsers and devices.",
         "delete_account" => "Permanently delete your account.",
         "create_api_token" => "API tokens allow third-party services to authenticate with our application on your behalf.",
-        "company_name" => "The company\'s name and owner information.",
+        "company_name" => "The company's name and owner information.",
         "create_company" => "Create a new company to collaborate with others on projects.",
         "add_company_employee" => "Add a new company employee to your company, allowing them to collaborate with you.",
     ],
@@ -128,15 +133,17 @@ return [
         "remove_company_employee" => "Remove Company Employee",
         "logout_browser_sessions" => "Log Out Other Browser Sessions",
         "delete_account" => "Delete Account",
+        "delete_company" => "Delete Company",
     ],
 
     "modal_descriptions" => [
-        "api_token" => "Please copy your new API token. For your security, it won\'t be shown again.",
+        "api_token" => "Please copy your new API token. For your security, it won't be shown again.",
         "delete_api_token" => "Are you sure you would like to delete this API token?",
         "leave_company" => "Are you sure you would like to leave this company?",
         "remove_company_employee" => "Are you sure you would like to remove this person from the company?",
         "logout_browser_sessions" => "Please enter your password to confirm you would like to log out of your other browser sessions across all of your devices.",
         "delete_account" => "Are you sure you want to delete your account? Once your account is deleted, all of its resources and data will be permanently deleted. Please enter your password to confirm you would like to permanently delete your account.",
+        "delete_company" => "Are you sure you want to delete this company? Once a company is deleted, all of its resources and data will be permanently deleted.",
     ],
 
     "headings" => [
@@ -150,7 +157,7 @@ return [
                 "emergency_recovery_code" => "Please confirm access to your account by entering one of your emergency recovery codes.",
             ],
             "verify_email" => [
-                "verification_link_not_sent" => "Before continuing, could you verify your email address by clicking on the link we just emailed to you? If you didn\'t receive the email, we will gladly send you another.",
+                "verification_link_not_sent" => "Before continuing, could you verify your email address by clicking on the link we just emailed to you? If you didn't receive the email, we will gladly send you another.",
                 "verification_link_sent" => "A new verification link has been sent to the email address you provided in your profile settings.",
             ],
         ],
@@ -191,9 +198,9 @@ return [
 
         "profile" => [
             "two_factor_authentication" => [
-                "summary" => "When two factor authentication is enabled, you will be prompted for a secure, random token during authentication. You may retrieve this token from your phone\'s Google Authenticator application.",
-                "finish_enabling" => "To finish enabling two factor authentication, scan the following QR code using your phone\'s authenticator application or enter the setup key and provide the generated OTP code.",
-                "enabled" => "Two factor authentication is now enabled. Scan the following QR code using your phone\'s authenticator application or enter the setup key.",
+                "summary" => "When two factor authentication is enabled, you will be prompted for a secure, random token during authentication. You may retrieve this token from your phone's Google Authenticator application.",
+                "finish_enabling" => "To finish enabling two factor authentication, scan the following QR code using your phone's authenticator application or enter the setup key and provide the generated OTP code.",
+                "enabled" => "Two factor authentication is now enabled. Scan the following QR code using your phone's authenticator application or enter the setup key.",
                 "store_codes" => "Store these recovery codes in a secure password manager. They can be used to recover access to your account if your two factor authentication device is lost.",
             ],
 
@@ -203,6 +210,7 @@ return [
 
         "companies" => [
             "company_employee_manager" => "Please provide the email address of the person you would like to add to this company.",
+            "delete_company" => "Once a company is deleted, all of its resources and data will be permanently deleted. Before deleting this company, please download any data or information regarding this company that you wish to retain."
         ],
     ],
 ];

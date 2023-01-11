@@ -1,11 +1,11 @@
 <x-guest-layout>
 
         <h2 class="text-2xl font-bold tracking-tight text-center">
-            {{ __('Forgot your password?') }}
+            {{ __('filament-companies::default.headings.auth.forgot_password') }}
         </h2>
 
         <div class="mt-4 text-sm text-center text-gray-600 dark:text-gray-400">
-            {{ __('Just let us know your email address and we will email you a password reset link that will allow you to choose a new one.') }}
+            {{ __('filament-companies::default.subheadings.auth.forgot_password') }}
         </div>
 
         @if (session('status'))
@@ -20,13 +20,13 @@
             @csrf
 
             <div class="block">
-                <x-filament-companies::label for="email" value="{{ __('Email') }}" />
+                <x-filament-companies::label for="email" value="{{ __('filament-companies::default.fields.email') }}" />
                 <x-filament-companies::input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autofocus />
             </div>
 
             <div class="flex items-center justify-end mt-4">
                 <x-filament::button type="submit">
-                    {{ __('Email Password Reset Link') }}
+                    {{ __('filament-companies::default.buttons.email_password_reset_link') }}
                 </x-filament::button>
             </div>
         </form>
