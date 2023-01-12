@@ -1,4 +1,4 @@
-<x-guest-layout>
+<x-filament::components.layouts.card>
 
         <h2 class="text-2xl font-bold tracking-tight text-center">
             {{ __('filament-companies::default.headings.auth.forgot_password') }}
@@ -30,4 +30,4 @@
                 </x-filament::button>
             </div>
         </form>
-</x-guest-layout>
+</x-filament::components.layouts.card>

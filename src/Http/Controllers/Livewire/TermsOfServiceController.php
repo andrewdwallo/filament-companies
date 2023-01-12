@@ -19,7 +19,7 @@ class TermsOfServiceController extends Controller
     {
         $termsFile = FilamentCompanies::localizedMarkdownPath('terms.md');
 
-        return view('terms', [
+        return view('filament-companies::terms', [
             'terms' => Str::markdown(file_get_contents($termsFile)),
         ]);
     }

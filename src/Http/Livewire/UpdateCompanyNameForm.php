@@ -74,6 +74,6 @@ class UpdateCompanyNameForm extends Component
      */
     public function render()
     {
-        return view('companies.update-company-name-form');
+        return view('filament-companies::components.companies.update-company-name-form');
     }
 }

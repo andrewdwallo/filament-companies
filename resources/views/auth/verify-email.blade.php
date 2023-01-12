@@ -1,4 +1,4 @@
-<x-guest-layout>
+<x-filament::components.layouts.card>
 
         <div class="mb-4 text-sm text-gray-600 dark:text-gray-400">
             {{ __('filament-companies::default.headings.auth.verify_email.verification_link_not_sent') }}
@@ -37,4 +37,4 @@
                 </form>
             </div>
         </div>
-</x-guest-layout>
+</x-filament::components.layouts.card>

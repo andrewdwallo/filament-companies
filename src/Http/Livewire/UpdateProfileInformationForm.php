@@ -114,6 +114,6 @@ class UpdateProfileInformationForm extends Component
      */
     public function render()
     {
-        return view('profile.update-profile-information-form');
+        return view('filament-companies::components.profile.update-profile-information-form');
     }
 }

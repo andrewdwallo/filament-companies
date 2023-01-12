@@ -1,4 +1,4 @@
-<x-guest-layout>
+<x-filament::components.layouts.card>
 
         <div x-data="{ recovery: false }">
             <div class="mb-4 text-sm text-gray-600 dark:text-gray-400" x-show="! recovery">
@@ -49,4 +49,4 @@
                 </div>
             </form>
         </div>
-</x-guest-layout>
+</x-filament::components.layouts.card>

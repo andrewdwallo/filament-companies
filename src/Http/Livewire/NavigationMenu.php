@@ -22,6 +22,6 @@ class NavigationMenu extends Component
      */
     public function render()
     {
-        return view('navigation-menu');
+        return view('filament-companies::components.dropdown.navigation-menu');
     }
 }

@@ -14,6 +14,8 @@ use Wallo\FilamentCompanies\FilamentCompanies;
 use Filament\Facades\Filament;
 use Illuminate\Contracts\View\View;
 use Filament\Navigation\UserMenuItem;
+use Wallo\FilamentCompanies\Pages\User\APITokens;
+use Wallo\FilamentCompanies\Pages\User\Profile;
 
 class FilamentCompaniesServiceProvider extends ServiceProvider
 {
@@ -36,13 +38,13 @@ class FilamentCompaniesServiceProvider extends ServiceProvider
         if (FilamentCompanies::hasCompanyFeatures()) {
             Filament::registerRenderHook(
                 'global-search.start',
-                fn (): View => view('navigation-menu'),
+                fn (): View => view('filament-companies::components.dropdown.navigation-menu'),
             );
         }
 
         Filament::serving(function () {
             Filament::registerUserMenuItems([
-                'account' => UserMenuItem::make()->url(route('filament.pages.profile')),
+                'account' => UserMenuItem::make()->url(Profile::getUrl()),
                 // ...
             ]);
         });
@@ -53,14 +55,14 @@ class FilamentCompaniesServiceProvider extends ServiceProvider
                     UserMenuItem::make()
                     ->label('API Tokens')
                     ->icon('heroicon-s-lock-open')
-                    ->url(route('filament.pages.api-tokens')),
+                    ->url(APITokens::getUrl()),
                 ]);
             });
         }
 
         Filament::serving(function() {
             Filament::registerUserMenuItems([
-                'logout' => UserMenuItem::make()->url(route('logout'))
+                'logout' => UserMenuItem::make()->url(route(config('filament.home_url'))),
             ]);
         });
 

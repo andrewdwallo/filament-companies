@@ -2,13 +2,14 @@
 
 use Illuminate\Support\Facades\Route;
 use Wallo\FilamentCompanies\Http\Controllers\CurrentCompanyController;
-use Wallo\FilamentCompanies\Http\Controllers\Livewire\ApiTokenController;
 use Wallo\FilamentCompanies\Http\Controllers\Livewire\PrivacyPolicyController;
-use Wallo\FilamentCompanies\Http\Controllers\Livewire\CompanyController;
 use Wallo\FilamentCompanies\Http\Controllers\Livewire\TermsOfServiceController;
-use Wallo\FilamentCompanies\Http\Controllers\Livewire\UserProfileController;
 use Wallo\FilamentCompanies\Http\Controllers\CompanyInvitationController;
 use Wallo\FilamentCompanies\FilamentCompanies;
+use Wallo\FilamentCompanies\Pages\Companies\CompanySettings;
+use Wallo\FilamentCompanies\Pages\Companies\CreateCompany;
+use Wallo\FilamentCompanies\Pages\User\APITokens;
+use Wallo\FilamentCompanies\Pages\User\Profile;
 
 Route::group(['middleware' => config('filament-companies.middleware', ['web'])], function () {
     if (FilamentCompanies::hasTermsAndPrivacyPolicyFeature()) {
@@ -26,20 +27,20 @@ Route::group(['middleware' => config('filament-companies.middleware', ['web'])],
 
     Route::group(['middleware' => array_values(array_filter([$authMiddleware, $authSessionMiddleware]))], function () {
         // User & Profile...
-        Route::get('/user/profile', [UserProfileController::class, 'show'])->name('filament.pages.profile');
+        Route::get('/user/profile', [Profile::class, 'show']);
 
         Route::group(['middleware' => 'verified'], function () {
             // API...
             if (FilamentCompanies::hasApiFeatures()) {
-                Route::get('/user/api-tokens', [ApiTokenController::class, 'index'])->name('filament.pages.api-tokens');
+                Route::get('/user/api-tokens', [APITokens::class, 'index']);
 
             }
 
             // Companies...
             if (FilamentCompanies::hasCompanyFeatures()) {
-                Route::get('/companies/create', [CompanyController::class, 'create'])->name('filament.pages.create');
+                Route::get('/companies/create', [CreateCompany::class, 'create']);
 
-                Route::get('/companies/{company}', [CompanyController::class, 'show'])->name('filament.pages.show');
+                Route::get('/companies/{company}', [CompanySettings::class, 'show']);
                 Route::put('/current-company', [CurrentCompanyController::class, 'update'])->name('current-company.update');
 
                 Route::get('/company-invitations/{invitation}', [CompanyInvitationController::class, 'accept'])

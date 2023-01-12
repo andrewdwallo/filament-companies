@@ -269,6 +269,6 @@ class CompanyEmployeeManager extends Component
      */
     public function render()
     {
-        return view('companies.company-employee-manager');
+        return view('filament-companies::components.companies.company-employee-manager');
     }
 }
