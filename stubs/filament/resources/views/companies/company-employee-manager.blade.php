@@ -158,12 +158,12 @@
                                 <div class="flex items-center">
                                     <!-- Manage Company Employee Role -->
                                     @if (Gate::check('addCompanyEmployee', $company) && Wallo\FilamentCompanies\FilamentCompanies::hasRoles())
-                                        <button class="ml-2 text-sm text-gray-400 underline dark:text-gray-200"
+                                        <button class="ml-2 mr-2 text-sm text-gray-400 underline dark:text-gray-200"
                                             wire:click="manageRole('{{ $user->id }}')">
                                             {{ Wallo\FilamentCompanies\FilamentCompanies::findRole($user->employeeship->role)->name }}
                                         </button>
                                     @elseif (Wallo\FilamentCompanies\FilamentCompanies::hasRoles())
-                                        <div class="ml-2 text-sm text-gray-400 dark:text-gray-200">
+                                        <div class="ml-2 mr-2 text-sm text-gray-400 dark:text-gray-200">
                                             {{ Wallo\FilamentCompanies\FilamentCompanies::findRole($user->employeeship->role)->name }}
                                         </div>
                                     @endif
