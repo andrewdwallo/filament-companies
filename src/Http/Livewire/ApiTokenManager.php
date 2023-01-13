@@ -203,6 +203,6 @@ class ApiTokenManager extends Component
      */
     public function render()
     {
-        return view('filament-companies::components.api.api-token-manager');
+        return view('filament-companies::api.api-token-manager');
     }
 }

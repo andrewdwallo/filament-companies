@@ -1,4 +1,4 @@
-<x-filament::components.layouts.card>
+<x-filament::layouts.card>
 
         <h2 class="text-2xl font-bold tracking-tight text-center">
             {{ __('filament-companies::default.headings.auth.login') }}
@@ -52,4 +52,4 @@
                 </x-filament::button>
             </div>
         </form>
-</x-filament::components.layouts.card>
+</x-filament::layouts.card>

@@ -2,6 +2,8 @@
 
 namespace Wallo\FilamentCompanies;
 
+use App\Actions\FilamentCompanies\DeleteCompany;
+use App\Actions\FilamentCompanies\UpdateCompanyName;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
@@ -9,6 +11,17 @@ use Illuminate\View\Compilers\BladeCompiler;
 use Laravel\Fortify\Fortify;
 use Filament\Facades\Filament;
 use Livewire\Livewire;
+use Wallo\FilamentCompanies\Http\Livewire\ApiTokenManager;
+use Wallo\FilamentCompanies\Http\Livewire\CompanyEmployeeManager;
+use Wallo\FilamentCompanies\Http\Livewire\CreateCompanyForm;
+use Wallo\FilamentCompanies\Http\Livewire\DeleteCompanyForm;
+use Wallo\FilamentCompanies\Http\Livewire\DeleteUserForm;
+use Wallo\FilamentCompanies\Http\Livewire\LogoutOtherBrowserSessionsForm;
+use Wallo\FilamentCompanies\Http\Livewire\NavigationMenu;
+use Wallo\FilamentCompanies\Http\Livewire\TwoFactorAuthenticationForm;
+use Wallo\FilamentCompanies\Http\Livewire\UpdateCompanyNameForm;
+use Wallo\FilamentCompanies\Http\Livewire\UpdatePasswordForm;
+use Wallo\FilamentCompanies\Http\Livewire\UpdateProfileInformationForm;
 use Wallo\FilamentCompanies\Pages\Companies\CompanySettings;
 use Wallo\FilamentCompanies\Pages\Companies\CreateCompany;
 use Wallo\FilamentCompanies\Pages\User\APITokens;
@@ -20,6 +33,8 @@ class FilamentCompaniesServiceProvider extends ServiceProvider
 
     protected array $pages = [];
 
+    protected array $views = [];
+
 
     /**
      * Register any application services.
@@ -30,6 +45,28 @@ class FilamentCompaniesServiceProvider extends ServiceProvider
     {
 
         $this->mergeConfigFrom(__DIR__.'/../config/filament-companies.php', 'filament-companies');
+
+        $this->app->afterResolving(BladeCompiler::class, function () {
+            if (config('filament-companies.stack') === 'filament' && class_exists(Livewire::class)) {
+                Livewire::component(NavigationMenu::getName(), NavigationMenu::class);
+                Livewire::component(UpdateProfileInformationForm::getName(), UpdateProfileInformationForm::class);
+                Livewire::component(UpdatePasswordForm::getName(), UpdatePasswordForm::class);
+                Livewire::component(TwoFactorAuthenticationForm::getName(), TwoFactorAuthenticationForm::class);
+                Livewire::component(LogoutOtherBrowserSessionsForm::getName(), LogoutOtherBrowserSessionsForm::class);
+                Livewire::component(DeleteUserForm::getName(), DeleteUserForm::class);
+
+                if (Features::hasApiFeatures()) {
+                    Livewire::component(ApiTokenManager::getName(), ApiTokenManager::class);
+                }
+
+                if (Features::hasCompanyFeatures()) {
+                    Livewire::component(CreateCompanyForm::getName(), CreateCompanyForm::class);
+                    Livewire::component(UpdateCompanyNameForm::getName(), UpdateCompanyNameForm::class);
+                    Livewire::component(CompanyEmployeeManager::getName(), CompanyEmployeeManager::class);
+                    Livewire::component(DeleteCompanyForm::getName(), DeleteCompanyForm::class);
+                }
+            }
+        });
 
         $this->app->resolving('filament', function () {
             Filament::registerPages($this->getPages());
@@ -43,6 +80,7 @@ class FilamentCompaniesServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+
         $this->loadViewsFrom(__DIR__.'/../resources/views', 'filament-companies');
 
         $this->loadTranslationsFrom(__DIR__.'/../lang', 'filament-companies');
@@ -53,10 +91,11 @@ class FilamentCompaniesServiceProvider extends ServiceProvider
 
         Fortify::viewPrefix('filament-companies::auth.');
 
-        //$this->configureComponents();
+        $this->configureComponents();
         $this->configurePublishing();
         $this->configureRoutes();
         $this->configureCommands();
+        $this->registerMacros();
     }
 
     /**
@@ -64,42 +103,47 @@ class FilamentCompaniesServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    //protected function configureComponents()
-    //{
-        //$this->callAfterResolving(BladeCompiler::class, function () {
-            //$this->registerComponent('action-message');
-            //$this->registerComponent('action-section');
-            //$this->registerComponent('confirmation-modal');
-            //$this->registerComponent('confirms-password');
-            //$this->registerComponent('dialog-modal');
-            //$this->registerComponent('dropdown');
-           // $this->registerComponent('dropdown-link');
-           // $this->registerComponent('grid-section');
-            //$this->registerComponent('input');
-           // $this->registerComponent('checkbox');
-           // $this->registerComponent('input-error');
-           // $this->registerComponent('label');
-           // $this->registerComponent('modal');
-           // $this->registerComponent('nav-link');
-           // $this->registerComponent('responsive-nav-link');
-           // $this->registerComponent('responsive-switchable-company');
-            //$this->registerComponent('section-border');
-            //$this->registerComponent('section-title');
-           // $this->registerComponent('switchable-company');
-            //$this->registerComponent('validation-errors');
-        //});
-    //}
+    protected function configureComponents()
+    {
+        $this->callAfterResolving(BladeCompiler::class, function () {
+            Blade::component('filament-companies::components.action-message', 'filament-companies::action-message');
+            Blade::component('filament-companies::components.action-section', 'filament-companies::action-section');
+            Blade::component('filament-companies::components.confirmation-modal', 'filament-companies::confirmation-modal');
+            Blade::component('filament-companies::components.confirms-password', 'filament-companies::confirms-password');
+            Blade::component('filament-companies::components.dialog-modal', 'filament-companies::dialog-modal');
+            Blade::component('filament-companies::components.dropdown', 'filament-companies::dropdown');
+            Blade::component('filament-companies::components.dropdown-link', 'filament-companies::dropdown-link');
+            Blade::component('filament-companies::components.grid-section', 'filament-companies::grid-section');
+            Blade::component('filament-companies::components.input', 'filament-companies::input');
+            Blade::component('filament-companies::components.checkbox', 'filament-companies::checkbox');
+            Blade::component('filament-companies::components.input-error', 'filament-companies::input-error');
+            Blade::component('filament-companies::components.label', 'filament-companies::label');
+            Blade::component('filament-companies::components.modal', 'filament-companies::modal');
+            Blade::component('filament-companies::components.nav-link', 'filament-companies::nav-link');
+            Blade::component('filament-companies::components.responsive-nav-link', 'filament-companies::responsive-nav-link');
+            Blade::component('filament-companies::components.responsive-switchable-company', 'filament-companies::responsive-switchable-company');
+            Blade::component('filament-companies::components.section-border', 'filament-companies::section-border');
+            Blade::component('filament-companies::components.section-title', 'filament-companies::section-title');
+            Blade::component('filament-companies::components.switchable-company', 'filament-companies::switchable-company');
+            Blade::component('filament-companies::components.validation-errors', 'filament-companies::validation-errors');
 
-    /**
-     * Register the given component.
-     *
-     * @param  string  $component
-     * @return void
-     */
-    //protected function registerComponent(string $component)
-    //{
-        //Blade::component('filament-companies::components.'.$component, 'filament-companies::'.$component);
-    //}
+            Blade::component('filament-companies::api.api-token-manager', 'filament-companies::api.api-token-manager');
+            Blade::component('filament-companies::companies.company-employee-manager', 'filament-companies::companies.company-employee-manager');
+
+            Blade::component('filament-companies::companies.create-company-form', 'filament-companies::companies.create-company-form');
+            Blade::component('filament-companies::companies.delete-company-form', 'filament-companies::companies.delete-company-form');
+
+            Blade::component('filament-companies::companies.update-company-name-form', 'filament-companies::companies.update-company-name-form');
+            Blade::component('filament-companies::dropdown.navigation-menu', 'filament-companies::dropdown.navigation-menu');
+
+            Blade::component('filament-companies::profile.delete-user-form', 'filament-companies::profile.delete-user-form');
+            Blade::component('filament-companies::profile.logout-other-browser-sessions-form', 'filament-companies::profile.logout-other-browser-sessions-form');
+
+            Blade::component('filament-companies::profile.two-factor-authentication-form', 'filament-companies::profile.two-factor-authentication-form');
+            Blade::component('filament-companies::profile.update-password-form', 'filament-companies::profile.update-password-form');
+            Blade::component('filament-companies::profile.update-profile-information-form', 'filament-companies::profile.update-profile-information-form');
+        });
+    }
 
     /**
      * Configure publishing for the package.
@@ -116,9 +160,9 @@ class FilamentCompaniesServiceProvider extends ServiceProvider
             __DIR__.'/../stubs/config/filament-companies.php' => config_path('filament-companies.php'),
         ], 'filament-companies-config');
 
-        //$this->publishes([
-            //__DIR__.'/../resources/views' => resource_path('views/vendor/filament-companies'),
-        //], 'filament-companies-views');
+        $this->publishes([
+            __DIR__.'/../resources/views' => resource_path('views/vendor/filament-companies'),
+        ], 'filament-companies-views');
 
         $this->publishes([
             __DIR__.'/../database/migrations/2014_10_12_000000_create_users_table.php' => database_path('migrations/2014_10_12_000000_create_users_table.php'),
@@ -144,8 +188,10 @@ class FilamentCompaniesServiceProvider extends ServiceProvider
     {
         if (FilamentCompanies::$registersRoutes) {
             Route::group([
-                'domain' => config('filament.domain', null),
-                'prefix' => config('filament-companies.prefix', config('filament-companies.path')),
+                'domain' => config('filament.domain'),
+                'middleware' => config('filament.middleware.base'),
+                'name' => config('filament.'),
+                'name' => config('filament-companies.terms_and_privacy_route_group_prefix'),
             ], function () {
                 $this->loadRoutesFrom(__DIR__.'/../routes/web.php');
             });
@@ -176,5 +222,9 @@ class FilamentCompaniesServiceProvider extends ServiceProvider
             CompanySettings::class,
             CreateCompany::class,
         ];
+    }
+
+    protected function registerMacros(): void
+    {
     }
 }

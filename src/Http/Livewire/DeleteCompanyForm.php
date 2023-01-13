@@ -60,6 +60,6 @@ class DeleteCompanyForm extends Component
      */
     public function render()
     {
-        return view('filament-companies::components.companies.delete-company-form');
+        return view('filament-companies::companies.delete-company-form');
     }
 }

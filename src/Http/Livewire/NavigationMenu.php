@@ -2,6 +2,7 @@
 
 namespace Wallo\FilamentCompanies\Http\Livewire;
 
+use Illuminate\Contracts\View\View;
 use Livewire\Component;
 
 class NavigationMenu extends Component
@@ -15,13 +16,8 @@ class NavigationMenu extends Component
         'refresh-navigation-menu' => '$refresh',
     ];
 
-    /**
-     * Render the component.
-     *
-     * @return \Illuminate\View\View
-     */
-    public function render()
+    public function render(): View
     {
-        return view('filament-companies::components.dropdown.navigation-menu');
+        return view('filament-companies::dropdown.navigation-menu');
     }
 }

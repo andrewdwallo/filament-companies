@@ -1,4 +1,4 @@
-<x-filament::components.layouts.card>
+<x-filament::layouts.card>
 
         <div class="mb-4 text-sm text-gray-600 dark:text-gray-400">
             {{ __('filament-companies::default.headings.auth.confirm_password') }}
@@ -20,4 +20,4 @@
                 </x-filament::button>
             </div>
         </form>
-</x-filament::components.layouts.card>
+</x-filament::layouts.card>

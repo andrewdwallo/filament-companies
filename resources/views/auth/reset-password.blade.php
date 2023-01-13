@@ -1,4 +1,4 @@
-<x-filament::components.layouts.card>
+<x-filament::layouts.card>
 
         <x-filament-companies::validation-errors class="mb-4" />
 
@@ -28,4 +28,4 @@
                 </x-filament::button>
             </div>
         </form>
-</x-filament::components.layouts.card>
+</x-filament::layouts.card>

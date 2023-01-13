@@ -11,7 +11,9 @@ use Wallo\FilamentCompanies\Pages\Companies\CreateCompany;
 use Wallo\FilamentCompanies\Pages\User\APITokens;
 use Wallo\FilamentCompanies\Pages\User\Profile;
 
+
 Route::group(['middleware' => config('filament-companies.middleware', ['web'])], function () {
+
     if (FilamentCompanies::hasTermsAndPrivacyPolicyFeature()) {
         Route::get('/terms-of-service', [TermsOfServiceController::class, 'show'])->name('terms.show');
         Route::get('/privacy-policy', [PrivacyPolicyController::class, 'show'])->name('policy.show');
@@ -25,28 +27,31 @@ Route::group(['middleware' => config('filament-companies.middleware', ['web'])],
             ? config('filament-companies.auth_session')
             : null;
 
+
     Route::group(['middleware' => array_values(array_filter([$authMiddleware, $authSessionMiddleware]))], function () {
         // User & Profile...
-        Route::get('/user/profile', [Profile::class, 'show']);
+        Route::prefix(config('filament.path'))
+            ->group(function () {
+                Route::get('/user/profile', Profile::class);
 
-        Route::group(['middleware' => 'verified'], function () {
-            // API...
-            if (FilamentCompanies::hasApiFeatures()) {
-                Route::get('/user/api-tokens', [APITokens::class, 'index']);
+                Route::group(['middleware' => 'verified'], function () {
+                    // API...
+                    if (FilamentCompanies::hasApiFeatures()) {
+                        Route::get('/user/api-tokens', APITokens::class);
+                    }
 
-            }
+                    // Companies...
+                    if (FilamentCompanies::hasCompanyFeatures()) {
+                        Route::get('companies/create-company', CreateCompany::class);
 
-            // Companies...
-            if (FilamentCompanies::hasCompanyFeatures()) {
-                Route::get('/companies/create', [CreateCompany::class, 'create']);
+                        Route::get('companies/company-settings', CompanySettings::class);
+                        Route::put('/current-company', [CurrentCompanyController::class, 'update'])->name('current-company.update');
 
-                Route::get('/companies/{company}', [CompanySettings::class, 'show']);
-                Route::put('/current-company', [CurrentCompanyController::class, 'update'])->name('current-company.update');
-
-                Route::get('/company-invitations/{invitation}', [CompanyInvitationController::class, 'accept'])
-                            ->middleware(['signed'])
-                            ->name('company-invitations.accept');
-            }
+                        Route::get('/company-invitations/{invitation}', [CompanyInvitationController::class, 'accept'])
+                                    ->middleware(['signed'])
+                                    ->name('company-invitations.accept');
+                    }
+                });
+            });
         });
     });
-});

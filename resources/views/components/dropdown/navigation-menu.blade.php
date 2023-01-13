@@ -21,14 +21,14 @@
             <!-- Company Settings -->
             <x-filament::dropdown.list>
                 <x-filament::dropdown.list.item :icon="'heroicon-s-cog'">
-                    <x-filament-companies::dropdown-link href="{{ route('filament.pages.show') }}">
+                    <x-filament-companies::dropdown-link href="{{ url(\Wallo\FilamentCompanies\Pages\Companies\CompanySettings::getUrl()) }}">
                         {{ __('filament-companies::default.navigation.links.company_settings') }}
                     </x-filament-companies::dropdown-link>
                 </x-filament::dropdown.list.item>
 
                 @can('create', Wallo\FilamentCompanies\FilamentCompanies::newCompanyModel())
                     <x-filament::dropdown.list.item :icon="'heroicon-s-plus-circle'">
-                        <x-filament-companies::dropdown-link href="{{ route('filament.pages.create') }}">
+                        <x-filament-companies::dropdown-link href="{{ url(\Wallo\FilamentCompanies\Pages\Companies\CreateCompany::getUrl()) }}">
                             {{ __('filament-companies::default.navigation.links.new_company') }}
                         </x-filament-companies::dropdown-link>
                     </x-filament::dropdown.list.item>

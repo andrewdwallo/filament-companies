@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use Laravel\Fortify\Contracts\UpdatesUserProfileInformation;
 use Livewire\Component;
 use Livewire\WithFileUploads;
+use Wallo\FilamentCompanies\Pages\User\Profile;
 
 class UpdateProfileInformationForm extends Component
 {
@@ -61,7 +62,7 @@ class UpdateProfileInformationForm extends Component
         );
 
         if (isset($this->photo)) {
-            return redirect()->route('filament.pages.profile');
+            return redirect()->to(Profile::getUrl());
         }
 
         Notification::make()
@@ -114,6 +115,6 @@ class UpdateProfileInformationForm extends Component
      */
     public function render()
     {
-        return view('filament-companies::components.profile.update-profile-information-form');
+        return view('filament-companies::profile.update-profile-information-form');
     }
 }

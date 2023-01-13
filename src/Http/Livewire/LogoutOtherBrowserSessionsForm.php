@@ -137,6 +137,6 @@ class LogoutOtherBrowserSessionsForm extends Component
      */
     public function render()
     {
-        return view('filament-companies::components.profile.logout-other-browser-sessions-form');
+        return view('filament-companies::profile.logout-other-browser-sessions-form');
     }
 }
