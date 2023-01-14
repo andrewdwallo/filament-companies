@@ -62,7 +62,7 @@ class FilamentCompaniesServiceProvider extends ServiceProvider
 
         Filament::serving(function() {
             Filament::registerUserMenuItems([
-                'logout' => UserMenuItem::make()->url(route(config('filament.home_url'))),
+                'logout' => UserMenuItem::make()->url(route('logout')),
             ]);
         });
 
