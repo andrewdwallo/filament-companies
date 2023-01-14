@@ -38,7 +38,7 @@ class FilamentCompaniesServiceProvider extends ServiceProvider
         if (FilamentCompanies::hasCompanyFeatures()) {
             Filament::registerRenderHook(
                 'global-search.start',
-                fn (): View => view('filament-companies::dropdown.navigation-menu'),
+                fn (): View => view('filament-companies::components.dropdown.navigation-menu'),
             );
         }
 
