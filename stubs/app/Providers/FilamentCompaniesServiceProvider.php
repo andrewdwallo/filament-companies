@@ -14,6 +14,8 @@ use Wallo\FilamentCompanies\FilamentCompanies;
 use Filament\Facades\Filament;
 use Illuminate\Contracts\View\View;
 use Filament\Navigation\UserMenuItem;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Blade;
 use Wallo\FilamentCompanies\Pages\User\APITokens;
 use Wallo\FilamentCompanies\Pages\User\Profile;
 
@@ -65,6 +67,26 @@ class FilamentCompaniesServiceProvider extends ServiceProvider
                 'logout' => UserMenuItem::make()->url(route('logout')),
             ]);
         });
+
+        // Missing in FilamentCompaniesServiceProvider.php
+        RedirectResponse::macro('banner', function ($message) {
+            return $this->with('flash', [
+                'bannerStyle' => 'success',
+                'banner' => $message,
+            ]);
+        });
+
+        RedirectResponse::macro('dangerBanner', function ($message) {
+            return $this->with('flash', [
+                'bannerStyle' => 'danger',
+                'banner' => $message,
+            ]);
+        });
+
+        Filament::registerRenderHook(
+            'content.start',
+            fn (): string => Blade::render('<x-filament-companies::banner />'),
+        );
 
         $this->configurePermissions();
 
