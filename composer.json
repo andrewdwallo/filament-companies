@@ -25,7 +25,6 @@
         "ext-json": "*",
         "filament/filament": "^2.16",
         "illuminate/console": "^9.21",
-        "illuminate/contracts": "^9.45",
         "illuminate/support": "^9.21",
         "jenssegers/agent": "^2.6",
         "laravel/fortify": "1.15"
