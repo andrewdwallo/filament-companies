@@ -19,7 +19,7 @@ class PrivacyPolicyController extends Controller
     {
         $policyFile = FilamentCompanies::localizedMarkdownPath('policy.md');
 
-        return view('policy', [
+        return view('filament-companies::policy', [
             'policy' => Str::markdown(file_get_contents($policyFile)),
         ]);
     }
