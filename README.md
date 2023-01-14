@@ -78,12 +78,6 @@ php artisan filament-companies:install filament --companies
 
 * After Scaffolding is complete run the following commands. (Use either npm, pnpm, or yarn depending on what your package manager currently is before the scaffold)
 ```
-npm install
-```
-```
-npm run build
-```
-```
 php artisan migrate:fresh
 ```
 ```
@@ -96,11 +90,6 @@ npm run dev
 * By clicking on your current company's settings in the topbar you can manage that current company.
 * You may also switch your current company.
 * You can also create API Tokens and manage your personal profile settings by clicking the filament user menu dropdown link.
-
-* You may publish the components and customize them to your liking.
-```
-php artisan vendor:publish --tag=filament-companies-views
-```
 
 ### Usage
 This package is extensively "borrowed" from the work of Taylor Otwell, his contributors and the Laravel Jetstream package. You can get a full understanding of the capabilities by reviewing the Jetstream docs:
