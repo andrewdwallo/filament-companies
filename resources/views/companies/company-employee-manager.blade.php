@@ -249,11 +249,11 @@
         </x-slot>
 
         <x-slot name="footer">
-            <x-filament::button wire:click="$toggle('confirmingLeavingCompany')" wire:loading.attr="disabled">
+            <x-filament::button class="mr-3" color="gray" wire:click="$toggle('confirmingLeavingCompany')" wire:loading.attr="disabled">
                 {{ __('filament-companies::default.buttons.cancel') }}
             </x-filament::button>
 
-            <x-filament::button class="ml-3" wire:click="leaveCompany" wire:loading.attr="disabled">
+            <x-filament::button class="ml-3" color="danger" class="ml-3" wire:click="leaveCompany" wire:loading.attr="disabled">
                 {{ __('filament-companies::default.buttons.leave') }}
             </x-filament::button>
         </x-slot>
@@ -270,11 +270,11 @@
         </x-slot>
 
         <x-slot name="footer">
-            <x-filament::button wire:click="$toggle('confirmingCompanyEmployeeRemoval')" wire:loading.attr="disabled">
+            <x-filament::button color="gray" class="mr-3" wire:click="$toggle('confirmingCompanyEmployeeRemoval')" wire:loading.attr="disabled">
                 {{ __('filament-companies::default.buttons.cancel') }}
             </x-filament::button>
 
-            <x-filament::button class="ml-3" wire:click="removeCompanyEmployee" wire:loading.attr="disabled">
+            <x-filament::button color="danger" class="ml-3" wire:click="removeCompanyEmployee" wire:loading.attr="disabled">
                 {{ __('filament-companies::default.buttons.remove') }}
             </x-filament::button>
         </x-slot>
