@@ -50,11 +50,8 @@
                                                     </div>
 
                                                     @if ($addCompanyEmployeeForm['role'] == $role->key)
-                                                        <svg class="ml-2 h-5 w-5 text-primary-500" fill="none"
-                                                            stroke-linecap="round" stroke-linejoin="round"
-                                                            stroke-width="2" stroke="currentColor" viewBox="0 0 24 24">
-                                                            <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z">
-                                                            </path>
+                                                        <svg class="ml-2 h-5 w-5 text-primary-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                                            <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                                                         </svg>
                                                     @endif
                                                 </div>
@@ -213,10 +210,8 @@
                                 </div>
 
                                 @if ($currentRole == $role->key)
-                                    <svg class="ml-2 h-5 w-5 text-green-400" fill="none" stroke-linecap="round"
-                                        stroke-linejoin="round" stroke-width="2" stroke="currentColor"
-                                        viewBox="0 0 24 24">
-                                        <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                    <svg class="ml-2 h-5 w-5 text-primary-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                                     </svg>
                                 @endif
                             </div>
@@ -254,11 +249,11 @@
         </x-slot>
 
         <x-slot name="footer">
-            <x-filament::button wire:click="$toggle('confirmingLeavingCompany')" wire:loading.attr="disabled">
+            <x-filament::button class="mr-3" color="gray" wire:click="$toggle('confirmingLeavingCompany')" wire:loading.attr="disabled">
                 {{ __('filament-companies::default.buttons.cancel') }}
             </x-filament::button>
 
-            <x-filament::button class="ml-3" wire:click="leaveCompany" wire:loading.attr="disabled">
+            <x-filament::button class="ml-3" color="danger" class="ml-3" wire:click="leaveCompany" wire:loading.attr="disabled">
                 {{ __('filament-companies::default.buttons.leave') }}
             </x-filament::button>
         </x-slot>
@@ -275,11 +270,11 @@
         </x-slot>
 
         <x-slot name="footer">
-            <x-filament::button wire:click="$toggle('confirmingCompanyEmployeeRemoval')" wire:loading.attr="disabled">
+            <x-filament::button color="gray" class="mr-3" wire:click="$toggle('confirmingCompanyEmployeeRemoval')" wire:loading.attr="disabled">
                 {{ __('filament-companies::default.buttons.cancel') }}
             </x-filament::button>
 
-            <x-filament::button class="ml-3" wire:click="removeCompanyEmployee" wire:loading.attr="disabled">
+            <x-filament::button color="danger" class="ml-3" wire:click="removeCompanyEmployee" wire:loading.attr="disabled">
                 {{ __('filament-companies::default.buttons.remove') }}
             </x-filament::button>
         </x-slot>
