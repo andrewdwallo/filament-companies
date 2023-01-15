@@ -21,13 +21,14 @@
         }
     ],
     "require": {
-        "php": "^8.0.2",
+        "php": "^8.0",
         "ext-json": "*",
         "filament/filament": "^2.16",
-        "illuminate/console": "^9.21",
-        "illuminate/support": "^9.21",
+        "illuminate/console": "^8.6|^9.0",
+        "illuminate/contracts": "^8.6|^9.0",
+        "illuminate/support": "^8.6|^9.0",
         "jenssegers/agent": "^2.6",
-        "laravel/fortify": "1.15"
+        "laravel/fortify": "^1.15"
     },
     "require-dev": {
         "laravel/sanctum": "^3.0",
