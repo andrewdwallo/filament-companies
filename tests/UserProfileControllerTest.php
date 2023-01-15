@@ -2,12 +2,11 @@
 
 namespace Wallo\FilamentCompanies\Tests;
 
-use Illuminate\Support\Facades\Schema;
 use Laravel\Fortify\Actions\DisableTwoFactorAuthentication;
 use Laravel\Fortify\Features;
 use Wallo\FilamentCompanies\FilamentCompanies;
 use Wallo\FilamentCompanies\Tests\Fixtures\User;
-
+use Mockery as m;
 class UserProfileControllerTest extends OrchestraTestCase
 {
     public function setUp(): void
@@ -39,8 +38,6 @@ class UserProfileControllerTest extends OrchestraTestCase
 
     public function test_two_factor_is_not_disabled_if_was_previously_empty_and_currently_confirming()
     {
-        $this->migrate();
-
         $disable = $this->mock(DisableTwoFactorAuthentication::class);
         $disable->shouldReceive('__invoke')->never();
 
@@ -60,8 +57,6 @@ class UserProfileControllerTest extends OrchestraTestCase
 
     public function test_two_factor_is_disabled_if_was_previously_confirming_and_page_is_reloaded()
     {
-        $this->migrate();
-
         $disable = $this->mock(DisableTwoFactorAuthentication::class);
         $disable->shouldReceive('__invoke')->once();
 
@@ -80,16 +75,6 @@ class UserProfileControllerTest extends OrchestraTestCase
                         ->get('/user/profile');
 
         $response->assertStatus(200);
-    }
-
-    protected function migrate()
-    {
-        $this->artisan('migrate', ['--database' => 'testbench'])->run();
-
-        Schema::table('users', function ($table) {
-            $table->string('two_factor_secret')->nullable();
-            $table->timestamp('two_factor_confirmed_at')->nullable();
-        });
     }
 
     protected function getEnvironmentSetUp($app)
