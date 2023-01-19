@@ -76,6 +76,17 @@ composer require andrewdwallo/filament-companies
 php artisan filament-companies:install filament --companies
 ```
 
+* In config/fortify.php replace the following:
+```
+'middleware' => ['web'],
+```
+To...
+```
+'middleware' => config('filament.middleware.base'),
+```
+
+
+
 * After Scaffolding is complete run the following commands. (Use either npm, pnpm, or yarn depending on what your package manager currently is before the scaffold)
 ```
 php artisan migrate:fresh
