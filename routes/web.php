@@ -6,6 +6,7 @@ use Wallo\FilamentCompanies\Http\Controllers\Livewire\PrivacyPolicyController;
 use Wallo\FilamentCompanies\Http\Controllers\Livewire\TermsOfServiceController;
 use Wallo\FilamentCompanies\Http\Controllers\CompanyInvitationController;
 use Wallo\FilamentCompanies\FilamentCompanies;
+use Wallo\FilamentCompanies\Http\Controllers\OAuthController;
 use Wallo\FilamentCompanies\Pages\Companies\CompanySettings;
 use Wallo\FilamentCompanies\Pages\Companies\CreateCompany;
 use Wallo\FilamentCompanies\Pages\User\APITokens;
@@ -13,6 +14,9 @@ use Wallo\FilamentCompanies\Pages\User\Profile;
 
 
 Route::group(['middleware' => config('filament-companies.middleware', ['web'])], function () {
+
+    Route::get('/oauth/{provider}', [OAuthController::class, 'redirectToProvider'])->name('oauth.redirect');
+    Route::get('/oauth/{provider}/callback', [OAuthController::class, 'handleProviderCallback'])->name('oauth.callback');
 
     if (FilamentCompanies::hasTermsAndPrivacyPolicyFeature()) {
         Route::get('/terms-of-service', [TermsOfServiceController::class, 'show'])->name('terms.show');

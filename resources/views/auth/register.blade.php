@@ -55,4 +55,8 @@
                 </x-filament::button>
             </div>
         </form>
+
+        @if (Wallo\FilamentCompanies\Socialite::show())
+            <x-filament-companies::socialite />
+        @endif
 </x-filament::layouts.card>

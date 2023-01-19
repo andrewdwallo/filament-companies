@@ -2,9 +2,6 @@
 
 namespace Wallo\FilamentCompanies;
 
-use App\Actions\FilamentCompanies\DeleteCompany;
-use App\Actions\FilamentCompanies\UpdateCompanyName;
-use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\View\Compilers\BladeCompiler;
@@ -17,7 +14,6 @@ use Wallo\FilamentCompanies\Http\Livewire\CreateCompanyForm;
 use Wallo\FilamentCompanies\Http\Livewire\DeleteCompanyForm;
 use Wallo\FilamentCompanies\Http\Livewire\DeleteUserForm;
 use Wallo\FilamentCompanies\Http\Livewire\LogoutOtherBrowserSessionsForm;
-use Wallo\FilamentCompanies\Http\Livewire\NavigationMenu;
 use Wallo\FilamentCompanies\Http\Livewire\TwoFactorAuthenticationForm;
 use Wallo\FilamentCompanies\Http\Livewire\UpdateCompanyNameForm;
 use Wallo\FilamentCompanies\Http\Livewire\UpdatePasswordForm;
@@ -26,6 +22,8 @@ use Wallo\FilamentCompanies\Pages\Companies\CompanySettings;
 use Wallo\FilamentCompanies\Pages\Companies\CreateCompany;
 use Wallo\FilamentCompanies\Pages\User\APITokens;
 use Wallo\FilamentCompanies\Pages\User\Profile;
+use Wallo\FilamentCompanies\Http\Livewire\ConnectedAccountsForm;
+use Wallo\FilamentCompanies\Http\Livewire\SetPasswordForm;
 
 class FilamentCompaniesServiceProvider extends ServiceProvider
 {
@@ -53,6 +51,8 @@ class FilamentCompaniesServiceProvider extends ServiceProvider
                 Livewire::component(TwoFactorAuthenticationForm::getName(), TwoFactorAuthenticationForm::class);
                 Livewire::component(LogoutOtherBrowserSessionsForm::getName(), LogoutOtherBrowserSessionsForm::class);
                 Livewire::component(DeleteUserForm::getName(), DeleteUserForm::class);
+                Livewire::component(SetPasswordForm::getName(), SetPasswordForm::class);
+                Livewire::component(ConnectedAccountsForm::getName(), ConnectedAccountsForm::class);
 
                 if (Features::hasApiFeatures()) {
                     Livewire::component(ApiTokenManager::getName(), ApiTokenManager::class);
@@ -119,6 +119,7 @@ class FilamentCompaniesServiceProvider extends ServiceProvider
             __DIR__.'/../database/migrations/2020_05_21_100000_create_companies_table.php' => database_path('migrations/2020_05_21_100000_create_companies_table.php'),
             __DIR__.'/../database/migrations/2020_05_21_200000_create_company_user_table.php' => database_path('migrations/2020_05_21_200000_create_company_user_table.php'),
             __DIR__.'/../database/migrations/2020_05_21_300000_create_company_invitations_table.php' => database_path('migrations/2020_05_21_300000_create_company_invitations_table.php'),
+            __DIR__.'/../database/migrations/2020_12_22_000000_create_connected_accounts_table.php' => database_path('migrations/2020_12_22_000000_create_connected_accounts_table.php'),
         ], 'filament-companies-company-migrations');
     }
 
