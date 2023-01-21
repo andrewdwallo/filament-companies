@@ -1,24 +1,24 @@
 <x-filament-companies::action-section>
     <x-slot name="title">
-        {{ __('Connected Accounts') }}
+        {{ __('filament-companies::default.action_section_titles.connected_accounts') }}
     </x-slot>
 
     <x-slot name="description">
-        {{ __('Manage and remove your connected accounts.') }}
+        {{ __('filament-companies::default.action_section_descriptions.connected_accounts') }}
     </x-slot>
 
     <x-slot name="content">
         <x-filament::card class="col-span-2 mt-5 sm:col-span-1 md:mt-0">
             <h3 class="text-lg font-medium text-gray-900 dark:text-white">
                 @if (count($this->accounts) == 0)
-                    {{ __('You have no connected accounts.') }}
+                    {{ __('filament-companies::default.headings.profile.connected_accounts.no_connected_accounts') }}
                 @else
-                    {{ __('Your connected accounts.') }}
+                    {{ __('filament-companies::default.headings.profile.connected_accounts.has_connected_accounts') }}
                 @endif
             </h3>
 
             <div class="mt-3 max-w-xl text-sm text-gray-600 dark:text-gray-400">
-                {{ __('You are free to connect any social accounts to your profile and may remove any connected accounts at any time. If you feel any of your connected accounts have been compromised, you should disconnect them immediately and change your password.') }}
+                {{ __('filament-companies::default.subheadings.profile.connected_accounts') }}
             </div>
 
             <div class="mt-5 space-y-6">
@@ -34,19 +34,19 @@
                                 <div class="flex items-center justify-between">
                                     @if (Wallo\FilamentCompanies\FilamentCompanies::managesProfilePhotos() && ! is_null($account->avatar_path))
                                         <x-filament::icon-button class="mr-6" icon="heroicon-o-user"
-                                            tooltip="{{ __('Use Avatar as Profile Photo') }}"
+                                            tooltip="{{ __('filament-companies::default.buttons.use_avatar_as_profile_photo') }}"
                                             wire:click="setAvatarAsProfilePhoto({{ $account->id }})" />
                                     @endif
 
                                     @if (($this->accounts->count() > 1 || ! is_null($this->user->password)))
                                         <x-filament::icon-button color="danger" icon="heroicon-o-trash"
-                                            tooltip="{{ __('Remove') }}" wire:click="confirmRemove({{ $account->id }})"
+                                            tooltip="{{ __('filament-companies::default.buttons.remove') }}" wire:click="confirmRemove({{ $account->id }})"
                                             wire:loading.attr="disabled" />
                                     @endif
                                 </div>
                             @else
                                 <x-filament-companies::action-link href="{{ route('oauth.redirect', ['provider' => $provider]) }}">
-                                    {{ __('Connect') }}
+                                    {{ __('filament-companies::default.buttons.connect') }}
                                 </x-filament-companies::action-link>
                             @endif
                         </x-slot>
@@ -58,20 +58,20 @@
             <!-- Logout Other Devices Confirmation Modal -->
             <x-filament-companies::dialog-modal wire:model="confirmingRemove">
                 <x-slot name="title">
-                    {{ __('Remove Connected Account') }}
+                    {{ __('filament-companies::default.modal_titles.remove_connected_account') }}
                 </x-slot>
 
                 <x-slot name="content">
-                    {{ __('Please confirm your removal of this account - this action cannot be undone.') }}
+                    {{ __('filament-companies::default.modal_descriptions.remove_connected_account') }}
                 </x-slot>
 
                 <x-slot name="footer">
                     <x-filament::button color="gray" class="mr-3" wire:click="$toggle('confirmingRemove')" wire:loading.attr="disabled">
-                        {{ __('Nevermind') }}
+                        {{ __('filament-companies::default.buttons.cancel') }}
                     </x-filament::button>
 
                     <x-filament::button color="danger" class="ml-3" wire:click="removeConnectedAccount({{ $this->selectedAccountId }})" wire:loading.attr="disabled">
-                        {{ __('Remove Connected Account') }}
+                        {{ __('filament-companies::default.buttons.remove_connected_account') }}
                     </x-filament::button>
                 </x-slot>
             </x-filament-companies::dialog-modal>

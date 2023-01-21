@@ -31,17 +31,17 @@
             @endswitch
 
             <div>
-                <div class="text-sm font-semibold text-gray-600">
+                <div class="text-sm font-semibold text-gray-600 dark:text-gray-400">
                     {{ __(ucfirst($provider)) }}
                 </div>
 
                 @if (! empty($createdAt))
-                    <div class="text-xs text-gray-500">
-                        Connected {{ $createdAt }}
+                    <div class="text-xs font-semibold text-primary-500">
+                        {{  __('filament-companies::default.labels.connected') }} {{ $createdAt }}
                     </div>
                 @else
-                    <div class="text-xs text-gray-500">
-                        {{ __('Not connected.') }}
+                    <div class="text-xs font-semibold text-primary-500">
+                        {{ __('filament-companies::default.labels.not_connected') }}
                     </div>
                 @endif
             </div>
