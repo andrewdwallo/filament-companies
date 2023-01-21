@@ -23,6 +23,7 @@
 
             <div class="mt-5 space-y-6">
                 @foreach ($this->providers as $provider)
+                    <x-filament::hr />
                     @php
                         $account = null;
                         $account = $this->accounts->where('provider', $provider)->first();
@@ -33,15 +34,15 @@
                             @if (! is_null($account))
                                 <div class="flex items-center justify-between">
                                     @if (Wallo\FilamentCompanies\FilamentCompanies::managesProfilePhotos() && ! is_null($account->avatar_path))
-                                        <x-filament::icon-button class="mr-6" icon="heroicon-o-user"
-                                            tooltip="{{ __('filament-companies::default.buttons.use_avatar_as_profile_photo') }}"
-                                            wire:click="setAvatarAsProfilePhoto({{ $account->id }})" />
+                                        <x-filament::button class="mr-3" wire:click="setAvatarAsProfilePhoto({{ $account->id }})">
+                                            {{ __('filament-companies::default.buttons.use_avatar_as_profile_photo') }}
+                                        </x-filament::button>
                                     @endif
 
                                     @if (($this->accounts->count() > 1 || ! is_null($this->user->password)))
-                                        <x-filament::icon-button color="danger" icon="heroicon-o-trash"
-                                            tooltip="{{ __('filament-companies::default.buttons.remove') }}" wire:click="confirmRemove({{ $account->id }})"
-                                            wire:loading.attr="disabled" />
+                                        <x-filament::button class="ml-3" color="danger" wire:click="confirmRemove({{ $account->id }})" wire:loading.attr="disabled">
+                                            {{ __('filament-companies::default.buttons.remove') }}
+                                        </x-filament::button>
                                     @endif
                                 </div>
                             @else

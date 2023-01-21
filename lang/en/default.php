@@ -223,7 +223,7 @@ return [
 
             "logout_other_browser_sessions" => "If necessary, you may log out of all of your other browser sessions across all of your devices. Some of your recent sessions are listed below; however, this list may not be exhaustive. If you feel your account has been compromised, you should also update your password.",
             "delete_user" => "Once your account is deleted, all of its resources and data will be permanently deleted. Before deleting your account, please download any data or information that you wish to retain.",
-            "connected_accounts" => "You are free to connect any social accounts to your profile and may remove any connected accounts at any time. If you feel any of your connected accounts have been compromised, you should disconnect them immediately and change your password.",
+            "connected_accounts" => "You are free to connect any OAuth providers to your profile and may remove them at any time. If you feel any of your connected accounts have been compromised, you should disconnect them immediately and change your password.",
         ],
 
         "companies" => [
