@@ -16,11 +16,4 @@ class Profile extends Page
     {
         return __('filament-companies::default.pages.titles.profile');
     }
-
-    protected function getViewData(): array
-    {
-        return [
-            'user' => auth()->user()
-        ];
-    }
 }

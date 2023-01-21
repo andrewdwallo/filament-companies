@@ -13,20 +13,14 @@ use Wallo\FilamentCompanies\HasProfilePhoto;
 use Wallo\FilamentCompanies\HasCompanies;
 use Laravel\Sanctum\HasApiTokens;
 use Wallo\FilamentCompanies\FilamentCompanies;
-use Wallo\FilamentCompanies\HasConnectedAccounts;
-use Wallo\FilamentCompanies\SetsProfilePhotoFromUrl;
 
 class User extends Authenticatable implements FilamentUser, HasAvatar
 {
     use HasApiTokens;
     use HasFactory;
-    use HasProfilePhoto {
-        getProfilePhotoUrlAttribute as getPhotoUrl;
-    }
+    use HasProfilePhoto;
     use HasCompanies;
-    use HasConnectedAccounts;
     use Notifiable;
-    use SetsProfilePhotoFromUrl;
     use TwoFactorAuthenticatable;
 
     public function canAccessFilament(): bool
@@ -79,18 +73,4 @@ class User extends Authenticatable implements FilamentUser, HasAvatar
     protected $appends = [
         'profile_photo_url',
     ];
-
-    /**
-     * Get the URL to the user's profile photo.
-     *
-     * @return string
-     */
-    public function getProfilePhotoUrlAttribute()
-    {
-        if (filter_var($this->profile_photo_path, FILTER_VALIDATE_URL)) {
-            return $this->profile_photo_path;
-        }
-
-        return $this->getPhotoUrl();
-    }
 }
