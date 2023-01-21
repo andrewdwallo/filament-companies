@@ -8,7 +8,7 @@
         <x-filament-companies::section-border />
     @endif
 
-    @if (Laravel\Fortify\Features::enabled(Laravel\Fortify\Features::updatePasswords()) && ! is_null($user->password))
+    @if (Laravel\Fortify\Features::enabled(Laravel\Fortify\Features::updatePasswords()) && !is_null($user->password))
         <div class="mt-10 sm:mt-0">
             @livewire(\Wallo\FilamentCompanies\Http\Livewire\UpdatePasswordForm::class)
         </div>
@@ -22,7 +22,7 @@
         <x-filament-companies::section-border />
     @endif
 
-    @if (Laravel\Fortify\Features::canManageTwoFactorAuthentication() && ! is_null($user->password))
+    @if (Laravel\Fortify\Features::canManageTwoFactorAuthentication() && !is_null($user->password))
         <div class="mt-10 sm:mt-0">
             @livewire(\Wallo\FilamentCompanies\Http\Livewire\TwoFactorAuthenticationForm::class)
         </div>
@@ -36,7 +36,7 @@
         </div>
     @endif
 
-    @if ( ! is_null($user->password))
+    @if (!is_null($user->password))
         <x-filament-companies::section-border />
 
         <div class="mt-10 sm:mt-0">
