@@ -30,7 +30,7 @@ return [
      |
      */
 
-    'middleware' => ['web'],
+    'middleware' => config('filament.middleware.base'),
 
     'auth_session' => AuthenticateSession::class,
 
