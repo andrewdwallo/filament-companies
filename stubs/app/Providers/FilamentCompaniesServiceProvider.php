@@ -4,17 +4,11 @@ namespace App\Providers;
 
 use App\Actions\FilamentCompanies\AddCompanyEmployee;
 use App\Actions\FilamentCompanies\CreateCompany;
-use App\Actions\FilamentCompanies\CreateConnectedAccount;
-use App\Actions\FilamentCompanies\CreateUserFromProvider;
 use App\Actions\FilamentCompanies\DeleteCompany;
 use App\Actions\FilamentCompanies\DeleteUser;
-use App\Actions\FilamentCompanies\HandleInvalidState;
 use App\Actions\FilamentCompanies\InviteCompanyEmployee;
 use App\Actions\FilamentCompanies\RemoveCompanyEmployee;
-use App\Actions\FilamentCompanies\ResolveSocialiteUser;
-use App\Actions\FilamentCompanies\SetUserPassword;
 use App\Actions\FilamentCompanies\UpdateCompanyName;
-use App\Actions\FilamentCompanies\UpdateConnectedAccount;
 use Illuminate\Support\ServiceProvider;
 use Wallo\FilamentCompanies\FilamentCompanies;
 use Filament\Facades\Filament;
@@ -22,10 +16,8 @@ use Illuminate\Contracts\View\View;
 use Filament\Navigation\UserMenuItem;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Blade;
-use Wallo\FilamentCompanies\Actions\GenerateRedirectForProvider;
 use Wallo\FilamentCompanies\Pages\User\APITokens;
 use Wallo\FilamentCompanies\Pages\User\Profile;
-use Wallo\FilamentCompanies\Socialite;
 
 class FilamentCompaniesServiceProvider extends ServiceProvider
 {
@@ -105,14 +97,6 @@ class FilamentCompaniesServiceProvider extends ServiceProvider
         FilamentCompanies::removeCompanyEmployeesUsing(RemoveCompanyEmployee::class);
         FilamentCompanies::deleteCompaniesUsing(DeleteCompany::class);
         FilamentCompanies::deleteUsersUsing(DeleteUser::class);
-
-        Socialite::resolvesSocialiteUsersUsing(ResolveSocialiteUser::class);
-        Socialite::createUsersFromProviderUsing(CreateUserFromProvider::class);
-        Socialite::createConnectedAccountsUsing(CreateConnectedAccount::class);
-        Socialite::updateConnectedAccountsUsing(UpdateConnectedAccount::class);
-        Socialite::setUserPasswordsUsing(SetUserPassword::class);
-        Socialite::handlesInvalidStateUsing(HandleInvalidState::class);
-        Socialite::generatesProvidersRedirectsUsing(GenerateRedirectForProvider::class);
     }
 
     /**

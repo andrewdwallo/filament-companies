@@ -2,7 +2,6 @@
 
 use Wallo\FilamentCompanies\Features;
 use Wallo\FilamentCompanies\Http\Middleware\AuthenticateSession;
-use Wallo\FilamentCompanies\Providers;
 
 return [
 
@@ -49,21 +48,6 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Socialite Providers
-    |--------------------------------------------------------------------------
-    |
-    | Here you may specify the providers your application supports for OAuth.
-    | Out of the box, FilamentCompanies provides support for all of the OAuth
-    | providers that are supported by Laravel Socialite.
-    |
-    */
-
-    'providers' => [
-        Providers::github(),
-    ],
-
-    /*
-    |--------------------------------------------------------------------------
     | Features
     |--------------------------------------------------------------------------
     |
@@ -79,10 +63,6 @@ return [
         Features::api(),
         Features::companies(['invitations' => true]),
         Features::accountDeletion(),
-        //Features::createAccountOnFirstLogin(),
-        // Features::generateMissingEmails(),
-        Features::rememberSession(),
-        Features::providerAvatars(),
     ],
 
     /*
