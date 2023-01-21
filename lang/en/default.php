@@ -40,6 +40,9 @@ return [
         "remove" => "Remove",
         "delete_company" => "Delete Company",
         "remember_me" => "Remember me",
+        "use_avatar_as_profile_photo" => "Use Avatar as Profile Photo",
+        "connect" => "Connect",
+        "remove_connected_account" => "Remove Connected Account",
     ],
 
     "labels" => [
@@ -56,6 +59,8 @@ return [
         "this_device" => "This device",
         "last_active" => "Last active",
         "last_used" => "Last used",
+        "not_connected" => "Not connected.",
+        "connected" => "Connected",
     ],
 
     "links" => [
@@ -99,6 +104,7 @@ return [
         "company_name" => "Company Name",
         "create_company" => "Create Company",
         "add_company_employee" => "Add Company Employee",
+        "set_password" => "Set Password",
     ],
 
     "grid_section_descriptions" => [
@@ -111,18 +117,21 @@ return [
         "company_name" => "The company's name and owner information.",
         "create_company" => "Create a new company to collaborate with others on projects.",
         "add_company_employee" => "Add a new company employee to your company, allowing them to collaborate with you.",
+        "set_password" => "Ensure your account is using a long, random password to stay secure."
     ],
 
     "action_section_titles" => [
         "pending_company_invitations" => "Pending Company Invitations",
         "company_employees" => "Company Employees",
         "delete_company" => "Delete Company",
+        "connected_accounts" => "Connected Accounts",
     ],
 
     "action_section_descriptions" => [
         "pending_company_invitations" => "These people have been invited to your company and have been sent an invitation email. They may join the company by accepting the email invitation.",
         "company_employees" => "All of the people that are part of this company.",
         "delete_company" => "Permanently delete this company.",
+        "connected_accounts" => "Manage and remove your connected accounts.",
     ],
 
     "modal_titles" => [
@@ -135,6 +144,7 @@ return [
         "logout_browser_sessions" => "Log Out Other Browser Sessions",
         "delete_account" => "Delete Account",
         "delete_company" => "Delete Company",
+        "remove_connected_account" => "Remove Connected Account",
     ],
 
     "modal_descriptions" => [
@@ -145,6 +155,7 @@ return [
         "logout_browser_sessions" => "Please enter your password to confirm you would like to log out of your other browser sessions across all of your devices.",
         "delete_account" => "Are you sure you want to delete your account? Once your account is deleted, all of its resources and data will be permanently deleted. Please enter your password to confirm you would like to permanently delete your account.",
         "delete_company" => "Are you sure you want to delete this company? Once a company is deleted, all of its resources and data will be permanently deleted.",
+        "remove_connected_account" => "Please confirm your removal of this account - this action cannot be undone.",
     ],
 
     "headings" => [
@@ -174,6 +185,11 @@ return [
                 "enabled" => "You have enabled two factor authentication!",
                 "not_enabled" => "You have not enabled two factor authentication.",
             ],
+
+            "connected_accounts" => [
+                "no_connected_accounts" => "You have no connected accounts.",
+                "has_connected_accounts" => "Your connected accounts.",
+            ]
         ],
 
         "api" => [
@@ -207,6 +223,7 @@ return [
 
             "logout_other_browser_sessions" => "If necessary, you may log out of all of your other browser sessions across all of your devices. Some of your recent sessions are listed below; however, this list may not be exhaustive. If you feel your account has been compromised, you should also update your password.",
             "delete_user" => "Once your account is deleted, all of its resources and data will be permanently deleted. Before deleting your account, please download any data or information that you wish to retain.",
+            "connected_accounts" => "You are free to connect any social accounts to your profile and may remove any connected accounts at any time. If you feel any of your connected accounts have been compromised, you should disconnect them immediately and change your password.",
         ],
 
         "companies" => [

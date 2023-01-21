@@ -28,7 +28,8 @@
         "illuminate/contracts": "^8.6|^9.0",
         "illuminate/support": "^8.6|^9.0",
         "jenssegers/agent": "^2.6",
-        "laravel/fortify": "^1.15"
+        "laravel/fortify": "^1.15",
+        "laravel/socialite": "^5.6"
     },
     "require-dev": {
         "laravel/sanctum": "^3.0",
