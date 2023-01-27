@@ -22,7 +22,8 @@
 
                         <!-- Employee Email -->
                         <div class="col-span-6 sm:col-span-4">
-                            <x-filament-companies::label for="email" value="{{ __('filament-companies::default.fields.email') }}" />
+                            <x-filament-companies::label for="email"
+                                value="{{ __('filament-companies::default.fields.email') }}" />
                             <x-filament-companies::input id="email" type="email" class="mt-1 block w-full"
                                 wire:model.defer="addCompanyEmployeeForm.email" />
                             <x-filament-companies::input-error for="email" class="mt-2" />
@@ -31,14 +32,15 @@
                         <!-- Role -->
                         @if (count($this->roles) > 0)
                             <div class="col-span-6 lg:col-span-4">
-                                <x-filament-companies::label for="role" value="{{ __('filament-companies::default.labels.role') }}" />
+                                <x-filament-companies::label for="role"
+                                    value="{{ __('filament-companies::default.labels.role') }}" />
                                 <x-filament-companies::input-error for="role" class="mt-2" />
 
                                 <div
                                     class="relative z-0 mt-1 cursor-pointer rounded-lg border border-gray-200 dark:border-gray-700">
                                     @foreach ($this->roles as $index => $role)
                                         <button type="button"
-                                            class="{{ $index > 0 ? 'border-t border-gray-200 dark:border-gray-700 focus:border-none rounded-t-none' : '' }} {{ !$loop->last ? 'rounded-b-none' : '' }} relative inline-flex w-full rounded-lg px-4 py-3 focus:z-10 focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-500 dark:focus:border-primary-600 dark:focus:ring-primary-600"
+                                            class="{{ $index > 0 ? 'border-t border-gray-200 dark:border-gray-700 focus:border-none rounded-t-none' : '' }} {{ !$loop->last ? 'rounded-b-none' : '' }} focus:border-primary-500 focus:ring-primary-500 dark:focus:border-primary-600 dark:focus:ring-primary-600 relative inline-flex w-full rounded-lg px-4 py-3 focus:z-10 focus:outline-none focus:ring-2"
                                             wire:click="$set('addCompanyEmployeeForm.role', '{{ $role->key }}')">
                                             <div
                                                 class="{{ isset($addCompanyEmployeeForm['role']) && $addCompanyEmployeeForm['role'] !== $role->key ? 'opacity-50' : '' }}">
@@ -50,8 +52,12 @@
                                                     </div>
 
                                                     @if ($addCompanyEmployeeForm['role'] == $role->key)
-                                                        <svg class="ml-2 h-5 w-5 text-primary-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                                                            <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                                        <svg class="text-primary-500 ml-2 h-5 w-5"
+                                                            xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                            viewBox="0 0 24 24" stroke-width="1.5"
+                                                            stroke="currentColor">
+                                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                                d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                                                         </svg>
                                                     @endif
                                                 </div>
@@ -108,9 +114,9 @@
                                 <div class="flex items-center">
                                     @if (Gate::check('removeCompanyEmployee', $company))
                                         <!-- Cancel Company Invitation -->
-                                        <x-filament::icon-button color="gray" icon="heroicon-o-x-circle"
-                                            tooltip="{{ __('filament-companies::default.buttons.cancel') }}"
-                                            wire:click="cancelCompanyInvitation({{ $invitation->id }})" />
+                                        <x-filament::button color="gray" wire:click="cancelCompanyInvitation({{ $invitation->id }})" >
+                                            {{ __('filament-companies::default.buttons.cancel') }}
+                                        </x-filament::button>
                                     @endif
                                 </div>
                             </div>
@@ -199,7 +205,7 @@
             <div class="relative z-0 mt-1 cursor-pointer rounded-lg border border-gray-200 dark:border-gray-700">
                 @foreach ($this->roles as $index => $role)
                     <button type="button"
-                        class="{{ $index > 0 ? 'border-t border-gray-200 dark:border-gray-700 focus:border-none rounded-t-none' : '' }} {{ !$loop->last ? 'rounded-b-none' : '' }} relative inline-flex w-full rounded-lg px-4 py-3 focus:z-10 focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-500 dark:focus:border-primary-600 dark:focus:ring-primary-600"
+                        class="{{ $index > 0 ? 'border-t border-gray-200 dark:border-gray-700 focus:border-none rounded-t-none' : '' }} {{ !$loop->last ? 'rounded-b-none' : '' }} focus:border-primary-500 focus:ring-primary-500 dark:focus:border-primary-600 dark:focus:ring-primary-600 relative inline-flex w-full rounded-lg px-4 py-3 focus:z-10 focus:outline-none focus:ring-2"
                         wire:click="$set('currentRole', '{{ $role->key }}')">
                         <div class="{{ $currentRole !== $role->key ? 'opacity-50' : '' }}">
                             <!-- Role Name -->
@@ -210,8 +216,10 @@
                                 </div>
 
                                 @if ($currentRole == $role->key)
-                                    <svg class="ml-2 h-5 w-5 text-primary-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                    <svg class="text-primary-500 ml-2 h-5 w-5" xmlns="http://www.w3.org/2000/svg"
+                                        fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                            d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                                     </svg>
                                 @endif
                             </div>
@@ -249,11 +257,13 @@
         </x-slot>
 
         <x-slot name="footer">
-            <x-filament::button class="mr-3" color="gray" wire:click="$toggle('confirmingLeavingCompany')" wire:loading.attr="disabled">
+            <x-filament::button class="mr-3" color="gray" wire:click="$toggle('confirmingLeavingCompany')"
+                wire:loading.attr="disabled">
                 {{ __('filament-companies::default.buttons.cancel') }}
             </x-filament::button>
 
-            <x-filament::button class="ml-3" color="danger" class="ml-3" wire:click="leaveCompany" wire:loading.attr="disabled">
+            <x-filament::button class="ml-3" color="danger" class="ml-3" wire:click="leaveCompany"
+                wire:loading.attr="disabled">
                 {{ __('filament-companies::default.buttons.leave') }}
             </x-filament::button>
         </x-slot>
@@ -270,11 +280,13 @@
         </x-slot>
 
         <x-slot name="footer">
-            <x-filament::button color="gray" class="mr-3" wire:click="$toggle('confirmingCompanyEmployeeRemoval')" wire:loading.attr="disabled">
+            <x-filament::button color="gray" class="mr-3"
+                wire:click="$toggle('confirmingCompanyEmployeeRemoval')" wire:loading.attr="disabled">
                 {{ __('filament-companies::default.buttons.cancel') }}
             </x-filament::button>
 
-            <x-filament::button color="danger" class="ml-3" wire:click="removeCompanyEmployee" wire:loading.attr="disabled">
+            <x-filament::button color="danger" class="ml-3" wire:click="removeCompanyEmployee"
+                wire:loading.attr="disabled">
                 {{ __('filament-companies::default.buttons.remove') }}
             </x-filament::button>
         </x-slot>

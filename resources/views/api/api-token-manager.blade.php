@@ -23,7 +23,8 @@
                     <!-- Token Permissions -->
                     @if (Wallo\FilamentCompanies\FilamentCompanies::hasPermissions())
                         <div class="col-span-6">
-                            <x-filament-companies::label for="permissions" value="{{ __('filament-companies::default.labels.permissions') }}" />
+                            <x-filament-companies::label for="permissions"
+                                value="{{ __('filament-companies::default.labels.permissions') }}" />
 
                             <div class="mt-2 grid grid-cols-1 gap-4 md:grid-cols-2">
                                 @foreach (Wallo\FilamentCompanies\FilamentCompanies::$permissions as $permission)
@@ -71,7 +72,8 @@
                                 <div class="flex items-center">
                                     @if ($token->last_used_at)
                                         <div class="text-sm text-gray-400">
-                                            {{ __('filament-companies::default.labels.last_used') }} {{ $token->last_used_at->diffForHumans() }}
+                                            {{ __('filament-companies::default.labels.last_used') }}
+                                            {{ $token->last_used_at->diffForHumans() }}
                                         </div>
                                     @endif
 
@@ -82,7 +84,8 @@
                                     @endif
 
                                     <x-filament::icon-button color="danger" icon="heroicon-o-trash" class="ml-3"
-                                        tooltip="{{ __('filament-companies::default.buttons.delete') }}" wire:click="confirmApiTokenDeletion({{ $token->id }})" />
+                                        tooltip="{{ __('filament-companies::default.buttons.delete') }}"
+                                        wire:click="confirmApiTokenDeletion({{ $token->id }})" />
                                 </div>
                             </div>
                         @endforeach

@@ -14,16 +14,16 @@
                 <div x-data="{ photoName: null, photoPreview: null }" class="col-span-6 sm:col-span-4">
                     <!-- Profile Photo File Input -->
                     <input type="file" class="hidden" wire:model="photo" x-ref="photo"
-                        x-on:change="
-                                        photoName = $refs.photo.files[0].name;
+                        x-on:change="photoName = $refs.photo.files[0].name;
                                         const reader = new FileReader();
                                         reader.onload = (e) => {
                                             photoPreview = e.target.result;
                                         };
                                         reader.readAsDataURL($refs.photo.files[0]);
-                                " />
+                                    " />
 
-                    <x-filament-companies::label for="photo" value="{{ __('filament-companies::default.labels.photo') }}" />
+                    <x-filament-companies::label for="photo"
+                        value="{{ __('filament-companies::default.labels.photo') }}" />
 
                     <!-- Current Profile Photo -->
                     <div class="mt-2" x-show="! photoPreview">
@@ -56,7 +56,8 @@
 
             <!-- Name -->
             <div class="col-span-6 sm:col-span-4">
-                <x-filament-companies::label for="name" value="{{ __('filament-companies::default.fields.name') }}" />
+                <x-filament-companies::label for="name"
+                    value="{{ __('filament-companies::default.fields.name') }}" />
                 <x-filament-companies::input id="name" type="text" class="mt-1 block w-full"
                     wire:model.defer="state.name" autocomplete="name" />
                 <x-filament-companies::input-error for="name" class="mt-2" />
@@ -64,13 +65,14 @@
 
             <!-- Email -->
             <div class="col-span-6 sm:col-span-4">
-                <x-filament-companies::label for="email" value="{{ __('filament-companies::default.fields.email') }}" />
+                <x-filament-companies::label for="email"
+                    value="{{ __('filament-companies::default.fields.email') }}" />
                 <x-filament-companies::input id="email" type="email" class="mt-1 block w-full"
                     wire:model.defer="state.email" />
                 <x-filament-companies::input-error for="email" class="mt-2" />
 
                 @if (Laravel\Fortify\Features::enabled(Laravel\Fortify\Features::emailVerification()) &&
-                    !$this->user - hasVerifiedEmail())
+                        !$this->user - hasVerifiedEmail())
                     <p class="mt-2 text-sm dark:text-white">
                         {{ __('filament-companies::default.headings.profile.update_profile_information.verification_link_not_sent') }}
 
