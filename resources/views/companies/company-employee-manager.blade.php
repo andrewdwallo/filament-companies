@@ -114,9 +114,9 @@
                                 <div class="flex items-center">
                                     @if (Gate::check('removeCompanyEmployee', $company))
                                         <!-- Cancel Company Invitation -->
-                                        <x-filament::icon-button color="gray" icon="heroicon-o-x-circle"
-                                            tooltip="{{ __('filament-companies::default.buttons.cancel') }}"
-                                            wire:click="cancelCompanyInvitation({{ $invitation->id }})" />
+                                        <x-filament::button color="gray" wire:click="cancelCompanyInvitation({{ $invitation->id }})" >
+                                            {{ __('filament-companies::default.buttons.cancel') }}
+                                        </x-filament::button>
                                     @endif
                                 </div>
                             </div>

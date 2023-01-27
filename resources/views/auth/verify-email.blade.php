@@ -29,10 +29,9 @@
             <form method="POST" action="{{ route('logout') }}" class="inline">
                 @csrf
 
-                <button type="submit"
-                    class="ml-2 text-sm text-gray-600 underline hover:text-gray-900 dark:text-gray-400">
+                <x-filament::button type="submit" class="ml-2 text-sm text-gray-600 underline hover:text-gray-900 dark:text-gray-400">
                     {{ __('filament-companies::default.buttons.logout') }}
-                </button>
+                </x-filament::button>
             </form>
         </div>
     </div>

@@ -3,35 +3,43 @@
     <h2 class="text-center text-2xl font-bold tracking-tight">
         {{ __('filament-companies::default.headings.auth.register') }}
     </h2>
-    <x-filament-companies::validation-errors class="mb-4" />
+
+    <div class="mt-2 text-center text-sm font-medium">
+        {{ __('Or') }}
+        <a class="text-primary-600 text-sm" href="{{ route('login') }}">
+            {{ __('log in to your account') }}
+        </a>
+    </div>
 
     <form method="POST" class="space-y-8" action="{{ route('register') }}">
         @csrf
 
         <div>
-            <x-filament-companies::label for="name" value="{{ __('filament-companies::default.fields.name') }}" />
-            <x-filament-companies::input id="name" class="mt-1 block w-full" type="text" name="name"
-                :value="old('name')" required autofocus autocomplete="name" />
+            <x-forms::field-wrapper id="name" statePath="name" required="true" label="{{ __('filament-companies::default.fields.name') }}">
+                <x-filament-companies::input id="name" type="text" name="name"
+                    :value="old('name')" required autofocus autocomplete="name" />
+            </x-forms::field-wrapper>
         </div>
 
-        <div class="mt-4">
-            <x-filament-companies::label for="email" value="{{ __('filament-companies::default.fields.email') }}" />
-            <x-filament-companies::input id="email" class="mt-1 block w-full" type="email" name="email"
-                :value="old('email')" required />
+        <div>
+            <x-forms::field-wrapper id="email" statePath="email" required="true" label="{{ __('filament-companies::default.fields.email') }}">
+                <x-filament-companies::input id="email" type="email" name="email"
+                    :value="old('email')" required />
+            </x-forms::field-wrapper>
         </div>
 
-        <div class="mt-4">
-            <x-filament-companies::label for="password"
-                value="{{ __('filament-companies::default.fields.password') }}" />
-            <x-filament-companies::input id="password" class="mt-1 block w-full" type="password" name="password"
-                required autocomplete="new-password" />
+        <div>
+            <x-forms::field-wrapper id="password" statePath="password" required="true" label="{{ __('filament-companies::default.fields.password') }}">
+                <x-filament-companies::input id="password" type="password" name="password"
+                    required autocomplete="new-password" />
+            </x-forms::field-wrapper>
         </div>
 
-        <div class="mt-4">
-            <x-filament-companies::label for="password_confirmation"
-                value="{{ __('filament-companies::default.labels.password_confirmation') }}" />
-            <x-filament-companies::input id="password_confirmation" class="mt-1 block w-full" type="password"
-                name="password_confirmation" required autocomplete="new-password" />
+        <div>
+            <x-forms::field-wrapper id="password_confirmation" statePath="password_confirmation" required="true" label="{{ __('filament-companies::default.labels.password_confirmation') }}">
+                <x-filament-companies::input id="password_confirmation" type="password"
+                    name="password_confirmation" required autocomplete="new-password" />
+            </x-forms::field-wrapper>
         </div>
 
         @if (Wallo\FilamentCompanies\FilamentCompanies::hasTermsAndPrivacyPolicyFeature())
@@ -61,18 +69,16 @@
             </div>
         @endif
 
-        <div class="mt-4 flex items-center justify-end">
-            <a class="text-primary-600 dark:text-primary-400 text-sm font-medium" href="{{ route('login') }}">
-                {{ __('filament-companies::default.links.already_registered') }}
-            </a>
-
-            <x-filament::button type="submit" class="ml-4">
+        <div>
+            <x-filament::button type="submit" class="w-full">
                 {{ __('filament-companies::default.buttons.register') }}
             </x-filament::button>
         </div>
     </form>
 
-    @if (Wallo\FilamentCompanies\Socialite::show())
-        <x-filament-companies::socialite />
-    @endif
+    <div class="mt-4">
+        @if (Wallo\FilamentCompanies\Socialite::show())
+            <x-filament-companies::socialite />
+        @endif
+    </div>
 </x-filament::layouts.card>
