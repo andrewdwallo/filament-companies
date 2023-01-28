@@ -194,10 +194,10 @@ public function mount(): void
 #### You may also use collections of different companies and group them together, or you may use ranges of values, and more. 
 
 ### Note
-* Documentation specific to Filament will come as more modifications are made.
+* Documentation is on the way. I am currently making a DOCS website.
 * This package is supposed to be a Filament Context and is planning to be used as one in Filament V3
 * The default view after install is not supposed to be the "Admin" Context, this would be the view that a "company user" would see
-* There are methods to support an "Admin" Context if wanted
+* There are methods to support an "Admin" Context if wanted.
 
 ### Contributing
 * Fork this repository to your GitHub account.
