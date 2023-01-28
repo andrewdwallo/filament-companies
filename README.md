@@ -123,6 +123,42 @@ https://jetstream.laravel.com/2.x/introduction.html
 ```
 - The Laravel Welcome Page, Fortify, etc.. will respect your changes.
 
+### Socialite
+
+* Pass the Provider you need in config/filament-company.php
+
+```
+    /*
+    |--------------------------------------------------------------------------
+    | Socialite Providers
+    |--------------------------------------------------------------------------
+    |
+    | Here you may specify the providers your application supports for OAuth.
+    | Out of the box, FilamentCompanies provides support for all of the OAuth
+    | providers that are supported by Laravel Socialite.
+    |
+    */
+
+    'providers' => [
+        Providers::github(),
+        // Providers::google(),
+        // Providers::twitter(),
+        // Providers::facebook(),
+        // Providers::bitbucket(),
+        // Providers::gitlab(),
+        // Providers::linkedin(),
+    ],
+```
+
+* In config/services.php, Pass your providers credentials in the providers array for example.
+* Make sure the providers redirect uri is similar to the following and you are all set.
+```
+    'github' => [
+        'client_id' => env('GITHUB_CLIENT_ID'),
+        'client_secret' => env('GITHUB_CLIENT_SECRET'),
+        'redirect' => 'https://filament.test/oauth/github/callback',
+    ],
+```
 
 #### Example #1: Only allowing a certain company ID to see & visit a filament page, resource, etc...
 
