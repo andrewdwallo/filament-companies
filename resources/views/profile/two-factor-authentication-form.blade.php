@@ -96,8 +96,7 @@
                     @if ($showingRecoveryCodes)
                         <x-filament-companies::confirms-password wire:then="regenerateRecoveryCodes">
                             <x-filament::button
-                                type="submit"
-                                class="mr-3">
+                                type="submit">
                                 {{ __('filament-companies::default.buttons.regenerate_recovery_codes') }}
 
                             </x-filament::button>
@@ -106,7 +105,6 @@
                         <x-filament-companies::confirms-password wire:then="confirmTwoFactorAuthentication">
                             <x-filament::button
                                 type="button"
-                                class="mr-3"
                                 wire:loading.attr="disabled">
                                 {{ __('filament-companies::default.buttons.confirm') }}
 
@@ -115,8 +113,7 @@
                     @else
                         <x-filament-companies::confirms-password wire:then="showRecoveryCodes">
                             <x-filament::button
-                                type="submit"
-                                class="mr-3">
+                                type="submit">
                                 {{ __('filament-companies::default.buttons.show_recovery_codes') }}
 
                             </x-filament::button>

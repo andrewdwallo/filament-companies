@@ -225,7 +225,9 @@ Route::middleware([
     'auth:sanctum',
     config('filament-companies.auth_session'),
     'verified'
-]);
+])->group(function () {
+    Route::get(config('filament.path'), Dashboard::class)->name('filament.pages.dashboard');
+});
 
 EOF;
     }

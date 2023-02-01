@@ -4,7 +4,9 @@ namespace Wallo\FilamentCompanies\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\Auth;
 use Wallo\FilamentCompanies\FilamentCompanies;
+use Wallo\FilamentCompanies\Pages\Companies\CompanySettings;
 
 class CurrentCompanyController extends Controller
 {
@@ -22,6 +24,6 @@ class CurrentCompanyController extends Controller
             abort(403);
         }
 
-        return back();
+        return redirect()->to((CompanySettings::getUrl(['company' => Auth::user()->currentCompany->id])), 303);
     }
 }

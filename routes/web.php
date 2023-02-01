@@ -46,9 +46,9 @@ Route::group(['middleware' => config('filament-companies.middleware', ['web'])],
 
                     // Companies...
                     if (FilamentCompanies::hasCompanyFeatures()) {
-                        Route::get('companies/create-company', CreateCompany::class);
+                        Route::get('companies/create', CreateCompany::class);
 
-                        Route::get('companies/company-settings', CompanySettings::class);
+                        Route::get('companies/{company}', CompanySettings::class);
                         Route::put('/current-company', [CurrentCompanyController::class, 'update'])->name('current-company.update');
 
                         Route::get('/company-invitations/{invitation}', [CompanyInvitationController::class, 'accept'])

@@ -10,23 +10,18 @@
     <form wire:submit.prevent="setPassword" class="col-span-2 mt-5 sm:col-span-1 md:mt-0">
         <x-filament::card>
             <div class="col-span-6 sm:col-span-4">
-                <x-filament-companies::label for="password"
-                    value="{{ __('filament-companies::default.labels.new_password') }}" />
 
-                <x-filament-companies::input id="password" type="password" class="mt-1 block w-full"
-                    wire:model.defer="state.password" autocomplete="new-password" />
-
-                <x-filament-companies::input-error for="password" class="mt-2" />
+                <x-forms::field-wrapper id="password" statePath="password" required="true" label="{{ __('filament-companies::default.labels.new_password') }}">
+                    <x-filament-companies::input id="password" type="password"
+                        wire:model.defer="state.password" autocomplete="new-password" />
+                </x-forms::field-wrapper>
             </div>
 
             <div class="col-span-6 sm:col-span-4">
-                <x-filament-companies::label for="password_confirmation"
-                    value="{{ __('filament-companies::default.labels.password_confirmation') }}" />
-
-                <x-filament-companies::input id="password_confirmation" type="password" class="mt-1 block w-full"
-                    wire:model.defer="state.password_confirmation" autocomplete="new-password" />
-
-                <x-filament-companies::input-error for="password_confirmation" class="mt-2" />
+                <x-forms::field-wrapper id="password_confirmation" statePath="password_confirmation" required="true" label="{{ __('filament-companies::default.labels.password_confirmation') }}">
+                    <x-filament-companies::input id="password_confirmation" type="password"
+                        wire:model.defer="state.password_confirmation" autocomplete="new-password" />
+                </x-forms::field-wrapper>
             </div>
 
             <x-slot name="footer">

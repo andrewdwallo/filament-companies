@@ -56,23 +56,20 @@
 
             <!-- Name -->
             <div class="col-span-6 sm:col-span-4">
-                <x-filament-companies::label for="name"
-                    value="{{ __('filament-companies::default.fields.name') }}" />
-                <x-filament-companies::input id="name" type="text" class="mt-1 block w-full"
-                    wire:model.defer="state.name" autocomplete="name" />
-                <x-filament-companies::input-error for="name" class="mt-2" />
+                <x-forms::field-wrapper id="name" statePath="name" required="true" label="{{ __('filament-companies::default.fields.name') }}">
+                    <x-filament-companies::input id="name" type="text" maxLength="255"
+                        wire:model.defer="state.name" autocomplete="name" />
+                </x-forms::field-wrapper>
             </div>
 
             <!-- Email -->
             <div class="col-span-6 sm:col-span-4">
-                <x-filament-companies::label for="email"
-                    value="{{ __('filament-companies::default.fields.email') }}" />
-                <x-filament-companies::input id="email" type="email" class="mt-1 block w-full"
+                <x-forms::field-wrapper id="email" statePath="email" required="true" label="{{ __('filament-companies::default.fields.email') }}">
+                <x-filament-companies::input id="email" type="email" maxLength="255"
                     wire:model.defer="state.email" />
-                <x-filament-companies::input-error for="email" class="mt-2" />
+                </x-forms::field-wrapper>
 
-                @if (Laravel\Fortify\Features::enabled(Laravel\Fortify\Features::emailVerification()) &&
-                        !$this->user - hasVerifiedEmail())
+                @if (Laravel\Fortify\Features::enabled(Laravel\Fortify\Features::emailVerification()) && ! $this->user->hasVerifiedEmail())
                     <p class="mt-2 text-sm dark:text-white">
                         {{ __('filament-companies::default.headings.profile.update_profile_information.verification_link_not_sent') }}
 
