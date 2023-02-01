@@ -2,14 +2,15 @@
 
 namespace Wallo\FilamentCompanies\Pages\Companies;
 
-use Closure;
+use App\Models\Company;
 use Filament\Pages\Page;
-use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 use Wallo\FilamentCompanies\FilamentCompanies;
 
 class CompanySettings extends Page
 {
-    protected static ?string $slug = 'companies/company-settings';
+    public $company;
 
     protected static string $view = "filament-companies::filament.pages.companies.company_settings";
 
@@ -20,15 +21,16 @@ class CompanySettings extends Page
         return __('filament-companies::default.pages.titles.company_settings');
     }
 
-    protected function getViewData(): array
-    {
-        return [
-            'company' => auth()->user()->currentCompany
-        ];
-    }
-
-    public function mount(): void
+    public function mount(Company $company): void
     {
         abort_unless(FilamentCompanies::hasCompanyFeatures(), 403);
+        abort_if(Gate::denies('view', $company), 403);
+        $this->company = Auth::user()->currentCompany;
+        $this->company = $company;
+    }
+
+    public static function getSlug(): string
+    {
+        return 'companies/{company}';
     }
 }

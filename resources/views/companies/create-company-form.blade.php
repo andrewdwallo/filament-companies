@@ -24,11 +24,9 @@
             </div>
 
             <div class="col-span-6 sm:col-span-4">
-                <x-filament-companies::label for="name"
-                    value="{{ __('filament-companies::default.labels.company_name') }}" />
-                <x-filament-companies::input id="name" type="text" class="mt-1 block w-full"
-                    wire:model.defer="state.name" autofocus />
-                <x-filament-companies::input-error for="name" class="mt-2" />
+                <x-forms::field-wrapper id="name" statePath="name" required="true" label="{{ __('filament-companies::default.labels.company_name') }}">
+                    <x-filament-companies::input id="name" type="text" wire:model.defer="state.name" autofocus />
+                </x-forms::field-wrapper>
             </div>
 
             <x-slot name="footer">

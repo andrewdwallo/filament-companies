@@ -6,8 +6,6 @@ use Filament\Pages\Page;
 
 class Profile extends Page
 {
-    protected static ?string $slug = 'user/profile';
-
     protected static string $view = "filament-companies::filament.pages.user.profile";
 
     protected static bool $shouldRegisterNavigation = false;
@@ -22,5 +20,10 @@ class Profile extends Page
         return [
             'user' => auth()->user()
         ];
+    }
+
+    public static function getSlug(): string
+    {
+        return 'user/profile';
     }
 }

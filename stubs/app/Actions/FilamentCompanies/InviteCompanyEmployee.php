@@ -81,7 +81,7 @@ class InviteCompanyEmployee implements InvitesCompanyEmployees
             $validator->errors()->addIf(
                 $company->hasUserWithEmail($email),
                 'email',
-                __('This employee already belongs to the team.')
+                __('This employee already belongs to the company.')
             );
         };
     }
