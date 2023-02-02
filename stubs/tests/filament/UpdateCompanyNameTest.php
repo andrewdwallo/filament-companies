@@ -12,7 +12,7 @@ class UpdateCompanyNameTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_company_names_can_be_updated()
+    public function test_company_names_can_be_updated(): void
     {
         $this->actingAs($user = User::factory()->withPersonalCompany()->create());
 

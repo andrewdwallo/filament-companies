@@ -2,6 +2,10 @@
 
 namespace App\Actions\FilamentCompanies;
 
+use App\Models\Company;
+use App\Models\User;
+use Closure;
+use Illuminate\Database\Query\Builder;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
@@ -16,14 +20,8 @@ class InviteCompanyEmployee implements InvitesCompanyEmployees
 {
     /**
      * Invite a new company employee to the given company.
-     *
-     * @param  mixed  $user
-     * @param  mixed  $company
-     * @param  string  $email
-     * @param  string|null  $role
-     * @return void
      */
-    public function invite($user, $company, string $email, string $role = null)
+    public function invite(User $user, Company $company, string $email, string $role = null): void
     {
         Gate::forUser($user)->authorize('addCompanyEmployee', $company);
 
@@ -41,19 +39,14 @@ class InviteCompanyEmployee implements InvitesCompanyEmployees
 
     /**
      * Validate the invite employee operation.
-     *
-     * @param  mixed  $company
-     * @param  string  $email
-     * @param  string|null  $role
-     * @return void
      */
-    protected function validate($company, string $email, ?string $role)
+    protected function validate(Company $company, string $email, ?string $role): void
     {
         Validator::make([
             'email' => $email,
             'role' => $role,
         ], $this->rules($company), [
-            'email.unique' => __('This user has already been invited to the company.'),
+            'email.unique' => __('This employee has already been invited to the company.'),
         ])->after(
             $this->ensureUserIsNotAlreadyOnCompany($company, $email)
         )->validateWithBag('addCompanyEmployee');
@@ -62,15 +55,17 @@ class InviteCompanyEmployee implements InvitesCompanyEmployees
     /**
      * Get the validation rules for inviting a company employee.
      *
-     * @param  mixed  $company
-     * @return array
+     * @return array<string, \Illuminate\Contracts\Validation\Rule|array|string>
      */
-    protected function rules($company)
+    protected function rules(Company $company): array
     {
         return array_filter([
-            'email' => ['required', 'email', Rule::unique('company_invitations')->where(function ($query) use ($company) {
-                $query->where('company_id', $company->id);
-            })],
+            'email' => [
+                'required', 'email',
+                Rule::unique('company_invitations')->where(function (Builder $query) use ($company) {
+                    $query->where('company_id', $company->id);
+                }),
+            ],
             'role' => FilamentCompanies::hasRoles()
                             ? ['required', 'string', new Role]
                             : null,
@@ -78,19 +73,15 @@ class InviteCompanyEmployee implements InvitesCompanyEmployees
     }
 
     /**
-     * Ensure that the user is not already on the company.
-     *
-     * @param  mixed  $company
-     * @param  string  $email
-     * @return \Closure
+     * Ensure that the employee is not already on the company.
      */
-    protected function ensureUserIsNotAlreadyOnCompany($company, string $email)
+    protected function ensureUserIsNotAlreadyOnCompany(Company $company, string $email): Closure
     {
         return function ($validator) use ($company, $email) {
             $validator->errors()->addIf(
                 $company->hasUserWithEmail($email),
                 'email',
-                __('This user already belongs to the company.')
+                __('This employee already belongs to the company.')
             );
         };
     }

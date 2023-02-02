@@ -12,7 +12,7 @@ class UpdateCompanyEmployeeRoleTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_company_employee_roles_can_be_updated()
+    public function test_company_employee_roles_can_be_updated(): void
     {
         $this->actingAs($user = User::factory()->withPersonalCompany()->create());
 
@@ -30,7 +30,7 @@ class UpdateCompanyEmployeeRoleTest extends TestCase
         ));
     }
 
-    public function test_only_company_owner_can_update_company_employee_roles()
+    public function test_only_company_owner_can_update_company_employee_roles(): void
     {
         $user = User::factory()->withPersonalCompany()->create();
 

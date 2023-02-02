@@ -79,6 +79,6 @@ class DeleteUserForm extends Component
      */
     public function render()
     {
-        return view('profile.delete-user-form');
+        return view('filament-companies::profile.delete-user-form');
     }
 }

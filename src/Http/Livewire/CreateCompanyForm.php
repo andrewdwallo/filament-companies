@@ -50,6 +50,6 @@ class CreateCompanyForm extends Component
      */
     public function render()
     {
-        return view('companies.create-company-form');
+        return view('filament-companies::companies.create-company-form');
     }
 }

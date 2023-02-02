@@ -41,7 +41,7 @@
                 {{ __('Cancel') }}
             </x-filament::button>
 
-            <x-filament::button class="ml-3" dusk="confirm-password-button"
+            <x-filament::button dusk="confirm-password-button"
                                 wire:click="confirmPassword" wire:loading.attr="disabled">
                 {{ $button }}
             </x-filament::button>

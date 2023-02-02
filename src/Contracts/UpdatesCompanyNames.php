@@ -2,15 +2,10 @@
 
 namespace Wallo\FilamentCompanies\Contracts;
 
+/**
+ * @method void update(\Illuminate\Foundation\Auth\User $user, \Illuminate\Database\Eloquent\Model $company, array $input)
+ */
 interface UpdatesCompanyNames
 {
-    /**
-     * Validate and update the given company's name.
-     *
-     * @param  mixed  $user
-     * @param  mixed  $company
-     * @param  array  $input
-     * @return void
-     */
-    public function update($user, $company, array $input);
+    //
 }

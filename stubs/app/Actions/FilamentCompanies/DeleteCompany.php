@@ -2,6 +2,7 @@
 
 namespace App\Actions\FilamentCompanies;
 
+use App\Models\Company;
 use Wallo\FilamentCompanies\Contracts\DeletesCompanies;
 
 class DeleteCompany implements DeletesCompanies
@@ -9,10 +10,8 @@ class DeleteCompany implements DeletesCompanies
     /**
      * Delete the given company.
      *
-     * @param  mixed  $company
-     * @return void
      */
-    public function delete($company)
+    public function delete(Company $company): void
     {
         $company->purge();
     }

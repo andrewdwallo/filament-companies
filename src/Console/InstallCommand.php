@@ -56,11 +56,11 @@ class InstallCommand extends Command
         $this->callSilent('storage:link');
 
         // "Home" Route...
-        $this->replaceInFile('/home', '/admin', app_path('Providers/RouteServiceProvider.php'));
+        $this->replaceInFile('/home', '', app_path('Providers/RouteServiceProvider.php'));
 
         if (file_exists(resource_path('views/welcome.blade.php'))) {
-            $this->replaceInFile('/home', '/admin', resource_path('views/welcome.blade.php'));
-            $this->replaceInFile('Home', 'Admin', resource_path('views/welcome.blade.php'));
+            $this->replaceInFile("{{ url('/home') }}", "{{ url(config('filament.path')) }}", resource_path('views/welcome.blade.php'));
+            $this->replaceInFile("Home", "{{ucfirst(trans(config('filament.path')))}}", resource_path('views/welcome.blade.php'));
         }
 
         // Fortify Provider...
@@ -141,35 +141,10 @@ class InstallCommand extends Command
         $this->replaceInFile('filament', 'filament', config_path('filament-companies.php'));
         // $this->replaceInFile("'guard' => 'web'", "'guard' => 'sanctum'", config_path('auth.php'));
 
-        // NPM Packages...
-        $this->updateNodePackages(function ($packages) {
-            return [
-                '@tailwindcss/forms' => '^0.5.2',
-                '@tailwindcss/typography' => '^0.5.0',
-                'alpinejs' => '^3.0.6',
-                '@alpinejs/focus' => '^3.10.5',
-                'autoprefixer' => '^10.4.7',
-                'postcss' => '^8.4.14',
-                'tailwindcss' => '^3.1.0',
-                '@awcodes/alpine-floating-ui' => '^3.4.0',
-            ] + $packages;
-        });
-
-        // Tailwind Configuration...
-        copy(__DIR__.'/../../stubs/filament/tailwind.config.js', base_path('tailwind.config.js'));
-        copy(__DIR__.'/../../stubs/filament/postcss.config.js', base_path('postcss.config.js'));
-        copy(__DIR__.'/../../stubs/filament/vite.config.js', base_path('vite.config.js'));
-
         // Directories...
         (new Filesystem)->ensureDirectoryExists(app_path('Actions/Fortify'));
         (new Filesystem)->ensureDirectoryExists(app_path('Actions/FilamentCompanies'));
-        (new Filesystem)->ensureDirectoryExists(app_path('View/Components'));
-        (new Filesystem)->ensureDirectoryExists(resource_path('css'));
         (new Filesystem)->ensureDirectoryExists(resource_path('markdown'));
-        (new Filesystem)->ensureDirectoryExists(resource_path('views/api'));
-        (new Filesystem)->ensureDirectoryExists(resource_path('views/auth'));
-        (new Filesystem)->ensureDirectoryExists(resource_path('views/layouts'));
-        (new Filesystem)->ensureDirectoryExists(resource_path('views/profile'));
 
         (new Filesystem)->deleteDirectory(resource_path('sass'));
 
@@ -178,11 +153,7 @@ class InstallCommand extends Command
         copy(__DIR__.'/../../stubs/resources/markdown/policy.md', resource_path('markdown/policy.md'));
 
         // Service Providers...
-        copy(__DIR__.'/../../stubs/app/Providers/FilamentCompaniesServiceProvider.php', app_path('Providers/FilamentCompaniesServiceProvider.php'));
         $this->installServiceProviderAfter('FortifyServiceProvider', 'FilamentCompaniesServiceProvider');
-
-        // Models...
-        copy(__DIR__.'/../../stubs/app/Models/User.php', app_path('Models/User.php'));
 
         // Factories...
         copy(__DIR__.'/../../database/factories/UserFactory.php', base_path('database/factories/UserFactory.php'));
@@ -192,33 +163,12 @@ class InstallCommand extends Command
         copy(__DIR__.'/../../stubs/app/Actions/Fortify/UpdateUserProfileInformation.php', app_path('Actions/Fortify/UpdateUserProfileInformation.php'));
         copy(__DIR__.'/../../stubs/app/Actions/FilamentCompanies/DeleteUser.php', app_path('Actions/FilamentCompanies/DeleteUser.php'));
 
-        // View Components...
-        copy(__DIR__.'/../../stubs/filament/app/View/Components/AppLayout.php', app_path('View/Components/AppLayout.php'));
-        copy(__DIR__.'/../../stubs/filament/app/View/Components/GuestLayout.php', app_path('View/Components/GuestLayout.php'));
-
-        // Layouts...
-        (new Filesystem)->copyDirectory(__DIR__.'/../../stubs/filament/resources/views/layouts', resource_path('views/layouts'));
-
-        // Single Blade Views...
-        copy(__DIR__.'/../../stubs/filament/resources/views/navigation-menu.blade.php', resource_path('views/navigation-menu.blade.php'));
-        copy(__DIR__.'/../../stubs/filament/resources/views/terms.blade.php', resource_path('views/terms.blade.php'));
-        copy(__DIR__.'/../../stubs/filament/resources/views/policy.blade.php', resource_path('views/policy.blade.php'));
-
-        // Other Views...
-        (new Filesystem)->copyDirectory(__DIR__.'/../../stubs/filament/resources/views/api', resource_path('views/api'));
-        (new Filesystem)->copyDirectory(__DIR__.'/../../stubs/filament/resources/views/profile', resource_path('views/profile'));
-        (new Filesystem)->copyDirectory(__DIR__.'/../../stubs/filament/resources/views/auth', resource_path('views/auth'));
-
         // Routes...
         $this->replaceInFile('auth:api', 'auth:sanctum', base_path('routes/api.php'));
 
         if (! Str::contains(file_get_contents(base_path('routes/web.php')), "'/admin'")) {
             (new Filesystem)->append(base_path('routes/web.php'), $this->livewireRouteDefinition());
         }
-
-        // Assets...
-        copy(__DIR__.'/../../stubs/resources/css/app.css', resource_path('css/app.css'));
-        copy(__DIR__.'/../../stubs/filament/resources/js/app.js', resource_path('js/app.js'));
 
         // Tests...
         $stubs = $this->getTestStubsPath();
@@ -237,14 +187,6 @@ class InstallCommand extends Command
             $this->installFilamentCompanyStack();
         }
 
-        if (file_exists(base_path('pnpm-lock.yaml'))) {
-            $this->runCommands(['pnpm install', 'pnpm run build']);
-        } elseif (file_exists(base_path('yarn.lock'))) {
-            $this->runCommands(['yarn install', 'yarn run build']);
-        } else {
-            $this->runCommands(['npm install', 'npm run build']);
-        }
-
         $this->line('');
         $this->components->info('Filament scaffolding installed successfully.');
     }
@@ -256,16 +198,6 @@ class InstallCommand extends Command
      */
     protected function installFilamentCompanyStack()
     {
-        // Directories...
-        (new Filesystem)->ensureDirectoryExists(resource_path('views/companies'));
-
-        (new Filesystem)->ensureDirectoryExists(resource_path('views/filament'));
-
-        // Other Views...
-        (new Filesystem)->copyDirectory(__DIR__.'/../../stubs/filament/resources/views/companies', resource_path('views/companies'));
-
-        (new Filesystem)->copyDirectory(__DIR__.'/../../stubs/filament/resources/views/filament', resource_path('views/filament'));
-
         // Tests...
         $stubs = $this->getTestStubsPath();
 
@@ -293,7 +225,9 @@ Route::middleware([
     'auth:sanctum',
     config('filament-companies.auth_session'),
     'verified'
-]);
+])->group(function () {
+
+});
 
 EOF;
     }
@@ -322,41 +256,44 @@ EOF;
 
         $this->replaceInFile('\Filament\Http\Livewire\Auth\Login::class', 'null', config_path('filament.php'));
 
+        $this->replaceInFile("RouteServiceProvider::HOME", "config('filament.path')", config_path('fortify.php'));
+
 
         // Directories...
         (new Filesystem)->ensureDirectoryExists(app_path('Actions/FilamentCompanies'));
         (new Filesystem)->ensureDirectoryExists(app_path('Events'));
-        (new Filesystem)->ensureDirectoryExists(app_path('Filament/Pages/User'));
-        (new Filesystem)->ensureDirectoryExists(app_path('Filament/Pages/Companies'));
         (new Filesystem)->ensureDirectoryExists(app_path('Policies'));
 
 
         // Service Providers...
         copy(__DIR__.'/../../stubs/app/Providers/AuthServiceProvider.php', app_path('Providers/AuthServiceProvider.php'));
-        copy(__DIR__.'/../../stubs/app/Providers/FilamentCompaniesWithCompaniesServiceProvider.php', app_path('Providers/FilamentCompaniesServiceProvider.php'));
+        copy(__DIR__.'/../../stubs/app/Providers/FilamentCompaniesServiceProvider.php', app_path('Providers/FilamentCompaniesServiceProvider.php'));
 
         // Models...
         copy(__DIR__.'/../../stubs/app/Models/Employeeship.php', app_path('Models/Employeeship.php'));
         copy(__DIR__.'/../../stubs/app/Models/Company.php', app_path('Models/Company.php'));
         copy(__DIR__.'/../../stubs/app/Models/CompanyInvitation.php', app_path('Models/CompanyInvitation.php'));
-        copy(__DIR__.'/../../stubs/app/Models/UserWithCompanies.php', app_path('Models/User.php'));
+        copy(__DIR__.'/../../stubs/app/Models/User.php', app_path('Models/User.php'));
+        copy(__DIR__.'/../../stubs/app/Models/ConnectedAccount.php', app_path('Models/ConnectedAccount.php'));
 
-        // Actions...
+        // FilamentCompanies Actions...
         copy(__DIR__.'/../../stubs/app/Actions/FilamentCompanies/AddCompanyEmployee.php', app_path('Actions/FilamentCompanies/AddCompanyEmployee.php'));
         copy(__DIR__.'/../../stubs/app/Actions/FilamentCompanies/CreateCompany.php', app_path('Actions/FilamentCompanies/CreateCompany.php'));
         copy(__DIR__.'/../../stubs/app/Actions/FilamentCompanies/DeleteCompany.php', app_path('Actions/FilamentCompanies/DeleteCompany.php'));
-        copy(__DIR__.'/../../stubs/app/Actions/FilamentCompanies/DeleteUserWithCompanies.php', app_path('Actions/FilamentCompanies/DeleteUser.php'));
+        copy(__DIR__.'/../../stubs/app/Actions/FilamentCompanies/DeleteUser.php', app_path('Actions/FilamentCompanies/DeleteUser.php'));
         copy(__DIR__.'/../../stubs/app/Actions/FilamentCompanies/InviteCompanyEmployee.php', app_path('Actions/FilamentCompanies/InviteCompanyEmployee.php'));
         copy(__DIR__.'/../../stubs/app/Actions/FilamentCompanies/RemoveCompanyEmployee.php', app_path('Actions/FilamentCompanies/RemoveCompanyEmployee.php'));
         copy(__DIR__.'/../../stubs/app/Actions/FilamentCompanies/UpdateCompanyName.php', app_path('Actions/FilamentCompanies/UpdateCompanyName.php'));
 
-        copy(__DIR__.'/../../stubs/app/Actions/Fortify/CreateNewUserWithCompanies.php', app_path('Actions/Fortify/CreateNewUser.php'));
+        // Socialiite Actions...
+        copy(__DIR__.'/../../stubs/app/Actions/FilamentCompanies/CreateConnectedAccount.php', app_path('Actions/FilamentCompanies/CreateConnectedAccount.php'));
+        copy(__DIR__.'/../../stubs/app/Actions/FilamentCompanies/CreateUserFromProvider.php', app_path('Actions/FilamentCompanies/CreateUserFromProvider.php'));
+        copy(__DIR__.'/../../stubs/app/Actions/FilamentCompanies/HandleInvalidState.php', app_path('Actions/FilamentCompanies/HandleInvalidState.php'));
+        copy(__DIR__.'/../../stubs/app/Actions/FilamentCompanies/ResolveSocialiteUser.php', app_path('Actions/FilamentCompanies/ResolveSocialiteUser.php'));
+        copy(__DIR__.'/../../stubs/app/Actions/FilamentCompanies/SetUserPassword.php', app_path('Actions/FilamentCompanies/SetUserPassword.php'));
+        copy(__DIR__.'/../../stubs/app/Actions/FilamentCompanies/UpdateConnectedAccount.php', app_path('Actions/FilamentCompanies/UpdateConnectedAccount.php'));
 
-        copy(__DIR__.'/../../stubs/app/Filament/Pages/User/Profile.php', app_path('Filament/Pages/User/Profile.php'));
-        copy(__DIR__.'/../../stubs/app/Filament/Pages/User/ApiTokens.php', app_path('Filament/Pages/User/ApiTokens.php'));
-
-        copy(__DIR__.'/../../stubs/app/Filament/Pages/Companies/Create.php', app_path('Filament/Pages/Companies/Create.php'));
-        copy(__DIR__.'/../../stubs/app/Filament/Pages/Companies/Show.php', app_path('Filament/Pages/Companies/Show.php'));
+        copy(__DIR__.'/../../stubs/app/Actions/Fortify/CreateNewUser.php', app_path('Actions/Fortify/CreateNewUser.php'));
 
         // Policies...
         (new Filesystem)->copyDirectory(__DIR__.'/../../stubs/app/Policies', app_path('Policies'));
@@ -506,22 +443,6 @@ EOF;
             base_path('package.json'),
             json_encode($packages, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT).PHP_EOL
         );
-    }
-
-    /**
-     * Delete the "node_modules" directory and remove the associated lock files.
-     *
-     * @return void
-     */
-    protected static function flushNodeModules()
-    {
-        tap(new Filesystem, function ($files) {
-            $files->deleteDirectory(base_path('node_modules'));
-
-            $files->delete(base_path('pnpm-lock.yaml'));
-            $files->delete(base_path('yarn.lock'));
-            $files->delete(base_path('package-lock.json'));
-        });
     }
 
     /**

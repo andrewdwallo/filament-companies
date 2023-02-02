@@ -13,7 +13,7 @@ class DeleteCompanyTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_companies_can_be_deleted()
+    public function test_companies_can_be_deleted(): void
     {
         $this->actingAs($user = User::factory()->withPersonalCompany()->create());
 
@@ -32,7 +32,7 @@ class DeleteCompanyTest extends TestCase
         $this->assertCount(0, $otherUser->fresh()->companies);
     }
 
-    public function test_personal_companies_cant_be_deleted()
+    public function test_personal_companies_cant_be_deleted(): void
     {
         $this->actingAs($user = User::factory()->withPersonalCompany()->create());
 

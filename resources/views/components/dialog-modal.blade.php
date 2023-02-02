@@ -1,17 +1,25 @@
 @props(['id' => null, 'maxWidth' => null])
 
 <x-filament-companies::modal :id="$id" :maxWidth="$maxWidth" {{ $attributes }}>
-    <div class="px-6 py-4">
-        <div class="text-lg">
-            {{ $title }}
-        </div>
+    <div class="space-y-2 p-2">
+        <div class="p-4 space-y-2 text-center dark:text-white">
+            <div class="text-xl font-bold tracking-tight">
+                {{ $title }}
+            </div>
 
-        <div class="mt-4">
-            {{ $content }}
+            <div class="text-gray-500">
+                {{ $content }}
+            </div>
         </div>
     </div>
 
-    <div class="flex flex-row justify-end px-6 py-4 bg-gray-100 dark:bg-gray-900 text-right">
-        {{ $footer }}
+    <div class="space-y-2">
+        <div area-hidden="true" class="filament-hr border-t dark:border-gray-700 px-2">
+            <div class="px-6 py-2">
+                <div class="grid gap-2 grid-cols-[repeat(auto-fit,minmax(0,1fr))]">
+                    {{ $footer }}
+                </div>
+            </div>
+        </div>
     </div>
 </x-filament-companies::modal>

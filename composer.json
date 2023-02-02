@@ -21,14 +21,15 @@
         }
     ],
     "require": {
-        "php": "^8.0.2",
+        "php": "^8.0",
         "ext-json": "*",
         "filament/filament": "^2.16",
-        "illuminate/console": "^9.21",
-        "illuminate/contracts": "^9.45",
-        "illuminate/support": "^9.21",
+        "illuminate/console": "^8.6|^9.0",
+        "illuminate/contracts": "^8.6|^9.0",
+        "illuminate/support": "^8.6|^9.0",
         "jenssegers/agent": "^2.6",
-        "laravel/fortify": "^1.12"
+        "laravel/fortify": "^1.15",
+        "laravel/socialite": "^5.6"
     },
     "require-dev": {
         "laravel/sanctum": "^3.0",
@@ -56,10 +57,7 @@
         }
     },
     "config": {
-        "sort-packages": true,
-        "allow-plugins": {
-            "pestphp/pest-plugin": false
-        }
+        "sort-packages": true
     },
     "minimum-stability": "dev",
     "prefer-stable": true

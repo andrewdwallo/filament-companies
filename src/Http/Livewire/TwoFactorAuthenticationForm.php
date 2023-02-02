@@ -175,6 +175,6 @@ class TwoFactorAuthenticationForm extends Component
      */
     public function render()
     {
-        return view('profile.two-factor-authentication-form');
+        return view('filament-companies::profile.two-factor-authentication-form');
     }
 }

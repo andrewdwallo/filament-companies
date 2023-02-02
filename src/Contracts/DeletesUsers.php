@@ -2,13 +2,10 @@
 
 namespace Wallo\FilamentCompanies\Contracts;
 
+/**
+ * @method void delete(\Illuminate\Foundation\Auth\User $user)
+ */
 interface DeletesUsers
 {
-    /**
-     * Delete the given user.
-     *
-     * @param  mixed  $user
-     * @return void
-     */
-    public function delete($user);
+    //
 }

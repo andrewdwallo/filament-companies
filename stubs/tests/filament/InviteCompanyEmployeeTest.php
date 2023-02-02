@@ -15,10 +15,12 @@ class InviteCompanyEmployeeTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_company_employees_can_be_invited_to_company()
+    public function test_company_employees_can_be_invited_to_company(): void
     {
         if (! Features::sendsCompanyInvitations()) {
-            return $this->markTestSkipped('Company invitations not enabled.');
+            $this->markTestSkipped('Company invitations not enabled.');
+
+            return;
         }
 
         Mail::fake();
@@ -36,10 +38,12 @@ class InviteCompanyEmployeeTest extends TestCase
         $this->assertCount(1, $user->currentCompany->fresh()->companyInvitations);
     }
 
-    public function test_company_employee_invitations_can_be_cancelled()
+    public function test_company_employee_invitations_can_be_cancelled(): void
     {
         if (! Features::sendsCompanyInvitations()) {
-            return $this->markTestSkipped('Company invitations not enabled.');
+            $this->markTestSkipped('Company invitations not enabled.');
+
+            return;
         }
 
         Mail::fake();
