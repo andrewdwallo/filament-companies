@@ -24,6 +24,6 @@ class CurrentCompanyController extends Controller
             abort(403);
         }
 
-        return redirect()->to((CompanySettings::getUrl(['company' => Auth::user()->currentCompany->id])), 303);
+      return  back();
     }
 }
