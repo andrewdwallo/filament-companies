@@ -24,6 +24,6 @@ class CurrentCompanyController extends Controller
             abort(403);
         }
 
-        return back();
+        return  back();
     }
 }
