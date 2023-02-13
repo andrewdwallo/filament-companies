@@ -2,6 +2,10 @@
 
 namespace Wallo\FilamentCompanies;
 
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use Laravel\Sanctum\HasApiTokens;
 
@@ -13,7 +17,7 @@ trait HasCompanies
      * @param  mixed  $company
      * @return bool
      */
-    public function isCurrentCompany($company)
+    public function isCurrentCompany($company): bool
     {
         return $company->id === $this->currentCompany->id;
     }
@@ -21,9 +25,9 @@ trait HasCompanies
     /**
      * Get the current company of the user's filament-companies.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return BelongsTo
      */
-    public function currentCompany()
+    public function currentCompany(): BelongsTo
     {
         if (is_null($this->current_company_id) && $this->id) {
             $this->switchCompany($this->personalCompany());
@@ -38,7 +42,7 @@ trait HasCompanies
      * @param  mixed  $company
      * @return bool
      */
-    public function switchCompany($company)
+    public function switchCompany($company): bool
     {
         if (! $this->belongsToCompany($company)) {
             return false;
@@ -54,31 +58,31 @@ trait HasCompanies
     }
 
     /**
-     * Get all of the companies the user owns or belongs to.
+     * Get all the companies the user owns or belongs to.
      *
-     * @return \Illuminate\Support\Collection
+     * @return Collection
      */
-    public function allCompanies()
+    public function allCompanies(): Collection
     {
         return $this->ownedCompanies->merge($this->companies)->sortBy('name');
     }
 
     /**
-     * Get all of the companies the user owns.
+     * Get all the companies the user owns.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return HasMany
      */
-    public function ownedCompanies()
+    public function ownedCompanies(): HasMany
     {
         return $this->hasMany(FilamentCompanies::companyModel());
     }
 
     /**
-     * Get all of the companies the user belongs to.
+     * Get all the companies the user belongs to.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     * @return BelongsToMany
      */
-    public function companies()
+    public function companies(): BelongsToMany
     {
         return $this->belongsToMany(FilamentCompanies::companyModel(), FilamentCompanies::employeeshipModel())
                         ->withPivot('role')
@@ -91,7 +95,7 @@ trait HasCompanies
      *
      * @return \App\Models\Company
      */
-    public function personalCompany()
+    public function personalCompany(): \App\Models\Company
     {
         return $this->ownedCompanies->where('personal_company', true)->first();
     }
@@ -102,13 +106,13 @@ trait HasCompanies
      * @param  mixed  $company
      * @return bool
      */
-    public function ownsCompany($company)
+    public function ownsCompany($company): bool
     {
         if (is_null($company)) {
             return false;
         }
 
-        return $this->id == $company->{$this->getForeignKey()};
+        return $this->id === $company->{$this->getForeignKey()};
     }
 
     /**
@@ -117,7 +121,7 @@ trait HasCompanies
      * @param  mixed  $company
      * @return bool
      */
-    public function belongsToCompany($company)
+    public function belongsToCompany($company): bool
     {
         if (is_null($company)) {
             return false;
@@ -132,16 +136,16 @@ trait HasCompanies
      * Get the role that the user has on the company.
      *
      * @param  mixed  $company
-     * @return \Wallo\FilamentCompanies\Role|null
+     * @return Role|null
      */
-    public function companyRole($company)
+    public function companyRole($company): Role|null
     {
         if ($this->ownsCompany($company)) {
             return new OwnerRole;
         }
 
         if (! $this->belongsToCompany($company)) {
-            return;
+            return null;
         }
 
         $role = $company->users
@@ -160,7 +164,7 @@ trait HasCompanies
      * @param  string  $role
      * @return bool
      */
-    public function hasCompanyRole($company, string $role)
+    public function hasCompanyRole($company, string $role): bool
     {
         if ($this->ownsCompany($company)) {
             return true;
@@ -177,7 +181,7 @@ trait HasCompanies
      * @param  mixed  $company
      * @return array
      */
-    public function companyPermissions($company)
+    public function companyPermissions($company): array
     {
         if ($this->ownsCompany($company)) {
             return ['*'];
@@ -197,7 +201,7 @@ trait HasCompanies
      * @param  string  $permission
      * @return bool
      */
-    public function hasCompanyPermission($company, string $permission)
+    public function hasCompanyPermission($company, string $permission): bool
     {
         if ($this->ownsCompany($company)) {
             return true;
@@ -207,17 +211,21 @@ trait HasCompanies
             return false;
         }
 
-        if (in_array(HasApiTokens::class, class_uses_recursive($this)) &&
-            ! $this->tokenCan($permission) &&
-            $this->currentAccessToken() !== null) {
+        $hasPermission = $this->tokenCan($permission);
+        $hasApiTokens = in_array(HasApiTokens::class, class_uses_recursive($this), true);
+        $hasAccessToken = $this->currentAccessToken() !== null;
+
+        if (!$hasPermission && $hasApiTokens && $hasAccessToken) {
             return false;
         }
 
         $permissions = $this->companyPermissions($company);
 
-        return in_array($permission, $permissions) ||
-               in_array('*', $permissions) ||
-               (Str::endsWith($permission, ':create') && in_array('*:create', $permissions)) ||
-               (Str::endsWith($permission, ':update') && in_array('*:update', $permissions));
+        $hasDirectPermission = in_array($permission, $permissions, true);
+        $hasWildcardPermission = in_array('*', $permissions, true);
+        $hasCreatePermission = Str::endsWith($permission, ':create') && in_array('*:create', $permissions, true);
+        $hasUpdatePermission = Str::endsWith($permission, ':update') && in_array('*:update', $permissions, true);
+
+        return $hasDirectPermission || $hasWildcardPermission || $hasCreatePermission || $hasUpdatePermission;
     }
 }

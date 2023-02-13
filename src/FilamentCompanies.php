@@ -19,63 +19,63 @@ class FilamentCompanies
      *
      * @var bool
      */
-    public static $registersRoutes = true;
+    public static bool $registersRoutes = true;
 
     /**
      * The roles that are available to assign to users.
      *
      * @var array
      */
-    public static $roles = [];
+    public static array $roles = [];
 
     /**
      * The permissions that exist within the application.
      *
      * @var array
      */
-    public static $permissions = [];
+    public static array $permissions = [];
 
     /**
      * The default permissions that should be available to new entities.
      *
      * @var array
      */
-    public static $defaultPermissions = [];
+    public static array $defaultPermissions = [];
 
     /**
      * The user model that should be used by Company.
      *
      * @var string
      */
-    public static $userModel = 'App\\Models\\User';
+    public static string $userModel = 'App\\Models\\User';
 
     /**
      * The company model that should be used by Company.
      *
      * @var string
      */
-    public static $companyModel = 'App\\Models\\Company';
+    public static string $companyModel = 'App\\Models\\Company';
 
     /**
      * The employeeship model that should be used by Company.
      *
      * @var string
      */
-    public static $employeeshipModel = 'App\\Models\\Employeeship';
+    public static string $employeeshipModel = 'App\\Models\\Employeeship';
 
     /**
      * The company invitation model that should be used by Company.
      *
      * @var string
      */
-    public static $companyInvitationModel = 'App\\Models\\CompanyInvitation';
+    public static string $companyInvitationModel = 'App\\Models\\CompanyInvitation';
 
     /**
      * Determine if Company has registered roles.
      *
      * @return bool
      */
-    public static function hasRoles()
+    public static function hasRoles(): bool
     {
         return count(static::$roles) > 0;
     }
@@ -83,10 +83,10 @@ class FilamentCompanies
     /**
      * Find the role with the given key.
      *
-     * @param  string  $key
-     * @return \Wallo\FilamentCompanies\Role
+     * @param string $key
+     * @return Role|null
      */
-    public static function findRole(string $key)
+    public static function findRole(string $key): ?Role
     {
         return static::$roles[$key] ?? null;
     }
@@ -97,9 +97,9 @@ class FilamentCompanies
      * @param  string  $key
      * @param  string  $name
      * @param  array  $permissions
-     * @return \Wallo\FilamentCompanies\Role
+     * @return Role
      */
-    public static function role(string $key, string $name, array $permissions)
+    public static function role(string $key, string $name, array $permissions): Role
     {
         static::$permissions = collect(array_merge(static::$permissions, $permissions))
                                     ->unique()
@@ -117,7 +117,7 @@ class FilamentCompanies
      *
      * @return bool
      */
-    public static function hasPermissions()
+    public static function hasPermissions(): bool
     {
         return count(static::$permissions) > 0;
     }
@@ -128,7 +128,7 @@ class FilamentCompanies
      * @param  array  $permissions
      * @return static
      */
-    public static function permissions(array $permissions)
+    public static function permissions(array $permissions): static
     {
         static::$permissions = $permissions;
 
@@ -141,7 +141,7 @@ class FilamentCompanies
      * @param  array  $permissions
      * @return static
      */
-    public static function defaultApiTokenPermissions(array $permissions)
+    public static function defaultApiTokenPermissions(array $permissions): static
     {
         static::$defaultPermissions = $permissions;
 
@@ -154,7 +154,7 @@ class FilamentCompanies
      * @param  array  $permissions
      * @return array
      */
-    public static function validPermissions(array $permissions)
+    public static function validPermissions(array $permissions): array
     {
         return array_values(array_intersect($permissions, static::$permissions));
     }
@@ -164,7 +164,7 @@ class FilamentCompanies
      *
      * @return bool
      */
-    public static function managesProfilePhotos()
+    public static function managesProfilePhotos(): bool
     {
         return Features::managesProfilePhotos();
     }
@@ -174,7 +174,7 @@ class FilamentCompanies
      *
      * @return bool
      */
-    public static function hasApiFeatures()
+    public static function hasApiFeatures(): bool
     {
         return Features::hasApiFeatures();
     }
@@ -184,7 +184,7 @@ class FilamentCompanies
      *
      * @return bool
      */
-    public static function hasCompanyFeatures()
+    public static function hasCompanyFeatures(): bool
     {
         return Features::hasCompanyFeatures();
     }
@@ -192,10 +192,10 @@ class FilamentCompanies
     /**
      * Determine if a given user model utilizes the "HasCompanies" trait.
      *
-     * @param  \Illuminate\Database\Eloquent\Model
+     * @param Model $user
      * @return bool
      */
-    public static function userHasCompanyFeatures($user)
+    public static function userHasCompanyFeatures(Model $user): bool
     {
         return (array_key_exists(HasCompanies::class, class_uses_recursive($user)) ||
                 method_exists($user, 'currentCompany')) &&
@@ -207,7 +207,7 @@ class FilamentCompanies
      *
      * @return bool
      */
-    public static function hasTermsAndPrivacyPolicyFeature()
+    public static function hasTermsAndPrivacyPolicyFeature(): bool
     {
         return Features::hasTermsAndPrivacyPolicyFeature();
     }
@@ -217,7 +217,7 @@ class FilamentCompanies
      *
      * @return bool
      */
-    public static function hasAccountDeletionFeatures()
+    public static function hasAccountDeletionFeatures(): bool
     {
         return Features::hasAccountDeletionFeatures();
     }
@@ -225,10 +225,10 @@ class FilamentCompanies
     /**
      * Find a user instance by the given ID.
      *
-     * @param  int  $id
+     * @param int $id
      * @return mixed
      */
-    public static function findUserByIdOrFail($id)
+    public static function findUserByIdOrFail(int $id): mixed
     {
         return static::newUserModel()->where('id', $id)->firstOrFail();
     }
@@ -239,7 +239,7 @@ class FilamentCompanies
      * @param  string  $email
      * @return mixed
      */
-    public static function findUserByEmailOrFail(string $email)
+    public static function findUserByEmailOrFail(string $email): mixed
     {
         return static::newUserModel()->where('email', $email)->firstOrFail();
     }
@@ -249,7 +249,7 @@ class FilamentCompanies
      *
      * @return string
      */
-    public static function userModel()
+    public static function userModel(): string
     {
         return static::$userModel;
     }
@@ -259,7 +259,7 @@ class FilamentCompanies
      *
      * @return mixed
      */
-    public static function newUserModel()
+    public static function newUserModel(): mixed
     {
         $model = static::userModel();
 
@@ -272,7 +272,7 @@ class FilamentCompanies
      * @param  string  $model
      * @return static
      */
-    public static function useUserModel(string $model)
+    public static function useUserModel(string $model): static
     {
         static::$userModel = $model;
 
@@ -284,7 +284,7 @@ class FilamentCompanies
      *
      * @return string
      */
-    public static function companyModel()
+    public static function companyModel(): string
     {
         return static::$companyModel;
     }
@@ -294,7 +294,7 @@ class FilamentCompanies
      *
      * @return mixed
      */
-    public static function newCompanyModel()
+    public static function newCompanyModel(): mixed
     {
         $model = static::companyModel();
 
@@ -307,7 +307,7 @@ class FilamentCompanies
      * @param  string  $model
      * @return static
      */
-    public static function useCompanyModel(string $model)
+    public static function useCompanyModel(string $model): static
     {
         static::$companyModel = $model;
 
@@ -319,7 +319,7 @@ class FilamentCompanies
      *
      * @return string
      */
-    public static function employeeshipModel()
+    public static function employeeshipModel(): string
     {
         return static::$employeeshipModel;
     }
@@ -330,7 +330,7 @@ class FilamentCompanies
      * @param  string  $model
      * @return static
      */
-    public static function useEmployeeshipModel(string $model)
+    public static function useEmployeeshipModel(string $model): static
     {
         static::$employeeshipModel = $model;
 
@@ -342,7 +342,7 @@ class FilamentCompanies
      *
      * @return string
      */
-    public static function companyInvitationModel()
+    public static function companyInvitationModel(): string
     {
         return static::$companyInvitationModel;
     }
@@ -353,7 +353,7 @@ class FilamentCompanies
      * @param  string  $model
      * @return static
      */
-    public static function useCompanyInvitationModel(string $model)
+    public static function useCompanyInvitationModel(string $model): static
     {
         static::$companyInvitationModel = $model;
 
@@ -366,9 +366,9 @@ class FilamentCompanies
      * @param  string  $class
      * @return void
      */
-    public static function createCompaniesUsing(string $class)
+    public static function createCompaniesUsing(string $class): void
     {
-        return app()->singleton(CreatesCompanies::class, $class);
+        app()->singleton(CreatesCompanies::class, $class);
     }
 
     /**
@@ -377,9 +377,9 @@ class FilamentCompanies
      * @param  string  $class
      * @return void
      */
-    public static function updateCompanyNamesUsing(string $class)
+    public static function updateCompanyNamesUsing(string $class): void
     {
-        return app()->singleton(UpdatesCompanyNames::class, $class);
+        app()->singleton(UpdatesCompanyNames::class, $class);
     }
 
     /**
@@ -388,9 +388,9 @@ class FilamentCompanies
      * @param  string  $class
      * @return void
      */
-    public static function addCompanyEmployeesUsing(string $class)
+    public static function addCompanyEmployeesUsing(string $class): void
     {
-        return app()->singleton(AddsCompanyEmployees::class, $class);
+        app()->singleton(AddsCompanyEmployees::class, $class);
     }
 
     /**
@@ -399,9 +399,9 @@ class FilamentCompanies
      * @param  string  $class
      * @return void
      */
-    public static function inviteCompanyEmployeesUsing(string $class)
+    public static function inviteCompanyEmployeesUsing(string $class): void
     {
-        return app()->singleton(InvitesCompanyEmployees::class, $class);
+        app()->singleton(InvitesCompanyEmployees::class, $class);
     }
 
     /**
@@ -410,9 +410,9 @@ class FilamentCompanies
      * @param  string  $class
      * @return void
      */
-    public static function removeCompanyEmployeesUsing(string $class)
+    public static function removeCompanyEmployeesUsing(string $class): void
     {
-        return app()->singleton(RemovesCompanyEmployees::class, $class);
+        app()->singleton(RemovesCompanyEmployees::class, $class);
     }
 
     /**
@@ -421,9 +421,9 @@ class FilamentCompanies
      * @param  string  $class
      * @return void
      */
-    public static function deleteCompaniesUsing(string $class)
+    public static function deleteCompaniesUsing(string $class): void
     {
-        return app()->singleton(DeletesCompanies::class, $class);
+        app()->singleton(DeletesCompanies::class, $class);
     }
 
     /**
@@ -432,25 +432,25 @@ class FilamentCompanies
      * @param  string  $class
      * @return void
      */
-    public static function deleteUsersUsing(string $class)
+    public static function deleteUsersUsing(string $class): void
     {
-        return app()->singleton(DeletesUsers::class, $class);
+        app()->singleton(DeletesUsers::class, $class);
     }
 
     /**
      * Find the path to a localized Markdown resource.
      *
-     * @param  string  $name
+     * @param string $name
      * @return string|null
      */
-    public static function localizedMarkdownPath($name)
+    public static function localizedMarkdownPath(string $name): ?string
     {
         $localName = preg_replace('#(\.md)$#i', '.'.app()->getLocale().'$1', $name);
 
         return Arr::first([
             resource_path('markdown/'.$localName),
             resource_path('markdown/'.$name),
-        ], function ($path) {
+        ], static function ($path) {
             return file_exists($path);
         });
     }
@@ -460,7 +460,7 @@ class FilamentCompanies
      *
      * @return static
      */
-    public static function ignoreRoutes()
+    public static function ignoreRoutes(): static
     {
         static::$registersRoutes = false;
 

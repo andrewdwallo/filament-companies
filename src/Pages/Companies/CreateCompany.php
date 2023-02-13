@@ -10,7 +10,7 @@ use Wallo\FilamentCompanies\FilamentCompanies;
 
 class CreateCompany extends Page
 {
-    public $company;
+    public Company $company;
 
     protected static string $view = "filament-companies::filament.pages.companies.create_company";
 
@@ -26,7 +26,6 @@ class CreateCompany extends Page
         abort_unless(FilamentCompanies::hasCompanyFeatures(), 403);
         Gate::authorize('create', FilamentCompanies::newCompanyModel());
         $this->company = Auth::user()->currentCompany;
-        $this->company = $company;
     }
 
     public static function getSlug(): string

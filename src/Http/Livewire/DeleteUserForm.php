@@ -3,12 +3,15 @@
 namespace Wallo\FilamentCompanies\Http\Livewire;
 
 use Illuminate\Contracts\Auth\StatefulGuard;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
+use Illuminate\Contracts\View\View;
 use Wallo\FilamentCompanies\Contracts\DeletesUsers;
 use Livewire\Component;
+use Livewire\Redirector;
 
 class DeleteUserForm extends Component
 {
@@ -31,7 +34,7 @@ class DeleteUserForm extends Component
      *
      * @return void
      */
-    public function confirmUserDeletion()
+    public function confirmUserDeletion(): void
     {
         $this->resetErrorBag();
 
@@ -45,12 +48,12 @@ class DeleteUserForm extends Component
     /**
      * Delete the current user.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Wallo\FilamentCompanies\Contracts\DeletesUsers  $deleter
-     * @param  \Illuminate\Contracts\Auth\StatefulGuard  $auth
-     * @return \Illuminate\Routing\Redirector|\Illuminate\Http\RedirectResponse
+     * @param Request $request
+     * @param DeletesUsers $deleter
+     * @param StatefulGuard $auth
+     * @return RedirectResponse|Redirector
      */
-    public function deleteUser(Request $request, DeletesUsers $deleter, StatefulGuard $auth)
+    public function deleteUser(Request $request, DeletesUsers $deleter, StatefulGuard $auth): RedirectResponse|Redirector
     {
         $this->resetErrorBag();
 
@@ -69,15 +72,15 @@ class DeleteUserForm extends Component
             $request->session()->regenerateToken();
         }
 
-        return redirect(config('fortify.redirects.logout', '/'));
+        return redirect(config('fortify.redirects.logout') ?? '/');
     }
 
     /**
      * Render the component.
      *
-     * @return \Illuminate\View\View
+     * @return View
      */
-    public function render()
+    public function render(): View
     {
         return view('filament-companies::profile.delete-user-form');
     }

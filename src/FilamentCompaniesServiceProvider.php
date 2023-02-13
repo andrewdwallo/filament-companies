@@ -2,11 +2,11 @@
 
 namespace Wallo\FilamentCompanies;
 
+use Filament\Facades\Filament;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\View\Compilers\BladeCompiler;
 use Laravel\Fortify\Fortify;
-use Filament\Facades\Filament;
 use Livewire\Livewire;
 use Wallo\FilamentCompanies\Http\Livewire\ApiTokenManager;
 use Wallo\FilamentCompanies\Http\Livewire\CompanyEmployeeManager;
@@ -39,13 +39,13 @@ class FilamentCompaniesServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function register()
+    public function register(): void
     {
 
         $this->mergeConfigFrom(__DIR__.'/../config/filament-companies.php', 'filament-companies');
 
         $this->app->afterResolving(BladeCompiler::class, function () {
-            if (config('filament-companies.stack') === 'filament' && class_exists(Livewire::class)) {
+            if (class_exists(Livewire::class) && config('filament-companies.stack') === 'filament') {
                 Livewire::component(UpdateProfileInformationForm::getName(), UpdateProfileInformationForm::class);
                 Livewire::component(UpdatePasswordForm::getName(), UpdatePasswordForm::class);
                 Livewire::component(TwoFactorAuthenticationForm::getName(), TwoFactorAuthenticationForm::class);
@@ -77,7 +77,7 @@ class FilamentCompaniesServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function boot()
+    public function boot(): void
     {
 
         $this->loadViewsFrom(__DIR__.'/../resources/views', 'filament-companies');
@@ -101,7 +101,7 @@ class FilamentCompaniesServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    protected function configurePublishing()
+    protected function configurePublishing(): void
     {
         if (! $this->app->runningInConsole()) {
             return;
@@ -128,14 +128,13 @@ class FilamentCompaniesServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    protected function configureRoutes()
+    protected function configureRoutes(): void
     {
         if (FilamentCompanies::$registersRoutes) {
             Route::group([
                 'domain' => config('filament.domain'),
                 'middleware' => config('filament.middleware.base'),
-                'name' => config('filament.'),
-                'name' => config('filament-companies.terms_and_privacy_route_group_prefix'),
+                'name' => config('filament.')
             ], function () {
                 $this->loadRoutesFrom(__DIR__.'/../routes/web.php');
             });
@@ -147,7 +146,7 @@ class FilamentCompaniesServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    protected function configureCommands()
+    protected function configureCommands(): void
     {
         if (! $this->app->runningInConsole()) {
             return;

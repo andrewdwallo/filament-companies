@@ -2,12 +2,20 @@
 
 namespace Wallo\FilamentCompanies\Http\Livewire;
 
+use App\Models\User;
+use Illuminate\Contracts\Auth\Authenticatable;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Wallo\FilamentCompanies\ConnectedAccount;
 use Wallo\FilamentCompanies\Socialite;
 use Wallo\FilamentCompanies\InteractsWithBanner;
 use Livewire\Component;
+use Livewire\Redirector;
 use Wallo\FilamentCompanies\Pages\User\Profile;
 
 class ConnectedAccountsForm extends Component
@@ -24,7 +32,7 @@ class ConnectedAccountsForm extends Component
     ];
 
     /**
-     * Indicates whether or not removal of a provider is being confirmed.
+     * Indicates whether removal of a provider is being confirmed.
      *
      * @var bool
      */
@@ -36,12 +44,12 @@ class ConnectedAccountsForm extends Component
     public $selectedAccountId;
 
     /**
-     * Return all socialite providers and whether or not
+     * Return all socialite providers and whether
      * the application supports them.
      *
      * @return array
      */
-    public function getProvidersProperty()
+    public function getProvidersProperty(): array
     {
         return Socialite::providers();
     }
@@ -49,9 +57,9 @@ class ConnectedAccountsForm extends Component
     /**
      * Get the current user of the application.
      *
-     * @return mixed
+     * @return User|Authenticatable|null
      */
-    public function getUserProperty()
+    public function getUserProperty(): User|Authenticatable|null
     {
         return Auth::user();
     }
@@ -62,7 +70,7 @@ class ConnectedAccountsForm extends Component
      * @param  mixed  $accountId
      * @return void
      */
-    public function confirmRemove($accountId)
+    public function confirmRemove(mixed $accountId): void
     {
         $this->selectedAccountId = $accountId;
 
@@ -72,9 +80,10 @@ class ConnectedAccountsForm extends Component
     /**
      * Set the providers avatar url as the users profile photo url.
      *
-     * @param  mixed  $accountId
+     * @param mixed $accountId
+     * @return RedirectResponse|Redirector
      */
-    public function setAvatarAsProfilePhoto($accountId)
+    public function setAvatarAsProfilePhoto(mixed $accountId): RedirectResponse|Redirector
     {
         $account = Auth::user()->connectedAccounts
             ->where('user_id', ($user = Auth::user())->getAuthIdentifier())
@@ -94,7 +103,7 @@ class ConnectedAccountsForm extends Component
      * @param  mixed  $accountId
      * @return void
      */
-    public function removeConnectedAccount($accountId)
+    public function removeConnectedAccount(mixed $accountId): void
     {
         DB::table('connected_accounts')
             ->where('user_id', Auth::user()->getAuthIdentifier())
@@ -109,9 +118,9 @@ class ConnectedAccountsForm extends Component
     /**
      * Get the users connected accounts.
      *
-     * @return \Illuminate\Support\Collection
+     * @return Collection
      */
-    public function getAccountsProperty()
+    public function getAccountsProperty(): Collection
     {
         return Auth::user()->connectedAccounts
             ->map(function (ConnectedAccount $account) {
@@ -122,9 +131,9 @@ class ConnectedAccountsForm extends Component
     /**
      * Render the component.
      *
-     * @return Illuminate\View\View
+     * @return Application|Factory|View
      */
-    public function render()
+    public function render(): View|Factory|Application
     {
         return view('filament-companies::profile.connected-accounts-form');
     }

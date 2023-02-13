@@ -10,9 +10,9 @@ class Features
      * @param  string  $feature
      * @return bool
      */
-    public static function enabled(string $feature)
+    public static function enabled(string $feature): bool
     {
-        return in_array($feature, config('filament-companies.features', []));
+        return in_array($feature, config('filament-companies.features', []), true);
     }
 
     /**
@@ -22,7 +22,7 @@ class Features
      * @param  string  $option
      * @return bool
      */
-    public static function optionEnabled(string $feature, string $option)
+    public static function optionEnabled(string $feature, string $option): bool
     {
         return static::enabled($feature) &&
                config("filament-companies-options.{$feature}.{$option}") === true;
@@ -33,7 +33,7 @@ class Features
      *
      * @return bool
      */
-    public static function managesProfilePhotos()
+    public static function managesProfilePhotos(): bool
     {
         return static::enabled(static::profilePhotos());
     }
@@ -43,7 +43,7 @@ class Features
      *
      * @return bool
      */
-    public static function hasApiFeatures()
+    public static function hasApiFeatures(): bool
     {
         return static::enabled(static::api());
     }
@@ -53,7 +53,7 @@ class Features
      *
      * @return bool
      */
-    public static function hasCompanyFeatures()
+    public static function hasCompanyFeatures(): bool
     {
         return static::enabled(static::companies());
     }
@@ -63,7 +63,7 @@ class Features
      *
      * @return bool
      */
-    public static function sendsCompanyInvitations()
+    public static function sendsCompanyInvitations(): bool
     {
         return static::optionEnabled(static::companies(), 'invitations');
     }
@@ -73,7 +73,7 @@ class Features
      *
      * @return bool
      */
-    public static function hasTermsAndPrivacyPolicyFeature()
+    public static function hasTermsAndPrivacyPolicyFeature(): bool
     {
         return static::enabled(static::termsAndPrivacyPolicy());
     }
@@ -83,7 +83,7 @@ class Features
      *
      * @return bool
      */
-    public static function hasAccountDeletionFeatures()
+    public static function hasAccountDeletionFeatures(): bool
     {
         return static::enabled(static::accountDeletion());
     }
@@ -93,7 +93,7 @@ class Features
      *
      * @return bool
      */
-    public static function generatesMissingEmails()
+    public static function generatesMissingEmails(): bool
     {
         return static::enabled(static::generateMissingEmails());
     }
@@ -104,19 +104,19 @@ class Features
      *
      * @return bool
      */
-    public static function hasCreateAccountOnFirstLoginFeatures()
+    public static function hasCreateAccountOnFirstLoginFeatures(): bool
     {
         return static::enabled(static::createAccountOnFirstLogin());
     }
 
     /**
      * Determine if the application supports logging into existing
-     * accounts when registering with a provider who's email address
+     * accounts when registering with a provider whose email address
      * is already registered.
      *
      * @return bool
      */
-    public static function hasLoginOnRegistrationFeatures()
+    public static function hasLoginOnRegistrationFeatures(): bool
     {
         return static::enabled(static::loginOnRegistration());
     }
@@ -126,17 +126,17 @@ class Features
      *
      * @return bool
      */
-    public static function hasProviderAvatarsFeature()
+    public static function hasProviderAvatarsFeature(): bool
     {
         return static::enabled(static::providerAvatars());
     }
 
     /**
-     * Determine if the application should remember the users session om login.
+     * Determine if the application should remember the users session on login.
      *
      * @return bool
      */
-    public static function hasRememberSessionFeatures()
+    public static function hasRememberSessionFeatures(): bool
     {
         return static::enabled(static::rememberSession());
     }
@@ -146,7 +146,7 @@ class Features
      *
      * @return string
      */
-    public static function profilePhotos()
+    public static function profilePhotos(): string
     {
         return 'profile-photos';
     }
@@ -156,7 +156,7 @@ class Features
      *
      * @return string
      */
-    public static function api()
+    public static function api(): string
     {
         return 'api';
     }
@@ -167,7 +167,7 @@ class Features
      * @param  array  $options
      * @return string
      */
-    public static function companies(array $options = [])
+    public static function companies(array $options = []): string
     {
         if (! empty($options)) {
             config(['filament-companies-options.companies' => $options]);
@@ -181,7 +181,7 @@ class Features
      *
      * @return string
      */
-    public static function termsAndPrivacyPolicy()
+    public static function termsAndPrivacyPolicy(): string
     {
         return 'terms';
     }
@@ -191,17 +191,17 @@ class Features
      *
      * @return string
      */
-    public static function accountDeletion()
+    public static function accountDeletion(): string
     {
         return 'account-deletion';
     }
 
     /**
-     * Enabled the generate missing emails feature.
+     * Enabled to generate missing emails feature.
      *
      * @return string
      */
-    public static function generateMissingEmails()
+    public static function generateMissingEmails(): string
     {
         return 'generate-missing-emails';
     }
@@ -211,7 +211,7 @@ class Features
      *
      * @return string
      */
-    public static function createAccountOnFirstLogin()
+    public static function createAccountOnFirstLogin(): string
     {
         return 'create-account-on-first-login';
     }
@@ -221,7 +221,7 @@ class Features
      *
      * @return string
      */
-    public static function loginOnRegistration()
+    public static function loginOnRegistration(): string
     {
         return 'login-on-registration';
     }
@@ -231,7 +231,7 @@ class Features
      *
      * @return string
      */
-    public static function providerAvatars()
+    public static function providerAvatars(): string
     {
         return 'provider-avatars';
     }
@@ -241,7 +241,7 @@ class Features
      *
      * @return string
      */
-    public static function rememberSession()
+    public static function rememberSession(): string
     {
         return 'remember-session';
     }

@@ -14,9 +14,9 @@ class Role implements Rule
      * @param  mixed  $value
      * @return bool
      */
-    public function passes($attribute, $value)
+    public function passes($attribute, $value): bool
     {
-        return in_array($value, array_keys(FilamentCompanies::$roles));
+        return array_key_exists($value, FilamentCompanies::$roles);
     }
 
     /**
@@ -24,7 +24,7 @@ class Role implements Rule
      *
      * @return string
      */
-    public function message()
+    public function message(): string
     {
         return __('The :attribute must be a valid role.');
     }

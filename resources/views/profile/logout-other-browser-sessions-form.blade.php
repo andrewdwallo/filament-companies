@@ -36,9 +36,9 @@
 
                         <div class="ml-3">
                             <div class="text-sm text-gray-600 dark:text-gray-400">
-                                {{ $session->agent->platform() ? $session->agent->platform() : 'filament-companies::default.labels.unknown' }}
+                                {{ $session->agent->platform() ?: 'filament-companies::default.labels.unknown' }}
                                 -
-                                {{ $session->agent->browser() ? $session->agent->browser() : 'filament-companies::default.labels.unknown' }}
+                                {{ $session->agent->browser() ?: 'filament-companies::default.labels.unknown' }}
                             </div>
 
                             <div>

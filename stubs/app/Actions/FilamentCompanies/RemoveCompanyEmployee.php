@@ -15,6 +15,7 @@ class RemoveCompanyEmployee implements RemovesCompanyEmployees
     /**
      * Remove the company employee from the given company.
      *
+     * @throws AuthorizationException
      */
     public function remove(User $user, Company $company, User $companyEmployee): void
     {
@@ -30,11 +31,15 @@ class RemoveCompanyEmployee implements RemovesCompanyEmployees
     /**
      * Authorize that the user can remove the company employee.
      *
+     * @throws AuthorizationException
      */
     protected function authorize(User $user, Company $company, User $companyEmployee): void
     {
-        if (! Gate::forUser($user)->check('removeCompanyEmployee', $company) &&
-            $user->id !== $companyEmployee->id) {
+        if (!Gate::forUser($user)->check('removeCompanyEmployee', $company)) {
+            throw new AuthorizationException;
+        }
+
+        if ($user->id !== $companyEmployee->id) {
             throw new AuthorizationException;
         }
     }

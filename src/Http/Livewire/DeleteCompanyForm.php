@@ -2,16 +2,17 @@
 
 namespace Wallo\FilamentCompanies\Http\Livewire;
 
+use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Contracts\View\View;
 use Wallo\FilamentCompanies\Actions\ValidateCompanyDeletion;
 use Wallo\FilamentCompanies\Contracts\DeletesCompanies;
-use Wallo\FilamentCompanies\RedirectsActions;
 use Livewire\Component;
+use Livewire\Redirector;
 
 class DeleteCompanyForm extends Component
 {
-    use RedirectsActions;
-
     /**
      * The company instance.
      *
@@ -32,7 +33,7 @@ class DeleteCompanyForm extends Component
      * @param  mixed  $company
      * @return void
      */
-    public function mount($company)
+    public function mount(mixed $company): void
     {
         $this->company = $company;
     }
@@ -40,25 +41,26 @@ class DeleteCompanyForm extends Component
     /**
      * Delete the company.
      *
-     * @param  \Wallo\FilamentCompanies\Actions\ValidateCompanyDeletion  $validator
-     * @param  \Wallo\FilamentCompanies\Contracts\DeletesCompanies  $deleter
-     * @return void
+     * @param ValidateCompanyDeletion $validator
+     * @param DeletesCompanies $deleter
+     * @return RedirectResponse|Redirector
+     * @throws AuthorizationException
      */
-    public function deleteCompany(ValidateCompanyDeletion $validator, DeletesCompanies $deleter)
+    public function deleteCompany(ValidateCompanyDeletion $validator, DeletesCompanies $deleter): RedirectResponse|Redirector
     {
         $validator->validate(Auth::user(), $this->company);
 
         $deleter->delete($this->company);
 
-        return $this->redirectPath($deleter);
+        return redirect()->to(config('fortify.home'));
     }
 
     /**
      * Render the component.
      *
-     * @return \Illuminate\View\View
+     * @return View
      */
-    public function render()
+    public function render(): View
     {
         return view('filament-companies::companies.delete-company-form');
     }

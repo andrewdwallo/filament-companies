@@ -13,14 +13,14 @@ class RemovingCompanyEmployee
      *
      * @var mixed
      */
-    public $company;
+    public mixed $company;
 
     /**
      * The company employee being removed.
      *
      * @var mixed
      */
-    public $user;
+    public mixed $user;
 
     /**
      * Create a new event instance.
@@ -29,7 +29,7 @@ class RemovingCompanyEmployee
      * @param  mixed  $user
      * @return void
      */
-    public function __construct($company, $user)
+    public function __construct(mixed $company, mixed $user)
     {
         $this->company = $company;
         $this->user = $user;

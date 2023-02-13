@@ -2,6 +2,8 @@
 
 namespace Wallo\FilamentCompanies;
 
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Str;
 
 trait HasConnectedAccounts
@@ -12,15 +14,17 @@ trait HasConnectedAccounts
      * @param  mixed  $connectedAccount
      * @return bool
      */
-    public function isCurrentConnectedAccount($connectedAccount)
+    public function isCurrentConnectedAccount(mixed $connectedAccount): bool
     {
         return $connectedAccount->id === $this->currentConnectedAccount->id;
     }
 
     /**
      * Get the current connected account of the user's context.
+     *
+     * @return BelongsTo
      */
-    public function currentConnectedAccount()
+    public function currentConnectedAccount(): BelongsTo
     {
         if (is_null($this->current_connected_account_id) && $this->id) {
             $this->switchConnectedAccount(
@@ -37,7 +41,7 @@ trait HasConnectedAccounts
      * @param  mixed  $connectedAccount
      * @return bool
      */
-    public function switchConnectedAccount($connectedAccount)
+    public function switchConnectedAccount(mixed $connectedAccount): bool
     {
         if (! $this->ownsConnectedAccount($connectedAccount)) {
             return false;
@@ -58,18 +62,18 @@ trait HasConnectedAccounts
      * @param  mixed  $connectedAccount
      * @return bool
      */
-    public function ownsConnectedAccount($connectedAccount)
+    public function ownsConnectedAccount(mixed $connectedAccount): bool
     {
-        return $this->id == optional($connectedAccount)->user_id;
+        return $this->id === optional($connectedAccount)->user_id;
     }
 
     /**
      * Determine if the user has a specific account type.
      *
-     * @param  string  $accountType
+     * @param string $provider
      * @return bool
      */
-    public function hasTokenFor(string $provider)
+    public function hasTokenFor(string $provider): bool
     {
         return $this->connectedAccounts->contains('provider', Str::lower($provider));
     }
@@ -77,10 +81,11 @@ trait HasConnectedAccounts
     /**
      * Attempt to retrieve the token for a given provider.
      *
-     * @param  string  $provider
+     * @param string $provider
+     * @param null $default
      * @return mixed
      */
-    public function getTokenFor(string $provider, $default = null)
+    public function getTokenFor(string $provider, $default = null): mixed
     {
         if ($this->hasTokenFor($provider)) {
             return $this->connectedAccounts
@@ -98,9 +103,9 @@ trait HasConnectedAccounts
      *
      * @param  string  $provider
      * @param  string  $id
-     * @return \Wallo\FilamentCompanies\ConnectedAccount
+     * @return ConnectedAccount
      */
-    public function getConnectedAccountFor(string $provider, string $id)
+    public function getConnectedAccountFor(string $provider, string $id): ConnectedAccount
     {
         return $this->connectedAccounts
             ->where('provider', $provider)
@@ -109,12 +114,12 @@ trait HasConnectedAccounts
     }
 
     /**
-     * Get all of the connected accounts belonging to the user.
+     * Get all the connected accounts belonging to the user.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return HasMany
      */
-    public function connectedAccounts()
+    public function connectedAccounts(): HasMany
     {
-        return $this->hasMany(Socialite::connectedAccountModel(), 'user_id');
+        return $this->hasMany(Socialite::connectedAccountModel(), 'user_id', $this->getAuthIdentifierName());
     }
 }

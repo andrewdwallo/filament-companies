@@ -4,18 +4,17 @@ namespace Wallo\FilamentCompanies;
 
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Str;
-use Wallo\FilamentCompanies\Features;
 
 trait HasProfilePhoto
 {
     /**
      * Update the user's profile photo.
      *
-     * @param  \Illuminate\Http\UploadedFile  $photo
+     * @param UploadedFile $photo
+     * @param string $storagePath
      * @return void
      */
-    public function updateProfilePhoto(UploadedFile $photo, $storagePath = 'profile-photos')
+    public function updateProfilePhoto(UploadedFile $photo, $storagePath = 'profile-photos'): void
     {
         tap($this->profile_photo_path, function ($previous) use ($photo, $storagePath) {
             $this->forceFill([
@@ -35,7 +34,7 @@ trait HasProfilePhoto
      *
      * @return void
      */
-    public function deleteProfilePhoto()
+    public function deleteProfilePhoto(): void
     {
         if (! Features::managesProfilePhotos()) {
             return;
@@ -57,8 +56,12 @@ trait HasProfilePhoto
      *
      * @return string
      */
-    public function getProfilePhotoUrlAttribute()
+    public function getProfilePhotoUrlAttribute(): string
     {
+        if (filter_var($this->profile_photo_path, FILTER_VALIDATE_URL)) {
+            return $this->profile_photo_path;
+        }
+
         return $this->profile_photo_path
                     ? Storage::disk($this->profilePhotoDisk())->url($this->profile_photo_path)
                     : $this->defaultProfilePhotoUrl();
@@ -69,13 +72,13 @@ trait HasProfilePhoto
      *
      * @return string
      */
-    protected function defaultProfilePhotoUrl()
+    protected function defaultProfilePhotoUrl(): string
     {
         $name = trim(collect(explode(' ', $this->name))->map(function ($segment) {
             return mb_substr($segment, 0, 1);
         })->join(' '));
 
-        return 'https://ui-avatars.com/api/?name='.urlencode($name).'&color=FFFFFF&background=111827';
+        return sprintf("https://ui-avatars.com/api/?name=%s&color=FFFFFF&background=111827", urlencode($name));
     }
 
     /**
@@ -83,7 +86,7 @@ trait HasProfilePhoto
      *
      * @return string
      */
-    protected function profilePhotoDisk()
+    protected function profilePhotoDisk(): string
     {
         return isset($_ENV['VAPOR_ARTIFACT_NAME']) ? 's3' : config('filament-companies.profile_photo_disk', 'public');
     }

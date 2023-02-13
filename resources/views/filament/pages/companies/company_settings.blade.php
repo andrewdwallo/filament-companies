@@ -8,7 +8,7 @@
 
         <x-filament-companies::section-border />
 
-        @if (Gate::check('delete', $company) && !$company->personal_company)
+        @if (!$company->personal_company && Gate::check('delete', $company))
             <div class="mt-10 sm:mt-0">
                 @livewire(\Wallo\FilamentCompanies\Http\Livewire\DeleteCompanyForm::class, ['company' => $company])
             </div>

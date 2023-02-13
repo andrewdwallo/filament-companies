@@ -2,36 +2,41 @@
 
 namespace Wallo\FilamentCompanies;
 
+use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Collection;
 
 abstract class Company extends Model
 {
     /**
      * Get the owner of the company.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return BelongsTo
      */
-    public function owner()
+    public function owner(): BelongsTo
     {
         return $this->belongsTo(FilamentCompanies::userModel(), 'user_id');
     }
 
     /**
-     * Get all of the company's users including its owner.
+     * Get all the company's users including its owner.
      *
-     * @return \Illuminate\Support\Collection
+     * @return Collection
      */
-    public function allUsers()
+    public function allUsers(): Collection
     {
         return $this->users->merge([$this->owner]);
     }
 
     /**
-     * Get all of the users that belong to the company.
+     * Get all the users that belong to the company.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     * @return BelongsToMany
      */
-    public function users()
+    public function users(): BelongsToMany
     {
         return $this->belongsToMany(FilamentCompanies::userModel(), FilamentCompanies::employeeshipModel())
                         ->withPivot('role')
@@ -42,10 +47,10 @@ abstract class Company extends Model
     /**
      * Determine if the given user belongs to the company.
      *
-     * @param  \App\Models\User  $user
+     * @param User $user
      * @return bool
      */
-    public function hasUser($user)
+    public function hasUser(User $user): bool
     {
         return $this->users->contains($user) || $user->ownsCompany($this);
     }
@@ -56,7 +61,7 @@ abstract class Company extends Model
      * @param  string  $email
      * @return bool
      */
-    public function hasUserWithEmail(string $email)
+    public function hasUserWithEmail(string $email): bool
     {
         return $this->allUsers()->contains(function ($user) use ($email) {
             return $user->email === $email;
@@ -66,21 +71,21 @@ abstract class Company extends Model
     /**
      * Determine if the given user has the given permission on the company.
      *
-     * @param  \App\Models\User  $user
-     * @param  string  $permission
+     * @param User $user
+     * @param string $permission
      * @return bool
      */
-    public function userHasPermission($user, $permission)
+    public function userHasPermission(User $user, string $permission): bool
     {
         return $user->hasCompanyPermission($this, $permission);
     }
 
     /**
-     * Get all of the pending user invitations for the company.
+     * Get all the pending user invitations for the company.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return HasMany
      */
-    public function companyInvitations()
+    public function companyInvitations(): HasMany
     {
         return $this->hasMany(FilamentCompanies::companyInvitationModel());
     }
@@ -88,10 +93,10 @@ abstract class Company extends Model
     /**
      * Remove the given user from the company.
      *
-     * @param  \App\Models\User  $user
+     * @param User $user
      * @return void
      */
-    public function removeUser($user)
+    public function removeUser(User $user): void
     {
         if ($user->current_company_id === $this->id) {
             $user->forceFill([
@@ -103,11 +108,11 @@ abstract class Company extends Model
     }
 
     /**
-     * Purge all of the company's resources.
+     * Purge all the company's resources.
      *
      * @return void
      */
-    public function purge()
+    public function purge(): void
     {
         $this->owner()->where('current_company_id', $this->id)
                 ->update(['current_company_id' => null]);

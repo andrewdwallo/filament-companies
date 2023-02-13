@@ -10,7 +10,7 @@
     <x-slot name="content">
         <x-filament::card class="col-span-2 mt-5 sm:col-span-1 md:mt-0">
             <h3 class="text-lg font-medium text-gray-900 dark:text-white">
-                @if (count($this->accounts) == 0)
+                @if (count($this->accounts) === 0)
                     {{ __('filament-companies::default.headings.profile.connected_accounts.no_connected_accounts') }}
                 @else
                     {{ __('filament-companies::default.headings.profile.connected_accounts.has_connected_accounts') }}
@@ -25,7 +25,6 @@
                 @foreach ($this->providers as $provider)
                     <x-filament::hr />
                     @php
-                        $account = null;
                         $account = $this->accounts->where('provider', $provider)->first();
                     @endphp
 
@@ -35,7 +34,7 @@
                         <x-slot name="action">
                             @if (!is_null($account))
                                 <div class="flex items-center justify-between">
-                                    @if (Wallo\FilamentCompanies\FilamentCompanies::managesProfilePhotos() && !is_null($account->avatar_path))
+                                    @if (!is_null($account->avatar_path) && Wallo\FilamentCompanies\FilamentCompanies::managesProfilePhotos())
                                         <x-filament::button class="mr-3"
                                             wire:click="setAvatarAsProfilePhoto({{ $account->id }})">
                                             {{ __('filament-companies::default.buttons.use_avatar_as_profile_photo') }}
@@ -43,7 +42,7 @@
                                         </x-filament::button>
                                     @endif
 
-                                    @if ($this->accounts->count() > 1 || !is_null($this->user->password))
+                                    @if (!is_null($this->user->password) || $this->accounts->count() > 1)
                                         <x-filament::button color="danger"
                                             wire:click="confirmRemove({{ $account->id }})"
                                             wire:loading.attr="disabled">

@@ -2,8 +2,11 @@
 
 namespace Wallo\FilamentCompanies\Http\Livewire;
 
+use App\Models\User;
 use Filament\Notifications\Notification;
+use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Contracts\View\View;
 use Laravel\Fortify\Contracts\UpdatesUserPasswords;
 use Livewire\Component;
 
@@ -23,10 +26,10 @@ class UpdatePasswordForm extends Component
     /**
      * Update the user's password.
      *
-     * @param  \Laravel\Fortify\Contracts\UpdatesUserPasswords  $updater
+     * @param UpdatesUserPasswords $updater
      * @return void
      */
-    public function updatePassword(UpdatesUserPasswords $updater)
+    public function updatePassword(UpdatesUserPasswords $updater): void
     {
         $this->resetErrorBag();
 
@@ -54,9 +57,9 @@ class UpdatePasswordForm extends Component
     /**
      * Get the current user of the application.
      *
-     * @return mixed
+     * @return User|Authenticatable|null
      */
-    public function getUserProperty()
+    public function getUserProperty(): User|Authenticatable|null
     {
         return Auth::user();
     }
@@ -64,9 +67,9 @@ class UpdatePasswordForm extends Component
     /**
      * Render the component.
      *
-     * @return \Illuminate\View\View
+     * @return View
      */
-    public function render()
+    public function render(): View
     {
         return view('filament-companies::profile.update-password-form');
     }
