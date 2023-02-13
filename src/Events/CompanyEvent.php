@@ -2,6 +2,7 @@
 
 namespace Wallo\FilamentCompanies\Events;
 
+use App\Models\Company;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
@@ -13,17 +14,17 @@ abstract class CompanyEvent
     /**
      * The company instance.
      *
-     * @var \App\Models\Company
+     * @var Company
      */
-    public $company;
+    public Company $company;
 
     /**
      * Create a new event instance.
      *
-     * @param  \App\Models\Company  $company
+     * @param Company $company
      * @return void
      */
-    public function __construct($company)
+    public function __construct(Company $company)
     {
         $this->company = $company;
     }

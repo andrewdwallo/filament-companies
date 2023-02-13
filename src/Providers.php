@@ -8,14 +8,14 @@ use Illuminate\Support\Str;
 class Providers
 {
     /**
-     * Determine if the given privider is enabled.
+     * Determine if the given provider is enabled.
      *
      * @param  string  $provider
      * @return bool
      */
-    public static function enabled(string $provider)
+    public static function enabled(string $provider): bool
     {
-        return in_array($provider, config('filament-companies.providers', []));
+        return in_array($provider, config('filament-companies.providers', []), true);
     }
 
     /**
@@ -23,7 +23,7 @@ class Providers
      *
      * @return bool
      */
-    public static function hasBitbucketSupport()
+    public static function hasBitbucketSupport(): bool
     {
         return static::enabled(static::bitbucket());
     }
@@ -33,7 +33,7 @@ class Providers
      *
      * @return bool
      */
-    public static function hasFacebookSupport()
+    public static function hasFacebookSupport(): bool
     {
         return static::enabled(static::facebook());
     }
@@ -43,7 +43,7 @@ class Providers
      *
      * @return bool
      */
-    public static function hasGitlabSupport()
+    public static function hasGitlabSupport(): bool
     {
         return static::enabled(static::gitlab());
     }
@@ -53,7 +53,7 @@ class Providers
      *
      * @return bool
      */
-    public static function hasGithubSupport()
+    public static function hasGithubSupport(): bool
     {
         return static::enabled(static::github());
     }
@@ -63,7 +63,7 @@ class Providers
      *
      * @return bool
      */
-    public static function hasGoogleSupport()
+    public static function hasGoogleSupport(): bool
     {
         return static::enabled(static::google());
     }
@@ -73,7 +73,7 @@ class Providers
      *
      * @return bool
      */
-    public static function hasLinkedInSupport()
+    public static function hasLinkedInSupport(): bool
     {
         return static::enabled(static::linkedin());
     }
@@ -83,7 +83,7 @@ class Providers
      *
      * @return bool
      */
-    public static function hasTwitterSupport()
+    public static function hasTwitterSupport(): bool
     {
         return static::enabled(static::twitterOAuth1())
             || static::enabled(static::twitterOAuth2());
@@ -94,7 +94,7 @@ class Providers
      *
      * @return bool
      */
-    public static function hasTwitterOAuth1Support()
+    public static function hasTwitterOAuth1Support(): bool
     {
         return static::enabled(static::twitterOAuth1());
     }
@@ -104,7 +104,7 @@ class Providers
      *
      * @return bool
      */
-    public static function hasTwitterOAuth2Support()
+    public static function hasTwitterOAuth2Support(): bool
     {
         return static::enabled(static::twitterOAuth2());
     }
@@ -114,7 +114,7 @@ class Providers
      *
      * @return string
      */
-    public static function bitbucket()
+    public static function bitbucket(): string
     {
         return 'bitbucket';
     }
@@ -124,7 +124,7 @@ class Providers
      *
      * @return string
      */
-    public static function facebook()
+    public static function facebook(): string
     {
         return 'facebook';
     }
@@ -134,7 +134,7 @@ class Providers
      *
      * @return string
      */
-    public static function github()
+    public static function github(): string
     {
         return 'github';
     }
@@ -144,7 +144,7 @@ class Providers
      *
      * @return string
      */
-    public static function gitlab()
+    public static function gitlab(): string
     {
         return 'gitlab';
     }
@@ -154,7 +154,7 @@ class Providers
      *
      * @return string
      */
-    public static function google()
+    public static function google(): string
     {
         return 'google';
     }
@@ -164,7 +164,7 @@ class Providers
      *
      * @return string
      */
-    public static function linkedin()
+    public static function linkedin(): string
     {
         return 'linkedin';
     }
@@ -174,7 +174,7 @@ class Providers
      *
      * @return string
      */
-    public static function twitter()
+    public static function twitter(): string
     {
         return 'twitter';
     }
@@ -184,7 +184,7 @@ class Providers
      *
      * @return string
      */
-    public static function twitterOAuth1()
+    public static function twitterOAuth1(): string
     {
         return 'twitter';
     }
@@ -194,7 +194,7 @@ class Providers
      *
      * @return string
      */
-    public static function twitterOAuth2()
+    public static function twitterOAuth2(): string
     {
         return 'twitter-oauth-2';
     }
@@ -227,12 +227,12 @@ class Providers
     /**
      * Throw a bad method call exception for the given method.
      *
-     * @param  string  $method
+     * @param string $method
      * @return void
      *
-     * @throws \BadMethodCallException
+     * @throws BadMethodCallException
      */
-    protected static function throwBadMethodCallException($method)
+    protected static function throwBadMethodCallException(string $method): void
     {
         throw new BadMethodCallException(sprintf(
             'Call to undefined method %s::%s()', static::class, $method

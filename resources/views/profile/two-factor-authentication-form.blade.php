@@ -42,7 +42,8 @@
 
                 <div class="mt-4 max-w-xl text-sm text-gray-600 dark:text-gray-400">
                     <p class="font-semibold">
-                        {{ __('filament-companies::default.labels.setup_key') }}: {{ decrypt($this->user->two_factor_secret) }}
+                        {{ __('filament-companies::default.labels.setup_key') }}
+                        : {{ decrypt($this->user->two_factor_secret) }}
                     </p>
                 </div>
 
@@ -50,7 +51,7 @@
                     <div class="mt-4">
                         <x-filament-companies::label
                             for="code"
-                            value="{{ __('filament-companies::default.fields.code') }}" />
+                            value="{{ __('filament-companies::default.fields.code') }}"/>
 
                         <x-filament-companies::input
                             id="code"
@@ -58,13 +59,14 @@
                             name="code"
                             class="mt-1 block w-1/2"
                             inputmode="numeric"
-                            autofocus autocomplete="one-time-code"
+                            autofocus="on"
+                            autocomplete="one-time-code"
                             wire:model.defer="code"
-                            wire:keydown.enter="confirmTwoFactorAuthentication" />
+                            wire:keydown.enter="confirmTwoFactorAuthentication"/>
 
                         <x-filament-companies::input-error
                             for="code"
-                            class="mt-2" />
+                            class="mt-2"/>
                     </div>
                 @endif
             @endif
@@ -76,8 +78,9 @@
                     </p>
                 </div>
 
-                <div class="mt-4 grid max-w-xl gap-1 rounded-lg bg-gray-100 px-4 py-4 font-mono text-sm dark:bg-gray-800">
-                    @foreach (json_decode(decrypt($this->user->two_factor_recovery_codes), true) as $code)
+                <div
+                    class="mt-4 grid max-w-xl gap-1 rounded-lg bg-gray-100 px-4 py-4 font-mono text-sm dark:bg-gray-800">
+                    @foreach (json_decode(decrypt($this->user->two_factor_recovery_codes), true, 512, JSON_THROW_ON_ERROR) as $code)
                         <div>{{ $code }}</div>
                     @endforeach
                 </div>

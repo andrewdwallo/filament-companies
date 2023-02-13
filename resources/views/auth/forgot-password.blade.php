@@ -20,9 +20,10 @@
         @csrf
 
         <div class="block">
-            <x-filament-companies::label for="email" value="{{ __('filament-companies::default.fields.email') }}" />
-            <x-filament-companies::input id="email" class="mt-1 block w-full" type="email" name="email"
-                :value="old('email')" required autofocus />
+            <x-forms::field-wrapper id="email" statePath="email" required="true" label="{{ __('filament-companies::default.fields.email') }}">
+                <x-filament-companies::input id="email" type="email" name="email"
+                                             :value="old('email')" autofocus="on" />
+            </x-forms::field-wrapper>
         </div>
 
         <div class="mt-4 flex items-center justify-end">

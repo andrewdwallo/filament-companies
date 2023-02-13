@@ -2,10 +2,15 @@
 
 namespace Wallo\FilamentCompanies\Http\Livewire;
 
+use App\Models\User;
 use Filament\Notifications\Notification;
+use Illuminate\Contracts\Auth\Authenticatable;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Contracts\View\View;
 use Laravel\Fortify\Contracts\UpdatesUserProfileInformation;
 use Livewire\Component;
+use Livewire\Redirector;
 use Livewire\WithFileUploads;
 use Wallo\FilamentCompanies\Pages\User\Profile;
 
@@ -39,7 +44,7 @@ class UpdateProfileInformationForm extends Component
      *
      * @return void
      */
-    public function mount()
+    public function mount(): void
     {
         $this->state = Auth::user()->withoutRelations()->toArray();
     }
@@ -47,10 +52,10 @@ class UpdateProfileInformationForm extends Component
     /**
      * Update the user's profile information.
      *
-     * @param  \Laravel\Fortify\Contracts\UpdatesUserProfileInformation  $updater
-     * @return void
+     * @param UpdatesUserProfileInformation $updater
+     * @return Redirector|RedirectResponse
      */
-    public function updateProfileInformation(UpdatesUserProfileInformation $updater)
+    public function updateProfileInformation(UpdatesUserProfileInformation $updater): Redirector|RedirectResponse
     {
         $this->resetErrorBag();
 
@@ -79,7 +84,7 @@ class UpdateProfileInformationForm extends Component
      *
      * @return void
      */
-    public function deleteProfilePhoto()
+    public function deleteProfilePhoto(): void
     {
         Auth::user()->deleteProfilePhoto();
 
@@ -91,7 +96,7 @@ class UpdateProfileInformationForm extends Component
      *
      * @return void
      */
-    public function sendEmailVerification()
+    public function sendEmailVerification(): void
     {
         Auth::user()->sendEmailVerificationNotification();
 
@@ -101,9 +106,9 @@ class UpdateProfileInformationForm extends Component
     /**
      * Get the current user of the application.
      *
-     * @return mixed
+     * @return User|Authenticatable|null
      */
-    public function getUserProperty()
+    public function getUserProperty(): User|Authenticatable|null
     {
         return Auth::user();
     }
@@ -111,9 +116,9 @@ class UpdateProfileInformationForm extends Component
     /**
      * Render the component.
      *
-     * @return \Illuminate\View\View
+     * @return View
      */
-    public function render()
+    public function render(): View
     {
         return view('filament-companies::profile.update-profile-information-form');
     }

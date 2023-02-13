@@ -48,11 +48,11 @@ class FilamentCompaniesServiceProvider extends ServiceProvider
         if (FilamentCompanies::hasCompanyFeatures()) {
             Filament::registerRenderHook(
                 'global-search.start',
-                fn (): View => view('filament-companies::components.dropdown.navigation-menu'),
+                static fn (): View => view('filament-companies::components.dropdown.navigation-menu'),
             );
         }
 
-        Filament::serving(function () {
+        Filament::serving(static function () {
             Filament::registerUserMenuItems([
                 'account' => UserMenuItem::make()->url(Profile::getUrl()),
                 // ...
@@ -60,7 +60,7 @@ class FilamentCompaniesServiceProvider extends ServiceProvider
         });
 
         if (FilamentCompanies::hasApiFeatures()) {
-            Filament::serving(function () {
+            Filament::serving(static function () {
                 Filament::registerUserMenuItems([
                     UserMenuItem::make()
                     ->label('API Tokens')
@@ -70,13 +70,13 @@ class FilamentCompaniesServiceProvider extends ServiceProvider
             });
         }
 
-        Filament::serving(function() {
+        Filament::serving(static function() {
             Filament::registerUserMenuItems([
                 'logout' => UserMenuItem::make()->url(route('logout')),
             ]);
         });
 
-        // Missing in FilamentCompaniesServiceProvider.php
+
         RedirectResponse::macro('banner', function ($message) {
             return $this->with('flash', [
                 'bannerStyle' => 'success',
@@ -93,7 +93,7 @@ class FilamentCompaniesServiceProvider extends ServiceProvider
 
         Filament::registerRenderHook(
             'content.start',
-            fn (): string => Blade::render('<x-filament-companies::banner />'),
+            static fn (): string => Blade::render('<x-filament-companies::banner />'),
         );
 
         $this->configurePermissions();

@@ -4,7 +4,7 @@
         {{ __('filament-companies::default.headings.auth.verify_email.verification_link_not_sent') }}
     </div>
 
-    @if (session('status') == 'verification-link-sent')
+    @if (session('status') === 'verification-link-sent')
         <div class="mb-4 text-sm font-medium text-green-600 dark:text-green-400">
             {{ __('filament-companies::default.headings.auth.verify_email.verification_link_sent') }}
         </div>

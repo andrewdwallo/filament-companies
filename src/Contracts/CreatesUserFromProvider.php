@@ -4,14 +4,10 @@ namespace Wallo\FilamentCompanies\Contracts;
 
 use Laravel\Socialite\Contracts\User as ProviderUserContract;
 
+/**
+ * @method \Illuminate\Database\Eloquent\Model create(string $provider, ProviderUserContract $providerUser)
+ */
 interface CreatesUserFromProvider
 {
-    /**
-     * Create a new user from a social provider user.
-     *
-     * @param  string  $provider
-     * @param  \Laravel\Socialite\Contracts\User  $providerUser
-     * @return \App\Models\User
-     */
-    public function create(string $provider, ProviderUserContract $providerUser);
+    //
 }

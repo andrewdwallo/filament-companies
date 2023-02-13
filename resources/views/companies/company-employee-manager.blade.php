@@ -44,11 +44,11 @@
                                                     <!-- Role Name -->
                                                     <div class="flex items-center">
                                                         <div
-                                                            class="{{ $addCompanyEmployeeForm['role'] == $role->key ? 'font-semibold' : '' }} text-sm text-gray-600 dark:text-gray-400">
+                                                            class="{{ $addCompanyEmployeeForm['role'] === $role->key ? 'font-semibold' : '' }} text-sm text-gray-600 dark:text-gray-400">
                                                             {{ $role->name }}
                                                         </div>
 
-                                                        @if ($addCompanyEmployeeForm['role'] == $role->key)
+                                                        @if ($addCompanyEmployeeForm['role'] === $role->key)
                                                             <svg class="text-primary-500 ml-2 h-5 w-5"
                                                                 xmlns="http://www.w3.org/2000/svg" fill="none"
                                                                 viewBox="0 0 24 24" stroke-width="1.5"
@@ -209,11 +209,11 @@
                             <!-- Role Name -->
                             <div class="flex items-center">
                                 <div
-                                    class="{{ $currentRole == $role->key ? 'font-semibold' : '' }} text-sm text-gray-600 dark:text-gray-400">
+                                    class="{{ $currentRole === $role->key ? 'font-semibold' : '' }} text-sm text-gray-600 dark:text-gray-400">
                                     {{ $role->name }}
                                 </div>
 
-                                @if ($currentRole == $role->key)
+                                @if ($currentRole === $role->key)
                                     <svg class="text-primary-500 ml-2 h-5 w-5" xmlns="http://www.w3.org/2000/svg"
                                         fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
                                         <path stroke-linecap="round" stroke-linejoin="round"

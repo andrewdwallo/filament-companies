@@ -2,9 +2,12 @@
 
 namespace Wallo\FilamentCompanies\Http\Livewire;
 
+use App\Models\User;
 use Filament\Notifications\Notification;
+use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
+use Laravel\Sanctum\PersonalAccessToken;
 use Wallo\FilamentCompanies\FilamentCompanies;
 use Livewire\Component;
 
@@ -44,7 +47,7 @@ class ApiTokenManager extends Component
     /**
      * The token that is currently having its permissions managed.
      *
-     * @var \Laravel\Sanctum\PersonalAccessToken|null
+     * @var PersonalAccessToken|null
      */
     public $managingPermissionsFor;
 
@@ -189,9 +192,9 @@ class ApiTokenManager extends Component
     /**
      * Get the current user of the application.
      *
-     * @return mixed
+     * @return Authenticatable|User|null
      */
-    public function getUserProperty()
+    public function getUserProperty(): Authenticatable|null|User
     {
         return Auth::user();
     }

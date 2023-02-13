@@ -24,7 +24,7 @@ class Company extends FilamentCompaniesCompany
     /**
      * The attributes that are mass assignable.
      *
-     * @var string<int, string>
+     * @var array<int, string>
      */
     protected $fillable = [
         'name',

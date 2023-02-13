@@ -2,6 +2,7 @@
 
 namespace App\Actions\FilamentCompanies;
 
+use Wallo\FilamentCompanies\ConnectedAccount;
 use Wallo\FilamentCompanies\Contracts\CreatesConnectedAccounts;
 use Wallo\FilamentCompanies\Socialite;
 use Laravel\Socialite\Contracts\User as ProviderUser;
@@ -13,10 +14,10 @@ class CreateConnectedAccount implements CreatesConnectedAccounts
      *
      * @param  mixed  $user
      * @param  string  $provider
-     * @param  \Laravel\Socialite\Contracts\User  $providerUser
-     * @return \Wallo\FilamentCompanies\ConnectedAccount
+     * @param ProviderUser $providerUser
+     * @return ConnectedAccount
      */
-    public function create($user, string $provider, ProviderUser $providerUser)
+    public function create($user, string $provider, ProviderUser $providerUser): ConnectedAccount
     {
         return Socialite::connectedAccountModel()::forceCreate([
             'user_id' => $user->id,

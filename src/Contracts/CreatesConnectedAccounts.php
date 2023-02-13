@@ -2,18 +2,15 @@
 
 namespace Wallo\FilamentCompanies\Contracts;
 
-use Illuminate\Contracts\Auth\Authenticatable;
 use Laravel\Socialite\Contracts\User as ProviderUser;
 
+/**
+ * @method \Illuminate\Database\Eloquent\Model create(\Illuminate\Foundation\Auth\User $user, \Illuminate\Database\Eloquent\Model $connectedAccount, string $provider, ProviderUser $providerUser)
+ */
 interface CreatesConnectedAccounts
 {
-    /**
-     * Create a connected account for a given user.
-     *
-     * @param  \Illuminate\Contracts\Auth\Authenticatable  $user
-     * @param  string  $provider
-     * @param  \Laravel\Socialite\Contracts\User  $providerUser
-     * @return \Wallo\FilamentCompanies\ConnectedAccount
-     */
-    public function create(Authenticatable $user, string $provider, ProviderUser $providerUser);
+    //
 }
+
+
+

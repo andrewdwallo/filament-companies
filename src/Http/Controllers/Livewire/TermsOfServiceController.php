@@ -2,6 +2,9 @@
 
 namespace Wallo\FilamentCompanies\Http\Controllers\Livewire;
 
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Str;
@@ -12,10 +15,10 @@ class TermsOfServiceController extends Controller
     /**
      * Show the terms of service for the application.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\View\View
+     * @param Request $request
+     * @return Application|Factory|View
      */
-    public function show(Request $request)
+    public function show(Request $request): Application|Factory|View
     {
         $termsFile = FilamentCompanies::localizedMarkdownPath('terms.md');
 

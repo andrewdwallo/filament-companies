@@ -2,12 +2,15 @@
 
 namespace Wallo\FilamentCompanies\Http\Livewire;
 
+use Illuminate\Auth\AuthenticationException;
 use Illuminate\Contracts\Auth\StatefulGuard;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
+use Illuminate\Contracts\View\View;
 use Jenssegers\Agent\Agent;
 use Livewire\Component;
 
@@ -32,7 +35,7 @@ class LogoutOtherBrowserSessionsForm extends Component
      *
      * @return void
      */
-    public function confirmLogout()
+    public function confirmLogout(): void
     {
         $this->password = '';
 
@@ -44,10 +47,11 @@ class LogoutOtherBrowserSessionsForm extends Component
     /**
      * Log out from other browser sessions.
      *
-     * @param  \Illuminate\Contracts\Auth\StatefulGuard  $guard
+     * @param StatefulGuard $guard
      * @return void
+     * @throws AuthenticationException
      */
-    public function logoutOtherBrowserSessions(StatefulGuard $guard)
+    public function logoutOtherBrowserSessions(StatefulGuard $guard): void
     {
         if (config('session.driver') !== 'database') {
             return;
@@ -79,7 +83,7 @@ class LogoutOtherBrowserSessionsForm extends Component
      *
      * @return void
      */
-    protected function deleteOtherSessionRecords()
+    protected function deleteOtherSessionRecords(): void
     {
         if (config('session.driver') !== 'database') {
             return;
@@ -94,9 +98,9 @@ class LogoutOtherBrowserSessionsForm extends Component
     /**
      * Get the current sessions.
      *
-     * @return \Illuminate\Support\Collection
+     * @return Collection
      */
-    public function getSessionsProperty()
+    public function getSessionsProperty(): Collection
     {
         if (config('session.driver') !== 'database') {
             return collect();
@@ -121,9 +125,9 @@ class LogoutOtherBrowserSessionsForm extends Component
      * Create a new agent instance from the given session.
      *
      * @param  mixed  $session
-     * @return \Jenssegers\Agent\Agent
+     * @return Agent
      */
-    protected function createAgent($session)
+    protected function createAgent(mixed $session): Agent
     {
         return tap(new Agent, function ($agent) use ($session) {
             $agent->setUserAgent($session->user_agent);
@@ -133,9 +137,9 @@ class LogoutOtherBrowserSessionsForm extends Component
     /**
      * Render the component.
      *
-     * @return \Illuminate\View\View
+     * @return View
      */
-    public function render()
+    public function render(): View
     {
         return view('filament-companies::profile.logout-other-browser-sessions-form');
     }

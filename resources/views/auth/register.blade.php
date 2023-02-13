@@ -17,7 +17,7 @@
         <div>
             <x-forms::field-wrapper id="name" statePath="name" required="true" label="{{ __('filament-companies::default.fields.name') }}">
                 <x-filament-companies::input id="name" type="text" name="name"
-                    :value="old('name')" required autofocus autocomplete="name" />
+                    :value="old('name')" required autofocus autocomplete="on" />
             </x-forms::field-wrapper>
         </div>
 

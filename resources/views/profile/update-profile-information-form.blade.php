@@ -69,7 +69,7 @@
                     wire:model.defer="state.email" />
                 </x-forms::field-wrapper>
 
-                @if (Laravel\Fortify\Features::enabled(Laravel\Fortify\Features::emailVerification()) && ! $this->user->hasVerifiedEmail())
+                @if (! $this->user->hasVerifiedEmail() && Laravel\Fortify\Features::enabled(Laravel\Fortify\Features::emailVerification()))
                     <p class="mt-2 text-sm dark:text-white">
                         {{ __('filament-companies::default.headings.profile.update_profile_information.verification_link_not_sent') }}
 

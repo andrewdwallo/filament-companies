@@ -17,14 +17,14 @@ class CreateUserFromProvider implements CreatesUserFromProvider
     /**
      * The creates connected accounts instance.
      *
-     * @var \Wallo\FilamentCompanies\Contracts\CreatesConnectedAccounts
+     * @var CreatesConnectedAccounts
      */
-    public $createsConnectedAccounts;
+    public CreatesConnectedAccounts $createsConnectedAccounts;
 
     /**
      * Create a new action instance.
      *
-     * @param  \Wallo\FilamentCompanies\Contracts\CreatesConnectedAccounts  $createsConnectedAccounts
+     * @param CreatesConnectedAccounts $createsConnectedAccounts
      */
     public function __construct(CreatesConnectedAccounts $createsConnectedAccounts)
     {
@@ -35,10 +35,10 @@ class CreateUserFromProvider implements CreatesUserFromProvider
      * Create a new user from a social provider user.
      *
      * @param  string  $provider
-     * @param  \Laravel\Socialite\Contracts\User  $providerUser
-     * @return \App\Models\User
+     * @param ProviderUserContract $providerUser
+     * @return User
      */
-    public function create(string $provider, ProviderUserContract $providerUser)
+    public function create(string $provider, ProviderUserContract $providerUser): User
     {
         return DB::transaction(function () use ($provider, $providerUser) {
             return tap(User::create([
@@ -47,10 +47,8 @@ class CreateUserFromProvider implements CreatesUserFromProvider
             ]), function (User $user) use ($provider, $providerUser) {
                 $user->markEmailAsVerified();
 
-                if (Features::profilePhotos()) {
-                    if (Socialite::hasProviderAvatarsFeature() && FilamentCompanies::managesProfilePhotos() && $providerUser->getAvatar()) {
-                        $user->setProfilePhotoFromUrl($providerUser->getAvatar());
-                    }
+                if (Features::profilePhotos() && Socialite::hasProviderAvatarsFeature() && FilamentCompanies::managesProfilePhotos() && $providerUser->getAvatar()) {
+                    $user->setProfilePhotoFromUrl($providerUser->getAvatar());
                 }
 
                 $user->switchConnectedAccount(
@@ -65,10 +63,10 @@ class CreateUserFromProvider implements CreatesUserFromProvider
     /**
      * Create a personal company for the user.
      *
-     * @param  \App\Models\User  $user
+     * @param User $user
      * @return void
      */
-    protected function createCompany(User $user)
+    protected function createCompany(User $user): void
     {
         $user->ownedCompanies()->save(Company::forceCreate([
             'user_id' => $user->id,

@@ -2,14 +2,17 @@
 
 namespace Wallo\FilamentCompanies\Http\Livewire;
 
+use App\Models\User;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Contracts\View\View;
 use Wallo\FilamentCompanies\Contracts\CreatesCompanies;
-use Wallo\FilamentCompanies\RedirectsActions;
 use Livewire\Component;
+use Livewire\Redirector;
 
 class CreateCompanyForm extends Component
 {
-    use RedirectsActions;
 
     /**
      * The component's state.
@@ -21,24 +24,24 @@ class CreateCompanyForm extends Component
     /**
      * Create a new company.
      *
-     * @param  \Wallo\FilamentCompanies\Contracts\CreatesCompanies  $creator
-     * @return void
+     * @param CreatesCompanies $creator
+     * @return RedirectResponse|Redirector
      */
-    public function createCompany(CreatesCompanies $creator)
+    public function createCompany(CreatesCompanies $creator): RedirectResponse|Redirector
     {
         $this->resetErrorBag();
 
         $creator->create(Auth::user(), $this->state);
 
-        return $this->redirectPath($creator);
+        return redirect()->to(config('fortify.home'));
     }
 
     /**
      * Get the current user of the application.
      *
-     * @return mixed
+     * @return Authenticatable|User|null
      */
-    public function getUserProperty()
+    public function getUserProperty(): User|Authenticatable|null
     {
         return Auth::user();
     }
@@ -46,9 +49,9 @@ class CreateCompanyForm extends Component
     /**
      * Render the component.
      *
-     * @return \Illuminate\View\View
+     * @return View
      */
-    public function render()
+    public function render(): View
     {
         return view('filament-companies::companies.create-company-form');
     }

@@ -11,10 +11,10 @@ interface UpdatesConnectedAccounts
      * Update a given connected account.
      *
      * @param  mixed  $user
-     * @param  \Wallo\FilamentCompanies\ConnectedAccount  $connectedAccount
+     * @param ConnectedAccount $connectedAccount
      * @param  string  $provider
-     * @param  \Laravel\Socialite\Contracts\User  $providerUser
-     * @return \Wallo\FilamentCompanies\ConnectedAccount
+     * @param User $providerUser
+     * @return ConnectedAccount
      */
-    public function update($user, ConnectedAccount $connectedAccount, string $provider, User $providerUser);
+    public function update(mixed $user, ConnectedAccount $connectedAccount, string $provider, User $providerUser): ConnectedAccount;
 }

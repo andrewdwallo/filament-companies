@@ -2,6 +2,7 @@
 
 namespace App\Actions\FilamentCompanies;
 
+use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Wallo\FilamentCompanies\Contracts\SetsUserPasswords;
@@ -12,11 +13,9 @@ class SetUserPassword implements SetsUserPasswords
     /**
      * Validate and update the user's password.
      *
-     * @param  mixed  $user
-     * @param  array  $input
-     * @return void
+     * @param  array<string, string> $input
      */
-    public function set($user, array $input)
+    public function set(User $user, array $input): void
     {
         Validator::make($input, [
             'password' => ['required', 'string', new Password, 'confirmed'],

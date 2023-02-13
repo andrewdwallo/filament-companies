@@ -13,9 +13,9 @@ class DeleteUser implements DeletesUsers
     /**
      * The company deleter implementation.
      *
-     * @var \Wallo\FilamentCompanies\Contracts\DeletesCompanies
+     * @var DeletesCompanies
      */
-    protected $deletesCompanies;
+    protected DeletesCompanies $deletesCompanies;
 
     /**
      * Create a new action instance.

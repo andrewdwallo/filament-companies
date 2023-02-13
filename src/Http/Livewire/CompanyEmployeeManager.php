@@ -2,7 +2,12 @@
 
 namespace Wallo\FilamentCompanies\Http\Livewire;
 
+use App\Models\User;
+use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Contracts\Auth\Authenticatable;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Contracts\View\View;
 use Wallo\FilamentCompanies\Actions\UpdateCompanyEmployeeRole;
 use Wallo\FilamentCompanies\Contracts\AddsCompanyEmployees;
 use Wallo\FilamentCompanies\Contracts\InvitesCompanyEmployees;
@@ -11,7 +16,12 @@ use Wallo\FilamentCompanies\Features;
 use Wallo\FilamentCompanies\FilamentCompanies;
 use Wallo\FilamentCompanies\Role;
 use Livewire\Component;
+use Livewire\Redirector;
 
+
+/**
+ * @property mixed $user
+ */
 class CompanyEmployeeManager extends Component
 {
     /**
@@ -79,7 +89,7 @@ class CompanyEmployeeManager extends Component
      * @param  mixed  $company
      * @return void
      */
-    public function mount($company)
+    public function mount(mixed $company): void
     {
         $this->company = $company;
     }
@@ -89,7 +99,7 @@ class CompanyEmployeeManager extends Component
      *
      * @return void
      */
-    public function addCompanyEmployee()
+    public function addCompanyEmployee(): void
     {
         $this->resetErrorBag();
 
@@ -122,10 +132,10 @@ class CompanyEmployeeManager extends Component
     /**
      * Cancel a pending company employee invitation.
      *
-     * @param  int  $invitationId
+     * @param int $invitationId
      * @return void
      */
-    public function cancelCompanyInvitation($invitationId)
+    public function cancelCompanyInvitation(int $invitationId): void
     {
         if (! empty($invitationId)) {
             $model = FilamentCompanies::companyInvitationModel();
@@ -139,10 +149,10 @@ class CompanyEmployeeManager extends Component
     /**
      * Allow the given user's role to be managed.
      *
-     * @param  int  $userId
+     * @param int $userId
      * @return void
      */
-    public function manageRole($userId)
+    public function manageRole(int $userId): void
     {
         $this->currentlyManagingRole = true;
         $this->managingRoleFor = FilamentCompanies::findUserByIdOrFail($userId);
@@ -152,10 +162,11 @@ class CompanyEmployeeManager extends Component
     /**
      * Save the role for the user being managed.
      *
-     * @param  \Wallo\FilamentCompanies\Actions\UpdateCompanyEmployeeRole  $updater
+     * @param UpdateCompanyEmployeeRole $updater
      * @return void
+     * @throws AuthorizationException
      */
-    public function updateRole(UpdateCompanyEmployeeRole $updater)
+    public function updateRole(UpdateCompanyEmployeeRole $updater): void
     {
         $updater->update(
             $this->user,
@@ -174,7 +185,7 @@ class CompanyEmployeeManager extends Component
      *
      * @return void
      */
-    public function stopManagingRole()
+    public function stopManagingRole(): void
     {
         $this->currentlyManagingRole = false;
     }
@@ -182,10 +193,10 @@ class CompanyEmployeeManager extends Component
     /**
      * Remove the currently authenticated user from the company.
      *
-     * @param  \Wallo\FilamentCompanies\Contracts\RemovesCompanyEmployees  $remover
-     * @return void
+     * @param RemovesCompanyEmployees $remover
+     * @return RedirectResponse|Redirector
      */
-    public function leaveCompany(RemovesCompanyEmployees $remover)
+    public function leaveCompany(RemovesCompanyEmployees $remover): RedirectResponse|Redirector
     {
         $remover->remove(
             $this->user,
@@ -203,10 +214,10 @@ class CompanyEmployeeManager extends Component
     /**
      * Confirm that the given company employee should be removed.
      *
-     * @param  int  $userId
+     * @param int $userId
      * @return void
      */
-    public function confirmCompanyEmployeeRemoval($userId)
+    public function confirmCompanyEmployeeRemoval(int $userId): void
     {
         $this->confirmingCompanyEmployeeRemoval = true;
 
@@ -216,10 +227,10 @@ class CompanyEmployeeManager extends Component
     /**
      * Remove a company employee from the company.
      *
-     * @param  \Wallo\FilamentCompanies\Contracts\RemovesCompanyEmployees  $remover
+     * @param RemovesCompanyEmployees $remover
      * @return void
      */
-    public function removeCompanyEmployee(RemovesCompanyEmployees $remover)
+    public function removeCompanyEmployee(RemovesCompanyEmployees $remover): void
     {
         $remover->remove(
             $this->user,
@@ -237,9 +248,9 @@ class CompanyEmployeeManager extends Component
     /**
      * Get the current user of the application.
      *
-     * @return mixed
+     * @return Authenticatable|User|null
      */
-    public function getUserProperty()
+    public function getUserProperty(): Authenticatable|null|User
     {
         return Auth::user();
     }
@@ -249,7 +260,7 @@ class CompanyEmployeeManager extends Component
      *
      * @return array
      */
-    public function getRolesProperty()
+    public function getRolesProperty(): array
     {
         return collect(FilamentCompanies::$roles)->transform(function ($role) {
             return with($role->jsonSerialize(), function ($data) {
@@ -265,9 +276,9 @@ class CompanyEmployeeManager extends Component
     /**
      * Render the component.
      *
-     * @return \Illuminate\View\View
+     * @return View
      */
-    public function render()
+    public function render(): View
     {
         return view('filament-companies::companies.company-employee-manager');
     }

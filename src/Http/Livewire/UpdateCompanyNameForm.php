@@ -2,11 +2,17 @@
 
 namespace Wallo\FilamentCompanies\Http\Livewire;
 
+use App\Models\User;
 use Filament\Notifications\Notification;
+use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Contracts\View\View;
 use Wallo\FilamentCompanies\Contracts\UpdatesCompanyNames;
 use Livewire\Component;
 
+/**
+ * @property mixed $user
+ */
 class UpdateCompanyNameForm extends Component
 {
     /**
@@ -29,7 +35,7 @@ class UpdateCompanyNameForm extends Component
      * @param  mixed  $company
      * @return void
      */
-    public function mount($company)
+    public function mount(mixed $company): void
     {
         $this->company = $company;
 
@@ -39,10 +45,10 @@ class UpdateCompanyNameForm extends Component
     /**
      * Update the company's name.
      *
-     * @param  \Wallo\FilamentCompanies\Contracts\UpdatesCompanyNames  $updater
+     * @param UpdatesCompanyNames $updater
      * @return void
      */
-    public function updateCompanyName(UpdatesCompanyNames $updater)
+    public function updateCompanyName(UpdatesCompanyNames $updater): void
     {
         $this->resetErrorBag();
 
@@ -60,9 +66,9 @@ class UpdateCompanyNameForm extends Component
     /**
      * Get the current user of the application.
      *
-     * @return mixed
+     * @return User|Authenticatable|null
      */
-    public function getUserProperty()
+    public function getUserProperty(): User|Authenticatable|null
     {
         return Auth::user();
     }
@@ -70,9 +76,9 @@ class UpdateCompanyNameForm extends Component
     /**
      * Render the component.
      *
-     * @return \Illuminate\View\View
+     * @return View
      */
-    public function render()
+    public function render(): View
     {
         return view('filament-companies::companies.update-company-name-form');
     }
