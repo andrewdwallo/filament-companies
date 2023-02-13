@@ -6,6 +6,7 @@ use Exception;
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Str;
+use RuntimeException;
 use Symfony\Component\Process\PhpExecutableFinder;
 use Symfony\Component\Process\Process;
 
@@ -35,9 +36,9 @@ class InstallCommand extends Command
      *
      * @return int|null
      */
-    public function handle(): ?int
+    public function handle()
     {
-        if ($this->argument('stack') !== 'filament') {
+        if (! in_array($this->argument('stack'), ['filament'])) {
             $this->components->error('Invalid stack. Supported stacks are [filament].');
 
             return 1;
@@ -106,7 +107,7 @@ class InstallCommand extends Command
      *
      * @return void
      */
-    protected function configureSession(): void
+    protected function configureSession()
     {
         if (! class_exists('CreateSessionsTable')) {
             try {
@@ -126,7 +127,7 @@ class InstallCommand extends Command
      *
      * @return void
      */
-    protected function installFilamentStack(): void
+    protected function installFilamentStack()
     {
 
         // Sanctum...
@@ -195,7 +196,7 @@ class InstallCommand extends Command
      *
      * @return void
      */
-    protected function installFilamentCompanyStack(): void
+    protected function installFilamentCompanyStack()
     {
         // Tests...
         $stubs = $this->getTestStubsPath();
@@ -216,7 +217,7 @@ class InstallCommand extends Command
      *
      * @return string
      */
-    protected function livewireRouteDefinition(): string
+    protected function livewireRouteDefinition()
     {
         return <<<'EOF'
 
@@ -236,7 +237,7 @@ EOF;
      *
      * @return void
      */
-    protected function ensureApplicationIsCompanyCompatible(): void
+    protected function ensureApplicationIsCompanyCompatible()
     {
         // Publish Company Migrations...
         $this->callSilent('vendor:publish', ['--tag' => 'filament-companies-company-migrations', '--force' => true]);
@@ -284,7 +285,7 @@ EOF;
         copy(__DIR__.'/../../stubs/app/Actions/FilamentCompanies/RemoveCompanyEmployee.php', app_path('Actions/FilamentCompanies/RemoveCompanyEmployee.php'));
         copy(__DIR__.'/../../stubs/app/Actions/FilamentCompanies/UpdateCompanyName.php', app_path('Actions/FilamentCompanies/UpdateCompanyName.php'));
 
-        // Socialite Actions...
+        // Socialiite Actions...
         copy(__DIR__.'/../../stubs/app/Actions/FilamentCompanies/CreateConnectedAccount.php', app_path('Actions/FilamentCompanies/CreateConnectedAccount.php'));
         copy(__DIR__.'/../../stubs/app/Actions/FilamentCompanies/CreateUserFromProvider.php', app_path('Actions/FilamentCompanies/CreateUserFromProvider.php'));
         copy(__DIR__.'/../../stubs/app/Actions/FilamentCompanies/HandleInvalidState.php', app_path('Actions/FilamentCompanies/HandleInvalidState.php'));
@@ -305,11 +306,11 @@ EOF;
     /**
      * Install the service provider in the application configuration file.
      *
-     * @param string $after
-     * @param string $name
+     * @param  string  $after
+     * @param  string  $name
      * @return void
      */
-    protected function installServiceProviderAfter(string $after, string $name): void
+    protected function installServiceProviderAfter($after, $name)
     {
         if (! Str::contains($appConfig = file_get_contents(config_path('app.php')), 'App\\Providers\\'.$name.'::class')) {
             file_put_contents(config_path('app.php'), str_replace(
@@ -321,11 +322,41 @@ EOF;
     }
 
     /**
+     * Install the middleware to a group in the application Http Kernel.
+     *
+     * @param  string  $after
+     * @param  string  $name
+     * @param  string  $group
+     * @return void
+     */
+    protected function installMiddlewareAfter($after, $name, $group = 'web')
+    {
+        $httpKernel = file_get_contents(app_path('Http/Kernel.php'));
+
+        $middlewareGroups = Str::before(Str::after($httpKernel, '$middlewareGroups = ['), '];');
+        $middlewareGroup = Str::before(Str::after($middlewareGroups, "'$group' => ["), '],');
+
+        if (! Str::contains($middlewareGroup, $name)) {
+            $modifiedMiddlewareGroup = str_replace(
+                $after.',',
+                $after.','.PHP_EOL.'            '.$name.',',
+                $middlewareGroup,
+            );
+
+            file_put_contents(app_path('Http/Kernel.php'), str_replace(
+                $middlewareGroups,
+                str_replace($middlewareGroup, $modifiedMiddlewareGroup, $middlewareGroups),
+                $httpKernel
+            ));
+        }
+    }
+
+    /**
      * Returns the path to the correct test stubs.
      *
      * @return string
      */
-    protected function getTestStubsPath(): string
+    protected function getTestStubsPath()
     {
         return $this->option('pest')
             ? __DIR__.'/../../stubs/pest-tests'
@@ -338,7 +369,7 @@ EOF;
      * @param  mixed  $packages
      * @return void
      */
-    protected function requireComposerPackages(mixed $packages): void
+    protected function requireComposerPackages($packages)
     {
         $composer = $this->option('composer');
 
@@ -364,7 +395,7 @@ EOF;
      * @param  mixed  $packages
      * @return void
      */
-    protected function requireComposerDevPackages(mixed $packages): void
+    protected function requireComposerDevPackages($packages)
     {
         $composer = $this->option('composer');
 
@@ -385,14 +416,44 @@ EOF;
     }
 
     /**
-     * Replace a given string within a given file.
+     * Update the "package.json" file.
      *
-     * @param string $search
-     * @param string $replace
-     * @param string $path
+     * @param  callable  $callback
+     * @param  bool  $dev
      * @return void
      */
-    protected function replaceInFile(string $search, string $replace, string $path): void
+    protected static function updateNodePackages(callable $callback, $dev = true)
+    {
+        if (! file_exists(base_path('package.json'))) {
+            return;
+        }
+
+        $configurationKey = $dev ? 'devDependencies' : 'dependencies';
+
+        $packages = json_decode(file_get_contents(base_path('package.json')), true);
+
+        $packages[$configurationKey] = $callback(
+            array_key_exists($configurationKey, $packages) ? $packages[$configurationKey] : [],
+            $configurationKey
+        );
+
+        ksort($packages[$configurationKey]);
+
+        file_put_contents(
+            base_path('package.json'),
+            json_encode($packages, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT).PHP_EOL
+        );
+    }
+
+    /**
+     * Replace a given string within a given file.
+     *
+     * @param  string  $search
+     * @param  string  $replace
+     * @param  string  $path
+     * @return void
+     */
+    protected function replaceInFile($search, $replace, $path)
     {
         file_put_contents($path, str_replace($search, $replace, file_get_contents($path)));
     }
@@ -402,8 +463,31 @@ EOF;
      *
      * @return string
      */
-    protected function phpBinary(): string
+    protected function phpBinary()
     {
         return (new PhpExecutableFinder())->find(false) ?: 'php';
+    }
+
+    /**
+     * Run the given commands.
+     *
+     * @param  array  $commands
+     * @return void
+     */
+    protected function runCommands($commands)
+    {
+        $process = Process::fromShellCommandline(implode(' && ', $commands), null, null, null, null);
+
+        if ('\\' !== DIRECTORY_SEPARATOR && file_exists('/dev/tty') && is_readable('/dev/tty')) {
+            try {
+                $process->setTty(true);
+            } catch (RuntimeException $e) {
+                $this->output->writeln('  <bg=yellow;fg=black> WARN </> '.$e->getMessage().PHP_EOL);
+            }
+        }
+
+        $process->run(function ($type, $line) {
+            $this->output->write('    '.$line);
+        });
     }
 }
