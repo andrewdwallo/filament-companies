@@ -53,7 +53,7 @@ class UpdateProfileInformationForm extends Component
      * Update the user's profile information.
      *
      * @param UpdatesUserProfileInformation $updater
-     * @return Redirector|RedirectResponse
+     * @return RedirectResponse|Redirector
      */
     public function updateProfileInformation(UpdatesUserProfileInformation $updater): Redirector|RedirectResponse
     {
@@ -77,6 +77,8 @@ class UpdateProfileInformationForm extends Component
         ->send();
 
         $this->emit('refresh-navigation-menu');
+
+        return redirect()->back();
     }
 
     /**
