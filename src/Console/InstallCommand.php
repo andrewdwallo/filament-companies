@@ -6,7 +6,6 @@ use Exception;
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Str;
-use JsonException;
 use RuntimeException;
 use Symfony\Component\Process\PhpExecutableFinder;
 use Symfony\Component\Process\Process;
@@ -37,9 +36,9 @@ class InstallCommand extends Command
      *
      * @return int|null
      */
-    public function handle(): ?int
+    public function handle()
     {
-        if ($this->argument('stack') !== 'filament') {
+        if (! in_array($this->argument('stack'), ['filament'])) {
             $this->components->error('Invalid stack. Supported stacks are [filament].');
 
             return 1;
@@ -81,19 +80,15 @@ class InstallCommand extends Command
         }
 
         // Install Stack...
-        if (($this->argument('stack') === 'filament') && !$this->installFilamentStack()) {
-            return 1;
+        if ($this->argument('stack') === 'filament') {
+            $this->installFilamentStack();
         }
 
         // Tests...
         $stubs = $this->getTestStubsPath();
 
         if ($this->option('pest')) {
-            $this->removeComposerDevPackages(['nunomaduro/collision', 'phpunit/phpunit']);
-
-            if (! $this->requireComposerDevPackages(['nunomaduro/collision:^6.4', 'pestphp/pest:^1.22', 'pestphp/pest-plugin-laravel:^1.2'])) {
-                return 1;
-            }
+            $this->requireComposerDevPackages('pestphp/pest:^1.16', 'pestphp/pest-plugin-laravel:^1.1');
 
             copy($stubs.'/Pest.php', base_path('tests/Pest.php'));
             copy($stubs.'/ExampleTest.php', base_path('tests/Feature/ExampleTest.php'));
@@ -112,7 +107,7 @@ class InstallCommand extends Command
      *
      * @return void
      */
-    protected function configureSession(): void
+    protected function configureSession()
     {
         if (! class_exists('CreateSessionsTable')) {
             try {
@@ -130,9 +125,9 @@ class InstallCommand extends Command
     /**
      * Install the Livewire stack into the application.
      *
-     * @return bool
+     * @return void
      */
-    protected function installFilamentStack(): bool
+    protected function installFilamentStack()
     {
 
         // Sanctum...
@@ -194,8 +189,6 @@ class InstallCommand extends Command
 
         $this->line('');
         $this->components->info('Filament scaffolding installed successfully.');
-
-        return true;
     }
 
     /**
@@ -203,7 +196,7 @@ class InstallCommand extends Command
      *
      * @return void
      */
-    protected function installFilamentCompanyStack(): void
+    protected function installFilamentCompanyStack()
     {
         // Tests...
         $stubs = $this->getTestStubsPath();
@@ -224,7 +217,7 @@ class InstallCommand extends Command
      *
      * @return string
      */
-    protected function livewireRouteDefinition(): string
+    protected function livewireRouteDefinition()
     {
         return <<<'EOF'
 
@@ -244,7 +237,7 @@ EOF;
      *
      * @return void
      */
-    protected function ensureApplicationIsCompanyCompatible(): void
+    protected function ensureApplicationIsCompanyCompatible()
     {
         // Publish Company Migrations...
         $this->callSilent('vendor:publish', ['--tag' => 'filament-companies-company-migrations', '--force' => true]);
@@ -292,7 +285,7 @@ EOF;
         copy(__DIR__.'/../../stubs/app/Actions/FilamentCompanies/RemoveCompanyEmployee.php', app_path('Actions/FilamentCompanies/RemoveCompanyEmployee.php'));
         copy(__DIR__.'/../../stubs/app/Actions/FilamentCompanies/UpdateCompanyName.php', app_path('Actions/FilamentCompanies/UpdateCompanyName.php'));
 
-        // Socialite Actions...
+        // Socialiite Actions...
         copy(__DIR__.'/../../stubs/app/Actions/FilamentCompanies/CreateConnectedAccount.php', app_path('Actions/FilamentCompanies/CreateConnectedAccount.php'));
         copy(__DIR__.'/../../stubs/app/Actions/FilamentCompanies/CreateUserFromProvider.php', app_path('Actions/FilamentCompanies/CreateUserFromProvider.php'));
         copy(__DIR__.'/../../stubs/app/Actions/FilamentCompanies/HandleInvalidState.php', app_path('Actions/FilamentCompanies/HandleInvalidState.php'));
@@ -313,11 +306,11 @@ EOF;
     /**
      * Install the service provider in the application configuration file.
      *
-     * @param string $after
-     * @param string $name
+     * @param  string  $after
+     * @param  string  $name
      * @return void
      */
-    protected function installServiceProviderAfter(string $after, string $name): void
+    protected function installServiceProviderAfter($after, $name)
     {
         if (! Str::contains($appConfig = file_get_contents(config_path('app.php')), 'App\\Providers\\'.$name.'::class')) {
             file_put_contents(config_path('app.php'), str_replace(
@@ -331,12 +324,12 @@ EOF;
     /**
      * Install the middleware to a group in the application Http Kernel.
      *
-     * @param string $after
-     * @param string $name
-     * @param string $group
+     * @param  string  $after
+     * @param  string  $name
+     * @param  string  $group
      * @return void
      */
-    protected function installMiddlewareAfter(string $after, string $name, string $group = 'web'): void
+    protected function installMiddlewareAfter($after, $name, $group = 'web')
     {
         $httpKernel = file_get_contents(app_path('Http/Kernel.php'));
 
@@ -363,7 +356,7 @@ EOF;
      *
      * @return string
      */
-    protected function getTestStubsPath(): string
+    protected function getTestStubsPath()
     {
         return $this->option('pest')
             ? __DIR__.'/../../stubs/pest-tests'
@@ -374,9 +367,9 @@ EOF;
      * Installs the given Composer Packages into the application.
      *
      * @param  mixed  $packages
-     * @return bool
+     * @return void
      */
-    protected function requireComposerPackages(mixed $packages): bool
+    protected function requireComposerPackages($packages)
     {
         $composer = $this->option('composer');
 
@@ -389,7 +382,7 @@ EOF;
             is_array($packages) ? $packages : func_get_args()
         );
 
-        return ! (new Process($command, base_path(), ['COMPOSER_MEMORY_LIMIT' => '-1']))
+        (new Process($command, base_path(), ['COMPOSER_MEMORY_LIMIT' => '-1']))
             ->setTimeout(null)
             ->run(function ($type, $output) {
                 $this->output->write($output);
@@ -397,38 +390,12 @@ EOF;
     }
 
     /**
-     * Removes the given Composer Packages as "dev" dependencies.
-     *
-     * @param  mixed  $packages
-     * @return bool
-     */
-    protected function removeComposerDevPackages(mixed $packages): bool
-    {
-        $composer = $this->option('composer');
-
-        if ($composer !== 'global') {
-            $command = [$this->phpBinary(), $composer, 'remove', '--dev'];
-        }
-
-        $command = array_merge(
-            $command ?? ['composer', 'remove', '--dev'],
-            is_array($packages) ? $packages : func_get_args()
-        );
-
-        return (new Process($command, base_path(), ['COMPOSER_MEMORY_LIMIT' => '-1']))
-                ->setTimeout(null)
-                ->run(function ($type, $output) {
-                    $this->output->write($output);
-                }) === 0;
-    }
-
-    /**
      * Install the given Composer Packages as "dev" dependencies.
      *
      * @param  mixed  $packages
-     * @return bool
+     * @return void
      */
-    protected function requireComposerDevPackages(mixed $packages): bool
+    protected function requireComposerDevPackages($packages)
     {
         $composer = $this->option('composer');
 
@@ -441,22 +408,21 @@ EOF;
             is_array($packages) ? $packages : func_get_args()
         );
 
-        return (new Process($command, base_path(), ['COMPOSER_MEMORY_LIMIT' => '-1']))
-                ->setTimeout(null)
-                ->run(function ($type, $output) {
-                    $this->output->write($output);
-                }) === 0;
+        (new Process($command, base_path(), ['COMPOSER_MEMORY_LIMIT' => '-1']))
+            ->setTimeout(null)
+            ->run(function ($type, $output) {
+                $this->output->write($output);
+            });
     }
 
     /**
      * Update the "package.json" file.
      *
-     * @param callable $callback
-     * @param bool $dev
+     * @param  callable  $callback
+     * @param  bool  $dev
      * @return void
-     * @throws JsonException
      */
-    protected static function updateNodePackages(callable $callback, bool $dev = true): void
+    protected static function updateNodePackages(callable $callback, $dev = true)
     {
         if (! file_exists(base_path('package.json'))) {
             return;
@@ -464,7 +430,7 @@ EOF;
 
         $configurationKey = $dev ? 'devDependencies' : 'dependencies';
 
-        $packages = json_decode(file_get_contents(base_path('package.json')), true, 512, JSON_THROW_ON_ERROR);
+        $packages = json_decode(file_get_contents(base_path('package.json')), true);
 
         $packages[$configurationKey] = $callback(
             array_key_exists($configurationKey, $packages) ? $packages[$configurationKey] : [],
@@ -475,19 +441,19 @@ EOF;
 
         file_put_contents(
             base_path('package.json'),
-            json_encode($packages, JSON_THROW_ON_ERROR | JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT) .PHP_EOL
+            json_encode($packages, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT).PHP_EOL
         );
     }
 
     /**
      * Replace a given string within a given file.
      *
-     * @param string $search
-     * @param string $replace
-     * @param string $path
+     * @param  string  $search
+     * @param  string  $replace
+     * @param  string  $path
      * @return void
      */
-    protected function replaceInFile(string $search, string $replace, string $path): void
+    protected function replaceInFile($search, $replace, $path)
     {
         file_put_contents($path, str_replace($search, $replace, file_get_contents($path)));
     }
@@ -497,7 +463,7 @@ EOF;
      *
      * @return string
      */
-    protected function phpBinary(): string
+    protected function phpBinary()
     {
         return (new PhpExecutableFinder())->find(false) ?: 'php';
     }
@@ -505,10 +471,10 @@ EOF;
     /**
      * Run the given commands.
      *
-     * @param array $commands
+     * @param  array  $commands
      * @return void
      */
-    protected function runCommands(array $commands): void
+    protected function runCommands($commands)
     {
         $process = Process::fromShellCommandline(implode(' && ', $commands), null, null, null, null);
 
