@@ -16,64 +16,46 @@ class FilamentCompanies
 {
     /**
      * Indicates if Company routes will be registered.
-     *
-     * @var bool
      */
     public static bool $registersRoutes = true;
 
     /**
      * The roles that are available to assign to users.
-     *
-     * @var array
      */
     public static array $roles = [];
 
     /**
      * The permissions that exist within the application.
-     *
-     * @var array
      */
     public static array $permissions = [];
 
     /**
      * The default permissions that should be available to new entities.
-     *
-     * @var array
      */
     public static array $defaultPermissions = [];
 
     /**
      * The user model that should be used by Company.
-     *
-     * @var string
      */
     public static string $userModel = 'App\\Models\\User';
 
     /**
      * The company model that should be used by Company.
-     *
-     * @var string
      */
     public static string $companyModel = 'App\\Models\\Company';
 
     /**
      * The employeeship model that should be used by Company.
-     *
-     * @var string
      */
     public static string $employeeshipModel = 'App\\Models\\Employeeship';
 
     /**
      * The company invitation model that should be used by Company.
-     *
-     * @var string
      */
     public static string $companyInvitationModel = 'App\\Models\\CompanyInvitation';
 
     /**
      * Determine if Company has registered roles.
-     *
-     * @return bool
      */
     public static function hasRoles(): bool
     {
@@ -82,9 +64,6 @@ class FilamentCompanies
 
     /**
      * Find the role with the given key.
-     *
-     * @param string $key
-     * @return Role|null
      */
     public static function findRole(string $key): ?Role
     {
@@ -93,11 +72,6 @@ class FilamentCompanies
 
     /**
      * Define a role.
-     *
-     * @param  string  $key
-     * @param  string  $name
-     * @param  array  $permissions
-     * @return Role
      */
     public static function role(string $key, string $name, array $permissions): Role
     {
@@ -107,15 +81,13 @@ class FilamentCompanies
                                     ->values()
                                     ->all();
 
-        return tap(new Role($key, $name, $permissions), function ($role) use ($key) {
+        return tap(new Role($key, $name, $permissions), static function ($role) use ($key) {
             static::$roles[$key] = $role;
         });
     }
 
     /**
      * Determine if any permissions have been registered with Company.
-     *
-     * @return bool
      */
     public static function hasPermissions(): bool
     {
@@ -124,9 +96,6 @@ class FilamentCompanies
 
     /**
      * Define the available API token permissions.
-     *
-     * @param  array  $permissions
-     * @return static
      */
     public static function permissions(array $permissions): static
     {
@@ -137,9 +106,6 @@ class FilamentCompanies
 
     /**
      * Define the default permissions that should be available to new API tokens.
-     *
-     * @param  array  $permissions
-     * @return static
      */
     public static function defaultApiTokenPermissions(array $permissions): static
     {
@@ -150,9 +116,6 @@ class FilamentCompanies
 
     /**
      * Return the permissions in the given list that are actually defined permissions for the application.
-     *
-     * @param  array  $permissions
-     * @return array
      */
     public static function validPermissions(array $permissions): array
     {
@@ -161,8 +124,6 @@ class FilamentCompanies
 
     /**
      * Determine if Company is managing profile photos.
-     *
-     * @return bool
      */
     public static function managesProfilePhotos(): bool
     {
@@ -171,8 +132,6 @@ class FilamentCompanies
 
     /**
      * Determine if Company is supporting API features.
-     *
-     * @return bool
      */
     public static function hasApiFeatures(): bool
     {
@@ -181,8 +140,6 @@ class FilamentCompanies
 
     /**
      * Determine if Company is supporting company features.
-     *
-     * @return bool
      */
     public static function hasCompanyFeatures(): bool
     {
@@ -191,9 +148,6 @@ class FilamentCompanies
 
     /**
      * Determine if a given user model utilizes the "HasCompanies" trait.
-     *
-     * @param Model $user
-     * @return bool
      */
     public static function userHasCompanyFeatures(Model $user): bool
     {
@@ -204,8 +158,6 @@ class FilamentCompanies
 
     /**
      * Determine if the application is using the terms confirmation feature.
-     *
-     * @return bool
      */
     public static function hasTermsAndPrivacyPolicyFeature(): bool
     {
@@ -214,8 +166,6 @@ class FilamentCompanies
 
     /**
      * Determine if the application is using any account deletion features.
-     *
-     * @return bool
      */
     public static function hasAccountDeletionFeatures(): bool
     {
@@ -224,9 +174,6 @@ class FilamentCompanies
 
     /**
      * Find a user instance by the given ID.
-     *
-     * @param int $id
-     * @return mixed
      */
     public static function findUserByIdOrFail(int $id): mixed
     {
@@ -235,9 +182,6 @@ class FilamentCompanies
 
     /**
      * Find a user instance by the given email address or fail.
-     *
-     * @param  string  $email
-     * @return mixed
      */
     public static function findUserByEmailOrFail(string $email): mixed
     {
@@ -246,8 +190,6 @@ class FilamentCompanies
 
     /**
      * Get the name of the user model used by the application.
-     *
-     * @return string
      */
     public static function userModel(): string
     {
@@ -256,8 +198,6 @@ class FilamentCompanies
 
     /**
      * Get a new instance of the user model.
-     *
-     * @return mixed
      */
     public static function newUserModel(): mixed
     {
@@ -268,9 +208,6 @@ class FilamentCompanies
 
     /**
      * Specify the user model that should be used by Company.
-     *
-     * @param  string  $model
-     * @return static
      */
     public static function useUserModel(string $model): static
     {
@@ -281,8 +218,6 @@ class FilamentCompanies
 
     /**
      * Get the name of the company model used by the application.
-     *
-     * @return string
      */
     public static function companyModel(): string
     {
@@ -291,8 +226,6 @@ class FilamentCompanies
 
     /**
      * Get a new instance of the company model.
-     *
-     * @return mixed
      */
     public static function newCompanyModel(): mixed
     {
@@ -303,9 +236,6 @@ class FilamentCompanies
 
     /**
      * Specify the company model that should be used by Company.
-     *
-     * @param  string  $model
-     * @return static
      */
     public static function useCompanyModel(string $model): static
     {
@@ -316,8 +246,6 @@ class FilamentCompanies
 
     /**
      * Get the name of the employeeship model used by the application.
-     *
-     * @return string
      */
     public static function employeeshipModel(): string
     {
@@ -326,9 +254,6 @@ class FilamentCompanies
 
     /**
      * Specify the employeeship model that should be used by Company.
-     *
-     * @param  string  $model
-     * @return static
      */
     public static function useEmployeeshipModel(string $model): static
     {
@@ -339,8 +264,6 @@ class FilamentCompanies
 
     /**
      * Get the name of the company invitation model used by the application.
-     *
-     * @return string
      */
     public static function companyInvitationModel(): string
     {
@@ -349,9 +272,6 @@ class FilamentCompanies
 
     /**
      * Specify the company invitation model that should be used by Company.
-     *
-     * @param  string  $model
-     * @return static
      */
     public static function useCompanyInvitationModel(string $model): static
     {
@@ -362,9 +282,6 @@ class FilamentCompanies
 
     /**
      * Register a class / callback that should be used to create companies.
-     *
-     * @param  string  $class
-     * @return void
      */
     public static function createCompaniesUsing(string $class): void
     {
@@ -373,9 +290,6 @@ class FilamentCompanies
 
     /**
      * Register a class / callback that should be used to update company names.
-     *
-     * @param  string  $class
-     * @return void
      */
     public static function updateCompanyNamesUsing(string $class): void
     {
@@ -384,9 +298,6 @@ class FilamentCompanies
 
     /**
      * Register a class / callback that should be used to add company employees.
-     *
-     * @param  string  $class
-     * @return void
      */
     public static function addCompanyEmployeesUsing(string $class): void
     {
@@ -395,9 +306,6 @@ class FilamentCompanies
 
     /**
      * Register a class / callback that should be used to add company employees.
-     *
-     * @param  string  $class
-     * @return void
      */
     public static function inviteCompanyEmployeesUsing(string $class): void
     {
@@ -406,9 +314,6 @@ class FilamentCompanies
 
     /**
      * Register a class / callback that should be used to remove company employees.
-     *
-     * @param  string  $class
-     * @return void
      */
     public static function removeCompanyEmployeesUsing(string $class): void
     {
@@ -417,9 +322,6 @@ class FilamentCompanies
 
     /**
      * Register a class / callback that should be used to delete companies.
-     *
-     * @param  string  $class
-     * @return void
      */
     public static function deleteCompaniesUsing(string $class): void
     {
@@ -428,9 +330,6 @@ class FilamentCompanies
 
     /**
      * Register a class / callback that should be used to delete users.
-     *
-     * @param  string  $class
-     * @return void
      */
     public static function deleteUsersUsing(string $class): void
     {
@@ -439,9 +338,6 @@ class FilamentCompanies
 
     /**
      * Find the path to a localized Markdown resource.
-     *
-     * @param string $name
-     * @return string|null
      */
     public static function localizedMarkdownPath(string $name): ?string
     {
@@ -457,8 +353,6 @@ class FilamentCompanies
 
     /**
      * Configure Company to not register its routes.
-     *
-     * @return static
      */
     public static function ignoreRoutes(): static
     {

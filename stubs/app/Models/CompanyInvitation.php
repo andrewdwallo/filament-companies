@@ -20,8 +20,6 @@ class CompanyInvitation extends Model
 
     /**
      * Get the company that the invitation belongs to.
-     *
-     * @return BelongsTo
      */
     public function company(): BelongsTo
     {

@@ -4,13 +4,13 @@ namespace Wallo\FilamentCompanies\Http\Livewire;
 
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Contracts\Auth\StatefulGuard;
+use Illuminate\Contracts\View\View;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
-use Illuminate\Contracts\View\View;
 use Jenssegers\Agent\Agent;
 use Livewire\Component;
 
@@ -18,22 +18,16 @@ class LogoutOtherBrowserSessionsForm extends Component
 {
     /**
      * Indicates if logout is being confirmed.
-     *
-     * @var bool
      */
-    public $confirmingLogout = false;
+    public bool $confirmingLogout = false;
 
     /**
      * The user's current password.
-     *
-     * @var string
      */
-    public $password = '';
+    public string $password = '';
 
     /**
      * Confirm that the user would like to log out from other browser sessions.
-     *
-     * @return void
      */
     public function confirmLogout(): void
     {
@@ -47,8 +41,6 @@ class LogoutOtherBrowserSessionsForm extends Component
     /**
      * Log out from other browser sessions.
      *
-     * @param StatefulGuard $guard
-     * @return void
      * @throws AuthenticationException
      */
     public function logoutOtherBrowserSessions(StatefulGuard $guard): void
@@ -69,8 +61,8 @@ class LogoutOtherBrowserSessionsForm extends Component
 
         $this->deleteOtherSessionRecords();
 
-        request()->session()->put([
-            'password_hash_'.Auth::getDefaultDriver() => Auth::user()->getAuthPassword(),
+        session()->put([
+            'password_hash_'.Auth::getDefaultDriver() => Auth::user()?->getAuthPassword(),
         ]);
 
         $this->confirmingLogout = false;
@@ -80,8 +72,6 @@ class LogoutOtherBrowserSessionsForm extends Component
 
     /**
      * Delete the other browser session records from storage.
-     *
-     * @return void
      */
     protected function deleteOtherSessionRecords(): void
     {
@@ -90,15 +80,13 @@ class LogoutOtherBrowserSessionsForm extends Component
         }
 
         DB::connection(config('session.connection'))->table(config('session.table', 'sessions'))
-            ->where('user_id', Auth::user()->getAuthIdentifier())
-            ->where('id', '!=', request()->session()->getId())
+            ->where('user_id', Auth::user()?->getAuthIdentifier())
+            ->where('id', '!=', session()->getId())
             ->delete();
     }
 
     /**
      * Get the current sessions.
-     *
-     * @return Collection
      */
     public function getSessionsProperty(): Collection
     {
@@ -108,14 +96,14 @@ class LogoutOtherBrowserSessionsForm extends Component
 
         return collect(
             DB::connection(config('session.connection'))->table(config('session.table', 'sessions'))
-                    ->where('user_id', Auth::user()->getAuthIdentifier())
+                    ->where('user_id', Auth::user()?->getAuthIdentifier())
                     ->orderBy('last_activity', 'desc')
                     ->get()
         )->map(function ($session) {
             return (object) [
                 'agent' => $this->createAgent($session),
                 'ip_address' => $session->ip_address,
-                'is_current_device' => $session->id === request()->session()->getId(),
+                'is_current_device' => $session->id === session()->getId(),
                 'last_active' => Carbon::createFromTimestamp($session->last_activity)->diffForHumans(),
             ];
         });
@@ -123,21 +111,16 @@ class LogoutOtherBrowserSessionsForm extends Component
 
     /**
      * Create a new agent instance from the given session.
-     *
-     * @param  mixed  $session
-     * @return Agent
      */
     protected function createAgent(mixed $session): Agent
     {
-        return tap(new Agent, function ($agent) use ($session) {
+        return tap(new Agent, static function ($agent) use ($session) {
             $agent->setUserAgent($session->user_agent);
         });
     }
 
     /**
      * Render the component.
-     *
-     * @return View
      */
     public function render(): View
     {

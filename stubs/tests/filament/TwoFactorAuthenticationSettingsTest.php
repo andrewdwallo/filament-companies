@@ -5,9 +5,9 @@ namespace Tests\Feature;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Laravel\Fortify\Features;
-use Wallo\FilamentCompanies\Http\Livewire\TwoFactorAuthenticationForm;
 use Livewire\Livewire;
 use Tests\TestCase;
+use Wallo\FilamentCompanies\Http\Livewire\TwoFactorAuthenticationForm;
 
 class TwoFactorAuthenticationSettingsTest extends TestCase
 {

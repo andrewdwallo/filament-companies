@@ -13,15 +13,12 @@ abstract class CompanyEvent
 
     /**
      * The company instance.
-     *
-     * @var Company
      */
     public Company $company;
 
     /**
      * Create a new event instance.
      *
-     * @param Company $company
      * @return void
      */
     public function __construct(Company $company)

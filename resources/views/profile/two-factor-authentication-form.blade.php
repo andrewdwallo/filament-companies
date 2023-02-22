@@ -78,8 +78,7 @@
                     </p>
                 </div>
 
-                <div
-                    class="mt-4 grid max-w-xl gap-1 rounded-lg bg-gray-100 px-4 py-4 font-mono text-sm dark:bg-gray-800">
+                <div class="mt-4 grid max-w-xl gap-1 rounded-lg bg-gray-100 px-4 py-4 font-mono text-sm dark:bg-gray-800">
                     @foreach (json_decode(decrypt($this->user->two_factor_recovery_codes), true, 512, JSON_THROW_ON_ERROR) as $code)
                         <div>{{ $code }}</div>
                     @endforeach
@@ -98,47 +97,34 @@
                 @else
                     @if ($showingRecoveryCodes)
                         <x-filament-companies::confirms-password wire:then="regenerateRecoveryCodes">
-                            <x-filament::button
-                                type="submit">
+                            <x-filament::button type="submit">
                                 {{ __('filament-companies::default.buttons.regenerate_recovery_codes') }}
-
                             </x-filament::button>
                         </x-filament-companies::confirms-password>
                     @elseif ($showingConfirmation)
                         <x-filament-companies::confirms-password wire:then="confirmTwoFactorAuthentication">
-                            <x-filament::button
-                                type="button"
-                                wire:loading.attr="disabled">
+                            <x-filament::button type="button" wire:loading.attr="disabled">
                                 {{ __('filament-companies::default.buttons.confirm') }}
-
                             </x-filament::button>
                         </x-filament-companies::confirms-password>
                     @else
                         <x-filament-companies::confirms-password wire:then="showRecoveryCodes">
-                            <x-filament::button
-                                type="submit">
+                            <x-filament::button type="submit">
                                 {{ __('filament-companies::default.buttons.show_recovery_codes') }}
-
                             </x-filament::button>
                         </x-filament-companies::confirms-password>
                     @endif
 
                     @if ($showingConfirmation)
                         <x-filament-companies::confirms-password wire:then="disableTwoFactorAuthentication">
-                            <x-filament::button
-                                color="gray"
-                                wire:loading.attr="disabled">
+                            <x-filament::button color="gray" wire:loading.attr="disabled">
                                 {{ __('filament-companies::default.buttons.cancel') }}
-
                             </x-filament::button>
                         </x-filament-companies::confirms-password>
                     @else
                         <x-filament-companies::confirms-password wire:then="disableTwoFactorAuthentication">
-                            <x-filament::button
-                                color="gray"
-                                wire:loading.attr="disabled">
+                            <x-filament::button color="gray" wire:loading.attr="disabled">
                                 {{ __('filament-companies::default.buttons.disable') }}
-
                             </x-filament::button>
                         </x-filament-companies::confirms-password>
                     @endif

@@ -24,7 +24,6 @@ class CompanyPolicy
      * Determine whether the user can view the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Company  $company
      * @return mixed
      */
     public function view(User $user, Company $company)
@@ -47,7 +46,6 @@ class CompanyPolicy
      * Determine whether the user can update the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Company  $company
      * @return mixed
      */
     public function update(User $user, Company $company)
@@ -59,7 +57,6 @@ class CompanyPolicy
      * Determine whether the user can add company employees.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Company  $company
      * @return mixed
      */
     public function addCompanyEmployee(User $user, Company $company)
@@ -71,7 +68,6 @@ class CompanyPolicy
      * Determine whether the user can update company employee permissions.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Company  $company
      * @return mixed
      */
     public function updateCompanyEmployee(User $user, Company $company)
@@ -83,7 +79,6 @@ class CompanyPolicy
      * Determine whether the user can remove company employees.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Company  $company
      * @return mixed
      */
     public function removeCompanyEmployee(User $user, Company $company)
@@ -95,7 +90,6 @@ class CompanyPolicy
      * Determine whether the user can delete the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Company  $company
      * @return mixed
      */
     public function delete(User $user, Company $company)

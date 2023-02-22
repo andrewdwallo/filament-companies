@@ -1,9 +1,9 @@
 <?php
 
 use App\Models\User;
+use Livewire\Livewire;
 use Wallo\FilamentCompanies\Features;
 use Wallo\FilamentCompanies\Http\Livewire\DeleteUserForm;
-use Livewire\Livewire;
 
 test('user accounts can be deleted', function () {
     $this->actingAs($user = User::factory()->create());

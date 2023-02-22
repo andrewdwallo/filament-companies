@@ -4,9 +4,9 @@ namespace Tests\Feature;
 
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Wallo\FilamentCompanies\Http\Livewire\UpdateCompanyNameForm;
 use Livewire\Livewire;
 use Tests\TestCase;
+use Wallo\FilamentCompanies\Http\Livewire\UpdateCompanyNameForm;
 
 class UpdateCompanyNameTest extends TestCase
 {

@@ -14,15 +14,16 @@
         </div>
     @endif
 
-    <x-filament-companies::validation-errors class="mb-4" />
+    <x-filament-companies::validation-errors class="mb-4"/>
 
     <form method="POST" class="space-y-8" action="{{ route('password.email') }}">
         @csrf
 
         <div class="block">
-            <x-forms::field-wrapper id="email" statePath="email" required="true" label="{{ __('filament-companies::default.fields.email') }}">
+            <x-forms::field-wrapper id="email" statePath="email" required="true"
+                                    label="{{ __('filament-companies::default.fields.email') }}">
                 <x-filament-companies::input id="email" type="email" name="email"
-                                             :value="old('email')" autofocus="on" />
+                                             :value="old('email')" required autofocus autocomplete="username"/>
             </x-forms::field-wrapper>
         </div>
 

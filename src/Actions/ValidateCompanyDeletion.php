@@ -11,9 +11,6 @@ class ValidateCompanyDeletion
     /**
      * Validate that the company can be deleted by the given user.
      *
-     * @param mixed $user
-     * @param mixed $company
-     * @return void
      * @throws AuthorizationException
      */
     public function validate(mixed $user, mixed $company): void

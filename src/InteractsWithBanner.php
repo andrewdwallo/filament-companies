@@ -6,9 +6,6 @@ trait InteractsWithBanner
 {
     /**
      * Update the banner message.
-     *
-     * @param string $message
-     * @return void
      */
     protected function banner(string $message): void
     {
@@ -20,9 +17,6 @@ trait InteractsWithBanner
 
     /**
      * Update the banner message with a danger / error message.
-     *
-     * @param string $message
-     * @return void
      */
     protected function dangerBanner(string $message): void
     {

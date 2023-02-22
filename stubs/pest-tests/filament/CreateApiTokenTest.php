@@ -1,9 +1,9 @@
 <?php
 
 use App\Models\User;
+use Livewire\Livewire;
 use Wallo\FilamentCompanies\Features;
 use Wallo\FilamentCompanies\Http\Livewire\ApiTokenManager;
-use Livewire\Livewire;
 
 test('api tokens can be created', function () {
     if (Features::hasCompanyFeatures()) {

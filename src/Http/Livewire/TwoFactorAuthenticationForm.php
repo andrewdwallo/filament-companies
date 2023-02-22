@@ -4,15 +4,15 @@ namespace Wallo\FilamentCompanies\Http\Livewire;
 
 use App\Models\User;
 use Illuminate\Contracts\Auth\Authenticatable;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Contracts\View\View;
+use Illuminate\Support\Facades\Auth;
 use Laravel\Fortify\Actions\ConfirmTwoFactorAuthentication;
 use Laravel\Fortify\Actions\DisableTwoFactorAuthentication;
 use Laravel\Fortify\Actions\EnableTwoFactorAuthentication;
 use Laravel\Fortify\Actions\GenerateNewRecoveryCodes;
 use Laravel\Fortify\Features;
-use Wallo\FilamentCompanies\ConfirmsPasswords;
 use Livewire\Component;
+use Wallo\FilamentCompanies\ConfirmsPasswords;
 
 class TwoFactorAuthenticationForm extends Component
 {
@@ -20,36 +20,26 @@ class TwoFactorAuthenticationForm extends Component
 
     /**
      * Indicates if two-factor authentication QR code is being displayed.
-     *
-     * @var bool
      */
-    public $showingQrCode = false;
+    public bool $showingQrCode = false;
 
     /**
      * Indicates if the two-factor authentication confirmation input and button are being displayed.
-     *
-     * @var bool
      */
-    public $showingConfirmation = false;
+    public bool $showingConfirmation = false;
 
     /**
      * Indicates if two-factor authentication recovery codes are being displayed.
-     *
-     * @var bool
      */
-    public $showingRecoveryCodes = false;
+    public bool $showingRecoveryCodes = false;
 
     /**
      * The OTP code for confirming two-factor authentication.
-     *
-     * @var string|null
      */
-    public $code;
+    public string|null $code;
 
     /**
      * Mount the component.
-     *
-     * @return void
      */
     public function mount(): void
     {
@@ -61,9 +51,6 @@ class TwoFactorAuthenticationForm extends Component
 
     /**
      * Enable two-factor authentication for the user.
-     *
-     * @param EnableTwoFactorAuthentication $enable
-     * @return void
      */
     public function enableTwoFactorAuthentication(EnableTwoFactorAuthentication $enable): void
     {
@@ -84,9 +71,6 @@ class TwoFactorAuthenticationForm extends Component
 
     /**
      * Confirm two-factor authentication for the user.
-     *
-     * @param ConfirmTwoFactorAuthentication $confirm
-     * @return void
      */
     public function confirmTwoFactorAuthentication(ConfirmTwoFactorAuthentication $confirm): void
     {
@@ -103,8 +87,6 @@ class TwoFactorAuthenticationForm extends Component
 
     /**
      * Display the user's recovery codes.
-     *
-     * @return void
      */
     public function showRecoveryCodes(): void
     {
@@ -117,9 +99,6 @@ class TwoFactorAuthenticationForm extends Component
 
     /**
      * Generate new recovery codes for the user.
-     *
-     * @param GenerateNewRecoveryCodes $generate
-     * @return void
      */
     public function regenerateRecoveryCodes(GenerateNewRecoveryCodes $generate): void
     {
@@ -134,9 +113,6 @@ class TwoFactorAuthenticationForm extends Component
 
     /**
      * Disable two-factor authentication for the user.
-     *
-     * @param DisableTwoFactorAuthentication $disable
-     * @return void
      */
     public function disableTwoFactorAuthentication(DisableTwoFactorAuthentication $disable): void
     {
@@ -153,8 +129,6 @@ class TwoFactorAuthenticationForm extends Component
 
     /**
      * Get the current user of the application.
-     *
-     * @return User|Authenticatable|null
      */
     public function getUserProperty(): User|Authenticatable|null
     {
@@ -163,8 +137,6 @@ class TwoFactorAuthenticationForm extends Component
 
     /**
      * Determine if two-factor authentication is enabled.
-     *
-     * @return bool
      */
     public function getEnabledProperty(): bool
     {
@@ -173,8 +145,6 @@ class TwoFactorAuthenticationForm extends Component
 
     /**
      * Render the component.
-     *
-     * @return View
      */
     public function render(): View
     {

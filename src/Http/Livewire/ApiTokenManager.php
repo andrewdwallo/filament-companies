@@ -8,8 +8,8 @@ use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Laravel\Sanctum\PersonalAccessToken;
-use Wallo\FilamentCompanies\FilamentCompanies;
 use Livewire\Component;
+use Wallo\FilamentCompanies\FilamentCompanies;
 
 class ApiTokenManager extends Component
 {
@@ -191,8 +191,6 @@ class ApiTokenManager extends Component
 
     /**
      * Get the current user of the application.
-     *
-     * @return Authenticatable|User|null
      */
     public function getUserProperty(): Authenticatable|null|User
     {

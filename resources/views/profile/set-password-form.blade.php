@@ -11,16 +11,25 @@
         <x-filament::card>
             <div class="col-span-6 sm:col-span-4">
 
-                <x-forms::field-wrapper id="password" statePath="password" required="true" label="{{ __('filament-companies::default.labels.new_password') }}">
-                    <x-filament-companies::input id="password" type="password"
-                        wire:model.defer="state.password" autocomplete="new-password" />
+                <x-forms::field-wrapper id="password"
+                                        statePath="password"
+                                        required="true"
+                                        label="{{ __('filament-companies::default.labels.new_password') }}">
+                    <x-filament-companies::input id="password"
+                                                 type="password"
+                                                 wire:model.defer="state.password"
+                                                 autocomplete="new-password"/>
                 </x-forms::field-wrapper>
             </div>
 
             <div class="col-span-6 sm:col-span-4">
-                <x-forms::field-wrapper id="password_confirmation" statePath="password_confirmation" required="true" label="{{ __('filament-companies::default.labels.password_confirmation') }}">
+                <x-forms::field-wrapper id="password_confirmation"
+                                        statePath="password_confirmation"
+                                        required="true"
+                                        label="{{ __('filament-companies::default.labels.password_confirmation') }}">
                     <x-filament-companies::input id="password_confirmation" type="password"
-                        wire:model.defer="state.password_confirmation" autocomplete="new-password" />
+                                                 wire:model.defer="state.password_confirmation"
+                                                 autocomplete="new-password"/>
                 </x-forms::field-wrapper>
             </div>
 

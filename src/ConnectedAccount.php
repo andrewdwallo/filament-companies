@@ -9,8 +9,6 @@ abstract class ConnectedAccount extends Model
 {
     /**
      * Get the credentials used for authenticating services.
-     *
-     * @return Credentials
      */
     public function getCredentials(): Credentials
     {
@@ -19,8 +17,6 @@ abstract class ConnectedAccount extends Model
 
     /**
      * Get user of the connected account.
-     *
-     * @return BelongsTo
      */
     public function user(): BelongsTo
     {
@@ -30,7 +26,7 @@ abstract class ConnectedAccount extends Model
     /**
      * Get the data that should be shared.
      *
-     * @return array
+     * @return array<string, mixed>
      */
     public function getSharedData(): array
     {

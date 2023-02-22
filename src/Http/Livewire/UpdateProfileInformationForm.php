@@ -5,9 +5,9 @@ namespace Wallo\FilamentCompanies\Http\Livewire;
 use App\Models\User;
 use Filament\Notifications\Notification;
 use Illuminate\Contracts\Auth\Authenticatable;
+use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Contracts\View\View;
 use Laravel\Fortify\Contracts\UpdatesUserProfileInformation;
 use Livewire\Component;
 use Livewire\Redirector;
@@ -20,40 +20,29 @@ class UpdateProfileInformationForm extends Component
 
     /**
      * The component's state.
-     *
-     * @var array
      */
-    public $state = [];
+    public array $state = [];
 
     /**
      * The new avatar for the user.
-     *
-     * @var mixed
      */
     public $photo;
 
     /**
      * Determine if the verification email was sent.
-     *
-     * @var bool
      */
-    public $verificationLinkSent = false;
+    public bool $verificationLinkSent = false;
 
     /**
      * Prepare the component.
-     *
-     * @return void
      */
     public function mount(): void
     {
-        $this->state = Auth::user()->withoutRelations()->toArray();
+        $this->state = Auth::user()?->withoutRelations()->toArray();
     }
 
     /**
      * Update the user's profile information.
-     *
-     * @param UpdatesUserProfileInformation $updater
-     * @return RedirectResponse|Redirector
      */
     public function updateProfileInformation(UpdatesUserProfileInformation $updater): Redirector|RedirectResponse
     {
@@ -67,48 +56,49 @@ class UpdateProfileInformationForm extends Component
         );
 
         if (isset($this->photo)) {
-            return redirect()->to(Profile::getUrl());
+            $this->profileUpdatedNotification();
+
+            return redirect(Profile::getUrl());
         }
 
-        Notification::make()
-        ->title('Saved')
-        ->success()
-        ->body('Profile information updated')
-        ->send();
+        $this->profileUpdatedNotification();
 
         $this->emit('refresh-navigation-menu');
 
-        return redirect()->back();
+        return redirect()->back(303);
+    }
+
+    protected function profileUpdatedNotification(): void
+    {
+        Notification::make()
+            ->title('Saved')
+            ->success()
+            ->body('Profile information updated')
+            ->send();
     }
 
     /**
      * Delete user's profile photo.
-     *
-     * @return void
      */
     public function deleteProfilePhoto(): void
     {
-        Auth::user()->deleteProfilePhoto();
+        Auth::user()?->deleteProfilePhoto();
 
         $this->emit('refresh-navigation-menu');
     }
 
     /**
      * Sent the email verification.
-     *
-     * @return void
      */
     public function sendEmailVerification(): void
     {
-        Auth::user()->sendEmailVerificationNotification();
+        Auth::user()?->sendEmailVerificationNotification();
 
         $this->verificationLinkSent = true;
     }
 
     /**
      * Get the current user of the application.
-     *
-     * @return User|Authenticatable|null
      */
     public function getUserProperty(): User|Authenticatable|null
     {
@@ -117,8 +107,6 @@ class UpdateProfileInformationForm extends Component
 
     /**
      * Render the component.
-     *
-     * @return View
      */
     public function render(): View
     {

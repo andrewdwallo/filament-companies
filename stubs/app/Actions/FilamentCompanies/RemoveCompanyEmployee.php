@@ -35,18 +35,14 @@ class RemoveCompanyEmployee implements RemovesCompanyEmployees
      */
     protected function authorize(User $user, Company $company, User $companyEmployee): void
     {
-        if (!Gate::forUser($user)->check('removeCompanyEmployee', $company)) {
-            throw new AuthorizationException;
-        }
-
-        if ($user->id !== $companyEmployee->id) {
+        if (! Gate::forUser($user)->check('removeCompanyEmployee', $company) &&
+            $user->id !== $companyEmployee->id) {
             throw new AuthorizationException;
         }
     }
 
     /**
      * Ensure that the currently authenticated user does not own the company.
-     *
      */
     protected function ensureUserDoesNotOwnCompany(User $companyEmployee, Company $company): void
     {

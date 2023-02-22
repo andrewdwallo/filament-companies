@@ -8,9 +8,6 @@ interface ResolvesSocialiteUsers
 {
     /**
      * Resolve the user for a given provider.
-     *
-     * @param string $provider
-     * @return User
      */
     public function resolve(string $provider): User;
 }

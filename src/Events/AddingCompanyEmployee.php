@@ -10,23 +10,17 @@ class AddingCompanyEmployee
 
     /**
      * The company instance.
-     *
-     * @var mixed
      */
     public mixed $company;
 
     /**
      * The company employee being added.
-     *
-     * @var mixed
      */
     public mixed $user;
 
     /**
      * Create a new event instance.
      *
-     * @param  mixed  $company
-     * @param  mixed  $user
      * @return void
      */
     public function __construct(mixed $company, mixed $user)

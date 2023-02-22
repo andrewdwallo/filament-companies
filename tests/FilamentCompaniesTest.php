@@ -2,7 +2,6 @@
 
 namespace Wallo\FilamentCompanies\Tests;
 
-use Wallo\FilamentCompanies\Features;
 use Wallo\FilamentCompanies\FilamentCompanies;
 
 class FilamentCompaniesTest extends OrchestraTestCase

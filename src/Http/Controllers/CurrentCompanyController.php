@@ -5,16 +5,13 @@ namespace Wallo\FilamentCompanies\Http\Controllers;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
-use Wallo\FilamentCompanies\FilamentCompanies;
 use Livewire\Redirector;
+use Wallo\FilamentCompanies\FilamentCompanies;
 
 class CurrentCompanyController extends Controller
 {
     /**
      * Update the authenticated user's current company.
-     *
-     * @param Request $request
-     * @return Redirector|RedirectResponse
      */
     public function update(Request $request): Redirector|RedirectResponse
     {
@@ -24,6 +21,6 @@ class CurrentCompanyController extends Controller
             abort(403);
         }
 
-        return  back();
+        return back(303);
     }
 }

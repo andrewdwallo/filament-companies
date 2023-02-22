@@ -2,9 +2,9 @@
 
 use App\Models\User;
 use Illuminate\Support\Str;
+use Livewire\Livewire;
 use Wallo\FilamentCompanies\Features;
 use Wallo\FilamentCompanies\Http\Livewire\ApiTokenManager;
-use Livewire\Livewire;
 
 test('api tokens can be deleted', function () {
     if (Features::hasCompanyFeatures()) {

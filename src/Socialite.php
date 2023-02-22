@@ -13,70 +13,32 @@ use Wallo\FilamentCompanies\Contracts\UpdatesConnectedAccounts;
 class Socialite
 {
     /**
-     * Determines if the application is using Socialite.
-     *
-     * @var bool
-     */
-    public static bool $enabled = true;
-
-    /**
-     * Indicates if Socialite routes will be registered.
-     *
-     * @var bool
-     */
-    public static bool $registersRoutes = true;
-
-    /**
      * The user model that should be used by FilamentCompanies.
-     *
-     * @var string
      */
     public static string $connectedAccountModel = 'App\\Models\\ConnectedAccount';
 
     /**
-     * Determine whether Socialite is enabled in the application.
-     *
-     * @param callable|bool|null $callback
-     * @return bool
+     * Determine if Company is supporting socialite features.
      */
-    public static function enabled(callable|bool $callback = null): bool
+    public static function hasSocialiteFeatures(): bool
     {
-        if (is_callable($callback)) {
-            static::$enabled = $callback();
-        }
-
-        if (is_bool($callback)) {
-            static::$enabled = $callback;
-        }
-
-        return static::$enabled;
-    }
-
-    /**
-     * Determine whether to show Socialite components on login or registration.
-     *
-     * @return bool
-     */
-    public static function show(): bool
-    {
-        return static::$enabled;
+        return Features::hasSocialiteFeatures();
     }
 
     /**
      * Determine which providers the application supports.
-     *
-     * @return array
      */
     public static function providers(): array
     {
-        return config('filament-companies.providers');
+        $providers = config('filament-companies.providers', []);
+
+        return array_keys(array_filter($providers, static function ($value) {
+            return $value === true;
+        }));
     }
 
     /**
      * Determine if FilamentCompanies supports a specific Socialite provider.
-     *
-     * @param string $provider
-     * @return bool
      */
     public static function hasSupportFor(string $provider): bool
     {
@@ -85,98 +47,70 @@ class Socialite
 
     /**
      * Determine if the application has support for the Bitbucket provider..
-     *
-     * @return bool
      */
-    public static function hasBitbucketSupport(): bool
+    public static function hasBitbucket(): bool
     {
-        return Providers::hasBitbucketSupport();
+        return Providers::hasBitbucket();
     }
 
     /**
      * Determine if the application has support for the Facebook provider..
-     *
-     * @return bool
      */
-    public static function hasFacebookSupport(): bool
+    public static function hasFacebook(): bool
     {
-        return Providers::hasFacebookSupport();
+        return Providers::hasFacebook();
     }
 
     /**
      * Determine if the application has support for the Gitlab provider..
-     *
-     * @return bool
      */
-    public static function hasGitlabSupport(): bool
+    public static function hasGitlab(): bool
     {
-        return Providers::hasGitlabSupport();
+        return Providers::hasGitlab();
     }
 
     /**
      * Determine if the application has support for the GitHub provider..
-     *
-     * @return bool
      */
-    public static function hasGithubSupport(): bool
+    public static function hasGithub(): bool
     {
-        return Providers::hasGithubSupport();
+        return Providers::hasGithub();
     }
 
     /**
      * Determine if the application has support for the Google provider..
-     *
-     * @return bool
      */
-    public static function hasGoogleSupport(): bool
+    public static function hasGoogle(): bool
     {
-        return Providers::hasGoogleSupport();
+        return Providers::hasGoogle();
     }
 
     /**
      * Determine if the application has support for the LinkedIn provider..
-     *
-     * @return bool
      */
-    public static function hasLinkedInSupport(): bool
+    public static function hasLinkedIn(): bool
     {
-        return Providers::hasLinkedInSupport();
-    }
-
-    /**
-     * Determine if the application has support for the Twitter provider.
-     *
-     * @return bool
-     */
-    public static function hasTwitterSupport(): bool
-    {
-        return Providers::hasTwitterSupport();
+        return Providers::hasLinkedIn();
     }
 
     /**
      * Determine if the application has support for the Twitter OAuth 1.0 provider..
-     *
-     * @return bool
      */
-    public static function hasTwitterOAuth1Support(): bool
+    public static function hasTwitterOAuth1(): bool
     {
-        return Providers::hasTwitterOAuth1Support();
+        return Providers::hasTwitterOAuth1();
     }
 
     /**
      * Determine if the application has support for the Twitter OAuth 2.0 provider..
-     *
-     * @return bool
      */
-    public static function hasTwitterOAuth2Support(): bool
+    public static function hasTwitterOAuth2(): bool
     {
-        return Providers::hasTwitterOAuth2Support();
+        return Providers::hasTwitterOAuth2();
     }
 
     /**
      * Determine if the application has the generates missing emails feature enabled.
-     *
-     * @return bool
      */
     public static function generatesMissingEmails(): bool
     {
@@ -185,18 +119,19 @@ class Socialite
 
     /**
      * Determine if the application has the create account on first login feature.
-     *
-     * @return bool
      */
     public static function hasCreateAccountOnFirstLoginFeatures(): bool
     {
         return Features::hasCreateAccountOnFirstLoginFeatures();
     }
 
+    public static function hasLoginOnRegistrationFeatures(): bool
+    {
+        return Features::hasLoginOnRegistrationFeatures();
+    }
+
     /**
      * Determine if the application should use provider avatars when registering.
-     *
-     * @return bool
      */
     public static function hasProviderAvatarsFeature(): bool
     {
@@ -205,8 +140,6 @@ class Socialite
 
     /**
      * Determine if the application should remember the users session on login.
-     *
-     * @return bool
      */
     public static function hasRememberSessionFeatures(): bool
     {
@@ -215,10 +148,6 @@ class Socialite
 
     /**
      * Find a connected account instance for a given provider and provider ID.
-     *
-     * @param  string  $provider
-     * @param  string  $providerId
-     * @return mixed
      */
     public static function findConnectedAccountForProviderAndId(string $provider, string $providerId): mixed
     {
@@ -230,8 +159,6 @@ class Socialite
 
     /**
      * Get the name of the connected account model used by the application.
-     *
-     * @return string
      */
     public static function connectedAccountModel(): string
     {
@@ -240,8 +167,6 @@ class Socialite
 
     /**
      * Get a new instance of the connected account model.
-     *
-     * @return mixed
      */
     public static function newConnectedAccountModel(): mixed
     {
@@ -252,9 +177,6 @@ class Socialite
 
     /**
      * Specify the connected account model that should be used by FilamentCompanies.
-     *
-     * @param  string  $model
-     * @return static
      */
     public static function useConnectedAccountModel(string $model): static
     {
@@ -265,9 +187,6 @@ class Socialite
 
     /**
      * Register a class / callback that should be used to resolve the user for a Socialite Provider.
-     *
-     * @param string $class
-     * @return void
      */
     public static function resolvesSocialiteUsersUsing(string $class): void
     {
@@ -276,9 +195,6 @@ class Socialite
 
     /**
      * Register a class / callback that should be used to create users from social providers.
-     *
-     * @param  string  $class
-     * @return void
      */
     public static function createUsersFromProviderUsing(string $class): void
     {
@@ -287,9 +203,6 @@ class Socialite
 
     /**
      * Register a class / callback that should be used to create connected accounts.
-     *
-     * @param  string  $class
-     * @return void
      */
     public static function createConnectedAccountsUsing(string $class): void
     {
@@ -298,9 +211,6 @@ class Socialite
 
     /**
      * Register a class / callback that should be used to update connected accounts.
-     *
-     * @param  string  $class
-     * @return void
      */
     public static function updateConnectedAccountsUsing(string $class): void
     {
@@ -309,33 +219,24 @@ class Socialite
 
     /**
      * Register a class / callback that should be used to set user passwords.
-     *
-     * @param  string  $callback
-     * @return void
      */
-    public static function setUserPasswordsUsing(string $callback): void
+    public static function setUserPasswordsUsing(callable|string $callback): void
     {
         app()->singleton(SetsUserPasswords::class, $callback);
     }
 
     /**
      * Register a class / callback that should be used to set user passwords.
-     *
-     * @param  string  $callback
-     * @return void
      */
-    public static function handlesInvalidStateUsing(string $callback): void
+    public static function handlesInvalidStateUsing(callable|string $callback): void
     {
         app()->singleton(HandlesInvalidState::class, $callback);
     }
 
     /**
      * Register a class / callback that should be used for generating provider redirects.
-     *
-     * @param  string  $callback
-     * @return void
      */
-    public static function generatesProvidersRedirectsUsing(string $callback): void
+    public static function generatesProvidersRedirectsUsing(callable|string $callback): void
     {
         app()->singleton(GeneratesProviderRedirect::class, $callback);
     }

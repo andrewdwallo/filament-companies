@@ -15,14 +15,14 @@ use App\Actions\FilamentCompanies\ResolveSocialiteUser;
 use App\Actions\FilamentCompanies\SetUserPassword;
 use App\Actions\FilamentCompanies\UpdateCompanyName;
 use App\Actions\FilamentCompanies\UpdateConnectedAccount;
-use Illuminate\Support\ServiceProvider;
-use Wallo\FilamentCompanies\FilamentCompanies;
 use Filament\Facades\Filament;
-use Illuminate\Contracts\View\View;
 use Filament\Navigation\UserMenuItem;
+use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Blade;
+use Illuminate\Support\ServiceProvider;
 use Wallo\FilamentCompanies\Actions\GenerateRedirectForProvider;
+use Wallo\FilamentCompanies\FilamentCompanies;
 use Wallo\FilamentCompanies\Pages\User\APITokens;
 use Wallo\FilamentCompanies\Pages\User\Profile;
 use Wallo\FilamentCompanies\Socialite;
@@ -31,7 +31,6 @@ class FilamentCompaniesServiceProvider extends ServiceProvider
 {
     /**
      * Register any application services.
-     *
      */
     public function register(): void
     {
@@ -40,11 +39,9 @@ class FilamentCompaniesServiceProvider extends ServiceProvider
 
     /**
      * Bootstrap any application services.
-     *
      */
     public function boot(): void
     {
-
         if (FilamentCompanies::hasCompanyFeatures()) {
             Filament::registerRenderHook(
                 'global-search.start',
@@ -70,12 +67,11 @@ class FilamentCompaniesServiceProvider extends ServiceProvider
             });
         }
 
-        Filament::serving(static function() {
+        Filament::serving(static function () {
             Filament::registerUserMenuItems([
                 'logout' => UserMenuItem::make()->url(route('logout')),
             ]);
         });
-
 
         RedirectResponse::macro('banner', function ($message) {
             return $this->with('flash', [
@@ -117,7 +113,6 @@ class FilamentCompaniesServiceProvider extends ServiceProvider
 
     /**
      * Configure the roles and permissions that are available within the application.
-     *
      */
     protected function configurePermissions(): void
     {

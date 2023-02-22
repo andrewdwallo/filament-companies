@@ -8,9 +8,6 @@ interface GeneratesProviderRedirect
 {
     /**
      * Generates the redirect for a given provider.
-     *
-     * @param  string  $provider
-     * @return RedirectResponse
      */
     public function generate(string $provider): RedirectResponse;
 }

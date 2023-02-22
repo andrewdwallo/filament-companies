@@ -5,10 +5,10 @@ namespace Tests\Feature;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Str;
-use Wallo\FilamentCompanies\Features;
-use Wallo\FilamentCompanies\Http\Livewire\ApiTokenManager;
 use Livewire\Livewire;
 use Tests\TestCase;
+use Wallo\FilamentCompanies\Features;
+use Wallo\FilamentCompanies\Http\Livewire\ApiTokenManager;
 
 class ApiTokenPermissionsTest extends TestCase
 {

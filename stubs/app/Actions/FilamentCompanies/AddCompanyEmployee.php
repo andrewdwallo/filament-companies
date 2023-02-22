@@ -41,7 +41,6 @@ class AddCompanyEmployee implements AddsCompanyEmployees
 
     /**
      * Validate the add employee operation.
-     *
      */
     protected function validate(Company $company, string $email, ?string $role): void
     {
@@ -72,7 +71,6 @@ class AddCompanyEmployee implements AddsCompanyEmployees
 
     /**
      * Ensure that the user is not already on the company.
-     *
      */
     protected function ensureUserIsNotAlreadyOnCompany(Company $company, string $email): Closure
     {
