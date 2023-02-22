@@ -3,10 +3,10 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Wallo\FilamentCompanies\Company as FilamentCompaniesCompany;
 use Wallo\FilamentCompanies\Events\CompanyCreated;
 use Wallo\FilamentCompanies\Events\CompanyDeleted;
 use Wallo\FilamentCompanies\Events\CompanyUpdated;
-use Wallo\FilamentCompanies\Company as FilamentCompaniesCompany;
 
 class Company extends FilamentCompaniesCompany
 {

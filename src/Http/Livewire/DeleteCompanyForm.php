@@ -3,35 +3,32 @@
 namespace Wallo\FilamentCompanies\Http\Livewire;
 
 use Illuminate\Auth\Access\AuthorizationException;
-use Illuminate\Http\RedirectResponse;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Response;
+use Illuminate\Routing\Redirector;
+use Illuminate\Support\Facades\Auth;
+use Livewire\Component;
 use Wallo\FilamentCompanies\Actions\ValidateCompanyDeletion;
 use Wallo\FilamentCompanies\Contracts\DeletesCompanies;
-use Livewire\Component;
-use Livewire\Redirector;
+use Wallo\FilamentCompanies\RedirectsActions;
 
 class DeleteCompanyForm extends Component
 {
+    use RedirectsActions;
+
     /**
      * The company instance.
-     *
-     * @var mixed
      */
-    public $company;
+    public mixed $company;
 
     /**
      * Indicates if company deletion is being confirmed.
-     *
-     * @var bool
      */
-    public $confirmingCompanyDeletion = false;
+    public bool $confirmingCompanyDeletion = false;
 
     /**
      * Mount the component.
-     *
-     * @param  mixed  $company
-     * @return void
      */
     public function mount(mixed $company): void
     {
@@ -41,24 +38,19 @@ class DeleteCompanyForm extends Component
     /**
      * Delete the company.
      *
-     * @param ValidateCompanyDeletion $validator
-     * @param DeletesCompanies $deleter
-     * @return RedirectResponse|Redirector
      * @throws AuthorizationException
      */
-    public function deleteCompany(ValidateCompanyDeletion $validator, DeletesCompanies $deleter): RedirectResponse|Redirector
+    public function deleteCompany(ValidateCompanyDeletion $validator, DeletesCompanies $deleter): Response|Redirector|RedirectResponse
     {
         $validator->validate(Auth::user(), $this->company);
 
         $deleter->delete($this->company);
 
-        return redirect()->to(config('fortify.home'));
+        return $this->redirectPath($deleter);
     }
 
     /**
      * Render the component.
-     *
-     * @return View
      */
     public function render(): View
     {

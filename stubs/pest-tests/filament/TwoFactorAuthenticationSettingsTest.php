@@ -2,8 +2,8 @@
 
 use App\Models\User;
 use Laravel\Fortify\Features;
-use Wallo\FilamentCompanies\Http\Livewire\TwoFactorAuthenticationForm;
 use Livewire\Livewire;
+use Wallo\FilamentCompanies\Http\Livewire\TwoFactorAuthenticationForm;
 
 test('two factor authentication can be enabled', function () {
     $this->actingAs($user = User::factory()->create());

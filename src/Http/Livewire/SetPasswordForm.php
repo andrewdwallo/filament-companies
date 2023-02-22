@@ -4,17 +4,17 @@ namespace Wallo\FilamentCompanies\Http\Livewire;
 
 use App\Models\User;
 use Illuminate\Contracts\Auth\Authenticatable;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Contracts\View\View;
-use Wallo\FilamentCompanies\Contracts\SetsUserPasswords;
+use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
+use Wallo\FilamentCompanies\Contracts\SetsUserPasswords;
 
 class SetPasswordForm extends Component
 {
     /**
      * The component's state.
      *
-     * @var array
+     * @var array<string, mixed>
      */
     public $state = [
         'password' => '',
@@ -23,9 +23,6 @@ class SetPasswordForm extends Component
 
     /**
      * Update the user's password.
-     *
-     * @param SetsUserPasswords $setter
-     * @return void
      */
     public function setPassword(SetsUserPasswords $setter): void
     {
@@ -43,18 +40,14 @@ class SetPasswordForm extends Component
 
     /**
      * Get the current user of the application.
-     *
-     * @return Authenticatable|User|null
      */
-    public function getUserProperty(): Authenticatable|null|User
+    public function getUserProperty(): User|Authenticatable|null
     {
         return Auth::user();
     }
 
     /**
      * Render the component.
-     *
-     * @return View
      */
     public function render(): View
     {

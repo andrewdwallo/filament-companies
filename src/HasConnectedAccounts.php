@@ -10,9 +10,6 @@ trait HasConnectedAccounts
 {
     /**
      * Determine if the given connected account is the current connected account.
-     *
-     * @param  mixed  $connectedAccount
-     * @return bool
      */
     public function isCurrentConnectedAccount(mixed $connectedAccount): bool
     {
@@ -21,8 +18,6 @@ trait HasConnectedAccounts
 
     /**
      * Get the current connected account of the user's context.
-     *
-     * @return BelongsTo
      */
     public function currentConnectedAccount(): BelongsTo
     {
@@ -37,9 +32,6 @@ trait HasConnectedAccounts
 
     /**
      * Switch the user's context to the given connected account.
-     *
-     * @param  mixed  $connectedAccount
-     * @return bool
      */
     public function switchConnectedAccount(mixed $connectedAccount): bool
     {
@@ -58,9 +50,6 @@ trait HasConnectedAccounts
 
     /**
      * Determine if the user owns the given connected account.
-     *
-     * @param  mixed  $connectedAccount
-     * @return bool
      */
     public function ownsConnectedAccount(mixed $connectedAccount): bool
     {
@@ -69,9 +58,6 @@ trait HasConnectedAccounts
 
     /**
      * Determine if the user has a specific account type.
-     *
-     * @param string $provider
-     * @return bool
      */
     public function hasTokenFor(string $provider): bool
     {
@@ -80,10 +66,6 @@ trait HasConnectedAccounts
 
     /**
      * Attempt to retrieve the token for a given provider.
-     *
-     * @param string $provider
-     * @param null $default
-     * @return mixed
      */
     public function getTokenFor(string $provider, $default = null): mixed
     {
@@ -100,12 +82,8 @@ trait HasConnectedAccounts
     /**
      * Attempt to find a connected account that belongs to the user,
      * for the given provider and ID.
-     *
-     * @param  string  $provider
-     * @param  string  $id
-     * @return ConnectedAccount
      */
-    public function getConnectedAccountFor(string $provider, string $id): ConnectedAccount
+    public function getConnectedAccountFor(string $provider, string $id): mixed
     {
         return $this->connectedAccounts
             ->where('provider', $provider)
@@ -115,8 +93,6 @@ trait HasConnectedAccounts
 
     /**
      * Get all the connected accounts belonging to the user.
-     *
-     * @return HasMany
      */
     public function connectedAccounts(): HasMany
     {

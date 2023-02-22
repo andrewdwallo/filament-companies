@@ -11,7 +11,6 @@
                     @case(Wallo\FilamentCompanies\Providers::google())
                         <x-filament-companies::socialite-icons.google />
                         @break
-                    @case(Wallo\FilamentCompanies\Providers::twitter())
                     @case(Wallo\FilamentCompanies\Providers::twitterOAuth1())
                     @case(Wallo\FilamentCompanies\Providers::twitterOAuth2())
                         <x-filament-companies::socialite-icons.twitter />

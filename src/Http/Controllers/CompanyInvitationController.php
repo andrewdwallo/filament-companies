@@ -7,20 +7,17 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Gate;
+use Livewire\Redirector;
 use Wallo\FilamentCompanies\Contracts\AddsCompanyEmployees;
 use Wallo\FilamentCompanies\FilamentCompanies;
-use Livewire\Redirector;
 use Wallo\FilamentCompanies\InteractsWithBanner;
 
 class CompanyInvitationController extends Controller
 {
     use InteractsWithBanner;
+
     /**
      * Accept a company invitation.
-     *
-     * @param Request $request
-     * @param int $invitationId
-     * @return Redirector|RedirectResponse|null
      */
     public function accept(Request $request, int $invitationId): Redirector|RedirectResponse|null
     {
@@ -45,9 +42,6 @@ class CompanyInvitationController extends Controller
     /**
      * Cancel the given company invitation.
      *
-     * @param Request $request
-     * @param int $invitationId
-     * @return Redirector|RedirectResponse
      * @throws AuthorizationException
      */
     public function destroy(Request $request, int $invitationId): Redirector|RedirectResponse

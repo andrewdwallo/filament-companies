@@ -14,11 +14,6 @@ class UpdateCompanyEmployeeRole
     /**
      * Update the role for the given company employee.
      *
-     * @param mixed $user
-     * @param mixed $company
-     * @param int $companyEmployeeId
-     * @param string $role
-     * @return void
      * @throws AuthorizationException
      */
     public function update(mixed $user, mixed $company, int $companyEmployeeId, string $role): void

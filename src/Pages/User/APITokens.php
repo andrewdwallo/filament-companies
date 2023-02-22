@@ -4,16 +4,16 @@ namespace Wallo\FilamentCompanies\Pages\User;
 
 use App\Models\User;
 use Exception;
+use Filament\Forms\Components\CheckboxList;
+use Filament\Forms\Components\TextInput;
 use Filament\Notifications\Notification;
-use Filament\Pages\Page;
 use Filament\Pages\Actions\Action;
+use Filament\Pages\Page;
 use Filament\Tables;
 use Filament\Tables\Actions\BulkAction;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
-use Filament\Forms\Components\TextInput;
-use Filament\Forms\Components\CheckboxList;
 use Laravel\Sanctum\Sanctum;
 use Wallo\FilamentCompanies\FilamentCompanies;
 
@@ -25,33 +25,25 @@ class APITokens extends Page implements Tables\Contracts\HasTable
 
     /**
      * The plain text token value.
-     *
-     * @var string|null
      */
-    public ?string $plainTextToken;
+    public string $plainTextToken;
 
     /**
      * The token name.
-     *
-     * @var string
      */
     public string $name = '';
 
     /**
      * The token permissions.
-     *
-     * @var array
      */
     public array $permissions = [];
 
     /**
      * Indicates if the plain text token is being displayed to the user.
-     *
-     * @var bool
      */
     public bool $displayingToken = false;
 
-    protected static string $view = "filament-companies::filament.pages.user.api-tokens";
+    protected static string $view = 'filament-companies::filament.pages.user.api-tokens';
 
     protected static bool $shouldRegisterNavigation = false;
 
@@ -80,8 +72,8 @@ class APITokens extends Page implements Tables\Contracts\HasTable
     protected function getTableQuery(): Builder
     {
         return app(Sanctum::$personalAccessTokenModel)->where([
-            ["tokenable_id", '=', $this->user->id],
-            ["tokenable_type", '=', FilamentCompanies::$userModel],
+            ['tokenable_id', '=', Auth::user()->id],
+            ['tokenable_type', '=', FilamentCompanies::$userModel],
         ]);
     }
 
@@ -103,7 +95,7 @@ class APITokens extends Page implements Tables\Contracts\HasTable
                 ->sortable()
                 ->searchable(),
             Tables\Columns\TagsColumn::make('abilities')
-                ->label(__('filament-companies::default.labels.permissions')),
+                ->label(__('filament-companies::default.labels.permissions'))->default($this->permissions),
             Tables\Columns\TextColumn::make('last_used_at')
                 ->label(trans('Last used at'))
                 ->dateTime()
@@ -136,7 +128,7 @@ class APITokens extends Page implements Tables\Contracts\HasTable
                     ) {
                         return in_array($key, $indexes);
                     })->toArray();
-                    $this->displayTokenValue($this->user->createToken($name, array_values($selected)));
+                    $this->displayTokenValue(Auth::user()?->createToken($name, FilamentCompanies::validPermissions(array_values($selected))));
                     $this->tokenCreatedNotification(name: $name);
                     $this->reset(['name']);
                 })
@@ -153,14 +145,14 @@ class APITokens extends Page implements Tables\Contracts\HasTable
         ];
     }
 
-    protected function displayTokenValue($token)
+    protected function displayTokenValue($token): void
     {
         $this->displayingToken = true;
         $this->plainTextToken = explode('|', $token->plainTextToken, 2)[1];
         $this->dispatchBrowserEvent('showing-token-modal');
     }
 
-    protected function tokenCreatedNotification($name)
+    protected function tokenCreatedNotification($name): void
     {
         Notification::make()
             ->title(trans("{$name} token created"))
@@ -207,22 +199,21 @@ class APITokens extends Page implements Tables\Contracts\HasTable
                         ->columns(2)
                         ->afterStateHydrated(function ($component, $state) {
                             $abilities = FilamentCompanies::$permissions;
-                            $selected = collect($abilities)
-                                ->filter(function ($item, $key) use ($state) {
-                                    return in_array($item, $state ?? []);
-                                })
+                            $selected = collect($abilities)->filter(function ($item, $key) use ($state) {
+                                return in_array($item, $state);
+                            })
                                 ->keys()
                                 ->toArray();
                             $component->state($selected);
                         }),
                 ]),
-            ];
+        ];
     }
 
-    protected function tokenUpdatedNotification()
+    protected function tokenUpdatedNotification(): void
     {
         Notification::make()
-            ->title(trans("Token Updated"))
+            ->title(trans('Token Updated'))
             ->success()
             ->send();
     }

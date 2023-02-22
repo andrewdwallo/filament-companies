@@ -9,7 +9,6 @@ class DeleteCompany implements DeletesCompanies
 {
     /**
      * Delete the given company.
-     *
      */
     public function delete(Company $company): void
     {

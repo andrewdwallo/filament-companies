@@ -11,39 +11,32 @@ trait ConfirmsPasswords
 {
     /**
      * Indicates if the user's password is being confirmed.
-     *
-     * @var bool
      */
     public bool $confirmingPassword = false;
 
     /**
      * The ID of the operation being confirmed.
-     *
-     * @var string|null
      */
     public ?string $confirmableId = null;
 
     /**
      * The user's password.
-     *
-     * @var string
      */
     public string $confirmablePassword = '';
 
     /**
      * Start confirming the user's password.
-     *
-     * @param  string  $confirmableId
-     * @return void
      */
-    public function startConfirmingPassword(string $confirmableId)
+    public function startConfirmingPassword(string $confirmableId): void
     {
         $this->resetErrorBag();
 
         if ($this->passwordIsConfirmed()) {
-            return $this->dispatchBrowserEvent('password-confirmed', [
+            $this->dispatchBrowserEvent('password-confirmed', [
                 'id' => $confirmableId,
             ]);
+
+            return;
         }
 
         $this->confirmingPassword = true;
@@ -55,8 +48,6 @@ trait ConfirmsPasswords
 
     /**
      * Stop confirming the user's password.
-     *
-     * @return void
      */
     public function stopConfirmingPassword(): void
     {
@@ -67,8 +58,6 @@ trait ConfirmsPasswords
 
     /**
      * Confirm the user's password.
-     *
-     * @return void
      */
     public function confirmPassword(): void
     {
@@ -89,27 +78,37 @@ trait ConfirmsPasswords
 
     /**
      * Ensure that the user's password has been recently confirmed.
-     *
-     * @param int|null $maximumSecondsSinceConfirmation
-     * @return void
      */
     protected function ensurePasswordIsConfirmed(int $maximumSecondsSinceConfirmation = null): void
     {
-        $maximumSecondsSinceConfirmation = $maximumSecondsSinceConfirmation ?: config('auth.password_timeout', 900);
+        $maximumSecondsSinceConfirmation = $maximumSecondsSinceConfirmation ?: $this->getPasswordTimeout();
 
-        $this->passwordIsConfirmed($maximumSecondsSinceConfirmation) ? null : abort(403);
+        if (! $this->passwordIsConfirmed($maximumSecondsSinceConfirmation)) {
+            abort(403);
+        }
     }
 
     /**
      * Determine if the user's password has been recently confirmed.
-     *
-     * @param int|null $maximumSecondsSinceConfirmation
-     * @return bool
      */
     protected function passwordIsConfirmed(int $maximumSecondsSinceConfirmation = null): bool
     {
-        $maximumSecondsSinceConfirmation = $maximumSecondsSinceConfirmation ?: config('auth.password_timeout', 900);
+        $maximumSecondsSinceConfirmation = $maximumSecondsSinceConfirmation ?: $this->getPasswordTimeout();
 
-        return (time() - session('auth.password_confirmed_at', 0)) < $maximumSecondsSinceConfirmation;
+        $passwordConfirmedAt = session('auth.password_confirmed_at', 0);
+
+        if ($passwordConfirmedAt === 0) {
+            return false;
+        }
+
+        return (time() - $passwordConfirmedAt) < $maximumSecondsSinceConfirmation;
+    }
+
+    /**
+     * Get the number of seconds that a password confirmation is valid for.
+     */
+    protected function getPasswordTimeout(): int
+    {
+        return config('auth.password_timeout', 900);
     }
 }

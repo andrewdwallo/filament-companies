@@ -4,9 +4,9 @@ namespace Tests\Feature;
 
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Wallo\FilamentCompanies\Http\Livewire\CompanyEmployeeManager;
 use Livewire\Livewire;
 use Tests\TestCase;
+use Wallo\FilamentCompanies\Http\Livewire\CompanyEmployeeManager;
 
 class UpdateCompanyEmployeeRoleTest extends TestCase
 {

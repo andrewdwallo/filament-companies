@@ -4,12 +4,12 @@ namespace Wallo\FilamentCompanies\Tests;
 
 use App\Actions\FilamentCompanies\CreateCompany;
 use Illuminate\Support\Facades\Gate;
-use Wallo\FilamentCompanies\FilamentCompanies;
-use Wallo\FilamentCompanies\Company;
-use Wallo\FilamentCompanies\Tests\Fixtures\CompanyPolicy;
-use Wallo\FilamentCompanies\Tests\Fixtures\User;
 use Laravel\Sanctum\Sanctum;
 use Laravel\Sanctum\TransientToken;
+use Wallo\FilamentCompanies\Company;
+use Wallo\FilamentCompanies\FilamentCompanies;
+use Wallo\FilamentCompanies\Tests\Fixtures\CompanyPolicy;
+use Wallo\FilamentCompanies\Tests\Fixtures\User;
 
 class CompanyBehaviorTest extends OrchestraTestCase
 {

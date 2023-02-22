@@ -23,13 +23,14 @@
 
         <div>
             <a href="{{ route('filament.pages.profile') }}"
-                class="text-sm text-gray-600 underline hover:text-gray-900 dark:text-gray-400">
+               class="text-sm text-gray-600 underline hover:text-gray-900 dark:text-gray-400">
                 {{ __('filament-companies::default.links.edit_profile') }}</a>
 
             <form method="POST" action="{{ route('logout') }}" class="inline">
                 @csrf
 
-                <x-filament::button type="submit" class="ml-2 text-sm text-gray-600 underline hover:text-gray-900 dark:text-gray-400">
+                <x-filament::button type="submit"
+                                    class="ml-2 text-sm text-gray-600 underline hover:text-gray-900 dark:text-gray-400">
                     {{ __('filament-companies::default.buttons.logout') }}
                 </x-filament::button>
             </form>

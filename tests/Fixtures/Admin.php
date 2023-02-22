@@ -3,9 +3,8 @@
 namespace Wallo\FilamentCompanies\Tests\Fixtures;
 
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Wallo\FilamentCompanies\HasProfilePhoto;
-use Wallo\FilamentCompanies\HasCompanies;
 use Laravel\Sanctum\HasApiTokens;
+use Wallo\FilamentCompanies\HasProfilePhoto;
 
 class Admin extends Authenticatable
 {

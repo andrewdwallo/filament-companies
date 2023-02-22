@@ -11,8 +11,6 @@ class AuthenticateSession extends BaseAuthenticateSession
 {
     /**
      * Get the guard instance that should be used by the middleware.
-     *
-     * @return Factory|Guard
      */
     protected function guard(): Guard|Factory
     {

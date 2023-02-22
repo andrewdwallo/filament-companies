@@ -21,6 +21,7 @@ class InviteCompanyEmployee implements InvitesCompanyEmployees
 {
     /**
      * Invite a new company employee to the given company.
+     *
      * @throws AuthorizationException
      */
     public function invite(User $user, Company $company, string $email, string $role = null): void

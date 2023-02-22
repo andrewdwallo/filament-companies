@@ -5,9 +5,9 @@ namespace Tests\Feature;
 use App\Models\Company;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Wallo\FilamentCompanies\Http\Livewire\DeleteCompanyForm;
 use Livewire\Livewire;
 use Tests\TestCase;
+use Wallo\FilamentCompanies\Http\Livewire\DeleteCompanyForm;
 
 class DeleteCompanyTest extends TestCase
 {

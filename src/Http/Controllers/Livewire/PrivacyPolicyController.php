@@ -14,9 +14,6 @@ class PrivacyPolicyController extends Controller
 {
     /**
      * Show the privacy policy for the application.
-     *
-     * @param Request $request
-     * @return Application|Factory|View
      */
     public function show(Request $request): Application|Factory|View
     {

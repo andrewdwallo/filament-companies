@@ -4,10 +4,10 @@ namespace Tests\Feature;
 
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Wallo\FilamentCompanies\Features;
-use Wallo\FilamentCompanies\Http\Livewire\DeleteUserForm;
 use Livewire\Livewire;
 use Tests\TestCase;
+use Wallo\FilamentCompanies\Features;
+use Wallo\FilamentCompanies\Http\Livewire\DeleteUserForm;
 
 class DeleteAccountTest extends TestCase
 {

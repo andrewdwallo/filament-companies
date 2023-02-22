@@ -5,78 +5,64 @@ namespace Wallo\FilamentCompanies\Http\Livewire;
 use App\Models\User;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Contracts\Auth\Authenticatable;
-use Illuminate\Http\RedirectResponse;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Response;
+use Illuminate\Routing\Redirector;
+use Illuminate\Support\Facades\Auth;
+use Livewire\Component;
 use Wallo\FilamentCompanies\Actions\UpdateCompanyEmployeeRole;
 use Wallo\FilamentCompanies\Contracts\AddsCompanyEmployees;
 use Wallo\FilamentCompanies\Contracts\InvitesCompanyEmployees;
 use Wallo\FilamentCompanies\Contracts\RemovesCompanyEmployees;
 use Wallo\FilamentCompanies\Features;
 use Wallo\FilamentCompanies\FilamentCompanies;
+use Wallo\FilamentCompanies\RedirectsActions;
 use Wallo\FilamentCompanies\Role;
-use Livewire\Component;
-use Livewire\Redirector;
 
-
-/**
- * @property mixed $user
- */
 class CompanyEmployeeManager extends Component
 {
+    use RedirectsActions;
+
     /**
      * The company instance.
-     *
-     * @var mixed
      */
-    public $company;
+    public mixed $company;
 
     /**
      * Indicates if a user's role is currently being managed.
-     *
-     * @var bool
      */
-    public $currentlyManagingRole = false;
+    public bool $currentlyManagingRole = false;
 
     /**
      * The user that is having their role managed.
-     *
-     * @var mixed
      */
-    public $managingRoleFor;
+    public mixed $managingRoleFor;
 
     /**
      * The current role for the user that is having their role managed.
-     *
-     * @var string
      */
-    public $currentRole;
+    public string $currentRole;
 
     /**
      * Indicates if the application is confirming if a user wishes to leave the current company.
-     *
-     * @var bool
      */
-    public $confirmingLeavingCompany = false;
+    public bool $confirmingLeavingCompany = false;
 
     /**
      * Indicates if the application is confirming if a company employee should be removed.
-     *
-     * @var bool
      */
-    public $confirmingCompanyEmployeeRemoval = false;
+    public bool $confirmingCompanyEmployeeRemoval = false;
 
     /**
      * The ID of the company employee being removed.
-     *
-     * @var int|null
      */
-    public $companyEmployeeIdBeingRemoved = null;
+    public int|null $companyEmployeeIdBeingRemoved = null;
 
     /**
      * The "add company employee" form state.
      *
-     * @var array
+     * @var array<string, mixed>
      */
     public $addCompanyEmployeeForm = [
         'email' => '',
@@ -85,9 +71,6 @@ class CompanyEmployeeManager extends Component
 
     /**
      * Mount the component.
-     *
-     * @param  mixed  $company
-     * @return void
      */
     public function mount(mixed $company): void
     {
@@ -96,8 +79,6 @@ class CompanyEmployeeManager extends Component
 
     /**
      * Add a new company employee to a company.
-     *
-     * @return void
      */
     public function addCompanyEmployee(): void
     {
@@ -131,9 +112,6 @@ class CompanyEmployeeManager extends Component
 
     /**
      * Cancel a pending company employee invitation.
-     *
-     * @param int $invitationId
-     * @return void
      */
     public function cancelCompanyInvitation(int $invitationId): void
     {
@@ -148,9 +126,6 @@ class CompanyEmployeeManager extends Component
 
     /**
      * Allow the given user's role to be managed.
-     *
-     * @param int $userId
-     * @return void
      */
     public function manageRole(int $userId): void
     {
@@ -162,8 +137,6 @@ class CompanyEmployeeManager extends Component
     /**
      * Save the role for the user being managed.
      *
-     * @param UpdateCompanyEmployeeRole $updater
-     * @return void
      * @throws AuthorizationException
      */
     public function updateRole(UpdateCompanyEmployeeRole $updater): void
@@ -182,8 +155,6 @@ class CompanyEmployeeManager extends Component
 
     /**
      * Stop managing the role of a given user.
-     *
-     * @return void
      */
     public function stopManagingRole(): void
     {
@@ -192,11 +163,8 @@ class CompanyEmployeeManager extends Component
 
     /**
      * Remove the currently authenticated user from the company.
-     *
-     * @param RemovesCompanyEmployees $remover
-     * @return RedirectResponse|Redirector
      */
-    public function leaveCompany(RemovesCompanyEmployees $remover): RedirectResponse|Redirector
+    public function leaveCompany(RemovesCompanyEmployees $remover): Response|Redirector|RedirectResponse
     {
         $remover->remove(
             $this->user,
@@ -208,14 +176,11 @@ class CompanyEmployeeManager extends Component
 
         $this->company = $this->company->fresh();
 
-        return redirect(config('fortify.home'));
+        return $this->redirectPath($remover);
     }
 
     /**
      * Confirm that the given company employee should be removed.
-     *
-     * @param int $userId
-     * @return void
      */
     public function confirmCompanyEmployeeRemoval(int $userId): void
     {
@@ -226,9 +191,6 @@ class CompanyEmployeeManager extends Component
 
     /**
      * Remove a company employee from the company.
-     *
-     * @param RemovesCompanyEmployees $remover
-     * @return void
      */
     public function removeCompanyEmployee(RemovesCompanyEmployees $remover): void
     {
@@ -247,8 +209,6 @@ class CompanyEmployeeManager extends Component
 
     /**
      * Get the current user of the application.
-     *
-     * @return Authenticatable|User|null
      */
     public function getUserProperty(): Authenticatable|null|User
     {
@@ -257,13 +217,11 @@ class CompanyEmployeeManager extends Component
 
     /**
      * Get the available company employee roles.
-     *
-     * @return array
      */
     public function getRolesProperty(): array
     {
         return collect(FilamentCompanies::$roles)->transform(function ($role) {
-            return with($role->jsonSerialize(), function ($data) {
+            return with($role->jsonSerialize(), static function ($data) {
                 return (new Role(
                     $data['key'],
                     $data['name'],
@@ -275,8 +233,6 @@ class CompanyEmployeeManager extends Component
 
     /**
      * Render the component.
-     *
-     * @return View
      */
     public function render(): View
     {

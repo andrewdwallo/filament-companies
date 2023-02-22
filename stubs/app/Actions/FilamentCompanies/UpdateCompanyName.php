@@ -14,7 +14,8 @@ class UpdateCompanyName implements UpdatesCompanyNames
     /**
      * Validate and update the given company's name.
      *
-     * @param array<string, string> $input
+     * @param  array<string, string>  $input
+     *
      * @throws AuthorizationException
      */
     public function update(User $user, Company $company, array $input): void

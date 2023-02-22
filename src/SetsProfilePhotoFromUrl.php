@@ -3,16 +3,13 @@
 namespace Wallo\FilamentCompanies;
 
 use Illuminate\Http\UploadedFile;
-use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Str;
 
 trait SetsProfilePhotoFromUrl
 {
     /**
      * Sets the users profile photo from a URL.
-     *
-     * @param  string  $url
-     * @return void
      */
     public function setProfilePhotoFromUrl(string $url): void
     {

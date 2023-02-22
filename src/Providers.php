@@ -9,110 +9,82 @@ class Providers
 {
     /**
      * Determine if the given provider is enabled.
-     *
-     * @param  string  $provider
-     * @return bool
      */
     public static function enabled(string $provider): bool
     {
-        return in_array($provider, config('filament-companies.providers', []), true);
+        if (! Socialite::hasSocialiteFeatures()) {
+            return false;
+        }
+
+        return config("filament-companies.providers.{$provider}") === true;
     }
 
     /**
      * Determine if the application has support for the Bitbucket provider.
-     *
-     * @return bool
      */
-    public static function hasBitbucketSupport(): bool
+    public static function hasBitbucket(): bool
     {
         return static::enabled(static::bitbucket());
     }
 
     /**
      * Determine if the application has support for the Facebook provider.
-     *
-     * @return bool
      */
-    public static function hasFacebookSupport(): bool
+    public static function hasFacebook(): bool
     {
         return static::enabled(static::facebook());
     }
 
     /**
      * Determine if the application has support for the GitLab provider.
-     *
-     * @return bool
      */
-    public static function hasGitlabSupport(): bool
+    public static function hasGitlab(): bool
     {
         return static::enabled(static::gitlab());
     }
 
     /**
      * Determine if the application has support for the GitHub provider.
-     *
-     * @return bool
      */
-    public static function hasGithubSupport(): bool
+    public static function hasGithub(): bool
     {
         return static::enabled(static::github());
     }
 
     /**
      * Determine if the application has support for the Google provider.
-     *
-     * @return bool
      */
-    public static function hasGoogleSupport(): bool
+    public static function hasGoogle(): bool
     {
         return static::enabled(static::google());
     }
 
     /**
      * Determine if the application has support for the LinkedIn provider.
-     *
-     * @return bool
      */
-    public static function hasLinkedInSupport(): bool
+    public static function hasLinkedIn(): bool
     {
         return static::enabled(static::linkedin());
     }
 
     /**
-     * Determine if the application has support for the Twitter provider.
-     *
-     * @return bool
-     */
-    public static function hasTwitterSupport(): bool
-    {
-        return static::enabled(static::twitterOAuth1())
-            || static::enabled(static::twitterOAuth2());
-    }
-
-    /**
      * Determine if the application has support for the Twitter OAuth 1.0 provider.
-     *
-     * @return bool
      */
-    public static function hasTwitterOAuth1Support(): bool
+    public static function hasTwitterOAuth1(): bool
     {
         return static::enabled(static::twitterOAuth1());
     }
 
     /**
      * Determine if the application has support for the Twitter OAuth 2.0 provider.
-     *
-     * @return bool
      */
-    public static function hasTwitterOAuth2Support(): bool
+    public static function hasTwitterOAuth2(): bool
     {
         return static::enabled(static::twitterOAuth2());
     }
 
     /**
      * Enable the Bitbucket provider.
-     *
-     * @return string
      */
     public static function bitbucket(): string
     {
@@ -121,8 +93,6 @@ class Providers
 
     /**
      * Enable the Facebook provider.
-     *
-     * @return string
      */
     public static function facebook(): string
     {
@@ -131,8 +101,6 @@ class Providers
 
     /**
      * Enable the GitHub provider.
-     *
-     * @return string
      */
     public static function github(): string
     {
@@ -141,8 +109,6 @@ class Providers
 
     /**
      * Enable the GitLab provider.
-     *
-     * @return string
      */
     public static function gitlab(): string
     {
@@ -151,8 +117,6 @@ class Providers
 
     /**
      * Enable the Google provider.
-     *
-     * @return string
      */
     public static function google(): string
     {
@@ -161,8 +125,6 @@ class Providers
 
     /**
      * Enable the LinkedIn provider.
-     *
-     * @return string
      */
     public static function linkedin(): string
     {
@@ -170,19 +132,7 @@ class Providers
     }
 
     /**
-     * Enable the Twitter provider.
-     *
-     * @return string
-     */
-    public static function twitter(): string
-    {
-        return 'twitter';
-    }
-
-    /**
      * Enable the Twitter OAuth 1.0 provider.
-     *
-     * @return string
      */
     public static function twitterOAuth1(): string
     {
@@ -191,8 +141,6 @@ class Providers
 
     /**
      * Enable the Twitter OAuth 2.0 provider.
-     *
-     * @return string
      */
     public static function twitterOAuth2(): string
     {
@@ -202,8 +150,6 @@ class Providers
     /**
      * Dynamically handle static calls.
      *
-     * @param $name
-     * @param $arguments
      * @return mixed
      */
     public static function __callStatic($name, $arguments)
@@ -215,8 +161,8 @@ class Providers
         }
 
         /** @example $name = "HasMyCustomProviderSupport" */
-        if (preg_match('/^has.*Support$/', $name)) {
-            $provider = Str::remove('Support', Str::remove('has', $name));
+        if (preg_match('/^has.*$/', $name)) {
+            $provider = Str::remove('has', $name);
 
             return static::enabled(Str::kebab($provider)) || static::enabled(Str::lower($provider));
         }
@@ -226,9 +172,6 @@ class Providers
 
     /**
      * Throw a bad method call exception for the given method.
-     *
-     * @param string $method
-     * @return void
      *
      * @throws BadMethodCallException
      */

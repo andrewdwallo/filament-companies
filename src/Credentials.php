@@ -7,51 +7,39 @@ use DateTimeInterface;
 use Exception;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Contracts\Support\Jsonable;
-use ReturnTypeWillChange;
-use Wallo\FilamentCompanies\Contracts\Credentials as CredentialsContract;
+use JsonException;
 use JsonSerializable;
+use Wallo\FilamentCompanies\Contracts\Credentials as CredentialsContract;
 
 class Credentials implements CredentialsContract, Arrayable, Jsonable, JsonSerializable
 {
     /**
      * The credentials user ID.
-     *
-     * @var string
      */
-    protected mixed $id;
+    protected string $id;
 
     /**
      * The credentials token.
-     *
-     * @var string
      */
-    protected mixed $token;
+    protected string $token;
 
     /**
      * The credentials token secret.
-     *
-     * @var string|null
      */
-    protected mixed $tokenSecret;
+    protected string|null $tokenSecret;
 
     /**
      * The credentials refresh token.
-     *
-     * @var string|null
      */
-    protected mixed $refreshToken;
+    protected string|null $refreshToken;
 
     /**
      * The credentials' expiry.
-     *
-     * @var DateTimeInterface|null
      */
-    protected mixed $expiry;
+    protected DateTimeInterface|null $expiry;
 
     /**
      * Create a new credentials instance.
-     *
-     * @param ConnectedAccount $connectedAccount
      */
     public function __construct(ConnectedAccount $connectedAccount)
     {
@@ -64,8 +52,6 @@ class Credentials implements CredentialsContract, Arrayable, Jsonable, JsonSeria
 
     /**
      * Get the ID for the credentials.
-     *
-     * @return string
      */
     public function getId(): string
     {
@@ -74,8 +60,6 @@ class Credentials implements CredentialsContract, Arrayable, Jsonable, JsonSeria
 
     /**
      * Get token for the credentials.
-     *
-     * @return string
      */
     public function getToken(): string
     {
@@ -84,8 +68,6 @@ class Credentials implements CredentialsContract, Arrayable, Jsonable, JsonSeria
 
     /**
      * Get the token secret for the credentials.
-     *
-     * @return string|null
      */
     public function getTokenSecret(): ?string
     {
@@ -94,8 +76,6 @@ class Credentials implements CredentialsContract, Arrayable, Jsonable, JsonSeria
 
     /**
      * Get the refresh token for the credentials.
-     *
-     * @return string|null
      */
     public function getRefreshToken(): ?string
     {
@@ -105,10 +85,9 @@ class Credentials implements CredentialsContract, Arrayable, Jsonable, JsonSeria
     /**
      * Get the expiry date for the credentials.
      *
-     * @return DateTime|DateTimeInterface|null
      * @throws Exception
      */
-    public function getExpiry(): DateTime|DateTimeInterface|null
+    public function getExpiry(): ?DateTimeInterface
     {
         if (is_null($this->expiry)) {
             return null;
@@ -120,7 +99,8 @@ class Credentials implements CredentialsContract, Arrayable, Jsonable, JsonSeria
     /**
      * Get the instance as an array.
      *
-     * @return array
+     * @return array<string,mixed>
+     *
      * @throws Exception
      */
     public function toArray(): array
@@ -137,22 +117,23 @@ class Credentials implements CredentialsContract, Arrayable, Jsonable, JsonSeria
     /**
      * Convert the object to its JSON representation.
      *
-     * @param int $options
-     * @return array|string
+     * @param  int  $options
+     *
      * @throws Exception
      */
-    public function toJson($options = 0): array|string
+    public function toJson($options = 0): bool|string
     {
-        return $this->toArray();
+        return json_encode($this->toArray(), JSON_THROW_ON_ERROR | $options);
     }
 
     /**
      * Specify data which should be serialized to JSON.
      *
-     * @return array
+     * @return array<string, mixed>
+     *
      * @throws Exception
      */
-    #[ReturnTypeWillChange] public function jsonSerialize(): array
+    public function jsonSerialize(): array
     {
         return $this->toArray();
     }
@@ -160,7 +141,7 @@ class Credentials implements CredentialsContract, Arrayable, Jsonable, JsonSeria
     /**
      * Convert the object instance to a string.
      *
-     * @return string
+     * @throws JsonException
      * @throws Exception
      */
     public function __toString(): string

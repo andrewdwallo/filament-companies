@@ -16,7 +16,8 @@ class CreateCompany implements CreatesCompanies
     /**
      * Validate and create a new company for the given user.
      *
-     * @param array<string, string> $input
+     * @param  array<string, string>  $input
+     *
      * @throws AuthorizationException
      */
     public function create(User $user, array $input): Company

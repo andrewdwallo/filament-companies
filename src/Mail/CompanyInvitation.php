@@ -2,11 +2,11 @@
 
 namespace Wallo\FilamentCompanies\Mail;
 
+use App\Models\CompanyInvitation as CompanyInvitationModel;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\URL;
-use App\Models\CompanyInvitation as CompanyInvitationModel;
 
 class CompanyInvitation extends Mailable
 {
@@ -14,15 +14,12 @@ class CompanyInvitation extends Mailable
 
     /**
      * The company invitation instance.
-     *
-     * @var CompanyInvitationModel
      */
     public CompanyInvitationModel $invitation;
 
     /**
      * Create a new message instance.
      *
-     * @param CompanyInvitationModel $invitation
      * @return void
      */
     public function __construct(CompanyInvitationModel $invitation)
@@ -32,8 +29,6 @@ class CompanyInvitation extends Mailable
 
     /**
      * Build the message.
-     *
-     * @return $this
      */
     public function build(): static
     {

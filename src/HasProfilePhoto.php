@@ -9,10 +9,6 @@ trait HasProfilePhoto
 {
     /**
      * Update the user's profile photo.
-     *
-     * @param UploadedFile $photo
-     * @param string $storagePath
-     * @return void
      */
     public function updateProfilePhoto(UploadedFile $photo, $storagePath = 'profile-photos'): void
     {
@@ -31,8 +27,6 @@ trait HasProfilePhoto
 
     /**
      * Delete the user's profile photo.
-     *
-     * @return void
      */
     public function deleteProfilePhoto(): void
     {
@@ -53,8 +47,6 @@ trait HasProfilePhoto
 
     /**
      * Get the URL to the user's profile photo.
-     *
-     * @return string
      */
     public function getProfilePhotoUrlAttribute(): string
     {
@@ -69,8 +61,6 @@ trait HasProfilePhoto
 
     /**
      * Get the default profile photo URL if no profile photo has been uploaded.
-     *
-     * @return string
      */
     protected function defaultProfilePhotoUrl(): string
     {
@@ -78,13 +68,11 @@ trait HasProfilePhoto
             return mb_substr($segment, 0, 1);
         })->join(' '));
 
-        return sprintf("https://ui-avatars.com/api/?name=%s&color=FFFFFF&background=111827", urlencode($name));
+        return sprintf('https://ui-avatars.com/api/?name=%s&color=FFFFFF&background=111827', urlencode($name));
     }
 
     /**
      * Get the disk that profile photos should be stored on.
-     *
-     * @return string
      */
     protected function profilePhotoDisk(): string
     {

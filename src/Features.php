@@ -6,9 +6,6 @@ class Features
 {
     /**
      * Determine if the given feature is enabled.
-     *
-     * @param  string  $feature
-     * @return bool
      */
     public static function enabled(string $feature): bool
     {
@@ -17,10 +14,6 @@ class Features
 
     /**
      * Determine if the feature is enabled and has a given option enabled.
-     *
-     * @param  string  $feature
-     * @param  string  $option
-     * @return bool
      */
     public static function optionEnabled(string $feature, string $option): bool
     {
@@ -30,8 +23,6 @@ class Features
 
     /**
      * Determine if the application is allowing profile photo uploads.
-     *
-     * @return bool
      */
     public static function managesProfilePhotos(): bool
     {
@@ -40,8 +31,6 @@ class Features
 
     /**
      * Determine if the application is using any API features.
-     *
-     * @return bool
      */
     public static function hasApiFeatures(): bool
     {
@@ -50,8 +39,6 @@ class Features
 
     /**
      * Determine if the application is using any company features.
-     *
-     * @return bool
      */
     public static function hasCompanyFeatures(): bool
     {
@@ -60,8 +47,6 @@ class Features
 
     /**
      * Determine if invitations are sent to company employees.
-     *
-     * @return bool
      */
     public static function sendsCompanyInvitations(): bool
     {
@@ -70,8 +55,6 @@ class Features
 
     /**
      * Determine if the application has terms of service / privacy policy confirmation enabled.
-     *
-     * @return bool
      */
     public static function hasTermsAndPrivacyPolicyFeature(): bool
     {
@@ -80,8 +63,6 @@ class Features
 
     /**
      * Determine if the application is using any account deletion features.
-     *
-     * @return bool
      */
     public static function hasAccountDeletionFeatures(): bool
     {
@@ -89,62 +70,57 @@ class Features
     }
 
     /**
-     * Determine if the application has the generates missing emails feature enabled.
-     *
-     * @return bool
+     * Determine if the application is using any socialite features.
      */
-    public static function generatesMissingEmails(): bool
+    public static function hasSocialiteFeatures(): bool
     {
-        return static::enabled(static::generateMissingEmails());
+        return static::enabled(static::socialite());
     }
 
     /**
-     * Determine if the application supports creating accounts
-     * when logging in for the first time via a provider.
-     *
-     * @return bool
+     * Determine if the application has the generates missing emails feature enabled.
+     */
+    public static function generatesMissingEmails(): bool
+    {
+        return static::optionEnabled(static::socialite(), 'generateMissingEmails');
+    }
+
+    /**
+     * Determine if the application supports creating accounts when logging in for the first time via a provider.
      */
     public static function hasCreateAccountOnFirstLoginFeatures(): bool
     {
-        return static::enabled(static::createAccountOnFirstLogin());
+        return static::optionEnabled(static::socialite(), 'createAccountOnFirstLogin');
     }
 
     /**
      * Determine if the application supports logging into existing
      * accounts when registering with a provider whose email address
      * is already registered.
-     *
-     * @return bool
      */
     public static function hasLoginOnRegistrationFeatures(): bool
     {
-        return static::enabled(static::loginOnRegistration());
+        return static::optionEnabled(static::socialite(), 'loginOnRegistration');
     }
 
     /**
      * Determine if the application should use provider avatars when registering.
-     *
-     * @return bool
      */
     public static function hasProviderAvatarsFeature(): bool
     {
-        return static::enabled(static::providerAvatars());
+        return static::optionEnabled(static::socialite(), 'providerAvatars');
     }
 
     /**
      * Determine if the application should remember the users session on login.
-     *
-     * @return bool
      */
     public static function hasRememberSessionFeatures(): bool
     {
-        return static::enabled(static::rememberSession());
+        return static::optionEnabled(static::socialite(), 'rememberSession');
     }
 
     /**
      * Enable the profile photo upload feature.
-     *
-     * @return string
      */
     public static function profilePhotos(): string
     {
@@ -153,8 +129,6 @@ class Features
 
     /**
      * Enable the API feature.
-     *
-     * @return string
      */
     public static function api(): string
     {
@@ -163,9 +137,6 @@ class Features
 
     /**
      * Enable the companies feature.
-     *
-     * @param  array  $options
-     * @return string
      */
     public static function companies(array $options = []): string
     {
@@ -178,8 +149,6 @@ class Features
 
     /**
      * Enable the terms of service and privacy policy feature.
-     *
-     * @return string
      */
     public static function termsAndPrivacyPolicy(): string
     {
@@ -188,8 +157,6 @@ class Features
 
     /**
      * Enable the account deletion feature.
-     *
-     * @return string
      */
     public static function accountDeletion(): string
     {
@@ -197,52 +164,14 @@ class Features
     }
 
     /**
-     * Enabled to generate missing emails feature.
-     *
-     * @return string
+     * Enable the socialite feature.
      */
-    public static function generateMissingEmails(): string
+    public static function socialite(array $options = []): string
     {
-        return 'generate-missing-emails';
-    }
+        if (! empty($options)) {
+            config(['filament-companies-options.socialite' => $options]);
+        }
 
-    /**
-     * Enable the create account on first login feature.
-     *
-     * @return string
-     */
-    public static function createAccountOnFirstLogin(): string
-    {
-        return 'create-account-on-first-login';
-    }
-
-    /**
-     * Enable the login on registration feature.
-     *
-     * @return string
-     */
-    public static function loginOnRegistration(): string
-    {
-        return 'login-on-registration';
-    }
-
-    /**
-     * Enable the provider avatars feature.
-     *
-     * @return string
-     */
-    public static function providerAvatars(): string
-    {
-        return 'provider-avatars';
-    }
-
-    /**
-     * Enable the remember session feature for logging in.
-     *
-     * @return string
-     */
-    public static function rememberSession(): string
-    {
-        return 'remember-session';
+        return 'socialite';
     }
 }

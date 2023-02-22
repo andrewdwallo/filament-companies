@@ -6,7 +6,7 @@ use Filament\Pages\Page;
 
 class Profile extends Page
 {
-    protected static string $view = "filament-companies::filament.pages.user.profile";
+    protected static string $view = 'filament-companies::filament.pages.user.profile';
 
     protected static bool $shouldRegisterNavigation = false;
 
@@ -18,7 +18,7 @@ class Profile extends Page
     protected function getViewData(): array
     {
         return [
-            'user' => auth()->user()
+            'user' => auth()->user(),
         ];
     }
 

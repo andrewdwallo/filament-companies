@@ -3,36 +3,29 @@
 namespace Wallo\FilamentCompanies\Http\Livewire;
 
 use Illuminate\Contracts\Auth\StatefulGuard;
+use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
-use Illuminate\Contracts\View\View;
-use Wallo\FilamentCompanies\Contracts\DeletesUsers;
 use Livewire\Component;
 use Livewire\Redirector;
+use Wallo\FilamentCompanies\Contracts\DeletesUsers;
 
 class DeleteUserForm extends Component
 {
     /**
      * Indicates if user deletion is being confirmed.
-     *
-     * @var bool
      */
-    public $confirmingUserDeletion = false;
+    public bool $confirmingUserDeletion = false;
 
     /**
      * The user's current password.
-     *
-     * @var string
      */
-    public $password = '';
+    public string $password = '';
 
     /**
      * Confirm that the user would like to delete their account.
-     *
-     * @return void
      */
     public function confirmUserDeletion(): void
     {
@@ -47,13 +40,8 @@ class DeleteUserForm extends Component
 
     /**
      * Delete the current user.
-     *
-     * @param Request $request
-     * @param DeletesUsers $deleter
-     * @param StatefulGuard $auth
-     * @return RedirectResponse|Redirector
      */
-    public function deleteUser(Request $request, DeletesUsers $deleter, StatefulGuard $auth): RedirectResponse|Redirector
+    public function deleteUser(DeletesUsers $deleter, StatefulGuard $auth): RedirectResponse|Redirector
     {
         $this->resetErrorBag();
 
@@ -63,13 +51,13 @@ class DeleteUserForm extends Component
             ]);
         }
 
-        $deleter->delete(Auth::user()->fresh());
+        $deleter->delete(Auth::user()?->fresh());
 
         $auth->logout();
 
-        if ($request->hasSession()) {
-            $request->session()->invalidate();
-            $request->session()->regenerateToken();
+        if (! is_null(session())) {
+            session()->invalidate();
+            session()->regenerateToken();
         }
 
         return redirect(config('fortify.redirects.logout') ?? '/');
@@ -77,8 +65,6 @@ class DeleteUserForm extends Component
 
     /**
      * Render the component.
-     *
-     * @return View
      */
     public function render(): View
     {

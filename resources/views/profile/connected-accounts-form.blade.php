@@ -23,20 +23,20 @@
 
             <div class="mt-5 space-y-6">
                 @foreach ($this->providers as $provider)
-                    <x-filament::hr />
+                    <x-filament::hr/>
                     @php
                         $account = $this->accounts->where('provider', $provider)->first();
                     @endphp
 
                     <x-filament-companies::connected-account provider="{{ $provider }}"
-                        created-at="{{ $account->created_at ?? null }}">
+                                                             created-at="{{ $account->created_at ?? null }}">
 
                         <x-slot name="action">
                             @if (!is_null($account))
                                 <div class="flex items-center justify-between">
-                                    @if (!is_null($account->avatar_path) && Wallo\FilamentCompanies\FilamentCompanies::managesProfilePhotos())
+                                    @if (!is_null($account->avatar_path) && Wallo\FilamentCompanies\FilamentCompanies::managesProfilePhotos() && Wallo\FilamentCompanies\Socialite::hasProviderAvatarsFeature())
                                         <x-filament::button class="mr-3"
-                                            wire:click="setAvatarAsProfilePhoto({{ $account->id }})">
+                                                            wire:click="setAvatarAsProfilePhoto({{ $account->id }})">
                                             {{ __('filament-companies::default.buttons.use_avatar_as_profile_photo') }}
 
                                         </x-filament::button>
@@ -44,8 +44,8 @@
 
                                     @if (!is_null($this->user->password) || $this->accounts->count() > 1)
                                         <x-filament::button color="danger"
-                                            wire:click="confirmRemove({{ $account->id }})"
-                                            wire:loading.attr="disabled">
+                                                            wire:click="confirmRemove({{ $account->id }})"
+                                                            wire:loading.attr="disabled">
                                             {{ __('filament-companies::default.buttons.remove') }}
 
                                         </x-filament::button>
@@ -64,7 +64,7 @@
                 @endforeach
             </div>
 
-            <!-- Logout Other Devices Confirmation Modal -->
+            <!-- Remove Connected Account Confirmation Modal -->
             <x-filament-companies::dialog-modal wire:model="confirmingRemove">
                 <x-slot name="title">
                     {{ __('filament-companies::default.modal_titles.remove_connected_account') }}
@@ -76,14 +76,14 @@
 
                 <x-slot name="footer">
                     <x-filament::button color="gray" class="mr-3" wire:click="$toggle('confirmingRemove')"
-                        wire:loading.attr="disabled">
+                                        wire:loading.attr="disabled">
                         {{ __('filament-companies::default.buttons.cancel') }}
 
                     </x-filament::button>
 
                     <x-filament::button color="danger" class="ml-3"
-                        wire:click="removeConnectedAccount({{ $this->selectedAccountId }})"
-                        wire:loading.attr="disabled">
+                                        wire:click="removeConnectedAccount({{ $this->selectedAccountId }})"
+                                        wire:loading.attr="disabled">
                         {{ __('filament-companies::default.buttons.remove_connected_account') }}
 
                     </x-filament::button>

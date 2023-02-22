@@ -2,6 +2,7 @@
 
 namespace Wallo\FilamentCompanies;
 
+use App\Models\Company;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -13,19 +14,14 @@ trait HasCompanies
 {
     /**
      * Determine if the given company is the current company.
-     *
-     * @param  mixed  $company
-     * @return bool
      */
-    public function isCurrentCompany($company): bool
+    public function isCurrentCompany(mixed $company): bool
     {
         return $company->id === $this->currentCompany->id;
     }
 
     /**
      * Get the current company of the user's filament-companies.
-     *
-     * @return BelongsTo
      */
     public function currentCompany(): BelongsTo
     {
@@ -38,11 +34,8 @@ trait HasCompanies
 
     /**
      * Switch the user's filament-companies to the given company.
-     *
-     * @param  mixed  $company
-     * @return bool
      */
-    public function switchCompany($company): bool
+    public function switchCompany(mixed $company): bool
     {
         if (! $this->belongsToCompany($company)) {
             return false;
@@ -59,8 +52,6 @@ trait HasCompanies
 
     /**
      * Get all the companies the user owns or belongs to.
-     *
-     * @return Collection
      */
     public function allCompanies(): Collection
     {
@@ -69,8 +60,6 @@ trait HasCompanies
 
     /**
      * Get all the companies the user owns.
-     *
-     * @return HasMany
      */
     public function ownedCompanies(): HasMany
     {
@@ -79,8 +68,6 @@ trait HasCompanies
 
     /**
      * Get all the companies the user belongs to.
-     *
-     * @return BelongsToMany
      */
     public function companies(): BelongsToMany
     {
@@ -92,21 +79,16 @@ trait HasCompanies
 
     /**
      * Get the user's "personal" company.
-     *
-     * @return \App\Models\Company
      */
-    public function personalCompany(): \App\Models\Company
+    public function personalCompany(): Company
     {
         return $this->ownedCompanies->where('personal_company', true)->first();
     }
 
     /**
      * Determine if the user owns the given company.
-     *
-     * @param  mixed  $company
-     * @return bool
      */
-    public function ownsCompany($company): bool
+    public function ownsCompany(mixed $company): bool
     {
         if (is_null($company)) {
             return false;
@@ -117,11 +99,8 @@ trait HasCompanies
 
     /**
      * Determine if the user belongs to the given company.
-     *
-     * @param  mixed  $company
-     * @return bool
      */
-    public function belongsToCompany($company): bool
+    public function belongsToCompany(mixed $company): bool
     {
         if (is_null($company)) {
             return false;
@@ -134,11 +113,8 @@ trait HasCompanies
 
     /**
      * Get the role that the user has on the company.
-     *
-     * @param  mixed  $company
-     * @return Role|null
      */
-    public function companyRole($company): Role|null
+    public function companyRole(mixed $company): Role|null
     {
         if ($this->ownsCompany($company)) {
             return new OwnerRole;
@@ -159,12 +135,8 @@ trait HasCompanies
 
     /**
      * Determine if the user has the given role on the given company.
-     *
-     * @param  mixed  $company
-     * @param  string  $role
-     * @return bool
      */
-    public function hasCompanyRole($company, string $role): bool
+    public function hasCompanyRole(mixed $company, string $role): bool
     {
         if ($this->ownsCompany($company)) {
             return true;
@@ -177,11 +149,8 @@ trait HasCompanies
 
     /**
      * Get the user's permissions for the given company.
-     *
-     * @param  mixed  $company
-     * @return array
      */
-    public function companyPermissions($company): array
+    public function companyPermissions(mixed $company): array
     {
         if ($this->ownsCompany($company)) {
             return ['*'];
@@ -196,12 +165,8 @@ trait HasCompanies
 
     /**
      * Determine if the user has the given permission on the given company.
-     *
-     * @param  mixed  $company
-     * @param  string  $permission
-     * @return bool
      */
-    public function hasCompanyPermission($company, string $permission): bool
+    public function hasCompanyPermission(mixed $company, string $permission): bool
     {
         if ($this->ownsCompany($company)) {
             return true;
@@ -211,21 +176,17 @@ trait HasCompanies
             return false;
         }
 
-        $hasPermission = $this->tokenCan($permission);
-        $hasApiTokens = in_array(HasApiTokens::class, class_uses_recursive($this), true);
-        $hasAccessToken = $this->currentAccessToken() !== null;
-
-        if (!$hasPermission && $hasApiTokens && $hasAccessToken) {
+        if (in_array(HasApiTokens::class, class_uses_recursive($this), true) &&
+            ! $this->tokenCan($permission) &&
+            $this->currentAccessToken() !== null) {
             return false;
         }
 
         $permissions = $this->companyPermissions($company);
 
-        $hasDirectPermission = in_array($permission, $permissions, true);
-        $hasWildcardPermission = in_array('*', $permissions, true);
-        $hasCreatePermission = Str::endsWith($permission, ':create') && in_array('*:create', $permissions, true);
-        $hasUpdatePermission = Str::endsWith($permission, ':update') && in_array('*:update', $permissions, true);
-
-        return $hasDirectPermission || $hasWildcardPermission || $hasCreatePermission || $hasUpdatePermission;
+        return in_array($permission, $permissions, true) ||
+            in_array('*', $permissions, true) ||
+            (Str::endsWith($permission, ':create') && in_array('*:create', $permissions, true)) ||
+            (Str::endsWith($permission, ':update') && in_array('*:update', $permissions, true));
     }
 }

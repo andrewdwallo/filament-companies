@@ -5,35 +5,25 @@ namespace Wallo\FilamentCompanies\Http\Livewire;
 use App\Models\User;
 use Filament\Notifications\Notification;
 use Illuminate\Contracts\Auth\Authenticatable;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Contracts\View\View;
-use Wallo\FilamentCompanies\Contracts\UpdatesCompanyNames;
+use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
+use Wallo\FilamentCompanies\Contracts\UpdatesCompanyNames;
 
-/**
- * @property mixed $user
- */
 class UpdateCompanyNameForm extends Component
 {
     /**
      * The company instance.
-     *
-     * @var mixed
      */
-    public $company;
+    public mixed $company;
 
     /**
      * The component's state.
-     *
-     * @var array
      */
-    public $state = [];
+    public array $state = [];
 
     /**
      * Mount the component.
-     *
-     * @param  mixed  $company
-     * @return void
      */
     public function mount(mixed $company): void
     {
@@ -44,9 +34,6 @@ class UpdateCompanyNameForm extends Component
 
     /**
      * Update the company's name.
-     *
-     * @param UpdatesCompanyNames $updater
-     * @return void
      */
     public function updateCompanyName(UpdatesCompanyNames $updater): void
     {
@@ -65,8 +52,6 @@ class UpdateCompanyNameForm extends Component
 
     /**
      * Get the current user of the application.
-     *
-     * @return User|Authenticatable|null
      */
     public function getUserProperty(): User|Authenticatable|null
     {
@@ -75,8 +60,6 @@ class UpdateCompanyNameForm extends Component
 
     /**
      * Render the component.
-     *
-     * @return View
      */
     public function render(): View
     {

@@ -2,17 +2,17 @@
 
 namespace Wallo\FilamentCompanies\Pages\Companies;
 
+use App\Models\Company;
 use Filament\Pages\Page;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
-use App\Models\Company;
 use Wallo\FilamentCompanies\FilamentCompanies;
 
 class CompanySettings extends Page
 {
     public Company $company;
 
-    protected static string $view = "filament-companies::filament.pages.companies.company_settings";
+    protected static string $view = 'filament-companies::filament.pages.companies.company_settings';
 
     protected static bool $shouldRegisterNavigation = false;
 

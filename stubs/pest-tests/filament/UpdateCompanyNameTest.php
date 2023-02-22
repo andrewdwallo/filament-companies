@@ -1,8 +1,8 @@
 <?php
 
 use App\Models\User;
-use Wallo\FilamentCompanies\Http\Livewire\UpdateCompanyNameForm;
 use Livewire\Livewire;
+use Wallo\FilamentCompanies\Http\Livewire\UpdateCompanyNameForm;
 
 test('company names can be updated', function () {
     $this->actingAs($user = User::factory()->withPersonalCompany()->create());

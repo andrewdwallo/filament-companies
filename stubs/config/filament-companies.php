@@ -2,7 +2,6 @@
 
 use Wallo\FilamentCompanies\Features;
 use Wallo\FilamentCompanies\Http\Middleware\AuthenticateSession;
-use Wallo\FilamentCompanies\Providers;
 
 return [
 
@@ -59,7 +58,7 @@ return [
     */
 
     'providers' => [
-        Providers::github(),
+        'github' => true,
     ],
 
     /*
@@ -79,10 +78,7 @@ return [
         Features::api(),
         Features::companies(['invitations' => true]),
         Features::accountDeletion(),
-        //Features::createAccountOnFirstLogin(),
-        // Features::generateMissingEmails(),
-        Features::rememberSession(),
-        Features::providerAvatars(),
+        Features::socialite(['rememberSession' => true, 'providerAvatars' => true]),
     ],
 
     /*

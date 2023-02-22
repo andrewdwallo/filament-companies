@@ -13,8 +13,6 @@ abstract class Company extends Model
 {
     /**
      * Get the owner of the company.
-     *
-     * @return BelongsTo
      */
     public function owner(): BelongsTo
     {
@@ -23,8 +21,6 @@ abstract class Company extends Model
 
     /**
      * Get all the company's users including its owner.
-     *
-     * @return Collection
      */
     public function allUsers(): Collection
     {
@@ -33,8 +29,6 @@ abstract class Company extends Model
 
     /**
      * Get all the users that belong to the company.
-     *
-     * @return BelongsToMany
      */
     public function users(): BelongsToMany
     {
@@ -46,9 +40,6 @@ abstract class Company extends Model
 
     /**
      * Determine if the given user belongs to the company.
-     *
-     * @param User $user
-     * @return bool
      */
     public function hasUser(User $user): bool
     {
@@ -57,9 +48,6 @@ abstract class Company extends Model
 
     /**
      * Determine if the given email address belongs to a user on the company.
-     *
-     * @param  string  $email
-     * @return bool
      */
     public function hasUserWithEmail(string $email): bool
     {
@@ -70,10 +58,6 @@ abstract class Company extends Model
 
     /**
      * Determine if the given user has the given permission on the company.
-     *
-     * @param User $user
-     * @param string $permission
-     * @return bool
      */
     public function userHasPermission(User $user, string $permission): bool
     {
@@ -82,8 +66,6 @@ abstract class Company extends Model
 
     /**
      * Get all the pending user invitations for the company.
-     *
-     * @return HasMany
      */
     public function companyInvitations(): HasMany
     {
@@ -92,9 +74,6 @@ abstract class Company extends Model
 
     /**
      * Remove the given user from the company.
-     *
-     * @param User $user
-     * @return void
      */
     public function removeUser(User $user): void
     {
@@ -109,8 +88,6 @@ abstract class Company extends Model
 
     /**
      * Purge all the company's resources.
-     *
-     * @return void
      */
     public function purge(): void
     {

@@ -12,20 +12,10 @@ abstract class ConnectedAccountEvent
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     /**
-     * The connected account instance.
-     *
-     * @var ConnectedAccount
-     */
-    public ConnectedAccount $connectedAccount;
-
-    /**
      * Create a new event instance.
-     *
-     * @param ConnectedAccount $connectedAccount
-     * @return void
      */
-    public function __construct(ConnectedAccount $connectedAccount)
+    public function __construct(public ConnectedAccount $connectedAccount)
     {
-        $this->connectedAccount = $connectedAccount;
+        //
     }
 }

@@ -1,8 +1,8 @@
 <?php
 
 use App\Models\User;
-use Wallo\FilamentCompanies\Http\Livewire\UpdateProfileInformationForm;
 use Livewire\Livewire;
+use Wallo\FilamentCompanies\Http\Livewire\UpdateProfileInformationForm;
 
 test('current profile information is available', function () {
     $this->actingAs($user = User::factory()->create());

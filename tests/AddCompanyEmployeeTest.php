@@ -7,11 +7,11 @@ use App\Actions\FilamentCompanies\CreateCompany;
 use App\Models\Company;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Validation\ValidationException;
-use Wallo\FilamentCompanies\FilamentCompanies;
+use Laravel\Sanctum\TransientToken;
 use Wallo\FilamentCompanies\Employeeship;
+use Wallo\FilamentCompanies\FilamentCompanies;
 use Wallo\FilamentCompanies\Tests\Fixtures\CompanyPolicy;
 use Wallo\FilamentCompanies\Tests\Fixtures\User;
-use Laravel\Sanctum\TransientToken;
 
 class AddCompanyEmployeeTest extends OrchestraTestCase
 {

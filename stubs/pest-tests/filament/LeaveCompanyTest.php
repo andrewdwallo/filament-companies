@@ -1,8 +1,8 @@
 <?php
 
 use App\Models\User;
-use Wallo\FilamentCompanies\Http\Livewire\CompanyEmployeeManager;
 use Livewire\Livewire;
+use Wallo\FilamentCompanies\Http\Livewire\CompanyEmployeeManager;
 
 test('users can leave companies', function () {
     $user = User::factory()->withPersonalCompany()->create();

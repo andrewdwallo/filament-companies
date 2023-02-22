@@ -1,8 +1,8 @@
 <?php
 
 use App\Models\User;
-use Wallo\FilamentCompanies\Http\Livewire\CreateCompanyForm;
 use Livewire\Livewire;
+use Wallo\FilamentCompanies\Http\Livewire\CreateCompanyForm;
 
 test('companies can be created', function () {
     $this->actingAs($user = User::factory()->withPersonalCompany()->create());

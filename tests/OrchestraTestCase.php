@@ -4,11 +4,10 @@ namespace Wallo\FilamentCompanies\Tests;
 
 use Filament\FilamentServiceProvider;
 use Laravel\Fortify\FortifyServiceProvider;
+use Livewire\LivewireServiceProvider;
+use Orchestra\Testbench\TestCase;
 use Wallo\FilamentCompanies\Features;
 use Wallo\FilamentCompanies\FilamentCompaniesServiceProvider;
-use Mockery;
-use Orchestra\Testbench\TestCase;
-use Livewire\LivewireServiceProvider;
 
 abstract class OrchestraTestCase extends TestCase
 {
@@ -28,7 +27,7 @@ abstract class OrchestraTestCase extends TestCase
             LivewireServiceProvider::class,
             FilamentServiceProvider::class,
             FilamentCompaniesServiceProvider::class,
-            FortifyServiceProvider::class
+            FortifyServiceProvider::class,
         ];
     }
 
@@ -37,9 +36,9 @@ abstract class OrchestraTestCase extends TestCase
         $app['config']->set('database.default', 'testbench');
 
         $app['config']->set('database.connections.testbench', [
-            'driver'   => 'sqlite',
+            'driver' => 'sqlite',
             'database' => ':memory:',
-            'prefix'   => '',
+            'prefix' => '',
         ]);
     }
 

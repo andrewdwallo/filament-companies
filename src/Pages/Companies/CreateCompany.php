@@ -12,7 +12,7 @@ class CreateCompany extends Page
 {
     public Company $company;
 
-    protected static string $view = "filament-companies::filament.pages.companies.create_company";
+    protected static string $view = 'filament-companies::filament.pages.companies.create_company';
 
     protected static bool $shouldRegisterNavigation = false;
 

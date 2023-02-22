@@ -2,8 +2,8 @@
 
 use App\Models\Company;
 use App\Models\User;
-use Wallo\FilamentCompanies\Http\Livewire\DeleteCompanyForm;
 use Livewire\Livewire;
+use Wallo\FilamentCompanies\Http\Livewire\DeleteCompanyForm;
 
 test('companies can be deleted', function () {
     $this->actingAs($user = User::factory()->withPersonalCompany()->create());

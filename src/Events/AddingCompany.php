@@ -10,15 +10,12 @@ class AddingCompany
 
     /**
      * The company owner.
-     *
-     * @var mixed
      */
     public mixed $owner;
 
     /**
      * Create a new event instance.
      *
-     * @param  mixed  $owner
      * @return void
      */
     public function __construct(mixed $owner)

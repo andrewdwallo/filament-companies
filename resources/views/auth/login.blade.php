@@ -21,30 +21,33 @@
         @csrf
 
         <div>
-            <x-forms::field-wrapper id="email" statePath="email" required="true" label="{{ __('filament-companies::default.fields.email') }}">
+            <x-forms::field-wrapper id="email" statePath="email" required="true"
+                                    label="{{ __('filament-companies::default.fields.email') }}">
                 <x-filament-companies::input id="email" type="email" name="email"
-                    :value="old('email')" required autofocus />
+                                             :value="old('email')" required autofocus autocomplete="username"/>
             </x-forms::field-wrapper>
         </div>
 
         <div class="mt-4">
-            <x-forms::field-wrapper id="password" statePath="password" required="true" label="{{ __('filament-companies::default.fields.password') }}">
+            <x-forms::field-wrapper id="password" statePath="password" required="true"
+                                    label="{{ __('filament-companies::default.fields.password') }}">
                 <x-filament-companies::input id="password" type="password" name="password"
-                    required autocomplete="current-password" />
+                                             required autocomplete="current-password"/>
             </x-forms::field-wrapper>
         </div>
 
         <div class="flex items-center justify-between">
             <div class="flex items-center">
                 <label for="remember_me" class="flex items-center">
-                    <x-filament-companies::checkbox id="remember_me" name="remember" />
+                    <x-filament-companies::checkbox id="remember_me" name="remember"/>
                     <span class="ml-2 text-sm font-medium">{{ __('filament-companies::default.buttons.remember_me') }}</span>
                 </label>
             </div>
 
             <div class="text-sm">
                 @if (Route::has('password.request'))
-                    <a class="text-primary-600 dark:text-primary-400 text-sm font-medium" href="{{ route('password.request') }}">
+                    <a class="text-primary-600 dark:text-primary-400 text-sm font-medium"
+                       href="{{ route('password.request') }}">
                         {{ __('filament-companies::default.links.forgot_your_password') }}
                     </a>
                 @endif
@@ -59,8 +62,8 @@
     </form>
 
     <div class="mt-4">
-        @if (Wallo\FilamentCompanies\Socialite::show())
-            <x-filament-companies::socialite />
+        @if (Wallo\FilamentCompanies\Socialite::hasSocialiteFeatures())
+            <x-filament-companies::socialite/>
         @endif
     </div>
 </x-filament::layouts.card>
