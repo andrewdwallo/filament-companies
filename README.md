@@ -48,16 +48,16 @@ A Complete Authentication System Kit based on Companies built for Filament:
 
 
 
-## Getting Started
+# Getting Started
 
-### Installing
+### WARNING
 
 * This plugin requires a fresh Filament project
 * If you install this plugin into an existing Filament project you will get errors
 * No modifications need to be made to the filament config files
 * Everything is set once the plugin is installed
 
-### Executing program
+### Getting Set Up
 
 * Create a fresh Laravel Project
 * Configure your database
@@ -67,28 +67,28 @@ A Complete Authentication System Kit based on Companies built for Filament:
 composer require filament/filament
 ```
 
-* Install the package
+# Installation
+
+Install this package
 ```
 composer require andrewdwallo/filament-companies
 ```
 
-* Now use the following command to scaffold the app.
+Use the following command to scaffold the app.
 ```
 php artisan filament-companies:install filament --companies
 ```
 
-* In config/fortify.php replace the following:
+In `config/fortify.php` replace the following:
 ```
 'middleware' => ['web'],
 ```
-To...
+to...
 ```
 'middleware' => config('filament.middleware.base'),
 ```
 
-
-
-* After Scaffolding is complete run the following commands. (Use either npm, pnpm, or yarn depending on what your package manager currently is before the scaffold)
+### Finalizing Installation
 ```
 php artisan migrate:fresh
 ```
@@ -96,18 +96,18 @@ php artisan migrate:fresh
 npm run dev
 ```
 
-* Go to the Register page by clicking Register in the top right corner of the Laravel Welcome page.
-* You will be redirected to the admin panel.
+# Usage
+
+* Click Register on the Laravel Welcome Page
+* After Registration you will be redirected to the Admin panel
 * You can create companies by clicking the dropdown navigation in the Filament topbar.
 * By clicking on your current company's settings in the topbar you can manage that current company.
 * You may also switch your current company.
 * You can also create API Tokens and manage your personal profile settings by clicking the filament user menu dropdown link.
 
-### Usage
-This package is extensively "borrowed" from the work of Taylor Otwell, his contributors and the Laravel Jetstream package. You can get a full understanding of the capabilities by reviewing the Jetstream docs:
-https://jetstream.laravel.com/2.x/introduction.html
+This package is extensively "borrowed" from the work of Taylor Otwell, his contributors and the Laravel Jetstream package. You can get a full understanding of the capabilities by reviewing the Jetstream [Documentation](https://jetstream.laravel.com/2.x/introduction.html/).
 
-* If you want to change the filament path prefix to something such as "company", you may do so as you normally would in the filament.php config file:
+If you want to change the filament path prefix to something such as "company", you may do so as you normally would in `config/filament.php`
 ```
 /*
     |--------------------------------------------------------------------------
@@ -121,11 +121,15 @@ https://jetstream.laravel.com/2.x/introduction.html
 
     'path' => env('FILAMENT_PATH', 'company'),
 ```
-- The Laravel Welcome Page, Fortify, etc.. will respect your changes.
+> The Laravel Welcome Page, Fortify, etc.. will respect your changes.
 
 ### Socialite
 
-* Pass the Provider you need in config/filament-company.php
+By Default, the GitHub Provider will be enabled.
+
+You may use any Provider that [Laravel Socialite](https://laravel.com/docs/10.x/socialite/) supports.
+
+You may add or remove any Provider in `config/filament-company.php`
 
 ```
     /*
@@ -134,24 +138,51 @@ https://jetstream.laravel.com/2.x/introduction.html
     |--------------------------------------------------------------------------
     |
     | Here you may specify the providers your application supports for OAuth.
-    | Out of the box, FilamentCompanies provides support for all of the OAuth
+    | Out of the box, FilamentCompanies provides support for all the OAuth
+    | providers that are supported by Laravel Socialite.
+    |
+    */
+
+    'providers' => [
+        'twitter-oauth-2' => true,
+        'bitbucket' => true,
+        'facebook' => true,
+        'linkedin' => true,
+        'twitter' => true,
+        'gitlab' => true,
+        'google' => true,
+        'github' => true,
+    ],
+```
+> If any of these Provider's are undesired you do not have to set to false, you may completely remove them from the array.
+
+If desired, you may use the following syntax (Added Providers are considered all set to true):
+```
+    /*
+    |--------------------------------------------------------------------------
+    | Socialite Providers
+    |--------------------------------------------------------------------------
+    |
+    | Here you may specify the providers your application supports for OAuth.
+    | Out of the box, FilamentCompanies provides support for all the OAuth
     | providers that are supported by Laravel Socialite.
     |
     */
 
     'providers' => [
         Providers::github(),
-        // Providers::google(),
-        // Providers::twitter(),
-        // Providers::facebook(),
-        // Providers::bitbucket(),
-        // Providers::gitlab(),
-        // Providers::linkedin(),
+        Providers::gitlab(),
+        Providers::google(),
+        Providers::facebook(),
+        Providers::linkedin(),
+        Providers::bitbucket(),
+        Providers::twitterOAuth1(),
+        Providers::twitterOAuth2(),
     ],
 ```
+> If Twitter is desired, you may only use either Twitter OAuth1 or Twitter OAuth2
 
-* In config/services.php, Pass your providers credentials in the providers array for example.
-* Make sure the providers redirect uri is similar to the following and you are all set.
+In `config/services.php` pass your Provider's credentials in the providers array:
 ```
     'github' => [
         'client_id' => env('GITHUB_CLIENT_ID'),
@@ -159,62 +190,119 @@ https://jetstream.laravel.com/2.x/introduction.html
         'redirect' => 'https://filament.test/oauth/github/callback',
     ],
 ```
+> The Provider's Redirect URI must look similar to the above
 
-* More examples can be found by looking at the documentation for Socialstream by Joel Butcher: 
-https://github.com/joelbutcher/socialstream
+If Socialite is undesired for your Application you may comment out or completely remove the following from the `features` array:
+```
+/*
+    |--------------------------------------------------------------------------
+    | Features
+    |--------------------------------------------------------------------------
+    |
+    | Some of Company's features are optional. You may disable the features
+    | by removing them from this array. You're free to only remove some of
+    | these features, or you can even remove all of these if you need to.
+    |
+    */
 
-#### Example #1: Only allowing a certain company ID to see & visit a filament page, resource, etc...
+    'features' => [
+        Features::termsAndPrivacyPolicy(),
+        Features::profilePhotos(),
+        Features::api(),
+        Features::companies(['invitations' => true]),
+        Features::accountDeletion(),
+        // Features::socialite(['rememberSession' => true, 'providerAvatars' => true]),
+    ],
+```
 
+The Socialite package is extensively "borrowed" from the work of Joel Butcher, his contributors and the Socialstream package. You can get a full understanding of the capabilities by reviewing the Socialstream [Documentation](https://docs.socialstream.dev/).
+
+Note: The following examples are a visual representation of the features this package supports that were provided by the methods implemented in Laravel Jetstream. You may find all of the features as provided by the Laravel Jetstream package [here](https://jetstream.laravel.com/3.x/features/teams.html) in their documentation.
+
+Information about a user's companies may be accessed via the methods provided by the `Wallo\FilamentCompanies\HasCompanies` trait. This trait is automatically applied to your application's `App\Models\User` model during installation. This trait provides a variety of helpful methods that allow you to inspect a user's companies or company:
+
+```
+// Access a user's currently selected company...
+$user->currentCompany : Wallo\FilamentCompanies\Company
+
+// Access all of the companies (including owned companies) that a user belongs to...
+$user->allCompanies() : Illuminate\Support\Collection
+
+// Access all of a user's owned companies...
+$user->ownedCompanies : Illuminate\Database\Eloquent\Collection
+
+// Access all of the companies that a user belongs to but does not own...
+$user->companies : Illuminate\Database\Eloquent\Collection
+
+// Access a user's "personal" company...
+$user->personalCompany() : Wallo\FilamentCompanies\Company
+
+// Determine if a user owns a given company...
+$user->ownsCompany($company) : bool
+
+// Determine if a user belongs to a given company...
+$user->belongsToCompany($company) : bool
+
+// Get the role that the user is assigned on the company...
+$user->companyRole($company) : \Wallo\FilamentCompanies\Role
+
+// Determine if the user has the given role on the given company...
+$user->hasCompanyRole($company, 'admin') : bool
+
+// Access an array of all permissions a user has for a given company...
+$user->companyPermissions($company) : array
+
+// Determine if a user has a given company permission...
+$user->hasCompanyPermission($company, 'server:create') : bool
+```
+
+Example #1: Only allowing a certain company ID to see & visit a filament page, resource, etc...
 ```
 protected static function shouldRegisterNavigation(): bool
 {
-    return FilamentCompanies::hasCompanyFeatures() && Auth::user()->currentCompany->id === 3;
+    return Auth::user()->currentCompany->id === 3;
 }
 
 public function mount(): void
 {
-    abort_unless(FilamentCompanies::hasCompanyFeatures() && Auth::user()->currentCompany->id === 3, 403);
+    abort_unless(Auth::user()->currentCompany->id === 3, 403);
 }
 ```
-- In this example only the current_company_id value of 3 will be able to see this page (as well as only if the user has Company Features).
+> `Auth::user()` or a mounted parameter such as `(User $user)` represents the current user of the application.
 
 
-#### Example #2: Having to know the ID of every Company can be a hastle so instead you can use the Current Company Name
-
+Example #2: Using the Current Company Name
 ```
-protected static function shouldRegisterNavigation(): bool
+protected static function shouldRegisterNavigation(User $user): bool
 {
-    return FilamentCompanies::hasCompanyFeatures() && Auth::user()->currentCompany->name === "ERPSAAS";
+    return $user->currentCompany->name === "ERPSAAS";
 }
 
-public function mount(): void
+public function mount(User $user): void
 {
-    abort_unless(FilamentCompanies::hasCompanyFeatures() && Auth::user()->currentCompany->name === "ERPSAAS", 403);
+    abort_unless($user->currentCompany->name === "ERPSAAS", 403);
 }
 ```
-- In this example only the current company name of "ERPSAAS" will be able to see this page.
-
-#### You may also use collections of different companies and group them together, or you may use ranges of values, and more. 
+> You can use collections of different companies and group them together, or you may use different ranges of values, and more.
 
 ### Note
 * Documentation is on the way. I am currently making a DOCS website.
-* This package is supposed to be a Filament Context and is planning to be used as one in Filament V3
-* The default view after install is not supposed to be the "Admin" Context, this would be the view that a "company user" would see
+* This package is supposed to be a Filament Context and is planning to be used as one in Filament V3.
+* The default view after installation is not supposed to be the "Admin" Context, this would be the view that a "company user" would see.
 * There are methods to support an "Admin" Context if wanted.
 
 ### Contributing
 * Fork this repository to your GitHub account.
-* Create a fresh Laravel & Filament Project
-* Clone your fork in your Laravel/Filament app's root directory.
+* Create a fresh Laravel & Filament Project.
+* Clone your fork in your App's root directory.
 * In the `/filament-companies` directory, create a branch for your fix, e.g. `fix/error-message`.
 
-Install the plugin/package in your app's `composer.json`:
-
+Install the plugin/package in your app's `composer.json` using the `dev` prefix followed by your branches name:
 ```json
 {
     ...
     "require": {
-        "andrewdwallo/filament-companies": "*",
+        "andrewdwallo/filament-companies": "dev-fix/error-message",
     },
     "repositories": [
         {
@@ -226,18 +314,8 @@ Install the plugin/package in your app's `composer.json`:
 }
 ```
 
-* Now, run `composer update`.
-* Now use the following command to scaffold the app.
+* Now, run `composer update` and use the following command to scaffold the app.
 ```
 php artisan filament-companies:install filament --companies
 ```
-* Now follow instructions above.
-
-### For Contributors:
-
-#### A general list of things that need to be worked on/improved:
-
-* NavigationMenu.php class component listener needs to actually refresh after a form is saved (This is connected to a render hook in FilamentCompaniesServiceProvider)
-* Test need to be updated
-* Documentation specific to Filament (e.g. Examples of using FilamentCompanies' Traits, Closures, Permissions/Roles, etc...)
-* Any other things you notice that you would like to improve that would benefit everyone as a whole
+* You may continue by following the installation instructions above.
