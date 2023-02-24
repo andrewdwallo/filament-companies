@@ -160,6 +160,9 @@ https://jetstream.laravel.com/2.x/introduction.html
     ],
 ```
 
+* More examples can be found by looking at the documentation for Socialstream by Joel Butcher: 
+https://github.com/joelbutcher/socialstream
+
 #### Example #1: Only allowing a certain company ID to see & visit a filament page, resource, etc...
 
 ```

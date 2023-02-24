@@ -10,9 +10,9 @@ use Wallo\FilamentCompanies\FilamentCompanies;
 
 class CompanySettings extends Page
 {
-    public $company;
+    public Company $company;
 
-    protected static string $view = "filament-companies::filament.pages.companies.company_settings";
+    protected static string $view = 'filament-companies::filament.pages.companies.company_settings';
 
     protected static bool $shouldRegisterNavigation = false;
 
@@ -26,7 +26,6 @@ class CompanySettings extends Page
         abort_unless(FilamentCompanies::hasCompanyFeatures(), 403);
         abort_if(Gate::denies('view', $company), 403);
         $this->company = Auth::user()->currentCompany;
-        $this->company = $company;
     }
 
     public static function getSlug(): string

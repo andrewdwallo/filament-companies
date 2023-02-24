@@ -1,8 +1,8 @@
 <?php
 
 use App\Models\User;
-use Wallo\FilamentCompanies\Http\Livewire\LogoutOtherBrowserSessionsForm;
 use Livewire\Livewire;
+use Wallo\FilamentCompanies\Http\Livewire\LogoutOtherBrowserSessionsForm;
 
 test('other browser sessions can be logged out', function () {
     $this->actingAs($user = User::factory()->create());

@@ -2,6 +2,7 @@
 
 namespace Wallo\FilamentCompanies\Actions;
 
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Validator;
 use Wallo\FilamentCompanies\Events\CompanyEmployeeUpdated;
@@ -13,13 +14,9 @@ class UpdateCompanyEmployeeRole
     /**
      * Update the role for the given company employee.
      *
-     * @param  mixed  $user
-     * @param  mixed  $company
-     * @param  int  $companyEmployeeId
-     * @param  string  $role
-     * @return void
+     * @throws AuthorizationException
      */
-    public function update($user, $company, $companyEmployeeId, string $role)
+    public function update(mixed $user, mixed $company, int $companyEmployeeId, string $role): void
     {
         Gate::forUser($user)->authorize('updateCompanyEmployee', $company);
 

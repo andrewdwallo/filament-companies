@@ -3,18 +3,15 @@
 namespace Wallo\FilamentCompanies;
 
 use Illuminate\Http\UploadedFile;
-use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Str;
 
 trait SetsProfilePhotoFromUrl
 {
     /**
      * Sets the users profile photo from a URL.
-     *
-     * @param  string  $url
-     * @return void
      */
-    public function setProfilePhotoFromUrl(string $url)
+    public function setProfilePhotoFromUrl(string $url): void
     {
         $name = pathinfo($url)['basename'];
         $response = Http::get($url);
@@ -25,7 +22,7 @@ trait SetsProfilePhotoFromUrl
 
             $this->updateProfilePhoto(new UploadedFile($file, $name));
         } else {
-            session()->flash('flash.banner', 'Unable to retrive image');
+            session()->flash('flash.banner', 'Unable to retrieve image');
             session()->flash('flash.bannerStyle', 'danger');
         }
     }

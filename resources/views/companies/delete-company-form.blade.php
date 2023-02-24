@@ -33,12 +33,12 @@
 
                 <x-slot name="footer">
                     <x-filament::button color="gray" class="mr-3" wire:click="$toggle('confirmingCompanyDeletion')"
-                        wire:loading.attr="disabled">
+                                        wire:loading.attr="disabled">
                         {{ __('filament-companies::default.buttons.cancel') }}
                     </x-filament::button>
 
                     <x-filament::button color="danger" class="ml-3" wire:click="deleteCompany"
-                        wire:loading.attr="disabled">
+                                        wire:loading.attr="disabled">
                         {{ __('filament-companies::default.buttons.delete_company') }}
                     </x-filament::button>
                 </x-slot>

@@ -5,9 +5,9 @@ namespace Tests\Feature;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Hash;
-use Wallo\FilamentCompanies\Http\Livewire\UpdatePasswordForm;
 use Livewire\Livewire;
 use Tests\TestCase;
+use Wallo\FilamentCompanies\Http\Livewire\UpdatePasswordForm;
 
 class UpdatePasswordTest extends TestCase
 {

@@ -10,34 +10,25 @@ class InvitingCompanyEmployee
 
     /**
      * The company instance.
-     *
-     * @var mixed
      */
-    public $company;
+    public mixed $company;
 
     /**
      * The email address of the invitee.
-     *
-     * @var mixed
      */
-    public $email;
+    public mixed $email;
 
     /**
      * The role of the invitee.
-     *
-     * @var mixed
      */
-    public $role;
+    public mixed $role;
 
     /**
      * Create a new event instance.
      *
-     * @param  mixed  $company
-     * @param  mixed  $email
-     * @param  mixed  $role
      * @return void
      */
-    public function __construct($company, $email, $role)
+    public function __construct(mixed $company, mixed $email, mixed $role)
     {
         $this->company = $company;
         $this->email = $email;

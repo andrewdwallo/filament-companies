@@ -6,7 +6,7 @@ use Laravel\Fortify\Actions\DisableTwoFactorAuthentication;
 use Laravel\Fortify\Features;
 use Wallo\FilamentCompanies\FilamentCompanies;
 use Wallo\FilamentCompanies\Tests\Fixtures\User;
-use Mockery as m;
+
 class UserProfileControllerTest extends OrchestraTestCase
 {
     public function setUp(): void

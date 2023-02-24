@@ -2,6 +2,7 @@
 
 namespace Wallo\FilamentCompanies\Events;
 
+use App\Models\ConnectedAccount;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
@@ -11,20 +12,10 @@ abstract class ConnectedAccountEvent
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     /**
-     * The connected account instance.
-     *
-     * @var \App\Models\ConnectedAccount
-     */
-    public $connectedAccount;
-
-    /**
      * Create a new event instance.
-     *
-     * @param  \App\Models\ConnectedAccount  $connectedAccount
-     * @return void
      */
-    public function __construct($connectedAccount)
+    public function __construct(public ConnectedAccount $connectedAccount)
     {
-        $this->connectedAccount = $connectedAccount;
+        //
     }
 }

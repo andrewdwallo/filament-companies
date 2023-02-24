@@ -2,11 +2,10 @@
 
 namespace Tests\Feature;
 
-use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Laravel\Fortify\Features;
-use Wallo\FilamentCompanies\FilamentCompanies;
 use Tests\TestCase;
+use Wallo\FilamentCompanies\FilamentCompanies;
 
 class RegistrationTest extends TestCase
 {

@@ -2,23 +2,20 @@
 
 namespace App\Actions\FilamentCompanies;
 
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Support\Facades\Gate;
+use Laravel\Socialite\Contracts\User;
 use Wallo\FilamentCompanies\ConnectedAccount;
 use Wallo\FilamentCompanies\Contracts\UpdatesConnectedAccounts;
-use Laravel\Socialite\Contracts\User;
 
 class UpdateConnectedAccount implements UpdatesConnectedAccounts
 {
     /**
      * Update a given connected account.
      *
-     * @param  mixed  $user
-     * @param  \Wallo\FilamentCompanies\ConnectedAccount  $connectedAccount
-     * @param  string  $provider
-     * @param  \Laravel\Socialite\Contracts\User  $providerUser
-     * @return \Wallo\FilamentCompanies\ConnectedAccount
+     * @throws AuthorizationException
      */
-    public function update($user, ConnectedAccount $connectedAccount, string $provider, User $providerUser)
+    public function update(mixed $user, ConnectedAccount $connectedAccount, string $provider, User $providerUser): ConnectedAccount
     {
         Gate::forUser($user)->authorize('update', $connectedAccount);
 

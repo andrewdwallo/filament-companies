@@ -12,14 +12,11 @@ class DeleteUser implements DeletesUsers
 {
     /**
      * The company deleter implementation.
-     *
-     * @var \Wallo\FilamentCompanies\Contracts\DeletesCompanies
      */
-    protected $deletesCompanies;
+    protected DeletesCompanies $deletesCompanies;
 
     /**
      * Create a new action instance.
-     *
      */
     public function __construct(DeletesCompanies $deletesCompanies)
     {
@@ -28,7 +25,6 @@ class DeleteUser implements DeletesUsers
 
     /**
      * Delete the given user.
-     *
      */
     public function delete(User $user): void
     {
@@ -43,7 +39,6 @@ class DeleteUser implements DeletesUsers
 
     /**
      * Delete the companies and company associations attached to the user.
-     *
      */
     protected function deleteCompanies(User $user): void
     {

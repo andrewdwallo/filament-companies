@@ -3,46 +3,32 @@
 namespace Wallo\FilamentCompanies;
 
 use Illuminate\Database\Eloquent\Model;
-use Wallo\FilamentCompanies\FilamentCompanies;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 abstract class ConnectedAccount extends Model
 {
     /**
      * Get the credentials used for authenticating services.
-     *
-     * @return \Wallo\FilamentCompanies\Credentials
      */
-    public function getCredentials()
+    public function getCredentials(): Credentials
     {
         return new Credentials($this);
     }
 
     /**
      * Get user of the connected account.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function user()
+    public function user(): BelongsTo
     {
-        return $this->belongsTo(FilamentCompanies::userModel(), 'user_id');
-    }
-
-    /**
-     * Get the data that should be shared with Inertia.
-     *
-     * @return array
-     */
-    public function getSharedInertiaData()
-    {
-        return $this->getSharedData();
+        return $this->belongsTo(FilamentCompanies::userModel(), 'user_id', (FilamentCompanies::newUserModel())->getAuthIdentifierName());
     }
 
     /**
      * Get the data that should be shared.
      *
-     * @return array
+     * @return array<string, mixed>
      */
-    public function getSharedData()
+    public function getSharedData(): array
     {
         return [
             'id' => $this->id,

@@ -5,11 +5,11 @@ namespace Tests\Feature;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Mail;
+use Livewire\Livewire;
+use Tests\TestCase;
 use Wallo\FilamentCompanies\Features;
 use Wallo\FilamentCompanies\Http\Livewire\CompanyEmployeeManager;
 use Wallo\FilamentCompanies\Mail\CompanyInvitation;
-use Livewire\Livewire;
-use Tests\TestCase;
 
 class InviteCompanyEmployeeTest extends TestCase
 {

@@ -3,9 +3,12 @@
 namespace Wallo\FilamentCompanies\Pages\User;
 
 use App\Models\User;
-use Filament\Pages\Page;
-use Filament\Forms;
+use Exception;
+use Filament\Forms\Components\CheckboxList;
+use Filament\Forms\Components\TextInput;
+use Filament\Notifications\Notification;
 use Filament\Pages\Actions\Action;
+use Filament\Pages\Page;
 use Filament\Tables;
 use Filament\Tables\Actions\BulkAction;
 use Illuminate\Database\Eloquent\Builder;
@@ -18,19 +21,29 @@ class APITokens extends Page implements Tables\Contracts\HasTable
 {
     use Tables\Concerns\InteractsWithTable;
 
-    public $user;
-    public $plainTextToken;
-    public $name;
-    public $permissions = [];
+    public User $user;
+
+    /**
+     * The plain text token value.
+     */
+    public string $plainTextToken;
+
+    /**
+     * The token name.
+     */
+    public string $name = '';
+
+    /**
+     * The token permissions.
+     */
+    public array $permissions = [];
 
     /**
      * Indicates if the plain text token is being displayed to the user.
-     *
-     * @var bool
      */
-    public $displayingToken = false;
+    public bool $displayingToken = false;
 
-    protected static string $view = "filament-companies::filament.pages.user.api-tokens";
+    protected static string $view = 'filament-companies::filament.pages.user.api-tokens';
 
     protected static bool $shouldRegisterNavigation = false;
 
@@ -59,8 +72,8 @@ class APITokens extends Page implements Tables\Contracts\HasTable
     protected function getTableQuery(): Builder
     {
         return app(Sanctum::$personalAccessTokenModel)->where([
-            ["tokenable_id", '=', Auth::user()->id],
-            ["tokenable_type", '=', User::class],
+            ['tokenable_id', '=', Auth::user()->id],
+            ['tokenable_type', '=', FilamentCompanies::$userModel],
         ]);
     }
 
@@ -82,7 +95,7 @@ class APITokens extends Page implements Tables\Contracts\HasTable
                 ->sortable()
                 ->searchable(),
             Tables\Columns\TagsColumn::make('abilities')
-                ->label(__('filament-companies::default.labels.permissions')),
+                ->label(__('filament-companies::default.labels.permissions'))->default($this->permissions),
             Tables\Columns\TextColumn::make('last_used_at')
                 ->label(trans('Last used at'))
                 ->dateTime()
@@ -91,15 +104,23 @@ class APITokens extends Page implements Tables\Contracts\HasTable
                 ->label(trans('Created at'))
                 ->dateTime()
                 ->sortable(),
+            Tables\Columns\TextColumn::make('updated_at')
+                ->label(trans('Updated at'))
+                ->dateTime()
+                ->sortable(),
         ];
     }
 
+    /**
+     * @throws Exception
+     */
     protected function getActions(): array
     {
         return [
             Action::make('create')
                 ->label(trans('Create Token'))
                 ->action(function (array $data) {
+                    $name = $data['name'];
                     $indexes = $data['abilities'];
                     $abilities = FilamentCompanies::$permissions;
                     $selected = collect($abilities)->filter(function ($item, $key) use (
@@ -107,15 +128,15 @@ class APITokens extends Page implements Tables\Contracts\HasTable
                     ) {
                         return in_array($key, $indexes);
                     })->toArray();
-                    $this->displayTokenValue($this->user->createToken($data['name'], array_values($selected)));
-                    $this->notify("success", __('Token Created'));
+                    $this->displayTokenValue(Auth::user()?->createToken($name, FilamentCompanies::validPermissions(array_values($selected))));
+                    $this->tokenCreatedNotification(name: $name);
                     $this->reset(['name']);
                 })
                 ->form([
-                    Forms\Components\TextInput::make('name')
+                    TextInput::make('name')
                         ->label(__('filament-companies::default.labels.token_name'))
                         ->required(),
-                    Forms\Components\CheckboxList::make('abilities')
+                    CheckboxList::make('abilities')
                         ->label(__('filament-companies::default.labels.permissions'))
                         ->required()
                         ->options(FilamentCompanies::$permissions)
@@ -124,13 +145,24 @@ class APITokens extends Page implements Tables\Contracts\HasTable
         ];
     }
 
-    protected function displayTokenValue($token)
+    protected function displayTokenValue($token): void
     {
         $this->displayingToken = true;
         $this->plainTextToken = explode('|', $token->plainTextToken, 2)[1];
         $this->dispatchBrowserEvent('showing-token-modal');
     }
 
+    protected function tokenCreatedNotification($name): void
+    {
+        Notification::make()
+            ->title(trans("{$name} token created"))
+            ->success()
+            ->send();
+    }
+
+    /**
+     * @throws Exception
+     */
     protected function getTableActions(): array
     {
         return [
@@ -142,6 +174,7 @@ class APITokens extends Page implements Tables\Contracts\HasTable
                     fn ($form, $record) => $form->fill($record->toArray())
                 )
                 ->action(function ($record, array $data) {
+                    $name = $data['name'];
                     $indexes = $data['abilities'];
                     $abilities = FilamentCompanies::$permissions;
                     $selected = collect($abilities)->filter(function ($item, $key) use (
@@ -150,30 +183,44 @@ class APITokens extends Page implements Tables\Contracts\HasTable
                         return in_array($key, $indexes);
                     })->toArray();
                     $record->update([
+                        'name' => $name,
                         'abilities' => array_values($selected),
                     ]);
-                    $this->notify("success", __('Token Permissions Updated'));
+                    $this->tokenUpdatedNotification();
                 })
                 ->form([
-                    Forms\Components\CheckboxList::make('abilities')
+                    TextInput::make('name')
+                        ->label(__('filament-companies::default.labels.token_name'))
+                        ->required(),
+                    CheckboxList::make('abilities')
                         ->label(__('filament-companies::default.labels.permissions'))
                         ->required()
                         ->options(FilamentCompanies::$permissions)
                         ->columns(2)
                         ->afterStateHydrated(function ($component, $state) {
                             $abilities = FilamentCompanies::$permissions;
-                            $selected = collect($abilities)
-                                ->filter(function ($item, $key) use ($state) {
-                                    return in_array($item, $state ?? []);
-                                })
+                            $selected = collect($abilities)->filter(function ($item, $key) use ($state) {
+                                return in_array($item, $state);
+                            })
                                 ->keys()
                                 ->toArray();
                             $component->state($selected);
                         }),
                 ]),
-            ];
+        ];
     }
 
+    protected function tokenUpdatedNotification(): void
+    {
+        Notification::make()
+            ->title(trans('Token Updated'))
+            ->success()
+            ->send();
+    }
+
+    /**
+     * @throws Exception
+     */
     protected function getTableBulkActions(): array
     {
         return [

@@ -2,16 +2,16 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Wallo\FilamentCompanies\FilamentCompanies;
-use Wallo\FilamentCompanies\CompanyInvitation as FilamentCompaniesCompanyInvitation;
 
-class CompanyInvitation extends FilamentCompaniesCompanyInvitation
+class CompanyInvitation extends Model
 {
     /**
      * The attributes that are mass assignable.
      *
-     * @var string<int, string>
+     * @var array<int, string>
      */
     protected $fillable = [
         'email',
@@ -20,7 +20,6 @@ class CompanyInvitation extends FilamentCompaniesCompanyInvitation
 
     /**
      * Get the company that the invitation belongs to.
-     *
      */
     public function company(): BelongsTo
     {

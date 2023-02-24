@@ -5,6 +5,8 @@ namespace App\Actions\FilamentCompanies;
 use App\Models\Company;
 use App\Models\User;
 use Closure;
+use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Contracts\Validation\Rule;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Validator;
 use Wallo\FilamentCompanies\Contracts\AddsCompanyEmployees;
@@ -18,6 +20,7 @@ class AddCompanyEmployee implements AddsCompanyEmployees
     /**
      * Add a new company employee to the given company.
      *
+     * @throws AuthorizationException
      */
     public function add(User $user, Company $company, string $email, string $role = null): void
     {
@@ -38,7 +41,6 @@ class AddCompanyEmployee implements AddsCompanyEmployees
 
     /**
      * Validate the add employee operation.
-     *
      */
     protected function validate(Company $company, string $email, ?string $role): void
     {
@@ -55,7 +57,7 @@ class AddCompanyEmployee implements AddsCompanyEmployees
     /**
      * Get the validation rules for adding a company employee.
      *
-     * @return array<string, \Illuminate\Contracts\Validation\Rule|array|string>
+     * @return array<string, Rule|array|string>
      */
     protected function rules(): array
     {
@@ -69,11 +71,10 @@ class AddCompanyEmployee implements AddsCompanyEmployees
 
     /**
      * Ensure that the user is not already on the company.
-     *
      */
     protected function ensureUserIsNotAlreadyOnCompany(Company $company, string $email): Closure
     {
-        return function ($validator) use ($company, $email) {
+        return static function ($validator) use ($company, $email) {
             $validator->errors()->addIf(
                 $company->hasUserWithEmail($email),
                 'email',

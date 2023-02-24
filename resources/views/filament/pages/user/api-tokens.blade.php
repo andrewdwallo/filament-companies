@@ -15,15 +15,22 @@
                         {{ __('filament-companies::default.modal_descriptions.api_token') }}
                     </div>
 
-                    <x-filament-companies::input x-ref="plaintextToken" type="text" readonly :value="$plainTextToken"
-                        class="mt-4 w-full rounded bg-gray-100 px-4 py-2 font-mono text-sm text-gray-500" autofocus
-                        autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"
-                        @showing-token-modal.window="setTimeout(() => $refs.plaintextToken.select(), 250)" />
+                    <x-filament-companies::input x-ref="plaintextToken"
+                                                 type="text"
+                                                 readonly
+                                                 :value="$plainTextToken"
+                                                 class="mt-4 bg-gray-100 px-4 py-2 rounded font-mono text-sm text-gray-500 w-full break-all"
+                                                 autofocus
+                                                 autocomplete="off"
+                                                 autocorrect="off"
+                                                 autocapitalize="off"
+                                                 spellcheck="false"
+                                                 @showing-token-modal.window="setTimeout(() => $refs.plaintextToken.select(), 250)"
+                    />
                 </x-slot>
 
                 <x-slot name="footer">
-                    <x-filament::button color="gray" wire:click="$set('displayingToken', false)"
-                        wire:loading.attr="disabled">
+                    <x-filament::button color="gray" wire:click="$set('displayingToken', false)" wire:loading.attr="disabled">
                         {{ __('filament-companies::default.buttons.close') }}
                     </x-filament::button>
                 </x-slot>

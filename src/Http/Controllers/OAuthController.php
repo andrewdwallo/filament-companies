@@ -2,90 +2,49 @@
 
 namespace Wallo\FilamentCompanies\Http\Controllers;
 
+use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Contracts\Auth\StatefulGuard;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\MessageBag;
+use Laravel\Fortify\Contracts\LoginResponse;
+use Laravel\Fortify\Features as FortifyFeatures;
+use Laravel\Socialite\Contracts\User as ProviderUser;
+use Laravel\Socialite\Two\InvalidStateException;
+use Symfony\Component\HttpFoundation\RedirectResponse as SymfonyRedirectResponse;
+use Wallo\FilamentCompanies\ConnectedAccount;
 use Wallo\FilamentCompanies\Contracts\CreatesConnectedAccounts;
 use Wallo\FilamentCompanies\Contracts\CreatesUserFromProvider;
 use Wallo\FilamentCompanies\Contracts\GeneratesProviderRedirect;
 use Wallo\FilamentCompanies\Contracts\HandlesInvalidState;
 use Wallo\FilamentCompanies\Contracts\ResolvesSocialiteUsers;
 use Wallo\FilamentCompanies\Contracts\UpdatesConnectedAccounts;
-use Wallo\FilamentCompanies\Features;
-use Laravel\Fortify\Contracts\LoginResponse;
-use Laravel\Fortify\Features as FortifyFeatures;
 use Wallo\FilamentCompanies\FilamentCompanies;
-use Laravel\Socialite\Two\InvalidStateException;
 use Wallo\FilamentCompanies\Pages\User\Profile;
 use Wallo\FilamentCompanies\Socialite;
 
 class OAuthController extends Controller
 {
     /**
-     * The guard implementation.
-     *
-     * @var \Illuminate\Contracts\Auth\StatefulGuard
-     */
-    protected $guard;
-
-    /**
-     * The creates user implementation.
-     *
-     * @var \Wallo\FilamentCompanies\Contracts\CreatesUserFromProvider;
-     */
-    protected $createsUser;
-
-    /**
-     * The creates connected accounts implementation.
-     *
-     * @var \Wallo\FilamentCompanies\Contracts\CreatesConnectedAccounts;
-     */
-    protected $createsConnectedAccounts;
-
-    /**
-     * The updates connected accounts implementation.
-     *
-     * @var \Wallo\FilamentCompanies\Contracts\UpdatesConnectedAccounts;
-     */
-    protected $updatesConnectedAccounts;
-
-    /**
-     * The handler for Socialite's InvalidStateException.
-     *
-     * @var \Wallo\FilamentCompanies\Contracts\CreatesConnectedAccounts;
-     */
-    protected $invalidStateHandler;
-
-    /**
      * Create a new controller instance.
-     *
-     * @param  \Illuminate\Contracts\Auth\StatefulGuard  $guard
-     * @return void
      */
     public function __construct(
-        StatefulGuard $guard,
-        CreatesUserFromProvider $createsUser,
-        CreatesConnectedAccounts $createsConnectedAccounts,
-        UpdatesConnectedAccounts $updatesConnectedAccounts,
-        HandlesInvalidState $invalidStateHandler
+        protected StatefulGuard $guard,
+        protected CreatesUserFromProvider $createsUser,
+        protected CreatesConnectedAccounts $createsConnectedAccounts,
+        protected UpdatesConnectedAccounts $updatesConnectedAccounts,
+        protected HandlesInvalidState $invalidStateHandler
     ) {
-        $this->guard = $guard;
-        $this->createsUser = $createsUser;
-        $this->createsConnectedAccounts = $createsConnectedAccounts;
-        $this->updatesConnectedAccounts = $updatesConnectedAccounts;
-        $this->invalidStateHandler = $invalidStateHandler;
+        //
     }
 
     /**
      * Get the redirect for the given Socialite provider.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  string  $provider
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function redirectToProvider(Request $request, string $provider, GeneratesProviderRedirect $generator)
+    public function redirectToProvider(string $provider, GeneratesProviderRedirect $generator): SymfonyRedirectResponse
     {
         session()->put('filament-companies.previous_url', back()->getTargetUrl());
 
@@ -94,12 +53,8 @@ class OAuthController extends Controller
 
     /**
      * Attempt to log the user in via the provider user returned from Socialite.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  string  $provider
-     * @return mixed
      */
-    public function handleProviderCallback(Request $request, string $provider, ResolvesSocialiteUsers $resolver)
+    public function handleProviderCallback(Request $request, string $provider, ResolvesSocialiteUsers $resolver): Response|RedirectResponse|LoginResponse
     {
         if ($request->has('error')) {
             $messageBag = new MessageBag;
@@ -127,11 +82,12 @@ class OAuthController extends Controller
 
         // Registration...
         $previousUrl = session()->get('filament-companies.previous_url');
+
         if (
-            FortifyFeatures::enabled(FortifyFeatures::registration()) && ! $account &&
+            ! $account && FortifyFeatures::enabled(FortifyFeatures::registration()) &&
             (
                 $previousUrl === route('register') ||
-                (Features::hasCreateAccountOnFirstLoginFeatures() && $previousUrl === route('login'))
+                (Socialite::hasCreateAccountOnFirstLoginFeatures() && $previousUrl === route('login'))
             )
         ) {
             $user = FilamentCompanies::newUserModel()->where('email', $providerAccount->getEmail())->first();
@@ -140,10 +96,10 @@ class OAuthController extends Controller
                 return $this->handleUserAlreadyRegistered($user, $account, $provider, $providerAccount);
             }
 
-            return $this->register($account, $provider, $providerAccount);
+            return $this->register($provider, $providerAccount);
         }
 
-        if (! Features::hasCreateAccountOnFirstLoginFeatures() && ! $account) {
+        if (! $account && ! Socialite::hasCreateAccountOnFirstLoginFeatures()) {
             $messageBag = new MessageBag;
             $messageBag->add(
                 'filament-companies',
@@ -155,7 +111,7 @@ class OAuthController extends Controller
             );
         }
 
-        if (Features::hasCreateAccountOnFirstLoginFeatures() && ! $account) {
+        if (! $account && Socialite::hasCreateAccountOnFirstLoginFeatures()) {
             if (FilamentCompanies::newUserModel()->where('email', $providerAccount->getEmail())->exists()) {
                 $messageBag = new MessageBag;
                 $messageBag->add(
@@ -186,17 +142,11 @@ class OAuthController extends Controller
 
     /**
      * Handle connection of accounts for an already authenticated user.
-     *
-     * @param  \Illuminate\Contracts\Auth\Authenticatable  $user
-     * @param  \Wallo\FilamentCompanies\ConnectedAccount  $account
-     * @param  string  $provider
-     * @param  \Laravel\Socialite\AbstractUser  $providerAccount
-     * @return mixed
      */
-    protected function alreadyAuthenticated($user, $account, $provider, $providerAccount)
+    protected function alreadyAuthenticated(Authenticatable $user, ?ConnectedAccount $account, string $provider, ProviderUser $providerAccount): RedirectResponse
     {
         if ($account && $account->user_id !== $user->id) {
-            return redirect()->to(Profile::getUrl())->dangerBanner(
+            return redirect(Profile::getUrl())->dangerBanner(
                 __('This :Provider sign in account is already associated with another user. Please try a different account.', ['provider' => $provider]),
             );
         }
@@ -204,29 +154,22 @@ class OAuthController extends Controller
         if (! $account) {
             $this->createsConnectedAccounts->create($user, $provider, $providerAccount);
 
-            return redirect()->to(Profile::getUrl())->banner(
+            return redirect(Profile::getUrl())->banner(
                 __('You have successfully connected :Provider to your account.', ['provider' => $provider])
             );
         }
 
-        return redirect()->to(Profile::getUrl())->dangerBanner(
+        return redirect(Profile::getUrl())->dangerBanner(
             __('This :Provider sign in account is already associated with your user.', ['provider' => $provider]),
         );
     }
 
     /**
      * Handle when a user is already registered.
-     *
-     * @param  \Illuminate\Contracts\Auth\Authenticatable  $user
-     * @param  \Wallo\FilamentCompanies\ConnectedAccount  $account
-     * @param  string  $provider
-     * @param  \Laravel\Socialite\AbstractUser  $providerAccount
-     * @return mixed
      */
-    protected function handleUserAlreadyRegistered($user, $account, $provider, $providerAccount)
+    protected function handleUserAlreadyRegistered(Authenticatable $user, ?ConnectedAccount $account, string $provider, ProviderUser $providerAccount): RedirectResponse|LoginResponse
     {
-        if (Features::hasLoginOnRegistrationFeatures()) {
-
+        if (Socialite::hasLoginOnRegistrationFeatures()) {
             // The user exists, but they're not registered with the given provider.
             if (! $account) {
                 $this->createsConnectedAccounts->create($user, $provider, $providerAccount);
@@ -243,13 +186,8 @@ class OAuthController extends Controller
 
     /**
      * Handle the registration of a new user.
-     *
-     * @param  \Wallo\FilamentCompanies\ConnectedAccount  $account
-     * @param  string  $provider
-     * @param  \Laravel\Socialite\AbstractUser  $providerAccount
-     * @return mixed
      */
-    protected function register($account, $provider, $providerAccount)
+    protected function register(string $provider, ProviderUser $providerAccount): RedirectResponse|LoginResponse
     {
         if (! $providerAccount->getEmail()) {
             $messageBag = new MessageBag;
@@ -278,11 +216,8 @@ class OAuthController extends Controller
 
     /**
      * Authenticate the given user and return a login response.
-     *
-     * @param  \Illuminate\Contracts\Auth\Authenticatable|mixed  $user
-     * @return mixed
      */
-    protected function login($user)
+    protected function login(Authenticatable $user): LoginResponse
     {
         $this->guard->login($user, Socialite::hasRememberSessionFeatures());
 

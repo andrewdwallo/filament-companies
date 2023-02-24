@@ -2,19 +2,16 @@
 
 namespace App\Actions\FilamentCompanies;
 
-use Wallo\FilamentCompanies\Contracts\HandlesInvalidState;
+use Illuminate\Http\Response;
 use Laravel\Socialite\Two\InvalidStateException;
+use Wallo\FilamentCompanies\Contracts\HandlesInvalidState;
 
 class HandleInvalidState implements HandlesInvalidState
 {
     /**
      * Handle an invalid state exception from a Socialite provider.
-     *
-     * @param  \Laravel\Socialite\Two\InvalidStateException  $exception
-     * @param  callable  $callback
-     * @return mixed
      */
-    public function handle(InvalidStateException $exception, callable $callback = null)
+    public function handle(InvalidStateException $exception, callable $callback = null): Response
     {
         if ($callback) {
             return $callback($exception);

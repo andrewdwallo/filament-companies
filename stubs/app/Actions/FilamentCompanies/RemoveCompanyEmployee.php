@@ -15,6 +15,7 @@ class RemoveCompanyEmployee implements RemovesCompanyEmployees
     /**
      * Remove the company employee from the given company.
      *
+     * @throws AuthorizationException
      */
     public function remove(User $user, Company $company, User $companyEmployee): void
     {
@@ -30,6 +31,7 @@ class RemoveCompanyEmployee implements RemovesCompanyEmployees
     /**
      * Authorize that the user can remove the company employee.
      *
+     * @throws AuthorizationException
      */
     protected function authorize(User $user, Company $company, User $companyEmployee): void
     {
@@ -41,7 +43,6 @@ class RemoveCompanyEmployee implements RemovesCompanyEmployees
 
     /**
      * Ensure that the currently authenticated user does not own the company.
-     *
      */
     protected function ensureUserDoesNotOwnCompany(User $companyEmployee, Company $company): void
     {

@@ -2,7 +2,6 @@
 
 use Wallo\FilamentCompanies\Features;
 use Wallo\FilamentCompanies\Http\Middleware\AuthenticateSession;
-use Wallo\FilamentCompanies\Providers;
 
 return [
 
@@ -53,13 +52,13 @@ return [
     |--------------------------------------------------------------------------
     |
     | Here you may specify the providers your application supports for OAuth.
-    | Out of the box, FilamentCompanies provides support for all of the OAuth
+    | Out of the box, FilamentCompanies provides support for all the OAuth
     | providers that are supported by Laravel Socialite.
     |
     */
 
     'providers' => [
-        Providers::github(),
+        'github' => true,
     ],
 
     /*
@@ -69,7 +68,7 @@ return [
     |
     | Some of Company's features are optional. You may disable the features
     | by removing them from this array. You're free to only remove some of
-    | these features or you can even remove all of these if you need to.
+    | these features, or you can even remove all of these if you need to.
     |
     */
 
@@ -79,10 +78,7 @@ return [
         Features::api(),
         Features::companies(['invitations' => true]),
         Features::accountDeletion(),
-        //Features::createAccountOnFirstLogin(),
-        // Features::generateMissingEmails(),
-        Features::rememberSession(),
-        Features::providerAvatars(),
+        Features::socialite(['rememberSession' => true, 'providerAvatars' => true]),
     ],
 
     /*
@@ -91,8 +87,8 @@ return [
     |--------------------------------------------------------------------------
     |
     | This configuration value determines the default disk that will be used
-    | when storing profile photos for your application's users. Typically
-    | this will be the "public" disk but you may adjust this if needed.
+    | when storing profile photos for your application's users. Typically,
+    | this will be the "public" disk, but you may adjust this if needed.
     |
     */
 

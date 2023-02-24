@@ -3,35 +3,31 @@
 namespace Wallo\FilamentCompanies\Http\Livewire;
 
 use Illuminate\Contracts\Auth\StatefulGuard;
-use Illuminate\Http\Request;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
-use Wallo\FilamentCompanies\Contracts\DeletesUsers;
 use Livewire\Component;
+use Livewire\Redirector;
+use Wallo\FilamentCompanies\Contracts\DeletesUsers;
 
 class DeleteUserForm extends Component
 {
     /**
      * Indicates if user deletion is being confirmed.
-     *
-     * @var bool
      */
-    public $confirmingUserDeletion = false;
+    public bool $confirmingUserDeletion = false;
 
     /**
      * The user's current password.
-     *
-     * @var string
      */
-    public $password = '';
+    public string $password = '';
 
     /**
      * Confirm that the user would like to delete their account.
-     *
-     * @return void
      */
-    public function confirmUserDeletion()
+    public function confirmUserDeletion(): void
     {
         $this->resetErrorBag();
 
@@ -44,13 +40,8 @@ class DeleteUserForm extends Component
 
     /**
      * Delete the current user.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Wallo\FilamentCompanies\Contracts\DeletesUsers  $deleter
-     * @param  \Illuminate\Contracts\Auth\StatefulGuard  $auth
-     * @return \Illuminate\Routing\Redirector|\Illuminate\Http\RedirectResponse
      */
-    public function deleteUser(Request $request, DeletesUsers $deleter, StatefulGuard $auth)
+    public function deleteUser(DeletesUsers $deleter, StatefulGuard $auth): RedirectResponse|Redirector
     {
         $this->resetErrorBag();
 
@@ -60,24 +51,22 @@ class DeleteUserForm extends Component
             ]);
         }
 
-        $deleter->delete(Auth::user()->fresh());
+        $deleter->delete(Auth::user()?->fresh());
 
         $auth->logout();
 
-        if ($request->hasSession()) {
-            $request->session()->invalidate();
-            $request->session()->regenerateToken();
+        if (! is_null(session())) {
+            session()->invalidate();
+            session()->regenerateToken();
         }
 
-        return redirect(config('fortify.redirects.logout', '/'));
+        return redirect(config('fortify.redirects.logout') ?? '/');
     }
 
     /**
      * Render the component.
-     *
-     * @return \Illuminate\View\View
      */
-    public function render()
+    public function render(): View
     {
         return view('filament-companies::profile.delete-user-form');
     }

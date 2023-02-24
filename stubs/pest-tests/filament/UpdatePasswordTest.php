@@ -2,8 +2,8 @@
 
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
-use Wallo\FilamentCompanies\Http\Livewire\UpdatePasswordForm;
 use Livewire\Livewire;
+use Wallo\FilamentCompanies\Http\Livewire\UpdatePasswordForm;
 
 test('password can be updated', function () {
     $this->actingAs($user = User::factory()->create());

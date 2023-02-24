@@ -4,9 +4,9 @@ namespace Tests\Feature;
 
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Wallo\FilamentCompanies\Http\Livewire\LogoutOtherBrowserSessionsForm;
 use Livewire\Livewire;
 use Tests\TestCase;
+use Wallo\FilamentCompanies\Http\Livewire\LogoutOtherBrowserSessionsForm;
 
 class BrowserSessionsTest extends TestCase
 {

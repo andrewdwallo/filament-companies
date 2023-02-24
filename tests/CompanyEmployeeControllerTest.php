@@ -5,10 +5,10 @@ namespace Wallo\FilamentCompanies\Tests;
 use App\Actions\FilamentCompanies\CreateCompany;
 use App\Models\Company;
 use Illuminate\Support\Facades\Gate;
+use Laravel\Sanctum\TransientToken;
 use Wallo\FilamentCompanies\FilamentCompanies;
 use Wallo\FilamentCompanies\Tests\Fixtures\CompanyPolicy;
 use Wallo\FilamentCompanies\Tests\Fixtures\User;
-use Laravel\Sanctum\TransientToken;
 
 class CompanyEmployeeControllerTest extends OrchestraTestCase
 {

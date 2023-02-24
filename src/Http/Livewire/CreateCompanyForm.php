@@ -2,10 +2,16 @@
 
 namespace Wallo\FilamentCompanies\Http\Livewire;
 
+use App\Models\User;
+use Illuminate\Contracts\Auth\Authenticatable;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Response;
+use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\Auth;
+use Livewire\Component;
 use Wallo\FilamentCompanies\Contracts\CreatesCompanies;
 use Wallo\FilamentCompanies\RedirectsActions;
-use Livewire\Component;
 
 class CreateCompanyForm extends Component
 {
@@ -13,18 +19,13 @@ class CreateCompanyForm extends Component
 
     /**
      * The component's state.
-     *
-     * @var array
      */
-    public $state = [];
+    public array $state = [];
 
     /**
      * Create a new company.
-     *
-     * @param  \Wallo\FilamentCompanies\Contracts\CreatesCompanies  $creator
-     * @return void
      */
-    public function createCompany(CreatesCompanies $creator)
+    public function createCompany(CreatesCompanies $creator): Response|Redirector|RedirectResponse
     {
         $this->resetErrorBag();
 
@@ -35,20 +36,16 @@ class CreateCompanyForm extends Component
 
     /**
      * Get the current user of the application.
-     *
-     * @return mixed
      */
-    public function getUserProperty()
+    public function getUserProperty(): User|Authenticatable|null
     {
         return Auth::user();
     }
 
     /**
      * Render the component.
-     *
-     * @return \Illuminate\View\View
      */
-    public function render()
+    public function render(): View
     {
         return view('filament-companies::companies.create-company-form');
     }

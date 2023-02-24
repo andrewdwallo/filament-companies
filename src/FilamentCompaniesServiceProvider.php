@@ -2,18 +2,20 @@
 
 namespace Wallo\FilamentCompanies;
 
+use Filament\Facades\Filament;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\View\Compilers\BladeCompiler;
 use Laravel\Fortify\Fortify;
-use Filament\Facades\Filament;
 use Livewire\Livewire;
 use Wallo\FilamentCompanies\Http\Livewire\ApiTokenManager;
 use Wallo\FilamentCompanies\Http\Livewire\CompanyEmployeeManager;
+use Wallo\FilamentCompanies\Http\Livewire\ConnectedAccountsForm;
 use Wallo\FilamentCompanies\Http\Livewire\CreateCompanyForm;
 use Wallo\FilamentCompanies\Http\Livewire\DeleteCompanyForm;
 use Wallo\FilamentCompanies\Http\Livewire\DeleteUserForm;
 use Wallo\FilamentCompanies\Http\Livewire\LogoutOtherBrowserSessionsForm;
+use Wallo\FilamentCompanies\Http\Livewire\SetPasswordForm;
 use Wallo\FilamentCompanies\Http\Livewire\TwoFactorAuthenticationForm;
 use Wallo\FilamentCompanies\Http\Livewire\UpdateCompanyNameForm;
 use Wallo\FilamentCompanies\Http\Livewire\UpdatePasswordForm;
@@ -22,8 +24,6 @@ use Wallo\FilamentCompanies\Pages\Companies\CompanySettings;
 use Wallo\FilamentCompanies\Pages\Companies\CreateCompany;
 use Wallo\FilamentCompanies\Pages\User\APITokens;
 use Wallo\FilamentCompanies\Pages\User\Profile;
-use Wallo\FilamentCompanies\Http\Livewire\ConnectedAccountsForm;
-use Wallo\FilamentCompanies\Http\Livewire\SetPasswordForm;
 
 class FilamentCompaniesServiceProvider extends ServiceProvider
 {
@@ -33,19 +33,15 @@ class FilamentCompaniesServiceProvider extends ServiceProvider
 
     protected array $views = [];
 
-
     /**
      * Register any application services.
-     *
-     * @return void
      */
-    public function register()
+    public function register(): void
     {
-
         $this->mergeConfigFrom(__DIR__.'/../config/filament-companies.php', 'filament-companies');
 
         $this->app->afterResolving(BladeCompiler::class, function () {
-            if (config('filament-companies.stack') === 'filament' && class_exists(Livewire::class)) {
+            if (class_exists(Livewire::class) && config('filament-companies.stack') === 'filament') {
                 Livewire::component(UpdateProfileInformationForm::getName(), UpdateProfileInformationForm::class);
                 Livewire::component(UpdatePasswordForm::getName(), UpdatePasswordForm::class);
                 Livewire::component(TwoFactorAuthenticationForm::getName(), TwoFactorAuthenticationForm::class);
@@ -74,12 +70,9 @@ class FilamentCompaniesServiceProvider extends ServiceProvider
 
     /**
      * Bootstrap any application services.
-     *
-     * @return void
      */
-    public function boot()
+    public function boot(): void
     {
-
         $this->loadViewsFrom(__DIR__.'/../resources/views', 'filament-companies');
 
         $this->loadTranslationsFrom(__DIR__.'/../lang', 'filament-companies');
@@ -98,10 +91,8 @@ class FilamentCompaniesServiceProvider extends ServiceProvider
 
     /**
      * Configure publishing for the package.
-     *
-     * @return void
      */
-    protected function configurePublishing()
+    protected function configurePublishing(): void
     {
         if (! $this->app->runningInConsole()) {
             return;
@@ -125,17 +116,14 @@ class FilamentCompaniesServiceProvider extends ServiceProvider
 
     /**
      * Configure the routes offered by the application.
-     *
-     * @return void
      */
-    protected function configureRoutes()
+    protected function configureRoutes(): void
     {
         if (FilamentCompanies::$registersRoutes) {
             Route::group([
                 'domain' => config('filament.domain'),
                 'middleware' => config('filament.middleware.base'),
                 'name' => config('filament.'),
-                'name' => config('filament-companies.terms_and_privacy_route_group_prefix'),
             ], function () {
                 $this->loadRoutesFrom(__DIR__.'/../routes/web.php');
             });
@@ -144,10 +132,8 @@ class FilamentCompaniesServiceProvider extends ServiceProvider
 
     /**
      * Configure the commands offered by the application.
-     *
-     * @return void
      */
-    protected function configureCommands()
+    protected function configureCommands(): void
     {
         if (! $this->app->runningInConsole()) {
             return;

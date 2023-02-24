@@ -2,11 +2,16 @@
 
 namespace Wallo\FilamentCompanies\Http\Livewire;
 
+use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Response;
+use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\Auth;
+use Livewire\Component;
 use Wallo\FilamentCompanies\Actions\ValidateCompanyDeletion;
 use Wallo\FilamentCompanies\Contracts\DeletesCompanies;
 use Wallo\FilamentCompanies\RedirectsActions;
-use Livewire\Component;
 
 class DeleteCompanyForm extends Component
 {
@@ -14,25 +19,18 @@ class DeleteCompanyForm extends Component
 
     /**
      * The company instance.
-     *
-     * @var mixed
      */
-    public $company;
+    public mixed $company;
 
     /**
      * Indicates if company deletion is being confirmed.
-     *
-     * @var bool
      */
-    public $confirmingCompanyDeletion = false;
+    public bool $confirmingCompanyDeletion = false;
 
     /**
      * Mount the component.
-     *
-     * @param  mixed  $company
-     * @return void
      */
-    public function mount($company)
+    public function mount(mixed $company): void
     {
         $this->company = $company;
     }
@@ -40,11 +38,9 @@ class DeleteCompanyForm extends Component
     /**
      * Delete the company.
      *
-     * @param  \Wallo\FilamentCompanies\Actions\ValidateCompanyDeletion  $validator
-     * @param  \Wallo\FilamentCompanies\Contracts\DeletesCompanies  $deleter
-     * @return void
+     * @throws AuthorizationException
      */
-    public function deleteCompany(ValidateCompanyDeletion $validator, DeletesCompanies $deleter)
+    public function deleteCompany(ValidateCompanyDeletion $validator, DeletesCompanies $deleter): Response|Redirector|RedirectResponse
     {
         $validator->validate(Auth::user(), $this->company);
 
@@ -55,10 +51,8 @@ class DeleteCompanyForm extends Component
 
     /**
      * Render the component.
-     *
-     * @return \Illuminate\View\View
      */
-    public function render()
+    public function render(): View
     {
         return view('filament-companies::companies.delete-company-form');
     }

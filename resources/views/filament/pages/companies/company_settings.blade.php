@@ -1,18 +1,17 @@
 <x-filament::page>
-    <div class="mt-10 sm:mt-0">
-        @livewire(\Wallo\FilamentCompanies\Http\Livewire\UpdateCompanyNameForm::class, ['company' => $company])
+    <div>
+        <div class="mx-auto max-w-7xl py-10 sm:px-6 lg:px-8">
+            @livewire(\Wallo\FilamentCompanies\Http\Livewire\UpdateCompanyNameForm::class, ['company' => $company])
 
-        <x-filament-companies::section-border />
+            @livewire(\Wallo\FilamentCompanies\Http\Livewire\CompanyEmployeeManager::class, ['company' => $company])
 
-        @livewire(\Wallo\FilamentCompanies\Http\Livewire\CompanyEmployeeManager::class, ['company' => $company])
+            @if (!$company->personal_company && Gate::check('delete', $company))
+                <x-filament-companies::section-border/>
 
-        <x-filament-companies::section-border />
-
-        @if (Gate::check('delete', $company) && !$company->personal_company)
-            <div class="mt-10 sm:mt-0">
-                @livewire(\Wallo\FilamentCompanies\Http\Livewire\DeleteCompanyForm::class, ['company' => $company])
-            </div>
-        @endif
-
+                <div class="mt-10 sm:mt-0">
+                    @livewire(\Wallo\FilamentCompanies\Http\Livewire\DeleteCompanyForm::class, ['company' => $company])
+                </div>
+            @endif
+        </div>
     </div>
 </x-filament::page>

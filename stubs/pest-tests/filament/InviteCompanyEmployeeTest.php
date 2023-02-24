@@ -2,10 +2,10 @@
 
 use App\Models\User;
 use Illuminate\Support\Facades\Mail;
+use Livewire\Livewire;
 use Wallo\FilamentCompanies\Features;
 use Wallo\FilamentCompanies\Http\Livewire\CompanyEmployeeManager;
 use Wallo\FilamentCompanies\Mail\CompanyInvitation;
-use Livewire\Livewire;
 
 test('company employees can be invited to company', function () {
     Mail::fake();
