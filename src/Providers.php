@@ -16,7 +16,7 @@ class Providers
             return false;
         }
 
-        return config("filament-companies.providers.{$provider}") === true;
+        return in_array($provider, config('filament-companies.providers', []), true);
     }
 
     /**
