@@ -174,9 +174,9 @@ In `config/services.php` pass your Provider's credentials in the providers array
 
 An Example: How to Set Up GitHub (using Filament as Application Name & APP_URL)
 1. Go to https://github.com/settings/applications/new
-2. Application Name: Filament
-3. Homepage URL: https://filament.test/admin
-4. Authorization callback URL: https://filament.test/oauth/github/callback
+2. Application Name: `Filament`
+3. Homepage URL: `https://filament.test/admin`
+4. Authorization callback URL: `https://filament.test/oauth/github/callback`
 5. Click on Device Flow & Save
 6. Copy the Client Secret & store somewhere safe.
 > Authorization callback URL = 'redirect' from above
