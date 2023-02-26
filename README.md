@@ -1,3 +1,4 @@
+![gif (1)](https://user-images.githubusercontent.com/104294090/221399175-add7c34b-4887-49b7-9061-6781f6391409.gif)
 <p align="center">
     <a href="https://filamentadmin.com/docs/2.x/admin/installation">
         <img alt="FILAMENT 8.x" src="https://img.shields.io/badge/FILAMENT-2.x-EBB304?style=for-the-badge">
@@ -31,22 +32,6 @@ A Complete Authentication System Kit based on Companies built for Filament:
 - :fire: **Employee Invitation to Company - Email**
 - :fire: **Roles & Permissions**
 - :fire: **And More to Come!**
-
-# Screenshots
-![Registration](https://user-images.githubusercontent.com/104294090/210308649-6b5ad244-4d8a-4359-adbe-dbcbd131ab19.png)
-![Login](https://user-images.githubusercontent.com/104294090/210308646-411bbbd1-cc8a-434b-8545-567e784c107b.png)
-![Forgot Password](https://user-images.githubusercontent.com/104294090/210308645-ad800d02-7259-4a24-aee4-978b36614428.png)
-![Terms of Service](https://user-images.githubusercontent.com/104294090/210308650-fe2e39a8-b77d-4e02-b106-5b8f855a7a5f.png)
-![Privacy Policy](https://user-images.githubusercontent.com/104294090/210308648-9d3b3876-c59b-47be-9fd3-666f8496d279.png)
-![Company Dropdown](https://user-images.githubusercontent.com/104294090/211498279-ab142a63-3915-4fc7-971d-70cc7b2e3237.png)
-![Company Settings](https://user-images.githubusercontent.com/104294090/211498297-10b17ede-e0b1-4fa5-a471-10c8af8b3e7a.png)
-![Create Company](https://user-images.githubusercontent.com/104294090/211498285-a663b1ea-cb7a-4316-bc0d-cfca7ba07616.png)
-![User Profile](https://user-images.githubusercontent.com/104294090/211498287-a0c36890-88a7-4ee2-9ee9-cd2580bb82fb.png)
-![2FA](https://user-images.githubusercontent.com/104294090/211498291-1085449c-f3e6-4896-bf0a-ed9f39a8e0b0.png)
-![API Tokens](https://user-images.githubusercontent.com/104294090/211498294-88cdd753-f690-41c4-a48a-3fed9ae58dd3.png)
-![Registration Dark](https://user-images.githubusercontent.com/104294090/210339884-62da2a4c-97cd-4711-b2f3-5e04a72c4a68.png)
-
-
 
 # Getting Started
 
