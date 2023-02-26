@@ -111,7 +111,6 @@ By Default, the GitHub Provider will be enabled.
 You may use any Provider that [Laravel Socialite](https://laravel.com/docs/10.x/socialite/) supports.
 
 You may add or remove any Provider in `config/filament-company.php`
-
 ```
     /*
     |--------------------------------------------------------------------------
@@ -125,18 +124,43 @@ You may add or remove any Provider in `config/filament-company.php`
     */
 
     'providers' => [
-        'twitter-oauth-2' => true,
-        'bitbucket' => true,
-        'facebook' => true,
-        'linkedin' => true,
-        'twitter' => true,
-        'gitlab' => true,
-        'google' => true,
-        'github' => true,
+        Providers::github(),
+        Providers::google(),
+        Providers::gitlab(),
+        Providers::bitbucket(),
+        Providers::facebook(),
+        Providers::linkedin(),
+        Providers::twitterOAuth1(),
+        Providers::twitterOAuth2(),
     ],
 ```
-> You only need to add the providers you desire in the array & set them to true.
-> If Twitter is desired, you may only use either Twitter OAuth1 or Twitter OAuth2
+> You only need to add the providers you desire in the array.
+> If Twitter is desired, you may only use either Twitter OAuth1 or Twitter OAuth2, not both.
+
+You may use this syntax if it is desired.
+```
+    /*
+    |--------------------------------------------------------------------------
+    | Socialite Providers
+    |--------------------------------------------------------------------------
+    |
+    | Here you may specify the providers your application supports for OAuth.
+    | Out of the box, FilamentCompanies provides support for all the OAuth
+    | providers that are supported by Laravel Socialite.
+    |
+    */
+
+    'providers' => [
+        github,
+        google,
+        gitlab,
+        bitbucket,
+        facebook,
+        linkedin,
+        twitter,
+        twitter-oauth-2,
+    ],
+```
 
 In `config/services.php` pass your Provider's credentials in the providers array:
 ```
