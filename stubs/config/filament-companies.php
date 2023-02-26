@@ -2,6 +2,7 @@
 
 use Wallo\FilamentCompanies\Features;
 use Wallo\FilamentCompanies\Http\Middleware\AuthenticateSession;
+use Wallo\FilamentCompanies\Providers;
 
 return [
 
@@ -58,7 +59,7 @@ return [
     */
 
     'providers' => [
-        'github' => true,
+        Providers::github(),
     ],
 
     /*
