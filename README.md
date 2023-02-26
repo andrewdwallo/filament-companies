@@ -307,7 +307,7 @@ MAIL_FROM_NAME="${APP_NAME}"
 
 ### Note
 * This package is supposed to be a Filament Context and is planning to be used as one in Filament V3.
-* The default view after installation is not supposed to be the "Admin" Context, this would be the view that a "company user" would see.
+* The default view after installation is not supposed to be the "Admin" Context, this would be the view that a "company owner or company user" would see.
 * There are methods to support an "Admin" Context if wanted.
 
 
