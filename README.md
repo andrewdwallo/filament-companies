@@ -135,7 +135,7 @@ You may add or remove any Provider in `config/filament-company.php`
         'github' => true,
     ],
 ```
-> If any of these Provider's are undesired you do not have to set to false, you may completely remove them from the array.
+> You only need to add the providers you desire in the array & set them to true.
 > If Twitter is desired, you may only use either Twitter OAuth1 or Twitter OAuth2
 
 In `config/services.php` pass your Provider's credentials in the providers array:
