@@ -224,25 +224,24 @@ public function mount(): void
     abort_unless(Auth::user()->currentCompany->id === 3, 403);
 }
 ```
-> `Auth::user()` or a mounted parameter such as `(User $user)` represents the current user of the application.
+> `Auth::user()` represents the current user of the application.
 
 
 Example #2: Using the Current Company Name
 ```
-protected static function shouldRegisterNavigation(User $user): bool
+protected static function shouldRegisterNavigation(): bool
 {
-    return $user->currentCompany->name === "ERPSAAS";
+    return Auth::user()->currentCompany->name === "Filament";
 }
 
-public function mount(User $user): void
+public function mount(): void
 {
-    abort_unless($user->currentCompany->name === "ERPSAAS", 403);
+    abort_unless(Auth::user()->currentCompany->name === "Filament", 403);
 }
 ```
 > You can use collections of different companies and group them together, or you may use different ranges of values, and more.
 
 ### Note
-* Documentation is on the way. I am currently making a DOCS website.
 * This package is supposed to be a Filament Context and is planning to be used as one in Filament V3.
 * The default view after installation is not supposed to be the "Admin" Context, this would be the view that a "company user" would see.
 * There are methods to support an "Admin" Context if wanted.
