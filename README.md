@@ -155,31 +155,6 @@ You may add or remove any Provider in `config/filament-company.php`
     ],
 ```
 > If any of these Provider's are undesired you do not have to set to false, you may completely remove them from the array.
-
-If desired, you may use the following syntax (Added Providers are considered all set to true):
-```
-    /*
-    |--------------------------------------------------------------------------
-    | Socialite Providers
-    |--------------------------------------------------------------------------
-    |
-    | Here you may specify the providers your application supports for OAuth.
-    | Out of the box, FilamentCompanies provides support for all the OAuth
-    | providers that are supported by Laravel Socialite.
-    |
-    */
-
-    'providers' => [
-        Providers::github(),
-        Providers::gitlab(),
-        Providers::google(),
-        Providers::facebook(),
-        Providers::linkedin(),
-        Providers::bitbucket(),
-        Providers::twitterOAuth1(),
-        Providers::twitterOAuth2(),
-    ],
-```
 > If Twitter is desired, you may only use either Twitter OAuth1 or Twitter OAuth2
 
 In `config/services.php` pass your Provider's credentials in the providers array:
