@@ -170,7 +170,23 @@ In `config/services.php` pass your Provider's credentials in the providers array
         'redirect' => 'https://filament.test/oauth/github/callback',
     ],
 ```
-> The Provider's Redirect URI must look similar to the above
+> The Provider's Redirect URI must look similar to the above (e.g. 'APP_URL/oauth/provider_name/callback')
+
+An Example: How to Set Up GitHub (using Filament as Application Name & APP_URL)
+1. Go to https://github.com/settings/applications/new
+2. Application Name: Filament
+3. Homepage URL: https://filament.test/admin
+4. Authorization callback URL: https://filament.test/oauth/github/callback
+5. Click on Device Flow & Save
+6. Copy the Client Secret & store somewhere safe.
+> Authorization callback URL = 'redirect' from above
+
+In the `.env` file, for example:
+```php
+GITHUB_CLIENT_ID=aluffgef97f9f79f434t
+GITHUB_CLIENT_SECRET=hefliueoioffbo8338yhf2p9f4g2gg33
+```
+
 
 If Socialite is undesired for your Application you may comment out or completely remove the following from the `features` array:
 ```
@@ -195,11 +211,13 @@ If Socialite is undesired for your Application you may comment out or completely
     ],
 ```
 
+
 The Socialite package is extensively "borrowed" from the work of Joel Butcher, his contributors and the Socialstream package. You can get a full understanding of the capabilities by reviewing the Socialstream [Documentation](https://docs.socialstream.dev/).
 
 Note: The following examples are a visual representation of the features this package supports that were provided by the methods implemented in Laravel Jetstream. You may find all of the features as provided by the Laravel Jetstream package [here](https://jetstream.laravel.com/3.x/features/teams.html) in their documentation.
 
 Information about a user's companies may be accessed via the methods provided by the `Wallo\FilamentCompanies\HasCompanies` trait. This trait is automatically applied to your application's `App\Models\User` model during installation. This trait provides a variety of helpful methods that allow you to inspect a user's companies or company:
+
 
 ```
 // Access a user's currently selected company...
@@ -236,6 +254,7 @@ $user->companyPermissions($company) : array
 $user->hasCompanyPermission($company, 'server:create') : bool
 ```
 
+
 Example #1: Only allowing a certain company ID to see & visit a filament page, resource, etc...
 ```
 protected static function shouldRegisterNavigation(): bool
@@ -265,10 +284,32 @@ public function mount(): void
 ```
 > You can use collections of different companies and group them together, or you may use different ranges of values, and more.
 
+
+### Company Invitations
+In my opinion, if you are using GMAIL & you are testing, this is the easiest route to setup the Mail Server:
+1. Go to https://myaccount.google.com/apppasswords (May ask you to Sign in)
+2. Click on "Select app", enter name of Application, then click "Generate".
+3. Copy your app password and store it somewhere safe.
+
+In the `.env` file, for example:
+```php
+MAIL_MAILER=smtp
+MAIL_HOST=smtp.gmail.com
+MAIL_PORT=587
+MAIL_USERNAME=yourgmailusername@gmail.com
+MAIL_PASSWORD=of9f9279g924792g49t           # GMAIL App Password
+MAIL_ENCRYPTION=tsl                         # tsl is recommended over ssl
+MAIL_FROM_ADDRESS="filament@company.com"
+MAIL_FROM_NAME="${APP_NAME}"
+```
+> PORT does not matter
+
+
 ### Note
 * This package is supposed to be a Filament Context and is planning to be used as one in Filament V3.
 * The default view after installation is not supposed to be the "Admin" Context, this would be the view that a "company user" would see.
 * There are methods to support an "Admin" Context if wanted.
+
 
 ### Contributing
 * Fork this repository to your GitHub account.
