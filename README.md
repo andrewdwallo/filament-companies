@@ -16,20 +16,16 @@
 # Filament Companies
 
 A Complete Authentication System Kit based on Companies built for Filament:
-- :fire: **Authentication - Laravel Fortify** 
-- :fire: **Socialite**
-- :fire: **Registration** 
-- :fire: **Login** 
-- :fire: **Terms of Service**
-- :fire: **Privacy Policy**
-- :fire: **Password Reset - Email**
+- :fire: **Authentication - Fortify** 
+- :fire: **Socialite (Optional)**
+- :fire: **Terms & Privacy Policy**
+- :fire: **Password Reset via Email**
 - :fire: **Personal Profile Management**
 - :fire: **Two-Factor Authentication (2FA)**
 - :fire: **Browser Session Management**
-- :fire: **API - Laravel Sanctum**
+- :fire: **Sanctum API**
 - :fire: **Company Management**
-- :fire: **Complete Separation of Company Contexts**
-- :fire: **Employee Invitation to Company - Email**
+- :fire: **Employee Invitations via Email**
 - :fire: **Roles & Permissions**
 - :fire: **And More to Come!**
 
