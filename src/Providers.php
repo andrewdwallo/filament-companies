@@ -160,7 +160,7 @@ class Providers
             return static::$name(...$arguments);
         }
 
-        /** @example $name = "HasMyCustomProviderSupport" */
+        /** @example $name = "hasMyCustomProvider" */
         if (preg_match('/^has.*$/', $name)) {
             $provider = Str::remove('has', $name);
 

@@ -30,19 +30,7 @@ class Socialite
      */
     public static function providers(): array
     {
-        $providers = config('filament-companies.providers', []);
-
-        return array_keys(array_filter($providers, static function ($value) {
-            return $value === true;
-        }));
-    }
-
-    /**
-     * Determine if FilamentCompanies supports a specific Socialite provider.
-     */
-    public static function hasSupportFor(string $provider): bool
-    {
-        return Providers::enabled($provider);
+        return config('filament-companies.providers', []);
     }
 
     /**
