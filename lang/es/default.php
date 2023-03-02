@@ -192,7 +192,7 @@ return [
 
     'subheadings' => [
         'auth' => [
-            'login' => 'Or',
+            'login' => 'O',
             'forgot_password' => 'Simplemente indícanos tu dirección de correo electrónico y te enviaremos un enlace de restablecimiento de contraseña que te permitirá elegir una nueva.',
             'register' => 'Acepto los :terms_of_service y :privacy_policy',
         ],
