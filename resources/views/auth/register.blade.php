@@ -5,9 +5,9 @@
     </h2>
 
     <div class="mt-2 text-center text-sm font-medium">
-        {{ __('Or') }}
+        {{ __('filament-companies::default.subheadings.auth.login') }}
         <a class="text-primary-600 text-sm" href="{{ route('login') }}">
-            {{ __('log in to your account') }}
+            {{ __('filament-companies::default.headings.auth.login') }}
         </a>
     </div>
 
