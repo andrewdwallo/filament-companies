@@ -2,6 +2,7 @@
 
 namespace Wallo\FilamentCompanies\Http\Livewire;
 
+use Filament\Notifications\Notification;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Contracts\Auth\StatefulGuard;
 use Illuminate\Contracts\View\View;
@@ -53,7 +54,7 @@ class LogoutOtherBrowserSessionsForm extends Component
 
         if (! Hash::check($this->password, Auth::user()->password)) {
             throw ValidationException::withMessages([
-                'password' => [__('This password does not match our records.')],
+                'password' => [__('filament-companies::default.errors.invalid_password')],
             ]);
         }
 
@@ -67,7 +68,7 @@ class LogoutOtherBrowserSessionsForm extends Component
 
         $this->confirmingLogout = false;
 
-        $this->emit('loggedOut');
+        $this->browserSessionsTerminated();
     }
 
     /**
@@ -125,5 +126,14 @@ class LogoutOtherBrowserSessionsForm extends Component
     public function render(): View
     {
         return view('filament-companies::profile.logout-other-browser-sessions-form');
+    }
+
+    public function browserSessionsTerminated()
+    {
+        Notification::make()
+            ->title(__('filament-companies::default.notifications.browser_sessions_terminated.title'))
+            ->success()
+            ->body(__('filament-companies::default.notifications.browser_sessions_terminated.body'))
+            ->send();
     }
 }

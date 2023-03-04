@@ -103,7 +103,7 @@ class OAuthController extends Controller
             $messageBag = new MessageBag;
             $messageBag->add(
                 'filament-companies',
-                __('An account with this :Provider sign in was not found. Please register or try a different sign in method.', ['provider' => $provider])
+                __('filament-companies::default.errors.provider_sign_in_not_found', ['provider' => $provider])
             );
 
             return redirect()->route('login')->withErrors(
@@ -116,7 +116,7 @@ class OAuthController extends Controller
                 $messageBag = new MessageBag;
                 $messageBag->add(
                     'filament-companies',
-                    __('An account with that email address already exists. Please login to connect your :Provider account.', ['provider' => $provider])
+                    __('filament-companies::default.errors.provider_sign_in_already_connected', ['provider' => $provider])
                 );
 
                 return redirect()->route('login')->withErrors(
@@ -147,7 +147,7 @@ class OAuthController extends Controller
     {
         if ($account && $account->user_id !== $user->id) {
             return redirect(Profile::getUrl())->dangerBanner(
-                __('This :Provider sign in account is already associated with another user. Please try a different account.', ['provider' => $provider]),
+                __('filament-companies::default.errors.provider_sign_in_belongs_to_another_user', ['provider' => $provider]),
             );
         }
 
@@ -155,12 +155,12 @@ class OAuthController extends Controller
             $this->createsConnectedAccounts->create($user, $provider, $providerAccount);
 
             return redirect(Profile::getUrl())->banner(
-                __('You have successfully connected :Provider to your account.', ['provider' => $provider])
+                __('filament-companies::default.errors.provider_sign_in_successfully_connected', ['provider' => $provider])
             );
         }
 
         return redirect(Profile::getUrl())->dangerBanner(
-            __('This :Provider sign in account is already associated with your user.', ['provider' => $provider]),
+            __('provider_sign_in_already_associated_with_your_user', ['provider' => $provider]),
         );
     }
 
@@ -193,7 +193,7 @@ class OAuthController extends Controller
             $messageBag = new MessageBag;
             $messageBag->add(
                 'filament-companies',
-                __('No email address is associated with this :Provider account. Please try a different account.', ['provider' => $provider])
+                __('filament-companies::default.errors.no_email_associated_with_provider_account', ['provider' => $provider])
             );
 
             return redirect()->route('register')->withErrors($messageBag);
@@ -203,7 +203,7 @@ class OAuthController extends Controller
             $messageBag = new MessageBag;
             $messageBag->add(
                 'filament-companies',
-                __('An account with that email address already exists. Please login to connect your :Provider account.', ['provider' => $provider])
+                __('filament-companies::default.errors.email_already_associated_with_another_account', ['provider' => $provider])
             );
 
             return redirect()->route('register')->withErrors($messageBag);

@@ -94,7 +94,7 @@ class ConnectedAccountsForm extends Component
 
         $this->confirmingRemove = false;
 
-        $this->banner(__('Connected account removed.'));
+        $this->banner(__('filament-companies::default.banner.connected_account_removed', ['provider' => $accountId]));
     }
 
     /**

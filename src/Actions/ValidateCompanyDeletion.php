@@ -19,7 +19,7 @@ class ValidateCompanyDeletion
 
         if ($company->personal_company) {
             throw ValidationException::withMessages([
-                'company' => __('You may not delete your personal company.'),
+                'company' => __('filament-companies::default.errors.company_deletion'),
             ])->errorBag('deleteCompany');
         }
     }

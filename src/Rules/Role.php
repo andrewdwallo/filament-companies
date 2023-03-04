@@ -23,6 +23,6 @@ class Role implements Rule
      */
     public function message(): string
     {
-        return __('The :attribute must be a valid role.');
+        return __('filament-companies::default.errors.valid_role');
     }
 }

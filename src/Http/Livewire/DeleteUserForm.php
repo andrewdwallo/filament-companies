@@ -47,7 +47,7 @@ class DeleteUserForm extends Component
 
         if (! Hash::check($this->password, Auth::user()->password)) {
             throw ValidationException::withMessages([
-                'password' => [__('This password does not match our records.')],
+                'password' => [__('filament-companies::default.errors.invalid_password')],
             ]);
         }
 

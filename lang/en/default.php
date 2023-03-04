@@ -61,6 +61,9 @@ return [
         'last_used' => 'Last used',
         'not_connected' => 'Not connected.',
         'connected' => 'Connected',
+        'last_used_at' => 'Last used at',
+        'created_at' => 'Created at',
+        'updated_at' => 'Updated at',
     ],
 
     'links' => [
@@ -70,6 +73,82 @@ return [
         'register_an_account' => 'Register an account',
         'forgot_your_password' => 'Forgot your password?',
         'edit_profile' => 'Edit Profile',
+    ],
+
+    'errors' => [
+        'company_deletion' => 'You may not delete your personal company.',
+        'valid_role' => 'The :attribute must be a valid role.',
+        'provider_sign_in_not_found' => 'An account with this :Provider sign in was not found. Please register or try a different sign in method.',
+        'provider_sign_in_already_connected' => 'An account with that email address already exists. Please login to connect your :Provider account.',
+        'provider_sign_in_belongs_to_another_user' => 'This :Provider sign in account is already associated with another user. Please try a different account.',
+        'provider_sign_in_successfully_connected' => 'You have successfully connected :Provider to your account.',
+        'provider_sign_in_already_associated_with_your_user' => 'This :Provider sign in account is already associated with your user.',
+        'no_email_associated_with_provider_account' => 'No email address is associated with this :Provider account. Please try a different account.',
+        'email_already_associated_with_another_account' => 'An account with that email address already exists. Please login to connect your :Provider account.',
+        'invalid_password' => 'The password you entered is invalid.',
+        'email_not_found' => 'We were unable to find a registered user with this email address.',
+        'user_belongs_to_company' => 'This user already belongs to the company.',
+        'employee_already_invited' => 'This employee has already been invited to the company.',
+        'employee_already_belongs_to_company' => 'This employee already belongs to the company.',
+        'cannot_leave_company' => 'You may not leave a company that you created.',
+        'password_does_not_match' => 'The provided password does not match your current password.',
+    ],
+
+    'banner' => [
+        'company_invitation_accepted' => 'Great! You have accepted the invitation to join :company',
+        'connected_account_removed' => ':Provider has been removed from your account.',
+    ],
+
+    'notifications' => [
+        'company_name_updated' => [
+            'title' => 'Company updated',
+            'body' => 'Your company name has been updated to **:name.**',
+        ],
+
+        'company_invitation_sent' => [
+            'title' => 'Invitation sent',
+            'body' => 'An invitation has been sent to **:email** to join your company.',
+        ],
+
+        'company_created' => [
+            'title' => 'Company created',
+            'body' => 'A new company has been created with the name **:name.**',
+        ],
+
+        'company_deleted' => [
+            'title' => 'Company deleted',
+            'body' => 'The company **:name** has been deleted.',
+        ],
+
+        'profile_information_updated' => [
+            'title' => 'Profile information updated',
+            'body' => 'Your profile information has been updated successfully.',
+        ],
+
+        'password_set' => [
+            'title' => 'Password set',
+            'body' => 'Your account is now password protected. Please refresh the page to continue.',
+        ],
+
+        'password_updated' => [
+            'title' => 'Password updated',
+            'body' => 'Your password has been updated successfully.',
+        ],
+
+        'browser_sessions_terminated' => [
+            'title' => 'Browser sessions terminated',
+            'body' => 'Your account has been logged out of other browser sessions for security purposes.',
+        ],
+
+        'api_token_created' => [
+            'title' => 'API token created',
+            'body' => 'A new API token has been created with the name **:name.**',
+        ],
+
+        'api_token_updated' => [
+            'title' => 'API token updated',
+            'body' => 'The API token has been updated successfully.',
+        ],
     ],
 
     'navigation' => [

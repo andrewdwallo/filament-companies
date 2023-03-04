@@ -49,7 +49,7 @@ class InviteCompanyEmployee implements InvitesCompanyEmployees
             'email' => $email,
             'role' => $role,
         ], $this->rules($company), [
-            'email.unique' => __('This employee has already been invited to the company.'),
+            'email.unique' => __('filament-companies::default.errors.employee_already_invited'),
         ])->after(
             $this->ensureUserIsNotAlreadyOnCompany($company, $email)
         )->validateWithBag('addCompanyEmployee');
@@ -84,7 +84,7 @@ class InviteCompanyEmployee implements InvitesCompanyEmployees
             $validator->errors()->addIf(
                 $company->hasUserWithEmail($email),
                 'email',
-                __('This employee already belongs to the company.')
+                __('filament-companies::default.errors.employee_already_belongs_to_company')
             );
         };
     }

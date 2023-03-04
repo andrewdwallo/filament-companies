@@ -281,6 +281,7 @@ EOF;
         copy(__DIR__.'/../../stubs/app/Actions/FilamentCompanies/UpdateConnectedAccount.php', app_path('Actions/FilamentCompanies/UpdateConnectedAccount.php'));
 
         copy(__DIR__.'/../../stubs/app/Actions/Fortify/CreateNewUser.php', app_path('Actions/Fortify/CreateNewUser.php'));
+        copy(__DIR__.'/../../stubs/app/Actions/Fortify/UpdatePassword.php', app_path('Actions/Fortify/UpdateUserPassword.php.php'));
 
         // Policies...
         (new Filesystem)->copyDirectory(__DIR__.'/../../stubs/app/Policies', app_path('Policies'));
