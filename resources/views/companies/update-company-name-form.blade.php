@@ -26,7 +26,7 @@
 
             <!-- Company Name -->
             <div class="col-span-6 sm:col-span-4">
-                <x-forms::field-wrapper id="name" statePath="state.name" required="true" label="{{ __('filament-companies::default.labels.company_name') }}">
+                <x-forms::field-wrapper id="name" statePath="name" required="true" label="{{ __('filament-companies::default.labels.company_name') }}">
 
                 <x-filament-companies::input id="name" type="text"
                     wire:model.defer="state.name" :disabled="!Gate::check('update', $company)" />
