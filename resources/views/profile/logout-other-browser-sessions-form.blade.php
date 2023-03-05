@@ -66,10 +66,6 @@
                 <x-filament::button wire:click="confirmLogout" wire:loading.attr="disabled">
                     {{ __('filament-companies::default.buttons.logout_browser_sessions') }}
                 </x-filament::button>
-
-                <x-filament-companies::action-message class="ml-3" on="loggedOut">
-                    {{ __('filament-companies::default.buttons.done') }}
-                </x-filament-companies::action-message>
             </div>
         </x-slot>
 

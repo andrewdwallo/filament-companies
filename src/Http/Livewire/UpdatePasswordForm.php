@@ -44,11 +44,7 @@ class UpdatePasswordForm extends Component
             'password_confirmation' => '',
         ];
 
-        Notification::make()
-        ->title('Saved')
-        ->success()
-        ->body('Password updated')
-        ->send();
+        $this->passwordUpdated();
     }
 
     /**
@@ -65,5 +61,14 @@ class UpdatePasswordForm extends Component
     public function render(): View
     {
         return view('filament-companies::profile.update-password-form');
+    }
+
+    public function passwordUpdated()
+    {
+        Notification::make()
+            ->title(__('filament-companies::default.notifications.password_updated.title'))
+            ->success()
+            ->body(__('filament-companies::default.notifications.password_updated.body'))
+            ->send();
     }
 }

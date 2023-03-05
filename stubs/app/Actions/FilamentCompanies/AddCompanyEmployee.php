@@ -48,7 +48,7 @@ class AddCompanyEmployee implements AddsCompanyEmployees
             'email' => $email,
             'role' => $role,
         ], $this->rules(), [
-            'email.exists' => __('We were unable to find a registered user with this email address.'),
+            'email.exists' => __('filament-companies::default.errors.email_not_found'),
         ])->after(
             $this->ensureUserIsNotAlreadyOnCompany($company, $email)
         )->validateWithBag('addCompanyEmployee');
@@ -78,7 +78,7 @@ class AddCompanyEmployee implements AddsCompanyEmployees
             $validator->errors()->addIf(
                 $company->hasUserWithEmail($email),
                 'email',
-                __('This user already belongs to the company.')
+                __('filament-companies::default.errors.user_belongs_to_company')
             );
         };
     }

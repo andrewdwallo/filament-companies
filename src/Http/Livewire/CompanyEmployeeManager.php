@@ -3,6 +3,7 @@
 namespace Wallo\FilamentCompanies\Http\Livewire;
 
 use App\Models\User;
+use Filament\Notifications\Notification;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Contracts\View\View;
@@ -100,14 +101,16 @@ class CompanyEmployeeManager extends Component
             );
         }
 
+        $email = $this->addCompanyEmployeeForm['email'];
+
+        $this->employeeInvitationSent($email);
+
         $this->addCompanyEmployeeForm = [
             'email' => '',
             'role' => null,
         ];
 
         $this->company = $this->company->fresh();
-
-        $this->emit('saved');
     }
 
     /**
@@ -237,5 +240,14 @@ class CompanyEmployeeManager extends Component
     public function render(): View
     {
         return view('filament-companies::companies.company-employee-manager');
+    }
+
+    public function employeeInvitationSent($email): void
+    {
+        Notification::make()
+            ->title(__('filament-companies::default.notifications.company_invitation_sent.title'))
+            ->success()
+            ->body(__('filament-companies::default.notifications.company_invitation_sent.body', ['email' => $email]))
+            ->send();
     }
 }

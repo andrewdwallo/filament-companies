@@ -2,6 +2,7 @@
 
 namespace Wallo\FilamentCompanies\Http\Livewire;
 
+use Filament\Notifications\Notification;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
@@ -46,6 +47,10 @@ class DeleteCompanyForm extends Component
 
         $deleter->delete($this->company);
 
+        $name = $this->company->name;
+
+        $this->companyDeleted($name);
+
         return $this->redirectPath($deleter);
     }
 
@@ -55,5 +60,14 @@ class DeleteCompanyForm extends Component
     public function render(): View
     {
         return view('filament-companies::companies.delete-company-form');
+    }
+
+    public function companyDeleted($name)
+    {
+        Notification::make()
+            ->title(__('filament-companies::default.notifications.company_deleted.title'))
+            ->success()
+            ->body(__('filament-companies::default.notifications.company_deleted.body', ['name' => $name]))
+            ->send();
     }
 }

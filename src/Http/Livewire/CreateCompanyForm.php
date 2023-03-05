@@ -3,6 +3,7 @@
 namespace Wallo\FilamentCompanies\Http\Livewire;
 
 use App\Models\User;
+use Filament\Notifications\Notification;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
@@ -31,6 +32,10 @@ class CreateCompanyForm extends Component
 
         $creator->create(Auth::user(), $this->state);
 
+        $name = $this->state['name'];
+
+        $this->companyCreated($name);
+
         return $this->redirectPath($creator);
     }
 
@@ -48,5 +53,14 @@ class CreateCompanyForm extends Component
     public function render(): View
     {
         return view('filament-companies::companies.create-company-form');
+    }
+
+    public function companyCreated($name): void
+    {
+        Notification::make()
+            ->title(__('filament-companies::default.notifications.company_created.title'))
+            ->success()
+            ->body(__('filament-companies::default.notifications.company_created.body', ['name' => $name]))
+            ->send();
     }
 }

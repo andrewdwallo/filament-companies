@@ -48,7 +48,7 @@ class RemoveCompanyEmployee implements RemovesCompanyEmployees
     {
         if ($companyEmployee->id === $company->owner->id) {
             throw ValidationException::withMessages([
-                'company' => [__('You may not leave a company that you created.')],
+                'company' => [__('filament-companies::default.errors.cannot_leave_company')],
             ])->errorBag('removeCompanyEmployee');
         }
     }

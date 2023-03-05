@@ -97,15 +97,15 @@ class APITokens extends Page implements Tables\Contracts\HasTable
             Tables\Columns\TagsColumn::make('abilities')
                 ->label(__('filament-companies::default.labels.permissions'))->default($this->permissions),
             Tables\Columns\TextColumn::make('last_used_at')
-                ->label(trans('Last used at'))
+                ->label(__('filament-companies::default.labels.last_used_at'))
                 ->dateTime()
                 ->sortable(),
             Tables\Columns\TextColumn::make('created_at')
-                ->label(trans('Created at'))
+                ->label(__('filament-companies::default.labels.created_at'))
                 ->dateTime()
                 ->sortable(),
             Tables\Columns\TextColumn::make('updated_at')
-                ->label(trans('Updated at'))
+                ->label(__('filament-companies::default.labels.updated_at'))
                 ->dateTime()
                 ->sortable(),
         ];
@@ -129,7 +129,7 @@ class APITokens extends Page implements Tables\Contracts\HasTable
                         return in_array($key, $indexes);
                     })->toArray();
                     $this->displayTokenValue(Auth::user()?->createToken($name, FilamentCompanies::validPermissions(array_values($selected))));
-                    $this->tokenCreatedNotification(name: $name);
+                    $this->tokenCreatedNotification($name);
                     $this->reset(['name']);
                 })
                 ->form([
@@ -155,8 +155,9 @@ class APITokens extends Page implements Tables\Contracts\HasTable
     protected function tokenCreatedNotification($name): void
     {
         Notification::make()
-            ->title(trans("{$name} token created"))
+            ->title(__('filament-companies::default.notifications.api_token_created.title'))
             ->success()
+            ->body(__('filament-companies::default.notifications.api_token_created.body', ['name' => $name]))
             ->send();
     }
 
@@ -186,7 +187,7 @@ class APITokens extends Page implements Tables\Contracts\HasTable
                         'name' => $name,
                         'abilities' => array_values($selected),
                     ]);
-                    $this->tokenUpdatedNotification();
+                    $this->tokenUpdated();
                 })
                 ->form([
                     TextInput::make('name')
@@ -210,11 +211,12 @@ class APITokens extends Page implements Tables\Contracts\HasTable
         ];
     }
 
-    protected function tokenUpdatedNotification(): void
+    protected function tokenUpdated(): void
     {
         Notification::make()
-            ->title(trans('Token Updated'))
+            ->title(__('filament-companies::default.notifications.api_token_updated.title'))
             ->success()
+            ->body(__('filament-companies::default.notifications.api_token_updated.body'))
             ->send();
     }
 

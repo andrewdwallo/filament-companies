@@ -35,7 +35,7 @@ class CompanyInvitationController extends Controller
         $invitation->delete();
 
         return redirect(config('fortify.home'))->banner(
-            __('Great! You have accepted the invitation to join the :company company.', ['company' => $invitation->company->name]),
+            __('filament-companies::default.banner.company_invitation_accepted', ['company' => $invitation->company->name]),
         );
     }
 

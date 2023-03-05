@@ -42,9 +42,9 @@ class UpdateCompanyNameForm extends Component
         $updater->update($this->user, $this->company, $this->state);
 
         Notification::make()
-        ->title('Updated')
+        ->title(__('filament-companies::default.notifications.company_name_updated.title'))
         ->success()
-        ->body('Company name updated.')
+        ->body(__('filament-companies::default.notifications.company_name_updated.body', ['name' => $this->state['name']]))
         ->send();
 
         $this->emit('refresh-navigation-menu');

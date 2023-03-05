@@ -56,24 +56,24 @@ class UpdateProfileInformationForm extends Component
         );
 
         if (isset($this->photo)) {
-            $this->profileUpdatedNotification();
+            $this->profileInformationUpdated();
 
             return redirect(Profile::getUrl());
         }
 
-        $this->profileUpdatedNotification();
+        $this->profileInformationUpdated();
 
         $this->emit('refresh-navigation-menu');
 
         return redirect()->back(303);
     }
 
-    protected function profileUpdatedNotification(): void
+    protected function profileInformationUpdated(): void
     {
         Notification::make()
-            ->title('Saved')
+            ->title(__('filament-companies::default.notifications.profile_information_updated.title'))
             ->success()
-            ->body('Profile information updated')
+            ->body(__('filament-companies::default.notifications.profile_information_updated.body'))
             ->send();
     }
 

@@ -60,7 +60,7 @@
             <!-- Name -->
             <div class="col-span-6 sm:col-span-4">
                 <x-forms::field-wrapper id="name"
-                                        statePath="state.name"
+                                        statePath="name"
                                         required="true"
                                         label="{{ __('filament-companies::default.fields.name') }}">
                     <x-filament-companies::input id="name"
@@ -74,7 +74,7 @@
             <!-- Email -->
             <div class="col-span-6 sm:col-span-4">
                 <x-forms::field-wrapper id="email"
-                                        statePath="state.email"
+                                        statePath="email"
                                         required="true"
                                         label="{{ __('filament-companies::default.fields.email') }}">
                     <x-filament-companies::input id="email"
