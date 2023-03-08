@@ -323,7 +323,7 @@ MAIL_ENCRYPTION=tsl                         # tsl is recommended over ssl
 MAIL_FROM_ADDRESS="filament@company.com"
 MAIL_FROM_NAME="${APP_NAME}"
 ```
-> Port does not have to be specified
+> Port does not have to be specific
 
 
 ### Notice
