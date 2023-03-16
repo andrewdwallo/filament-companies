@@ -71,11 +71,6 @@ class InstallCommand extends Command
         // Configure Session...
         $this->configureSession();
 
-        // Socialite...
-        if ($this->option('socialite')) {
-            $this->installFilamentSocialiteStack();
-        }
-
         // Configure API...
         if ($this->option('api')) {
             $this->replaceInFile('// Features::api(),', 'Features::api(),', config_path('filament-companies.php'));
@@ -209,6 +204,13 @@ class InstallCommand extends Command
         copy($stubs.'/filament/RemoveCompanyEmployeeTest.php', base_path('tests/Feature/RemoveCompanyEmployeeTest.php'));
         copy($stubs.'/filament/UpdateCompanyEmployeeRoleTest.php', base_path('tests/Feature/UpdateCompanyEmployeeRoleTest.php'));
         copy($stubs.'/filament/UpdateCompanyNameTest.php', base_path('tests/Feature/UpdateCompanyNameTest.php'));
+
+        $this->ensureApplicationIsCompanyCompatible();
+
+        // Socialite...
+        if ($this->option('socialite')) {
+            $this->installFilamentSocialiteStack();
+        }
     }
 
     private function installFilamentSocialiteStack()
@@ -273,7 +275,6 @@ EOF;
         copy(__DIR__.'/../../stubs/app/Models/Company.php', app_path('Models/Company.php'));
         copy(__DIR__.'/../../stubs/app/Models/CompanyInvitation.php', app_path('Models/CompanyInvitation.php'));
         copy(__DIR__.'/../../stubs/app/Models/User.php', app_path('Models/User.php'));
-        copy(__DIR__.'/../../stubs/app/Models/ConnectedAccount.php', app_path('Models/ConnectedAccount.php'));
 
         // FilamentCompanies Actions...
         copy(__DIR__.'/../../stubs/app/Actions/FilamentCompanies/AddCompanyEmployee.php', app_path('Actions/FilamentCompanies/AddCompanyEmployee.php'));
