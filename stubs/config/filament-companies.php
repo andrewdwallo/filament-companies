@@ -79,7 +79,7 @@ return [
         Features::api(),
         Features::companies(['invitations' => true]),
         Features::accountDeletion(),
-        Features::socialite(['rememberSession' => true, 'providerAvatars' => true]),
+        // Features::socialite(['rememberSession' => true, 'providerAvatars' => true]),
     ],
 
     /*

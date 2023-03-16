@@ -20,6 +20,7 @@ class InstallCommand extends Command
      */
     protected $signature = 'filament-companies:install {stack : The development stack that should be installed (filament)}
                                               {--companies : Indicates if company support should be installed}
+                                              {--socialite : Indicates if socialite support should be installed}
                                               {--api : Indicates if API support should be installed}
                                               {--verification : Indicates if email verification support should be installed}
                                               {--pest : Indicates if Pest should be installed}
@@ -69,6 +70,11 @@ class InstallCommand extends Command
 
         // Configure Session...
         $this->configureSession();
+
+        // Socialite...
+        if ($this->option('socialite')) {
+            $this->installFilamentSocialiteStack();
+        }
 
         // Configure API...
         if ($this->option('api')) {
@@ -203,9 +209,14 @@ class InstallCommand extends Command
         copy($stubs.'/filament/RemoveCompanyEmployeeTest.php', base_path('tests/Feature/RemoveCompanyEmployeeTest.php'));
         copy($stubs.'/filament/UpdateCompanyEmployeeRoleTest.php', base_path('tests/Feature/UpdateCompanyEmployeeRoleTest.php'));
         copy($stubs.'/filament/UpdateCompanyNameTest.php', base_path('tests/Feature/UpdateCompanyNameTest.php'));
-
-        $this->ensureApplicationIsCompanyCompatible();
     }
+
+    private function installFilamentSocialiteStack()
+    {
+        $this->ensureApplicationIsSocialiteCompatible();
+    }
+
+
 
     /**
      * Get the route definition(s) that should be installed for Livewire.
@@ -273,6 +284,31 @@ EOF;
         copy(__DIR__.'/../../stubs/app/Actions/FilamentCompanies/RemoveCompanyEmployee.php', app_path('Actions/FilamentCompanies/RemoveCompanyEmployee.php'));
         copy(__DIR__.'/../../stubs/app/Actions/FilamentCompanies/UpdateCompanyName.php', app_path('Actions/FilamentCompanies/UpdateCompanyName.php'));
 
+        copy(__DIR__.'/../../stubs/app/Actions/Fortify/CreateNewUser.php', app_path('Actions/Fortify/CreateNewUser.php'));
+        copy(__DIR__.'/../../stubs/app/Actions/Fortify/UpdateUserPassword.php', app_path('Actions/Fortify/UpdateUserPassword.php'));
+
+        // Policies...
+        copy(__DIR__.'/../../stubs/app/Policies/CompanyPolicy.php', app_path('Policies/CompanyPolicy.php'));
+
+        // Factories...
+        copy(__DIR__.'/../../database/factories/UserFactory.php', base_path('database/factories/UserFactory.php'));
+        copy(__DIR__.'/../../database/factories/CompanyFactory.php', base_path('database/factories/CompanyFactory.php'));
+    }
+
+    protected function ensureApplicationIsSocialiteCompatible(): void
+    {
+        // Publish Socialite Migrations...
+        $this->callSilent('vendor:publish', ['--tag' => 'filament-companies-socialite-migrations', '--force' => true]);
+
+        // Configuration...
+        $this->replaceInFile('// Features::socialite([\'rememberSession\' => true, \'providerAvatars\' => true])', 'Features::socialite([\'rememberSession\' => true, \'providerAvatars\' => true])', config_path('filament-companies.php'));
+        $this->replaceInFile('// ConnectedAccount::class => ConnectedAccountPolicy::class,', 'ConnectedAccount::class => ConnectedAccountPolicy::class,', app_path('Providers/AuthServiceProvider.php'));
+        $this->replaceInFile('// $user->connectedAccounts->each->delete();', '$user->connectedAccounts->each->delete();', app_path('Actions/FilamentCompanies/DeleteUser.php'));
+        $this->replaceInFile('// use HasConnectedAccounts;', 'use HasConnectedAccounts;', app_path('Models/User.php'));
+
+        // Models...
+        copy(__DIR__.'/../../stubs/app/Models/ConnectedAccount.php', app_path('Models/ConnectedAccount.php'));
+
         // Socialite Actions...
         copy(__DIR__.'/../../stubs/app/Actions/FilamentCompanies/CreateConnectedAccount.php', app_path('Actions/FilamentCompanies/CreateConnectedAccount.php'));
         copy(__DIR__.'/../../stubs/app/Actions/FilamentCompanies/CreateUserFromProvider.php', app_path('Actions/FilamentCompanies/CreateUserFromProvider.php'));
@@ -281,15 +317,8 @@ EOF;
         copy(__DIR__.'/../../stubs/app/Actions/FilamentCompanies/SetUserPassword.php', app_path('Actions/FilamentCompanies/SetUserPassword.php'));
         copy(__DIR__.'/../../stubs/app/Actions/FilamentCompanies/UpdateConnectedAccount.php', app_path('Actions/FilamentCompanies/UpdateConnectedAccount.php'));
 
-        copy(__DIR__.'/../../stubs/app/Actions/Fortify/CreateNewUser.php', app_path('Actions/Fortify/CreateNewUser.php'));
-        copy(__DIR__.'/../../stubs/app/Actions/Fortify/UpdateUserPassword.php', app_path('Actions/Fortify/UpdateUserPassword.php'));
-
         // Policies...
-        (new Filesystem)->copyDirectory(__DIR__.'/../../stubs/app/Policies', app_path('Policies'));
-
-        // Factories...
-        copy(__DIR__.'/../../database/factories/UserFactory.php', base_path('database/factories/UserFactory.php'));
-        copy(__DIR__.'/../../database/factories/CompanyFactory.php', base_path('database/factories/CompanyFactory.php'));
+        copy(__DIR__.'/../../stubs/app/Policies/ConnectedAccountPolicy.php', app_path('Policies/ConnectedAccountPolicy.php'));
     }
 
     /**

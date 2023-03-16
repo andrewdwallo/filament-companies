@@ -17,7 +17,7 @@ class AuthServiceProvider extends ServiceProvider
      */
     protected $policies = [
         Company::class => CompanyPolicy::class,
-        ConnectedAccount::class => ConnectedAccountPolicy::class,
+        // ConnectedAccount::class => ConnectedAccountPolicy::class,
     ];
 
     /**

@@ -20,7 +20,7 @@ class User extends Authenticatable implements FilamentUser, HasAvatar
     use HasFactory;
     use HasProfilePhoto;
     use HasCompanies;
-    use HasConnectedAccounts;
+    // use HasConnectedAccounts;
     use Notifiable;
     use SetsProfilePhotoFromUrl;
     use TwoFactorAuthenticatable;
