@@ -10,7 +10,9 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravel\Sanctum\HasApiTokens;
 use Wallo\FilamentCompanies\HasCompanies;
+use Wallo\FilamentCompanies\HasConnectedAccounts;
 use Wallo\FilamentCompanies\HasProfilePhoto;
+use Wallo\FilamentCompanies\SetsProfilePhotoFromUrl;
 
 class User extends Authenticatable implements FilamentUser, HasAvatar
 {
@@ -18,7 +20,9 @@ class User extends Authenticatable implements FilamentUser, HasAvatar
     use HasFactory;
     use HasProfilePhoto;
     use HasCompanies;
+    use HasConnectedAccounts;
     use Notifiable;
+    use SetsProfilePhotoFromUrl;
     use TwoFactorAuthenticatable;
 
     public function canAccessFilament(): bool

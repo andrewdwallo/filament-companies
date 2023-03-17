@@ -20,6 +20,7 @@ class InstallCommand extends Command
      */
     protected $signature = 'filament-companies:install {stack : The development stack that should be installed (filament)}
                                               {--companies : Indicates if company support should be installed}
+                                              {--socialite : Indicates if socialite support should be installed}
                                               {--api : Indicates if API support should be installed}
                                               {--verification : Indicates if email verification support should be installed}
                                               {--pest : Indicates if Pest should be installed}
@@ -34,10 +35,8 @@ class InstallCommand extends Command
 
     /**
      * Execute the console command.
-     *
-     * @return int|void
      */
-    public function handle()
+    public function handle(): ?int
     {
         if ($this->argument('stack') !== 'filament') {
             $this->components->error('Invalid stack. Supported stacks are [filament].');
@@ -89,7 +88,11 @@ class InstallCommand extends Command
         $stubs = $this->getTestStubsPath();
 
         if ($this->option('pest')) {
-            $this->requireComposerDevPackages('pestphp/pest:^1.16', 'pestphp/pest-plugin-laravel:^1.1');
+            $this->removeComposerDevPackages(['nunomaduro/collision', 'phpunit/phpunit']);
+
+            if (! $this->requireComposerDevPackages(['nunomaduro/collision:^6.4', 'pestphp/pest:^1.22', 'pestphp/pest-plugin-laravel:^1.2'])) {
+                return 1;
+            }
 
             copy($stubs.'/Pest.php', base_path('tests/Pest.php'));
             copy($stubs.'/ExampleTest.php', base_path('tests/Feature/ExampleTest.php'));
@@ -101,6 +104,8 @@ class InstallCommand extends Command
         copy($stubs.'/PasswordConfirmationTest.php', base_path('tests/Feature/PasswordConfirmationTest.php'));
         copy($stubs.'/PasswordResetTest.php', base_path('tests/Feature/PasswordResetTest.php'));
         copy($stubs.'/RegistrationTest.php', base_path('tests/Feature/RegistrationTest.php'));
+
+        return 0;
     }
 
     /**
@@ -122,9 +127,9 @@ class InstallCommand extends Command
     }
 
     /**
-     * Install the Livewire stack into the application.
+     * Install the Filament stack into the application.
      */
-    protected function installFilamentStack(): void
+    protected function installFilamentStack(): bool
     {
         // Sanctum...
         (new Process([$this->phpBinary(), 'artisan', 'vendor:publish', '--provider=Laravel\Sanctum\SanctumServiceProvider', '--force'], base_path()))
@@ -186,10 +191,12 @@ class InstallCommand extends Command
 
         $this->line('');
         $this->components->info('Filament scaffolding installed successfully.');
+
+        return true;
     }
 
     /**
-     * Install the Livewire company stack into the application.
+     * Install the FilamentCompanies company stack into the application.
      */
     protected function installFilamentCompanyStack(): void
     {
@@ -205,10 +212,23 @@ class InstallCommand extends Command
         copy($stubs.'/filament/UpdateCompanyNameTest.php', base_path('tests/Feature/UpdateCompanyNameTest.php'));
 
         $this->ensureApplicationIsCompanyCompatible();
+
+        // Socialite...
+        if ($this->option('socialite')) {
+            $this->installFilamentSocialiteStack();
+        }
     }
 
     /**
-     * Get the route definition(s) that should be installed for Livewire.
+     * Install the FilamentCompanies socialite stack into the application.
+     */
+    protected function installFilamentSocialiteStack(): void
+    {
+        $this->ensureApplicationIsSocialiteCompatible();
+    }
+
+    /**
+     * Get the route definition(s) that should be installed for Filament.
      */
     protected function livewireRouteDefinition(): string
     {
@@ -230,22 +250,16 @@ EOF;
      */
     protected function ensureApplicationIsCompanyCompatible(): void
     {
-        // Publish Company Migrations...
+        // Publish FilamentCompanies Company Migrations...
         $this->callSilent('vendor:publish', ['--tag' => 'filament-companies-company-migrations', '--force' => true]);
 
+        // Publish Filament Configuration File...
         $this->callSilent('vendor:publish', ['--tag' => 'filament-config', '--force' => true]);
 
         // Configuration...
-        $this->replaceInFile('// Features::companies([\'invitations\' => true])', 'Features::companies([\'invitations\' => true])', config_path('filament-companies.php'));
-
-        $this->replaceInFile('// Features::api(),', 'Features::api(),', config_path('filament-companies.php'));
-
         $this->replaceInFile('use Filament\Http\Middleware\Authenticate', 'use App\Http\Middleware\Authenticate', config_path('filament.php'));
-
         $this->replaceInFile('use Illuminate\Session\Middleware\AuthenticateSession', 'use Wallo\FilamentCompanies\Http\Middleware\AuthenticateSession', config_path('filament.php'));
-
         $this->replaceInFile('\Filament\Http\Livewire\Auth\Login::class', 'null', config_path('filament.php'));
-
         $this->replaceInFile('RouteServiceProvider::HOME', "config('filament.path')", config_path('fortify.php'));
 
         // Directories...
@@ -262,7 +276,6 @@ EOF;
         copy(__DIR__.'/../../stubs/app/Models/Company.php', app_path('Models/Company.php'));
         copy(__DIR__.'/../../stubs/app/Models/CompanyInvitation.php', app_path('Models/CompanyInvitation.php'));
         copy(__DIR__.'/../../stubs/app/Models/User.php', app_path('Models/User.php'));
-        copy(__DIR__.'/../../stubs/app/Models/ConnectedAccount.php', app_path('Models/ConnectedAccount.php'));
 
         // FilamentCompanies Actions...
         copy(__DIR__.'/../../stubs/app/Actions/FilamentCompanies/AddCompanyEmployee.php', app_path('Actions/FilamentCompanies/AddCompanyEmployee.php'));
@@ -273,7 +286,42 @@ EOF;
         copy(__DIR__.'/../../stubs/app/Actions/FilamentCompanies/RemoveCompanyEmployee.php', app_path('Actions/FilamentCompanies/RemoveCompanyEmployee.php'));
         copy(__DIR__.'/../../stubs/app/Actions/FilamentCompanies/UpdateCompanyName.php', app_path('Actions/FilamentCompanies/UpdateCompanyName.php'));
 
-        // Socialite Actions...
+        // Fortify Actions...
+        copy(__DIR__.'/../../stubs/app/Actions/Fortify/CreateNewUser.php', app_path('Actions/Fortify/CreateNewUser.php'));
+        copy(__DIR__.'/../../stubs/app/Actions/Fortify/UpdateUserPassword.php', app_path('Actions/Fortify/UpdateUserPassword.php'));
+
+        // Policies...
+        copy(__DIR__.'/../../stubs/app/Policies/CompanyPolicy.php', app_path('Policies/CompanyPolicy.php'));
+
+        // Factories...
+        copy(__DIR__.'/../../database/factories/UserFactory.php', base_path('database/factories/UserFactory.php'));
+        copy(__DIR__.'/../../database/factories/CompanyFactory.php', base_path('database/factories/CompanyFactory.php'));
+    }
+
+    protected function ensureApplicationIsSocialiteCompatible(): void
+    {
+        // Publish FilamentCompanies Socialite Migrations...
+        $this->callSilent('vendor:publish', ['--tag' => 'filament-companies-socialite-migrations', '--force' => true]);
+
+        // Configuration...
+        $this->replaceInFile('// Features::socialite([\'rememberSession\' => true, \'providerAvatars\' => true])', 'Features::socialite([\'rememberSession\' => true, \'providerAvatars\' => true])', config_path('filament-companies.php'));
+        $this->replaceInFile('// Providers::github(),', 'Providers::github(),', config_path('filament-companies.php'));
+
+        // Directories...
+        (new Filesystem)->ensureDirectoryExists(app_path('Actions/FilamentCompanies'));
+        (new Filesystem)->ensureDirectoryExists(app_path('Events'));
+        (new Filesystem)->ensureDirectoryExists(app_path('Policies'));
+
+        // Service Providers...
+        copy(__DIR__.'/../../stubs/app/Providers/SocialiteAuthServiceProvider.php', app_path('Providers/AuthServiceProvider.php'));
+        copy(__DIR__.'/../../stubs/app/Providers/FilamentCompaniesWithSocialiteServiceProvider.php', app_path('Providers/FilamentCompaniesServiceProvider.php'));
+
+        // Models...
+        copy(__DIR__.'/../../stubs/app/Models/UserWithSocialite.php', app_path('Models/User.php'));
+        copy(__DIR__.'/../../stubs/app/Models/ConnectedAccount.php', app_path('Models/ConnectedAccount.php'));
+
+        // Actions...
+        copy(__DIR__.'/../../stubs/app/Actions/FilamentCompanies/DeleteUserWithSocialite.php', app_path('Actions/FilamentCompanies/DeleteUser.php'));
         copy(__DIR__.'/../../stubs/app/Actions/FilamentCompanies/CreateConnectedAccount.php', app_path('Actions/FilamentCompanies/CreateConnectedAccount.php'));
         copy(__DIR__.'/../../stubs/app/Actions/FilamentCompanies/CreateUserFromProvider.php', app_path('Actions/FilamentCompanies/CreateUserFromProvider.php'));
         copy(__DIR__.'/../../stubs/app/Actions/FilamentCompanies/HandleInvalidState.php', app_path('Actions/FilamentCompanies/HandleInvalidState.php'));
@@ -281,15 +329,8 @@ EOF;
         copy(__DIR__.'/../../stubs/app/Actions/FilamentCompanies/SetUserPassword.php', app_path('Actions/FilamentCompanies/SetUserPassword.php'));
         copy(__DIR__.'/../../stubs/app/Actions/FilamentCompanies/UpdateConnectedAccount.php', app_path('Actions/FilamentCompanies/UpdateConnectedAccount.php'));
 
-        copy(__DIR__.'/../../stubs/app/Actions/Fortify/CreateNewUser.php', app_path('Actions/Fortify/CreateNewUser.php'));
-        copy(__DIR__.'/../../stubs/app/Actions/Fortify/UpdateUserPassword.php', app_path('Actions/Fortify/UpdateUserPassword.php'));
-
         // Policies...
-        (new Filesystem)->copyDirectory(__DIR__.'/../../stubs/app/Policies', app_path('Policies'));
-
-        // Factories...
-        copy(__DIR__.'/../../database/factories/UserFactory.php', base_path('database/factories/UserFactory.php'));
-        copy(__DIR__.'/../../database/factories/CompanyFactory.php', base_path('database/factories/CompanyFactory.php'));
+        copy(__DIR__.'/../../stubs/app/Policies/ConnectedAccountPolicy.php', app_path('Policies/ConnectedAccountPolicy.php'));
     }
 
     /**
@@ -307,31 +348,6 @@ EOF;
     }
 
     /**
-     * Install the middleware to a group in the application Http Kernel.
-     */
-    protected function installMiddlewareAfter(string $after, string $name, string $group = 'web'): void
-    {
-        $httpKernel = file_get_contents(app_path('Http/Kernel.php'));
-
-        $middlewareGroups = Str::before(Str::after($httpKernel, '$middlewareGroups = ['), '];');
-        $middlewareGroup = Str::before(Str::after($middlewareGroups, "'$group' => ["), '],');
-
-        if (! Str::contains($middlewareGroup, $name)) {
-            $modifiedMiddlewareGroup = str_replace(
-                $after.',',
-                $after.','.PHP_EOL.'            '.$name.',',
-                $middlewareGroup,
-            );
-
-            file_put_contents(app_path('Http/Kernel.php'), str_replace(
-                $middlewareGroups,
-                str_replace($middlewareGroup, $modifiedMiddlewareGroup, $middlewareGroups),
-                $httpKernel
-            ));
-        }
-    }
-
-    /**
      * Returns the path to the correct test stubs.
      */
     protected function getTestStubsPath(): string
@@ -342,32 +358,32 @@ EOF;
     }
 
     /**
-     * Installs the given Composer Packages into the application.
+     * Removes the given Composer Packages as "dev" dependencies.
      */
-    protected function requireComposerPackages(mixed $packages): void
+    protected function removeComposerDevPackages(mixed $packages): bool
     {
         $composer = $this->option('composer');
 
         if ($composer !== 'global') {
-            $command = [$this->phpBinary(), $composer, 'require'];
+            $command = [$this->phpBinary(), $composer, 'remove', '--dev'];
         }
 
         $command = array_merge(
-            $command ?? ['composer', 'require'],
+            $command ?? ['composer', 'remove', '--dev'],
             is_array($packages) ? $packages : func_get_args()
         );
 
-        (new Process($command, base_path(), ['COMPOSER_MEMORY_LIMIT' => '-1']))
-            ->setTimeout(null)
-            ->run(function ($type, $output) {
-                $this->output->write($output);
-            });
+        return (new Process($command, base_path(), ['COMPOSER_MEMORY_LIMIT' => '-1']))
+                ->setTimeout(null)
+                ->run(function ($type, $output) {
+                    $this->output->write($output);
+                }) === 0;
     }
 
     /**
      * Install the given Composer Packages as "dev" dependencies.
      */
-    protected function requireComposerDevPackages(mixed $packages): void
+    protected function requireComposerDevPackages(mixed $packages): bool
     {
         $composer = $this->option('composer');
 
@@ -380,39 +396,11 @@ EOF;
             is_array($packages) ? $packages : func_get_args()
         );
 
-        (new Process($command, base_path(), ['COMPOSER_MEMORY_LIMIT' => '-1']))
-            ->setTimeout(null)
-            ->run(function ($type, $output) {
-                $this->output->write($output);
-            });
-    }
-
-    /**
-     * Update the "package.json" file.
-     *
-     * @throws JsonException
-     */
-    protected static function updateNodePackages(callable $callback, bool $dev = true): void
-    {
-        if (! file_exists(base_path('package.json'))) {
-            return;
-        }
-
-        $configurationKey = $dev ? 'devDependencies' : 'dependencies';
-
-        $packages = json_decode(file_get_contents(base_path('package.json')), true, 512, JSON_THROW_ON_ERROR);
-
-        $packages[$configurationKey] = $callback(
-            array_key_exists($configurationKey, $packages) ? $packages[$configurationKey] : [],
-            $configurationKey
-        );
-
-        ksort($packages[$configurationKey]);
-
-        file_put_contents(
-            base_path('package.json'),
-            json_encode($packages, JSON_THROW_ON_ERROR | JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT).PHP_EOL
-        );
+        return (new Process($command, base_path(), ['COMPOSER_MEMORY_LIMIT' => '-1']))
+                ->setTimeout(null)
+                ->run(function ($type, $output) {
+                    $this->output->write($output);
+                }) === 0;
     }
 
     /**
@@ -429,25 +417,5 @@ EOF;
     protected function phpBinary(): false|string
     {
         return (new PhpExecutableFinder())->find(false) ?: 'php';
-    }
-
-    /**
-     * Run the given commands.
-     */
-    protected function runCommands(array $commands): void
-    {
-        $process = Process::fromShellCommandline(implode(' && ', $commands), null, null, null, null);
-
-        if ('\\' !== DIRECTORY_SEPARATOR && file_exists('/dev/tty') && is_readable('/dev/tty')) {
-            try {
-                $process->setTty(true);
-            } catch (RuntimeException $e) {
-                $this->output->writeln('  <bg=yellow;fg=black> WARN </> '.$e->getMessage().PHP_EOL);
-            }
-        }
-
-        $process->run(function ($type, $line) {
-            $this->output->write('    '.$line);
-        });
     }
 }

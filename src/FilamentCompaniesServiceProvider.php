@@ -27,12 +27,6 @@ use Wallo\FilamentCompanies\Pages\User\Profile;
 
 class FilamentCompaniesServiceProvider extends ServiceProvider
 {
-    protected static string $name;
-
-    protected array $pages = [];
-
-    protected array $views = [];
-
     /**
      * Register any application services.
      */
@@ -47,8 +41,6 @@ class FilamentCompaniesServiceProvider extends ServiceProvider
                 Livewire::component(TwoFactorAuthenticationForm::getName(), TwoFactorAuthenticationForm::class);
                 Livewire::component(LogoutOtherBrowserSessionsForm::getName(), LogoutOtherBrowserSessionsForm::class);
                 Livewire::component(DeleteUserForm::getName(), DeleteUserForm::class);
-                Livewire::component(SetPasswordForm::getName(), SetPasswordForm::class);
-                Livewire::component(ConnectedAccountsForm::getName(), ConnectedAccountsForm::class);
 
                 if (Features::hasApiFeatures()) {
                     Livewire::component(ApiTokenManager::getName(), ApiTokenManager::class);
@@ -59,6 +51,11 @@ class FilamentCompaniesServiceProvider extends ServiceProvider
                     Livewire::component(UpdateCompanyNameForm::getName(), UpdateCompanyNameForm::class);
                     Livewire::component(CompanyEmployeeManager::getName(), CompanyEmployeeManager::class);
                     Livewire::component(DeleteCompanyForm::getName(), DeleteCompanyForm::class);
+                }
+
+                if (Features::hasSocialiteFeatures()) {
+                    Livewire::component(SetPasswordForm::getName(), SetPasswordForm::class);
+                    Livewire::component(ConnectedAccountsForm::getName(), ConnectedAccountsForm::class);
                 }
             }
         });
@@ -76,10 +73,6 @@ class FilamentCompaniesServiceProvider extends ServiceProvider
         $this->loadViewsFrom(__DIR__.'/../resources/views', 'filament-companies');
 
         $this->loadTranslationsFrom(__DIR__.'/../lang', 'filament-companies');
-
-        foreach ($this->getPages() as $page) {
-            Livewire::component($page::getName(), $page);
-        }
 
         Fortify::viewPrefix('filament-companies::auth.');
 
@@ -110,8 +103,11 @@ class FilamentCompaniesServiceProvider extends ServiceProvider
             __DIR__.'/../database/migrations/2020_05_21_100000_create_companies_table.php' => database_path('migrations/2020_05_21_100000_create_companies_table.php'),
             __DIR__.'/../database/migrations/2020_05_21_200000_create_company_user_table.php' => database_path('migrations/2020_05_21_200000_create_company_user_table.php'),
             __DIR__.'/../database/migrations/2020_05_21_300000_create_company_invitations_table.php' => database_path('migrations/2020_05_21_300000_create_company_invitations_table.php'),
-            __DIR__.'/../database/migrations/2020_12_22_000000_create_connected_accounts_table.php' => database_path('migrations/2020_12_22_000000_create_connected_accounts_table.php'),
         ], 'filament-companies-company-migrations');
+
+        $this->publishes([
+            __DIR__.'/../database/migrations/2020_12_22_000000_create_connected_accounts_table.php' => database_path('migrations/2020_12_22_000000_create_connected_accounts_table.php'),
+        ], 'filament-companies-socialite-migrations');
     }
 
     /**
