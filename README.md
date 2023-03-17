@@ -55,9 +55,13 @@ Install this package
 composer require andrewdwallo/filament-companies
 ```
 
-Use the following command to scaffold the app.
+After installing the package, you may execute the `filament-companies:install` Artisan command. This command requires the name of the stack to be `filament` and the option to be `--companies`. In addition, you may use the `--socialite` switch to enable socialite support.
+
+Use one of the following commands to scaffold the application: 
 ```shell
 php artisan filament-companies:install filament --companies
+
+php artisan filament-companies:install filament --companies --socialite
 ```
 
 In `config/fortify.php` set the middleware configuration key's value to the following:
@@ -212,7 +216,7 @@ GITHUB_CLIENT_SECRET=hefliueoioffbo8338yhf2p9f4g2gg33
 ```
 
 
-If Socialite is undesired you may comment out or completely remove the following from the `features` array:
+You may temporarily turn off Socialite support if you previously chose it as an option during installation:
 ```php
     /*
     |--------------------------------------------------------------------------
