@@ -27,7 +27,6 @@ use Wallo\FilamentCompanies\Pages\User\Profile;
 
 class FilamentCompaniesServiceProvider extends ServiceProvider
 {
-
     /**
      * Register any application services.
      */
