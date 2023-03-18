@@ -4,12 +4,15 @@
         {{ __('filament-companies::default.headings.auth.login') }}
     </h2>
 
-    <div class="mt-2 text-center text-sm font-medium">
-        {{ __('filament-companies::default.subheadings.auth.login') }}
-        <a class="text-primary-600 text-sm" href="{{ route('register') }}">
-            {{ __('filament-companies::default.headings.auth.register') }}
-        </a>
-    </div>
+    @if (Laravel\Fortify\Features::enabled(Laravel\Fortify\Features::registration()))
+        <div class="mt-2 text-center text-sm font-medium">
+            {{ __('filament-companies::default.subheadings.auth.login') }}
+            <a class="text-primary-600 text-sm" href="{{ route('register') }}">
+                {{ __('filament-companies::default.headings.auth.register') }}
+            </a>
+        </div>
+    @endif
+
 
     @if (session('status'))
         <div class="mb-4 text-sm font-medium text-green-600 dark:text-green-400">
