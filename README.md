@@ -359,8 +359,4 @@ Install the package in your application's `composer.json` file using the `dev` p
 }
 ```
 
-Now, run `composer update` and use the following command to scaffold the app.
-```
-php artisan filament-companies:install filament --companies
-```
-You may continue by following the installation instructions above.
+Now, run `composer update` and continue by following the installation instructions above.
