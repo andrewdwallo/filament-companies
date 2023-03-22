@@ -95,7 +95,7 @@ class APITokens extends Page implements Tables\Contracts\HasTable
                 ->sortable()
                 ->searchable(),
             Tables\Columns\TagsColumn::make('abilities')
-                ->label(__('filament-companies::default.labels.permissions'))->default($this->permissions),
+                ->label(__('filament-companies::default.labels.permissions')),
             Tables\Columns\TextColumn::make('last_used_at')
                 ->label(__('filament-companies::default.labels.last_used_at'))
                 ->dateTime()
@@ -119,6 +119,7 @@ class APITokens extends Page implements Tables\Contracts\HasTable
         return [
             Action::make('create')
                 ->label(trans('Create Token'))
+                ->modalWidth('2xl')
                 ->action(function (array $data) {
                     $name = $data['name'];
                     $indexes = $data['abilities'];
@@ -140,7 +141,17 @@ class APITokens extends Page implements Tables\Contracts\HasTable
                         ->label(__('filament-companies::default.labels.permissions'))
                         ->required()
                         ->options(FilamentCompanies::$permissions)
-                        ->columns(2),
+                        ->columns()
+                        ->default(FilamentCompanies::$defaultPermissions)
+                        ->afterStateHydrated(function ($component, $state) {
+                            $abilities = FilamentCompanies::$permissions;
+                            $selected = collect($abilities)->filter(function ($item) use ($state) {
+                                return in_array($item, $state);
+                            })
+                                ->keys()
+                                ->toArray();
+                            $component->state($selected);
+                        }),
                 ]),
         ];
     }
@@ -170,7 +181,7 @@ class APITokens extends Page implements Tables\Contracts\HasTable
             Tables\Actions\Action::make('edit')
                 ->label(trans('Edit'))
                 ->icon('heroicon-o-pencil-alt')
-                ->modalWidth('sm')
+                ->modalWidth('2xl')
                 ->mountUsing(
                     fn ($form, $record) => $form->fill($record->toArray())
                 )
@@ -197,10 +208,10 @@ class APITokens extends Page implements Tables\Contracts\HasTable
                         ->label(__('filament-companies::default.labels.permissions'))
                         ->required()
                         ->options(FilamentCompanies::$permissions)
-                        ->columns(2)
+                        ->columns()
                         ->afterStateHydrated(function ($component, $state) {
                             $abilities = FilamentCompanies::$permissions;
-                            $selected = collect($abilities)->filter(function ($item, $key) use ($state) {
+                            $selected = collect($abilities)->filter(function ($item) use ($state) {
                                 return in_array($item, $state);
                             })
                                 ->keys()
