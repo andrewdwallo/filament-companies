@@ -43,6 +43,9 @@ return [
         'use_avatar_as_profile_photo' => 'Use Avatar as Profile Photo',
         'connect' => 'Connect',
         'remove_connected_account' => 'Remove Connected Account',
+        'revoke' => 'Revoke',
+        'edit' => 'Edit',
+        'create_token' => 'Create Token',
     ],
 
     'labels' => [
@@ -92,6 +95,13 @@ return [
         'employee_already_belongs_to_company' => 'This employee already belongs to the company.',
         'cannot_leave_company' => 'You may not leave a company that you created.',
         'password_does_not_match' => 'The provided password does not match your current password.',
+    ],
+
+    'descriptions' => [
+        'token_created_state' => 'Created :time_ago by :user_name.',
+        'token_last_used_state' => 'Last used :time_ago',
+        'token_updated_state' => 'Updated :time_ago',
+        'token_never_used' => 'Never used',
     ],
 
     'banner' => [
@@ -224,6 +234,7 @@ return [
         'delete_account' => 'Delete Account',
         'delete_company' => 'Delete Company',
         'remove_connected_account' => 'Remove Connected Account',
+        'revoke_api_tokens' => 'Revoke Tokens',
     ],
 
     'modal_descriptions' => [
@@ -235,6 +246,7 @@ return [
         'delete_account' => 'Are you sure you want to delete your account? Once your account is deleted, all of its resources and data will be permanently deleted. Please enter your password to confirm you would like to permanently delete your account.',
         'delete_company' => 'Are you sure you want to delete this company? Once a company is deleted, all of its resources and data will be permanently deleted.',
         'remove_connected_account' => 'Please confirm your removal of this account - this action cannot be undone.',
+        'revoke_api_tokens' => 'Please enter your password to confirm.',
     ],
 
     'headings' => [
