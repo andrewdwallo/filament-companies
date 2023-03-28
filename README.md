@@ -329,6 +329,30 @@ MAIL_FROM_NAME="${APP_NAME}"
 ```
 > Port does not have to be specific
 
+### Roles & Permissions
+You may change roles & permissions in `app/Providers/FilamentCompaniesServiceProvider.php`
+```php
+    /**
+     * Configure the roles and permissions that are available within the application.
+     */
+    protected function configurePermissions(): void
+    {
+        FilamentCompanies::defaultApiTokenPermissions(['read']);
+
+        FilamentCompanies::role('admin', 'Administrator', [
+            'create',
+            'read',
+            'update',
+            'delete',
+        ])->description('Administrator users can perform any action.');
+
+        FilamentCompanies::role('editor', 'Editor', [
+            'read',
+            'create',
+            'update',
+        ])->description('Editor users have the ability to read, create, and update.');
+    }
+```
 
 ### Notice
 * This package is supposed to be a Filament Context and is planning to be used as one in Filament V3.
