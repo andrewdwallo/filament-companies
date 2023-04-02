@@ -37,29 +37,30 @@
                                                         label="{{ __('filament-companies::default.labels.role') }}">
 
                                     <div
+                                        x-data = "{ role: @entangle('addCompanyEmployeeForm.role').defer }"
                                         class="relative z-0 mt-1 cursor-pointer rounded-lg border border-gray-200 dark:border-gray-700">
                                         @foreach ($this->roles as $index => $role)
                                             <button type="button"
-                                                    class="{{ $index > 0 ? 'border-t border-gray-200 dark:border-gray-700 focus:border-none rounded-t-none' : '' }} {{ !$loop->last ? 'rounded-b-none' : '' }} focus:border-primary-500 focus:ring-primary-500 dark:focus:border-primary-600 dark:focus:ring-primary-600 relative inline-flex w-full rounded-lg px-4 py-3 focus:z-10 focus:outline-none focus:ring-2"
-                                                    wire:click="$set('addCompanyEmployeeForm.role', '{{ $role->key }}')">
+                                                    class="{{ $index > 0 ? 'border-t border-gray-200 dark:border-gray-700 rounded-t-none' : '' }} {{ !$loop->last ? 'rounded-b-none' : '' }} focus:border-primary-500 focus:ring-primary-500 dark:focus:border-primary-600 dark:focus:ring-primary-600 relative inline-flex w-full rounded-lg px-4 py-3 focus:z-10 focus:outline-none focus:ring-2 transition"
+                                                    @click="role = '{{ $role->key }}'">
                                                 <div
-                                                    class="{{ isset($addCompanyEmployeeForm['role']) && $addCompanyEmployeeForm['role'] !== $role->key ? 'opacity-50' : '' }}">
+                                                    :class="role === '{{ $role->key }}' || 'opacity-50'">
                                                     <!-- Role Name -->
                                                     <div class="flex items-center">
                                                         <div
-                                                            class="{{ $addCompanyEmployeeForm['role'] === $role->key ? 'font-semibold' : '' }} text-sm text-gray-600 dark:text-gray-400">
+                                                            class="text-sm text-gray-600 dark:text-gray-100"
+                                                            :class="role === '{{ $role->key }}' ? 'font-semibold' : ''"
+                                                        >
                                                             {{ $role->name }}
                                                         </div>
 
-                                                        @if ($addCompanyEmployeeForm['role'] === $role->key)
-                                                            <svg class="text-primary-500 ml-2 h-5 w-5"
-                                                                 xmlns="http://www.w3.org/2000/svg" fill="none"
-                                                                 viewBox="0 0 24 24" stroke-width="1.5"
-                                                                 stroke="currentColor">
-                                                                <path stroke-linecap="round" stroke-linejoin="round"
-                                                                      d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                                                            </svg>
-                                                        @endif
+                                                        <svg x-cloak :class="role === '{{ $role->key }}' ? 'text-primary-500 ml-2 h-5 w-5' : 'hidden'"
+                                                            xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                            viewBox="0 0 24 24" stroke-width="1.5"
+                                                            stroke="currentColor">
+                                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                                d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                                        </svg>
                                                     </div>
 
                                                     <!-- Role Description -->
