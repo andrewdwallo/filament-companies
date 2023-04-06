@@ -190,6 +190,16 @@ return [
         ],
     ],
 
+    'role' => [
+        'admin' => [
+            'title' => 'Administrador',
+            'subtitle' => 'Los usuarios administradores pueden realizar cualquier acción.',
+        ],
+        'editor' => [
+            'title' => 'Editor',
+            'subtitle' => 'Los usuarios del editor tienen la capacidad de leer, crear y actualizar.',
+        ],
+    ],
     'subheadings' => [
         'auth' => [
             'login' => 'O',

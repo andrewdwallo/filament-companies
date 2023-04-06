@@ -17,7 +17,7 @@
                     <img class="h-12 w-12 rounded-full object-cover" src="{{ $company->owner->profile_photo_url }}"
                         alt="{{ $company->owner->name }}">
 
-                    <div class="ml-4 leading-tight">
+                    <div class="ml-4 mr-4 leading-tight">
                         <div class="dark:text-white">{{ $company->owner->name }}</div>
                         <div class="text-sm text-gray-700 dark:text-gray-300">{{ $company->owner->email }}</div>
                     </div>
