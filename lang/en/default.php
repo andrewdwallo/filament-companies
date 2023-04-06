@@ -296,17 +296,6 @@ return [
             ],
         ],
     ],
-
-    'role' => [
-        'admin' => [
-            'title' => 'Administrator',
-            'subtitle' => 'Administrator users can perform any action.',
-        ],
-        'editor' => [
-            'title' => 'Editor',
-            'subtitle' => 'Editor users have the ability to read, create, and update.',
-        ],
-    ],
     'subheadings' => [
         'auth' => [
             'login' => 'Or',
