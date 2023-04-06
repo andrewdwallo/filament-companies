@@ -189,6 +189,7 @@ return [
             ],
         ],
     ],
+    
     'subheadings' => [
         'auth' => [
             'login' => 'O',
