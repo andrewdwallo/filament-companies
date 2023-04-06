@@ -118,17 +118,17 @@ class FilamentCompaniesServiceProvider extends ServiceProvider
     {
         FilamentCompanies::defaultApiTokenPermissions(['read']);
 
-        FilamentCompanies::role('admin', trans('filament-companies::default.role.admin.title',), [
+        FilamentCompanies::role('admin', 'Administrator', [
             'create',
             'read',
             'update',
             'delete',
-        ])->description(trans('filament-companies::default.role.admin.subtitle'));
+        ])->description('Administrator users can perform any action.');
 
-        FilamentCompanies::role('editor', trans('filament-companies::default.role.editor.title'), [
+        FilamentCompanies::role('editor', 'Editor', [
             'read',
             'create',
             'update',
-        ])->description(trans('filament-companies::default.role.editor.subtitle'));
+        ])->description('Editor users have the ability to read, create, and update.');
     }
 }
