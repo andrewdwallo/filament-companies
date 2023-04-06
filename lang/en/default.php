@@ -296,7 +296,7 @@ return [
             ],
         ],
     ],
-    
+
     'subheadings' => [
         'auth' => [
             'login' => 'Or',
