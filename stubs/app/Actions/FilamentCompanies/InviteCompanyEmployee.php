@@ -24,7 +24,7 @@ class InviteCompanyEmployee implements InvitesCompanyEmployees
      *
      * @throws AuthorizationException
      */
-    public function invite(User $user, Company $company, string $email, string $role = null): void
+    public function invite(User $user, Company $company, string $email, string|null $role = null): void
     {
         Gate::forUser($user)->authorize('addCompanyEmployee', $company);
 
@@ -65,7 +65,7 @@ class InviteCompanyEmployee implements InvitesCompanyEmployees
         return array_filter([
             'email' => [
                 'required', 'email',
-                Rule::unique('company_invitations')->where(function (Builder $query) use ($company) {
+                Rule::unique('company_invitations')->where(static function (Builder $query) use ($company) {
                     $query->where('company_id', $company->id);
                 }),
             ],

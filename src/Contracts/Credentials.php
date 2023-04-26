@@ -19,15 +19,15 @@ interface Credentials
     /**
      * Get the token secret for the credentials.
      */
-    public function getTokenSecret(): ?string;
+    public function getTokenSecret(): string|null;
 
     /**
      * Get the refresh token for the credentials.
      */
-    public function getRefreshToken(): ?string;
+    public function getRefreshToken(): string|null;
 
     /**
      * Get the expiry date for the credentials.
      */
-    public function getExpiry(): ?DateTimeInterface;
+    public function getExpiry(): DateTimeInterface|null;
 }

@@ -2,7 +2,6 @@
 
 namespace Wallo\FilamentCompanies\Http\Livewire;
 
-use App\Models\User;
 use Filament\Notifications\Notification;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Contracts\View\View;
@@ -32,7 +31,7 @@ class UpdatePasswordForm extends Component
 
         $updater->update(Auth::user(), $this->state);
 
-        if (! is_null(session())) {
+        if (session() !== null) {
             session()->put([
                 'password_hash_'.Auth::getDefaultDriver() => Auth::user()?->getAuthPassword(),
             ]);
@@ -50,7 +49,7 @@ class UpdatePasswordForm extends Component
     /**
      * Get the current user of the application.
      */
-    public function getUserProperty(): User|Authenticatable|null
+    public function getUserProperty(): Authenticatable|null
     {
         return Auth::user();
     }
@@ -63,7 +62,7 @@ class UpdatePasswordForm extends Component
         return view('filament-companies::profile.update-password-form');
     }
 
-    public function passwordUpdated()
+    public function passwordUpdated(): void
     {
         Notification::make()
             ->title(__('filament-companies::default.notifications.password_updated.title'))

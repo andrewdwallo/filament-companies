@@ -1,36 +1,24 @@
 <x-filament::layouts.card>
 
-    <x-filament-companies::validation-errors class="mb-4"/>
-
-    <form method="POST" action="{{ route('password.update') }}">
+    <form method="POST" class="space-y-8" action="{{ route('password.update') }}">
         @csrf
 
         <input type="hidden" name="token" value="{{ $request->route('token') }}">
 
-        <div class="block">
-            <x-filament-companies::label for="email" value="{{ __('filament-companies::default.fields.email') }}"/>
-            <x-filament-companies::input id="email" class="mt-1 block w-full" type="email" name="email"
-                                         :value="old('email', $request->email)" required autofocus autocomplete="username"/>
-        </div>
+        <x-forms::field-wrapper id="email" statePath="email" required label="{{ __('filament-companies::default.fields.email') }}">
+            <x-filament-companies::input id="email" type="email" name="email" :value="old('email', $request->email)" required autofocus autocomplete="username" />
+        </x-forms::field-wrapper>
 
-        <div class="mt-4">
-            <x-filament-companies::label for="password"
-                                         value="{{ __('filament-companies::default.fields.password') }}"/>
-            <x-filament-companies::input id="password" class="mt-1 block w-full" type="password" name="password"
-                                         required autocomplete="new-password"/>
-        </div>
+        <x-forms::field-wrapper id="password" statePath="password" required label="{{ __('filament-companies::default.fields.password') }}">
+            <x-filament-companies::input id="password" type="password" name="password" required autocomplete="new-password" />
+        </x-forms::field-wrapper>
 
-        <div class="mt-4">
-            <x-filament-companies::label for="password_confirmation"
-                                         value="{{ __('filament-companies::default.labels.password_confirmation') }}"/>
-            <x-filament-companies::input id="password_confirmation" class="mt-1 block w-full" type="password"
-                                         name="password_confirmation" required autocomplete="new-password"/>
-        </div>
+        <x-forms::field-wrapper id="password_confirmation" statePath="password_confirmation" required label="{{ __('filament-companies::default.labels.password_confirmation') }}">
+            <x-filament-companies::input id="password_confirmation" type="password" name="password_confirmation" required autocomplete="new-password" />
+        </x-forms::field-wrapper>
 
-        <div class="mt-4 flex items-center justify-end">
-            <x-filament::button type="submit">
-                {{ __('filament-companies::default.buttons.reset_password') }}
-            </x-filament::button>
-        </div>
+        <x-filament::button type="submit" class="w-full">
+            {{ __('filament-companies::default.buttons.reset_password') }}
+        </x-filament::button>
     </form>
 </x-filament::layouts.card>

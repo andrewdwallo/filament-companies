@@ -2,7 +2,6 @@
 
 namespace Wallo\FilamentCompanies;
 
-use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -41,7 +40,7 @@ abstract class Company extends Model
     /**
      * Determine if the given user belongs to the company.
      */
-    public function hasUser(User $user): bool
+    public function hasUser(mixed $user): bool
     {
         return $this->users->contains($user) || $user->ownsCompany($this);
     }
@@ -51,7 +50,7 @@ abstract class Company extends Model
      */
     public function hasUserWithEmail(string $email): bool
     {
-        return $this->allUsers()->contains(function ($user) use ($email) {
+        return $this->allUsers()->contains(static function ($user) use ($email) {
             return $user->email === $email;
         });
     }
@@ -59,7 +58,7 @@ abstract class Company extends Model
     /**
      * Determine if the given user has the given permission on the company.
      */
-    public function userHasPermission(User $user, string $permission): bool
+    public function userHasPermission(mixed $user, string $permission): bool
     {
         return $user->hasCompanyPermission($this, $permission);
     }
@@ -75,7 +74,7 @@ abstract class Company extends Model
     /**
      * Remove the given user from the company.
      */
-    public function removeUser(User $user): void
+    public function removeUser(mixed $user): void
     {
         if ($user->current_company_id === $this->id) {
             $user->forceFill([

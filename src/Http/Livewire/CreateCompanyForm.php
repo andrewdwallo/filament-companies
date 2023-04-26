@@ -2,7 +2,6 @@
 
 namespace Wallo\FilamentCompanies\Http\Livewire;
 
-use App\Models\User;
 use Filament\Notifications\Notification;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Contracts\View\View;
@@ -42,7 +41,7 @@ class CreateCompanyForm extends Component
     /**
      * Get the current user of the application.
      */
-    public function getUserProperty(): User|Authenticatable|null
+    public function getUserProperty(): Authenticatable|null
     {
         return Auth::user();
     }
@@ -60,7 +59,7 @@ class CreateCompanyForm extends Component
         Notification::make()
             ->title(__('filament-companies::default.notifications.company_created.title'))
             ->success()
-            ->body(__('filament-companies::default.notifications.company_created.body', ['name' => $name]))
+            ->body(__('filament-companies::default.notifications.company_created.body', compact('name')))
             ->send();
     }
 }

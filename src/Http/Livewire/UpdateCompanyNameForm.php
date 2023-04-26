@@ -2,16 +2,18 @@
 
 namespace Wallo\FilamentCompanies\Http\Livewire;
 
-use App\Models\User;
 use Filament\Notifications\Notification;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 use Wallo\FilamentCompanies\Contracts\UpdatesCompanyNames;
+use Wallo\FilamentCompanies\RefreshesNavigationMenu;
 
 class UpdateCompanyNameForm extends Component
 {
+    use RefreshesNavigationMenu;
+
     /**
      * The company instance.
      */
@@ -41,19 +43,26 @@ class UpdateCompanyNameForm extends Component
 
         $updater->update($this->user, $this->company, $this->state);
 
-        Notification::make()
-        ->title(__('filament-companies::default.notifications.company_name_updated.title'))
-        ->success()
-        ->body(__('filament-companies::default.notifications.company_name_updated.body', ['name' => $this->state['name']]))
-        ->send();
+        $name = $this->state['name'];
 
-        $this->emit('refresh-navigation-menu');
+        $this->refreshNavigationMenu();
+
+        $this->companyNameUpdated($name);
+    }
+
+    protected function companyNameUpdated($name): void
+    {
+        Notification::make()
+            ->title(__('filament-companies::default.notifications.company_name_updated.title'))
+            ->success()
+            ->body(__('filament-companies::default.notifications.company_name_updated.body', compact('name')))
+            ->send();
     }
 
     /**
      * Get the current user of the application.
      */
-    public function getUserProperty(): User|Authenticatable|null
+    public function getUserProperty(): Authenticatable|null
     {
         return Auth::user();
     }

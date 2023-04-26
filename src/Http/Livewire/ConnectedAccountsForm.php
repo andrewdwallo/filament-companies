@@ -2,7 +2,7 @@
 
 namespace Wallo\FilamentCompanies\Http\Livewire;
 
-use App\Models\User;
+use Filament\Notifications\Notification;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
@@ -12,23 +12,11 @@ use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 use Livewire\Redirector;
 use Wallo\FilamentCompanies\ConnectedAccount;
-use Wallo\FilamentCompanies\InteractsWithBanner;
 use Wallo\FilamentCompanies\Pages\User\Profile;
 use Wallo\FilamentCompanies\Socialite;
 
 class ConnectedAccountsForm extends Component
 {
-    use InteractsWithBanner;
-
-    /**
-     * The component's listeners.
-     *
-     * @var array<string, string>
-     */
-    protected $listeners = [
-        'refresh-navigation-menu' => '$refresh',
-    ];
-
     /**
      * Indicates whether removal of a provider is being confirmed.
      */
@@ -50,7 +38,7 @@ class ConnectedAccountsForm extends Component
     /**
      * Get the current user of the application.
      */
-    public function getUserProperty(): User|Authenticatable|null
+    public function getUserProperty(): Authenticatable|null
     {
         return Auth::user();
     }
@@ -75,7 +63,7 @@ class ConnectedAccountsForm extends Component
             ->where('id', $accountId)
             ->first();
 
-        if (is_callable([$user, 'setProfilePhotoFromUrl']) && ! is_null($account->avatar_path) && Socialite::hasProviderAvatarsFeature()) {
+        if (is_callable([$user, 'setProfilePhotoFromUrl']) && $account->avatar_path !== null && Socialite::hasProviderAvatarsFeature()) {
             $user->setProfilePhotoFromUrl($account->avatar_path);
         }
 
@@ -94,7 +82,7 @@ class ConnectedAccountsForm extends Component
 
         $this->confirmingRemove = false;
 
-        $this->banner(__('filament-companies::default.banner.connected_account_removed', ['provider' => $accountId]));
+        $this->connectedAccountRemoved();
     }
 
     /**
@@ -103,7 +91,7 @@ class ConnectedAccountsForm extends Component
     public function getAccountsProperty(): Collection
     {
         return Auth::user()->connectedAccounts
-            ->map(function (ConnectedAccount $account) {
+            ->map(static function (ConnectedAccount $account) {
                 return (object) $account->getSharedData();
             });
     }
@@ -114,5 +102,17 @@ class ConnectedAccountsForm extends Component
     public function render(): View
     {
         return view('filament-companies::profile.connected-accounts-form');
+    }
+
+    /**
+     * The connected account has been removed.
+     */
+    protected function connectedAccountRemoved(): void
+    {
+        Notification::make()
+            ->title(__('filament-companies::default.notifications.connected_account_removed.title'))
+            ->success()
+            ->body(__('filament-companies::default.notifications.connected_account_removed.body'))
+            ->send();
     }
 }

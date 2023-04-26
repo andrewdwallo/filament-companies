@@ -32,14 +32,14 @@ class CreateUserFromProvider implements CreatesUserFromProvider
      */
     public function create(string $provider, ProviderUserContract $providerUser): User
     {
-        return DB::transaction(function () use ($provider, $providerUser) {
+        return DB::transaction(function () use ($providerUser, $provider) {
             return tap(User::create([
                 'name' => $providerUser->getName(),
                 'email' => $providerUser->getEmail(),
-            ]), function (User $user) use ($provider, $providerUser) {
+            ]), function (User $user) use ($providerUser, $provider) {
                 $user->markEmailAsVerified();
 
-                if (Features::profilePhotos() && Socialite::hasProviderAvatarsFeature() && FilamentCompanies::managesProfilePhotos() && $providerUser->getAvatar()) {
+                if ($this->shouldSetProfilePhoto($providerUser)) {
                     $user->setProfilePhotoFromUrl($providerUser->getAvatar());
                 }
 
@@ -50,6 +50,14 @@ class CreateUserFromProvider implements CreatesUserFromProvider
                 $this->createCompany($user);
             });
         });
+    }
+
+    private function shouldSetProfilePhoto(ProviderUserContract $providerUser): bool
+    {
+        return Features::profilePhotos() &&
+            Socialite::hasProviderAvatarsFeature() &&
+            FilamentCompanies::managesProfilePhotos() &&
+            $providerUser->getAvatar();
     }
 
     /**

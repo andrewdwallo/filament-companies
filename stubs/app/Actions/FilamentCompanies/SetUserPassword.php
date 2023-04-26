@@ -2,6 +2,7 @@
 
 namespace App\Actions\FilamentCompanies;
 
+use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Laravel\Fortify\Rules\Password;
@@ -12,7 +13,7 @@ class SetUserPassword implements SetsUserPasswords
     /**
      * Validate and update the user's password.
      */
-    public function set(mixed $user, array $input): void
+    public function set(User $user, array $input): void
     {
         Validator::make($input, [
             'password' => ['required', 'string', new Password, 'confirmed'],

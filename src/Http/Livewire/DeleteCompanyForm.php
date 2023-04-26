@@ -62,12 +62,12 @@ class DeleteCompanyForm extends Component
         return view('filament-companies::companies.delete-company-form');
     }
 
-    public function companyDeleted($name)
+    public function companyDeleted($name): void
     {
         Notification::make()
             ->title(__('filament-companies::default.notifications.company_deleted.title'))
             ->success()
-            ->body(__('filament-companies::default.notifications.company_deleted.body', ['name' => $name]))
+            ->body(__('filament-companies::default.notifications.company_deleted.body', compact('name')))
             ->send();
     }
 }

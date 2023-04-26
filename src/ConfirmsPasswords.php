@@ -17,7 +17,7 @@ trait ConfirmsPasswords
     /**
      * The ID of the operation being confirmed.
      */
-    public ?string $confirmableId = null;
+    public string|null $confirmableId = null;
 
     /**
      * The user's password.
@@ -27,7 +27,7 @@ trait ConfirmsPasswords
     /**
      * Start confirming the user's password.
      */
-    public function startConfirmingPassword(string $confirmableId): void
+    public function startConfirmingPassword(string|null $confirmableId = null): void
     {
         $this->resetErrorBag();
 
@@ -79,7 +79,7 @@ trait ConfirmsPasswords
     /**
      * Ensure that the user's password has been recently confirmed.
      */
-    protected function ensurePasswordIsConfirmed(int $maximumSecondsSinceConfirmation = null): void
+    protected function ensurePasswordIsConfirmed(int|null $maximumSecondsSinceConfirmation = null): void
     {
         $maximumSecondsSinceConfirmation = $maximumSecondsSinceConfirmation ?: $this->getPasswordTimeout();
 
@@ -91,7 +91,7 @@ trait ConfirmsPasswords
     /**
      * Determine if the user's password has been recently confirmed.
      */
-    protected function passwordIsConfirmed(int $maximumSecondsSinceConfirmation = null): bool
+    protected function passwordIsConfirmed(int|null $maximumSecondsSinceConfirmation = null): bool
     {
         $maximumSecondsSinceConfirmation = $maximumSecondsSinceConfirmation ?: $this->getPasswordTimeout();
 

@@ -2,7 +2,6 @@
 
 namespace Wallo\FilamentCompanies;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
 use Wallo\FilamentCompanies\Contracts\AddsCompanyEmployees;
 use Wallo\FilamentCompanies\Contracts\CreatesCompanies;
@@ -65,7 +64,7 @@ class FilamentCompanies
     /**
      * Find the role with the given key.
      */
-    public static function findRole(string $key): ?Role
+    public static function findRole(string $key): Role|null
     {
         return static::$roles[$key] ?? null;
     }
@@ -75,7 +74,7 @@ class FilamentCompanies
      */
     public static function role(string $key, string $name, array $permissions): Role
     {
-        static::$permissions = collect(array_merge(static::$permissions, $permissions))
+        static::$permissions = collect([...static::$permissions, ...$permissions])
                                     ->unique()
                                     ->sort()
                                     ->values()
@@ -149,7 +148,7 @@ class FilamentCompanies
     /**
      * Determine if a given user model utilizes the "HasCompanies" trait.
      */
-    public static function userHasCompanyFeatures(Model $user): bool
+    public static function userHasCompanyFeatures(mixed $user): bool
     {
         return (array_key_exists(HasCompanies::class, class_uses_recursive($user)) ||
                 method_exists($user, 'currentCompany')) &&
@@ -339,7 +338,7 @@ class FilamentCompanies
     /**
      * Find the path to a localized Markdown resource.
      */
-    public static function localizedMarkdownPath(string $name): ?string
+    public static function localizedMarkdownPath(string $name): string|null
     {
         $localName = preg_replace('#(\.md)$#i', '.'.app()->getLocale().'$1', $name);
 

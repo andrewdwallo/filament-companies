@@ -2,19 +2,18 @@
 
 namespace Wallo\FilamentCompanies;
 
-use Filament\Facades\Filament;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\View\Compilers\BladeCompiler;
 use Laravel\Fortify\Fortify;
 use Livewire\Livewire;
-use Wallo\FilamentCompanies\Http\Livewire\ApiTokenManager;
 use Wallo\FilamentCompanies\Http\Livewire\CompanyEmployeeManager;
 use Wallo\FilamentCompanies\Http\Livewire\ConnectedAccountsForm;
 use Wallo\FilamentCompanies\Http\Livewire\CreateCompanyForm;
 use Wallo\FilamentCompanies\Http\Livewire\DeleteCompanyForm;
 use Wallo\FilamentCompanies\Http\Livewire\DeleteUserForm;
 use Wallo\FilamentCompanies\Http\Livewire\LogoutOtherBrowserSessionsForm;
+use Wallo\FilamentCompanies\Http\Livewire\NavigationMenu;
 use Wallo\FilamentCompanies\Http\Livewire\SetPasswordForm;
 use Wallo\FilamentCompanies\Http\Livewire\TwoFactorAuthenticationForm;
 use Wallo\FilamentCompanies\Http\Livewire\UpdateCompanyNameForm;
@@ -34,17 +33,13 @@ class FilamentCompaniesServiceProvider extends ServiceProvider
     {
         $this->mergeConfigFrom(__DIR__.'/../config/filament-companies.php', 'filament-companies');
 
-        $this->app->afterResolving(BladeCompiler::class, function () {
+        $this->app->afterResolving(BladeCompiler::class, static function () {
             if (class_exists(Livewire::class) && config('filament-companies.stack') === 'filament') {
                 Livewire::component(UpdateProfileInformationForm::getName(), UpdateProfileInformationForm::class);
                 Livewire::component(UpdatePasswordForm::getName(), UpdatePasswordForm::class);
                 Livewire::component(TwoFactorAuthenticationForm::getName(), TwoFactorAuthenticationForm::class);
                 Livewire::component(LogoutOtherBrowserSessionsForm::getName(), LogoutOtherBrowserSessionsForm::class);
                 Livewire::component(DeleteUserForm::getName(), DeleteUserForm::class);
-
-                if (Features::hasApiFeatures()) {
-                    Livewire::component(ApiTokenManager::getName(), ApiTokenManager::class);
-                }
 
                 if (Features::hasCompanyFeatures()) {
                     Livewire::component(CreateCompanyForm::getName(), CreateCompanyForm::class);
@@ -60,8 +55,8 @@ class FilamentCompaniesServiceProvider extends ServiceProvider
             }
         });
 
-        $this->app->resolving('filament', function () {
-            Filament::registerPages($this->getPages());
+        $this->app->resolving('filament', function ($filament) {
+            $filament->registerPages($this->getPages());
         });
     }
 
@@ -75,7 +70,7 @@ class FilamentCompaniesServiceProvider extends ServiceProvider
         $this->loadTranslationsFrom(__DIR__.'/../lang', 'filament-companies');
 
         foreach ($this->getPages() as $page) {
-            Livewire::component($page::getName(), $page);
+            Livewire::component(app($page)::getName(), $page);
         }
 
         Fortify::viewPrefix('filament-companies::auth.');
@@ -146,11 +141,19 @@ class FilamentCompaniesServiceProvider extends ServiceProvider
 
     protected function getPages(): array
     {
-        return [
+        $pages = [
             Profile::class,
-            APITokens::class,
-            CompanySettings::class,
-            CreateCompany::class,
         ];
+
+        if (Features::hasApiFeatures()) {
+            $pages[] = APITokens::class;
+        }
+
+        if (Features::hasCompanyFeatures()) {
+            $pages[] = CompanySettings::class;
+            $pages[] = CreateCompany::class;
+        }
+
+        return $pages;
     }
 }

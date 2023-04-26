@@ -2,7 +2,6 @@
 
 namespace Wallo\FilamentCompanies\Http\Livewire;
 
-use App\Models\User;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Auth;
@@ -36,14 +35,14 @@ class TwoFactorAuthenticationForm extends Component
     /**
      * The OTP code for confirming two-factor authentication.
      */
-    public string|null $code;
+    public ?string $code = null;
 
     /**
      * Mount the component.
      */
     public function mount(): void
     {
-        if (is_null(Auth::user()->two_factor_confirmed_at) &&
+        if (Auth::user()->two_factor_confirmed_at === null &&
             Features::optionEnabled(Features::twoFactorAuthentication(), 'confirm')) {
             app(DisableTwoFactorAuthentication::class)(Auth::user());
         }
@@ -130,7 +129,7 @@ class TwoFactorAuthenticationForm extends Component
     /**
      * Get the current user of the application.
      */
-    public function getUserProperty(): User|Authenticatable|null
+    public function getUserProperty(): Authenticatable|null
     {
         return Auth::user();
     }

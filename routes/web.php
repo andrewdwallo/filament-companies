@@ -35,7 +35,7 @@ Route::group(['middleware' => config('filament-companies.middleware', ['web'])],
     Route::group(['middleware' => array_values(array_filter([$authMiddleware, $authSessionMiddleware]))], static function () {
         // User & Profile...
         Route::prefix(config('filament.path'))
-            ->group(function () {
+            ->group(static function () {
                 Route::get('/user/profile', Profile::class);
 
                 Route::group(['middleware' => 'verified'], static function () {

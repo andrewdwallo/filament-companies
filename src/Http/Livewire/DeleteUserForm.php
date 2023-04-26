@@ -55,7 +55,7 @@ class DeleteUserForm extends Component
 
         $auth->logout();
 
-        if (! is_null(session())) {
+        if (session() !== null) {
             session()->invalidate();
             session()->regenerateToken();
         }

@@ -28,7 +28,7 @@ class UpdateUserProfileInformation implements UpdatesUserProfileInformation
         }
 
         if ($input['email'] !== $user->email &&
-            $user instanceof MustVerifyEmail) {
+            $this->userMustVerifyEmail()) {
             $this->updateVerifiedUser($user, $input);
         } else {
             $user->forceFill([
@@ -36,6 +36,14 @@ class UpdateUserProfileInformation implements UpdatesUserProfileInformation
                 'email' => $input['email'],
             ])->save();
         }
+    }
+
+    /**
+     * Determine if the user must verify their email address.
+     */
+    protected function userMustVerifyEmail(): bool
+    {
+        return in_array(MustVerifyEmail::class, class_implements(User::class));
     }
 
     /**

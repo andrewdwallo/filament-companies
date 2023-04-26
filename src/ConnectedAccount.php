@@ -5,6 +5,12 @@ namespace Wallo\FilamentCompanies;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
+/**
+ * @property int $id
+ * @property int $user_id
+ * @property string $provider
+ * @property string $provider_id
+ */
 abstract class ConnectedAccount extends Model
 {
     /**
@@ -34,7 +40,7 @@ abstract class ConnectedAccount extends Model
             'id' => $this->id,
             'provider' => $this->provider,
             'avatar_path' => $this->avatar_path,
-            'created_at' => optional($this->created_at)->diffForHumans(),
+            'created_at' => $this->created_at?->diffForHumans(),
         ];
     }
 }

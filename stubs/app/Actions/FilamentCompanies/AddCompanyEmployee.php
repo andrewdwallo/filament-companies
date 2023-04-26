@@ -22,7 +22,7 @@ class AddCompanyEmployee implements AddsCompanyEmployees
      *
      * @throws AuthorizationException
      */
-    public function add(User $user, Company $company, string $email, string $role = null): void
+    public function add(User $user, Company $company, string $email, string|null $role = null): void
     {
         Gate::forUser($user)->authorize('addCompanyEmployee', $company);
 

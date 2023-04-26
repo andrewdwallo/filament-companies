@@ -2,7 +2,6 @@
 
 namespace Wallo\FilamentCompanies\Pages\Companies;
 
-use App\Models\Company;
 use Filament\Pages\Page;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
@@ -10,7 +9,7 @@ use Wallo\FilamentCompanies\FilamentCompanies;
 
 class CreateCompany extends Page
 {
-    public Company $company;
+    public mixed $company;
 
     protected static string $view = 'filament-companies::filament.pages.companies.create_company';
 
@@ -21,9 +20,8 @@ class CreateCompany extends Page
         return __('filament-companies::default.pages.titles.create_company');
     }
 
-    public function mount(Company $company): void
+    public function mount(): void
     {
-        abort_unless(FilamentCompanies::hasCompanyFeatures(), 403);
         Gate::authorize('create', FilamentCompanies::newCompanyModel());
         $this->company = Auth::user()->currentCompany;
     }

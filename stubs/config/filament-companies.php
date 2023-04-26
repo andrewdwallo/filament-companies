@@ -84,6 +84,30 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Layout
+    |--------------------------------------------------------------------------
+    |
+    | This is the configuration for the general layout of the package.
+    |
+    | Supported:
+    | "sm", "md", "lg", "xl", "2xl",
+    | "3xl", "4xl", "5xl", "6xl", "7xl", "full"
+    |
+    */
+
+    'layout' => [
+        'modals' => [
+            'dialog_modal_width' => '2xl',
+            'api_tokens' => [
+                'create_modal_width' => '2xl',
+                'edit_modal_width' => '2xl',
+                'revoke_modal_width' => 'md',
+            ],
+        ],
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
     | Profile Photo Disk
     |--------------------------------------------------------------------------
     |

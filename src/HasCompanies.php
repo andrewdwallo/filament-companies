@@ -2,7 +2,6 @@
 
 namespace Wallo\FilamentCompanies;
 
-use App\Models\Company;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -25,7 +24,7 @@ trait HasCompanies
      */
     public function currentCompany(): BelongsTo
     {
-        if (is_null($this->current_company_id) && $this->id) {
+        if ($this->current_company_id === null && $this->id) {
             $this->switchCompany($this->personalCompany());
         }
 
@@ -80,7 +79,7 @@ trait HasCompanies
     /**
      * Get the user's "personal" company.
      */
-    public function personalCompany(): Company
+    public function personalCompany(): mixed
     {
         return $this->ownedCompanies->where('personal_company', true)->first();
     }
@@ -90,7 +89,7 @@ trait HasCompanies
      */
     public function ownsCompany(mixed $company): bool
     {
-        if (is_null($company)) {
+        if ($company === null) {
             return false;
         }
 
@@ -102,11 +101,11 @@ trait HasCompanies
      */
     public function belongsToCompany(mixed $company): bool
     {
-        if (is_null($company)) {
+        if ($company === null) {
             return false;
         }
 
-        return $this->ownsCompany($company) || $this->companies->contains(function ($t) use ($company) {
+        return $this->ownsCompany($company) || $this->companies->contains(static function ($t) use ($company) {
             return $t->id === $company->id;
         });
     }
@@ -142,9 +141,9 @@ trait HasCompanies
             return true;
         }
 
-        return $this->belongsToCompany($company) && optional(FilamentCompanies::findRole($company->users->where(
+        return $this->belongsToCompany($company) && FilamentCompanies::findRole($company->users->where(
             'id', $this->id
-        )->first()->employeeship->role))->key === $role;
+        )->first()->employeeship->role)?->key === $role;
     }
 
     /**
@@ -160,7 +159,7 @@ trait HasCompanies
             return [];
         }
 
-        return (array) optional($this->companyRole($company))->permissions;
+        return (array) $this->companyRole($company)?->permissions;
     }
 
     /**

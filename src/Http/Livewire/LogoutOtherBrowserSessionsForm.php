@@ -2,6 +2,7 @@
 
 namespace Wallo\FilamentCompanies\Http\Livewire;
 
+use DeviceDetector\DeviceDetector;
 use Filament\Notifications\Notification;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Contracts\Auth\StatefulGuard;
@@ -12,7 +13,6 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
-use Jenssegers\Agent\Agent;
 use Livewire\Component;
 
 class LogoutOtherBrowserSessionsForm extends Component
@@ -97,12 +97,17 @@ class LogoutOtherBrowserSessionsForm extends Component
 
         return collect(
             DB::connection(config('session.connection'))->table(config('session.table', 'sessions'))
-                    ->where('user_id', Auth::user()?->getAuthIdentifier())
-                    ->orderBy('last_activity', 'desc')
-                    ->get()
+                ->where('user_id', Auth::user()?->getAuthIdentifier())
+                ->orderBy('last_activity', 'desc')
+                ->get()
         )->map(function ($session) {
+            $deviceDetector = $this->createAgent($session);
+
             return (object) [
-                'agent' => $this->createAgent($session),
+                'device' => $deviceDetector->getDeviceName(),
+                'client_name' => $deviceDetector->getClient('name'),
+                'os_name' => $deviceDetector->getOs('name'),
+                'os_version' => $deviceDetector->getOs('version'),
                 'ip_address' => $session->ip_address,
                 'is_current_device' => $session->id === session()->getId(),
                 'last_active' => Carbon::createFromTimestamp($session->last_activity)->diffForHumans(),
@@ -113,11 +118,12 @@ class LogoutOtherBrowserSessionsForm extends Component
     /**
      * Create a new agent instance from the given session.
      */
-    protected function createAgent(mixed $session): Agent
+    protected function createAgent(mixed $session): DeviceDetector
     {
-        return tap(new Agent, static function ($agent) use ($session) {
-            $agent->setUserAgent($session->user_agent);
-        });
+        $deviceDetector = new DeviceDetector($session->user_agent);
+        $deviceDetector->parse();
+
+        return $deviceDetector;
     }
 
     /**
@@ -128,7 +134,7 @@ class LogoutOtherBrowserSessionsForm extends Component
         return view('filament-companies::profile.logout-other-browser-sessions-form');
     }
 
-    public function browserSessionsTerminated()
+    public function browserSessionsTerminated(): void
     {
         Notification::make()
             ->title(__('filament-companies::default.notifications.browser_sessions_terminated.title'))

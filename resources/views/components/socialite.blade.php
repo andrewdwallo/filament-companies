@@ -5,77 +5,33 @@
         <hr class="w-full ml-2">
     </div>
 
-    <div class="mt-6 flex items-center justify-center">
-        <div>
-            @if (Wallo\FilamentCompanies\Socialite::hasFacebook())
-                <a href="{{ route('oauth.redirect', ['provider' => Wallo\FilamentCompanies\Providers::facebook()]) }}" class="inline-flex w-full justify-center rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 dark:text-white dark:focus:border-primary-500 py-2 px-4 text-sm font-medium text-gray-500 shadow-sm hover:bg-gray-50 dark:hover:bg-gray-600">
-                    <span class="sr-only">Facebook</span>
-                    <x-filament-companies::socialite-icons.facebook />
-                </a>
-            @endif
-        </div>
+    <div class="mt-6 flex flex-wrap items-center justify-center gap-6">
+        @php
+            $providers = [
+                'Facebook' => ['provider' => Wallo\FilamentCompanies\Providers::facebook(), 'method' => 'hasFacebook'],
+                'TwitterOAuth1' => ['provider' => Wallo\FilamentCompanies\Providers::twitterOAuth1(), 'method' => 'hasTwitterOAuth1'],
+                'GitHub' => ['provider' => Wallo\FilamentCompanies\Providers::github(), 'method' => 'hasGithub'],
+                'Google' => ['provider' => Wallo\FilamentCompanies\Providers::google(), 'method' => 'hasGoogle'],
+                'TwitterOAuth2' => ['provider' => Wallo\FilamentCompanies\Providers::twitterOAuth2(), 'method' => 'hasTwitterOAuth2'],
+                'LinkedIn' => ['provider' => Wallo\FilamentCompanies\Providers::linkedin(), 'method' => 'hasLinkedIn'],
+                'GitLab' => ['provider' => Wallo\FilamentCompanies\Providers::gitlab(), 'method' => 'hasGitlab'],
+                'Bitbucket' => ['provider' => Wallo\FilamentCompanies\Providers::bitbucket(), 'method' => 'hasBitbucket'],
+            ];
+        @endphp
 
-        <div>
-            @if (Wallo\FilamentCompanies\Socialite::hasTwitterOAuth1())
-                <a href="{{ route('oauth.redirect', ['provider' => Wallo\FilamentCompanies\Providers::twitterOAuth1()]) }}" class="inline-flex w-full justify-center rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 dark:text-white dark:focus:border-primary-500 py-2 px-4 text-sm font-medium text-gray-500 shadow-sm hover:bg-gray-50 dark:hover:bg-gray-600">
-                    <span class="sr-only">Twitter</span>
-                    <x-filament-companies::socialite-icons.twitter />
+        @foreach ($providers as $name => $provider)
+            @if (call_user_func([Wallo\FilamentCompanies\Socialite::class, $provider['method']]))
+                <a href="{{ route('oauth.redirect', ['provider' => $provider['provider']]) }}" class="inline-flex rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 dark:focus:border-primary-500 py-2 px-4 shadow-sm hover:bg-gray-50 dark:hover:bg-gray-600">
+                    @php
+                        $name = str_replace('OAuth1', '', str_replace('OAuth2', '', $name));
+                        $icon = strtolower($name);
+                    @endphp
+                    <span class="sr-only">{{ $name }}</span>
+                    <div class="h-6 w-6">
+                        @component("filament-companies::components.socialite-icons.{$icon}")@endcomponent
+                    </div>
                 </a>
             @endif
-        </div>
-
-        <div>
-            @if (Wallo\FilamentCompanies\Socialite::hasGithub())
-                <a href="{{ route('oauth.redirect', ['provider' => Wallo\FilamentCompanies\Providers::github()]) }}" class="inline-flex w-full justify-center rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 dark:text-white dark:focus:border-primary-500 py-2 px-4 text-sm font-medium text-gray-500 shadow-sm hover:bg-gray-50 dark:hover:bg-gray-600">
-                    <span class="sr-only">GitHub</span>
-                    <x-filament-companies::socialite-icons.github />
-                </a>
-            @endif
-        </div>
-
-        <div>
-            @if (Wallo\FilamentCompanies\Socialite::hasGoogle())
-                <a href="{{ route('oauth.redirect', ['provider' => Wallo\FilamentCompanies\Providers::google()]) }}" class="inline-flex w-full justify-center rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 dark:text-white dark:focus:border-primary-500 py-2 px-4 text-sm font-medium text-gray-500 shadow-sm hover:bg-gray-50 dark:hover:bg-gray-600">
-                    <span class="sr-only">Google</span>
-                    <x-filament-companies::socialite-icons.google />
-                </a>
-            @endif
-        </div>
-
-        <div>
-            @if (Wallo\FilamentCompanies\Socialite::hasTwitterOAuth2())
-                <a href="{{ route('oauth.redirect', ['provider' => Wallo\FilamentCompanies\Providers::twitterOAuth2()]) }}" class="inline-flex w-full justify-center rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 dark:text-white dark:focus:border-primary-500 py-2 px-4 text-sm font-medium text-gray-500 shadow-sm hover:bg-gray-50 dark:hover:bg-gray-600">
-                    <span class="sr-only">Twitter</span>
-                    <x-filament-companies::socialite-icons.twitter />
-                </a>
-            @endif
-        </div>
-
-        <div>
-            @if (Wallo\FilamentCompanies\Socialite::hasLinkedIn())
-                <a href="{{ route('oauth.redirect', ['provider' => Wallo\FilamentCompanies\Providers::linkedin()]) }}" class="inline-flex w-full justify-center rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 dark:text-white dark:focus:border-primary-500 py-2 px-4 text-sm font-medium text-gray-500 shadow-sm hover:bg-gray-50 dark:hover:bg-gray-600">
-                    <span class="sr-only">LinkedIn</span>
-                    <x-filament-companies::socialite-icons.linkedin />
-                </a>
-            @endif
-        </div>
-
-        <div>
-            @if (Wallo\FilamentCompanies\Socialite::hasGitlab())
-                <a href="{{ route('oauth.redirect', ['provider' => Wallo\FilamentCompanies\Providers::gitlab()]) }}" class="inline-flex w-full justify-center rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 dark:text-white dark:focus:border-primary-500 py-2 px-4 text-sm font-medium text-gray-500 shadow-sm hover:bg-gray-50 dark:hover:bg-gray-600">
-                    <span class="sr-only">GitLab</span>
-                    <x-filament-companies::socialite-icons.gitlab />
-                </a>
-            @endif
-        </div>
-
-        <div>
-            @if (Wallo\FilamentCompanies\Socialite::hasBitbucket())
-                <a href="{{ route('oauth.redirect', ['provider' => Wallo\FilamentCompanies\Providers::bitbucket()]) }}" class="inline-flex w-full justify-center rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 dark:text-white dark:focus:border-primary-500 py-2 px-4 text-sm font-medium text-gray-500 shadow-sm hover:bg-gray-50 dark:hover:bg-gray-600">
-                    <span class="sr-only">BitBucket</span>
-                    <x-filament-companies::socialite-icons.bitbucket />
-                </a>
-            @endif
-        </div>
+        @endforeach
     </div>
 </div>

@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Livewire\Redirector;
 use Wallo\FilamentCompanies\FilamentCompanies;
+use Wallo\FilamentCompanies\Pages\Companies\CompanySettings;
 
 class CurrentCompanyController extends Controller
 {
@@ -21,6 +22,6 @@ class CurrentCompanyController extends Controller
             abort(403);
         }
 
-        return back(303);
+        return redirect()->to((CompanySettings::getUrl(compact('company'))), 303);
     }
 }

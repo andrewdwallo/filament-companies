@@ -1,47 +1,46 @@
 @props(['provider', 'createdAt' => null])
 
+@php
+    $providers = [
+        Wallo\FilamentCompanies\Providers::facebook() => 'Facebook',
+        Wallo\FilamentCompanies\Providers::twitterOAuth1() => 'Twitter',
+        Wallo\FilamentCompanies\Providers::twitterOAuth2() => 'Twitter',
+        Wallo\FilamentCompanies\Providers::github() => 'GitHub',
+        Wallo\FilamentCompanies\Providers::google() => 'Google',
+        Wallo\FilamentCompanies\Providers::linkedin() => 'LinkedIn',
+        Wallo\FilamentCompanies\Providers::gitlab() => 'GitLab',
+        Wallo\FilamentCompanies\Providers::bitbucket() => 'Bitbucket'
+    ];
+    $name = $providers[$provider] ?? '';
+    $icon = strtolower($name);
+@endphp
+
 <div>
     <div class="flex items-center justify-between">
-        <div class="flex items-center">
-            <div class="pr-2">
-                @switch($provider)
-                    @case(Wallo\FilamentCompanies\Providers::facebook())
-                        <x-filament-companies::socialite-icons.facebook />
-                        @break
-                    @case(Wallo\FilamentCompanies\Providers::google())
-                        <x-filament-companies::socialite-icons.google />
-                        @break
-                    @case(Wallo\FilamentCompanies\Providers::twitterOAuth1())
-                    @case(Wallo\FilamentCompanies\Providers::twitterOAuth2())
-                        <x-filament-companies::socialite-icons.twitter />
-                        @break
-                    @case(Wallo\FilamentCompanies\Providers::linkedin())
-                        <x-filament-companies::socialite-icons.linkedin />
-                        @break
-                    @case(Wallo\FilamentCompanies\Providers::github())
-                        <x-filament-companies::socialite-icons.github />
-                        @break
-                    @case(Wallo\FilamentCompanies\Providers::gitlab())
-                        <x-filament-companies::socialite-icons.gitlab />
-                        @break
-                    @case(Wallo\FilamentCompanies\Providers::bitbucket())
-                        <x-filament-companies::socialite-icons.bitbucket />
-                        @break
-                    @default
-                @endswitch
+        <div class="flex items-center space-x-2">
+            <div class="h-6 w-6">
+                @if (array_key_exists($provider, $providers))
+                    @component("filament-companies::components.socialite-icons.{$icon}") @endcomponent
+                @endif
             </div>
 
-            <div>
-                <div class="text-sm font-semibold text-gray-600 dark:text-gray-400">
-                    {{ __(ucfirst($provider)) }}
+            <div class="font-semibold">
+                <div class="text-sm text-gray-800 dark:text-gray-200">
+                    @if (array_key_exists($provider, $providers))
+                        {{ __(ucfirst($name)) }}
+                    @endif
                 </div>
 
                 @if (! empty($createdAt))
-                    <div class="text-xs font-semibold text-primary-500">
-                        {{  __('filament-companies::default.labels.connected') }} {{ $createdAt }}
+                    <div class="text-xs text-primary-700 dark:text-primary-500">
+                        {{  __('filament-companies::default.labels.connected') }}
+
+                        <div class="text-xs text-gray-600 dark:text-gray-300">
+                            {{ $createdAt }}
+                        </div>
                     </div>
                 @else
-                    <div class="text-xs font-semibold text-primary-500">
+                    <div class="text-xs text-gray-400">
                         {{ __('filament-companies::default.labels.not_connected') }}
                     </div>
                 @endif
@@ -54,7 +53,7 @@
     </div>
 
     @error($provider.'_connect_error')
-    <div class="text-sm font-semibold text-red-500 px-3 mt-2">
+    <div class="text-sm font-semibold text-danger-500 px-3 mt-2">
         {{ $message }}
     </div>
     @enderror

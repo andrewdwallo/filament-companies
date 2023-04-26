@@ -175,11 +175,8 @@ class InstallCommand extends Command
         // Tests...
         $stubs = $this->getTestStubsPath();
 
-        copy($stubs.'/filament/ApiTokenPermissionsTest.php', base_path('tests/Feature/ApiTokenPermissionsTest.php'));
         copy($stubs.'/filament/BrowserSessionsTest.php', base_path('tests/Feature/BrowserSessionsTest.php'));
-        copy($stubs.'/filament/CreateApiTokenTest.php', base_path('tests/Feature/CreateApiTokenTest.php'));
         copy($stubs.'/filament/DeleteAccountTest.php', base_path('tests/Feature/DeleteAccountTest.php'));
-        copy($stubs.'/filament/DeleteApiTokenTest.php', base_path('tests/Feature/DeleteApiTokenTest.php'));
         copy($stubs.'/filament/ProfileInformationTest.php', base_path('tests/Feature/ProfileInformationTest.php'));
         copy($stubs.'/filament/TwoFactorAuthenticationSettingsTest.php', base_path('tests/Feature/TwoFactorAuthenticationSettingsTest.php'));
         copy($stubs.'/filament/UpdatePasswordTest.php', base_path('tests/Feature/UpdatePasswordTest.php'));
@@ -268,7 +265,6 @@ EOF;
         (new Filesystem)->ensureDirectoryExists(app_path('Policies'));
 
         // Service Providers...
-        copy(__DIR__.'/../../stubs/app/Providers/AuthServiceProvider.php', app_path('Providers/AuthServiceProvider.php'));
         copy(__DIR__.'/../../stubs/app/Providers/FilamentCompaniesServiceProvider.php', app_path('Providers/FilamentCompaniesServiceProvider.php'));
 
         // Models...
@@ -313,7 +309,6 @@ EOF;
         (new Filesystem)->ensureDirectoryExists(app_path('Policies'));
 
         // Service Providers...
-        copy(__DIR__.'/../../stubs/app/Providers/SocialiteAuthServiceProvider.php', app_path('Providers/AuthServiceProvider.php'));
         copy(__DIR__.'/../../stubs/app/Providers/FilamentCompaniesWithSocialiteServiceProvider.php', app_path('Providers/FilamentCompaniesServiceProvider.php'));
 
         // Models...
@@ -368,10 +363,7 @@ EOF;
             $command = [$this->phpBinary(), $composer, 'remove', '--dev'];
         }
 
-        $command = array_merge(
-            $command ?? ['composer', 'remove', '--dev'],
-            is_array($packages) ? $packages : func_get_args()
-        );
+        $command = [...$command ?? ['composer', 'remove', '--dev'], ...is_array($packages) ? $packages : func_get_args()];
 
         return (new Process($command, base_path(), ['COMPOSER_MEMORY_LIMIT' => '-1']))
                 ->setTimeout(null)
@@ -391,10 +383,7 @@ EOF;
             $command = [$this->phpBinary(), $composer, 'require', '--dev'];
         }
 
-        $command = array_merge(
-            $command ?? ['composer', 'require', '--dev'],
-            is_array($packages) ? $packages : func_get_args()
-        );
+        $command = [...$command ?? ['composer', 'require', '--dev'], ...is_array($packages) ? $packages : func_get_args()];
 
         return (new Process($command, base_path(), ['COMPOSER_MEMORY_LIMIT' => '-1']))
                 ->setTimeout(null)

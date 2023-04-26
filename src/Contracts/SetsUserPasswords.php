@@ -2,10 +2,10 @@
 
 namespace Wallo\FilamentCompanies\Contracts;
 
+/**
+ * @method void set(\Illuminate\Foundation\Auth\User $user, array $input)
+ */
 interface SetsUserPasswords
 {
-    /**
-     * Validate and sets the user's password.
-     */
-    public function set(mixed $user, array $input): void;
+    //
 }

@@ -30,7 +30,7 @@ class APITokens extends Page implements Tables\Contracts\HasTable
     /**
      * The plain text token value.
      */
-    public string $plainTextToken;
+    public string|null $plainTextToken;
 
     /**
      * Indicates if the plain text token is being displayed to the user.
@@ -54,11 +54,6 @@ class APITokens extends Page implements Tables\Contracts\HasTable
     public static function getSlug(): string
     {
         return 'user/api-tokens';
-    }
-
-    public function mount(): void
-    {
-        abort_unless(FilamentCompanies::hasApiFeatures(), 403);
     }
 
     protected function getTableQuery(): Builder
@@ -95,15 +90,12 @@ class APITokens extends Page implements Tables\Contracts\HasTable
                     TextColumn::make('created_at')
                         ->label(__('filament-companies::default.labels.created_at'))
                         ->formatStateUsing(static function ($state) {
-                            return new HtmlString('<div class>' .
-                                __('filament-companies::default.descriptions.token_created_state', [
-                                    'time_ago' => '<span class="font-bold text-sm text-primary-600 dark:text-primary-400">' .
-                                        __($state->diffForHumans()) .
-                                        '</span>',
-                                    'user_name' => '<a target="_blank" href="' . url(Profile::getUrl()) . '" class="font-bold text-sm text-primary-600 dark:text-primary-400" style="text-decoration: underline;">' .
-                                        __(Auth::user()?->name) .
-                                        '</a>',
-                                ]) .
+                            return new HtmlString(
+                                '<div>'
+                                . __('filament-companies::default.descriptions.token_created_state', [
+                                    'time_ago' => '<span class="font-bold text-sm text-primary-600 dark:text-primary-400">' . __($state->diffForHumans()) . '</span>',
+                                    'user_name' => '<a target="_blank" href="' . url(Profile::getUrl()) . '" class="font-bold text-sm text-primary-600 dark:text-primary-400 hover:text-primary-500 dark:hover:text-primary-300" style="text-decoration: underline;">' . __(Auth::user()?->name) . '</a>',
+                                    ]) .
                                 '</div>');
                         })
                         ->fontFamily('serif')
@@ -138,7 +130,7 @@ class APITokens extends Page implements Tables\Contracts\HasTable
         return [
             Action::make('create')
                 ->label(__('filament-companies::default.buttons.create_token'))
-                ->modalWidth('2xl')
+                ->modalWidth(config('filament-companies.layout.modals.api_tokens.create_modal_width'))
                 ->action(function (array $data) use ($permissions) {
                     $name = $data['name'];
                     $abilities = array_values($data['abilities']);
@@ -191,7 +183,7 @@ class APITokens extends Page implements Tables\Contracts\HasTable
             Tables\Actions\Action::make('edit')
                 ->label(__('filament-companies::default.buttons.edit'))
                 ->icon('heroicon-o-pencil-alt')
-                ->modalWidth('2xl')
+                ->modalWidth(config('filament-companies.layout.modals.api_tokens.edit_modal_width'))
                 ->mountUsing(static function ($form, $record) {
                     $form->fill($record->toArray());
                 })
@@ -248,6 +240,7 @@ class APITokens extends Page implements Tables\Contracts\HasTable
                     $records->each(static fn ($record) => $record->delete());
                 })
                 ->requiresConfirmation()
+                ->modalWidth(config('filament-companies.layout.modals.api_tokens.revoke_modal_width'))
                 ->modalHeading(__('filament-companies::default.modal_titles.revoke_api_tokens'))
                 ->modalSubheading(__('filament-companies::default.modal_descriptions.revoke_api_tokens'))
                 ->modalButton(__('filament-companies::default.buttons.revoke'))
@@ -256,8 +249,9 @@ class APITokens extends Page implements Tables\Contracts\HasTable
                 ->icon('heroicon-o-trash')
                 ->form([
                     TextInput::make('password')
-                        ->label(__('filament-companies::default.fields.password'))
+                        ->disableLabel()
                         ->password()
+                        ->placeholder(__('filament-companies::default.fields.password'))
                         ->currentPassword()
                         ->required(),
                 ])

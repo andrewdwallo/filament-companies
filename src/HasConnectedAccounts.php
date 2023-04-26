@@ -21,7 +21,7 @@ trait HasConnectedAccounts
      */
     public function currentConnectedAccount(): BelongsTo
     {
-        if (is_null($this->current_connected_account_id) && $this->id) {
+        if ($this->current_connected_account_id === null && $this->id) {
             $this->switchConnectedAccount(
                 $this->connectedAccounts()->orderBy('created_at')->first()
             );
@@ -53,7 +53,7 @@ trait HasConnectedAccounts
      */
     public function ownsConnectedAccount(mixed $connectedAccount): bool
     {
-        return $this->id === optional($connectedAccount)->user_id;
+        return $this->id === $connectedAccount->user_id;
     }
 
     /**
@@ -67,7 +67,7 @@ trait HasConnectedAccounts
     /**
      * Attempt to retrieve the token for a given provider.
      */
-    public function getTokenFor(string $provider, $default = null): mixed
+    public function getTokenFor(string $provider, string|null $default = null): string|null
     {
         if ($this->hasTokenFor($provider)) {
             return $this->connectedAccounts

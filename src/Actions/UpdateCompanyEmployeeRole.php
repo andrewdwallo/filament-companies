@@ -2,6 +2,7 @@
 
 namespace Wallo\FilamentCompanies\Actions;
 
+use Filament\Notifications\Notification;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Validator;
@@ -20,15 +21,11 @@ class UpdateCompanyEmployeeRole
     {
         Gate::forUser($user)->authorize('updateCompanyEmployee', $company);
 
-        Validator::make([
-            'role' => $role,
-        ], [
+        Validator::make(compact('role'), [
             'role' => ['required', 'string', new Role],
         ])->validate();
 
-        $company->users()->updateExistingPivot($companyEmployeeId, [
-            'role' => $role,
-        ]);
+        $company->users()->updateExistingPivot($companyEmployeeId, compact('role'));
 
         CompanyEmployeeUpdated::dispatch($company->fresh(), FilamentCompanies::findUserByIdOrFail($companyEmployeeId));
     }

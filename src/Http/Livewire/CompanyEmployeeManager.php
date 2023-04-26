@@ -2,7 +2,6 @@
 
 namespace Wallo\FilamentCompanies\Http\Livewire;
 
-use App\Models\User;
 use Filament\Notifications\Notification;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Contracts\Auth\Authenticatable;
@@ -213,7 +212,7 @@ class CompanyEmployeeManager extends Component
     /**
      * Get the current user of the application.
      */
-    public function getUserProperty(): Authenticatable|null|User
+    public function getUserProperty(): Authenticatable|null
     {
         return Auth::user();
     }
@@ -223,7 +222,7 @@ class CompanyEmployeeManager extends Component
      */
     public function getRolesProperty(): array
     {
-        return collect(FilamentCompanies::$roles)->transform(function ($role) {
+        return collect(FilamentCompanies::$roles)->transform(static function ($role) {
             return with($role->jsonSerialize(), static function ($data) {
                 return (new Role(
                     $data['key'],
@@ -247,7 +246,7 @@ class CompanyEmployeeManager extends Component
         Notification::make()
             ->title(__('filament-companies::default.notifications.company_invitation_sent.title'))
             ->success()
-            ->body(__('filament-companies::default.notifications.company_invitation_sent.body', ['email' => $email]))
+            ->body(__('filament-companies::default.notifications.company_invitation_sent.body', compact('email')))
             ->send();
     }
 }

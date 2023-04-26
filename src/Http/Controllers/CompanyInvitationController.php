@@ -10,12 +10,9 @@ use Illuminate\Support\Facades\Gate;
 use Livewire\Redirector;
 use Wallo\FilamentCompanies\Contracts\AddsCompanyEmployees;
 use Wallo\FilamentCompanies\FilamentCompanies;
-use Wallo\FilamentCompanies\InteractsWithBanner;
 
 class CompanyInvitationController extends Controller
 {
-    use InteractsWithBanner;
-
     /**
      * Accept a company invitation.
      */

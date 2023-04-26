@@ -11,7 +11,6 @@ use App\Actions\FilamentCompanies\RemoveCompanyEmployee;
 use App\Actions\FilamentCompanies\UpdateCompanyName;
 use Filament\Facades\Filament;
 use Filament\Navigation\UserMenuItem;
-use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
@@ -36,15 +35,14 @@ class FilamentCompaniesServiceProvider extends ServiceProvider
     {
         if (FilamentCompanies::hasCompanyFeatures()) {
             Filament::registerRenderHook(
-                'global-search.start',
-                static fn (): View => view('filament-companies::components.dropdown.navigation-menu'),
+                'global-search.end',
+                static fn (): string => Blade::render('<x-filament-companies::dropdown.navigation-menu />'),
             );
         }
 
         Filament::serving(static function () {
             Filament::registerUserMenuItems([
                 'account' => UserMenuItem::make()->url(Profile::getUrl()),
-                // ...
             ]);
         });
 

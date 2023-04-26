@@ -2,6 +2,7 @@
 
 namespace Wallo\FilamentCompanies;
 
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 
@@ -30,11 +31,7 @@ trait HasProfilePhoto
      */
     public function deleteProfilePhoto(): void
     {
-        if (! Features::managesProfilePhotos()) {
-            return;
-        }
-
-        if (is_null($this->profile_photo_path)) {
+        if (!Features::managesProfilePhotos() || $this->profile_photo_path === null) {
             return;
         }
 
@@ -48,15 +45,13 @@ trait HasProfilePhoto
     /**
      * Get the URL to the user's profile photo.
      */
-    public function getProfilePhotoUrlAttribute(): string
+    public function profilePhotoUrl(): Attribute
     {
-        if (filter_var($this->profile_photo_path, FILTER_VALIDATE_URL)) {
-            return $this->profile_photo_path;
-        }
-
-        return $this->profile_photo_path
-                    ? Storage::disk($this->profilePhotoDisk())->url($this->profile_photo_path)
-                    : $this->defaultProfilePhotoUrl();
+        return Attribute::get(function () {
+            return $this->profile_photo_path
+                ? Storage::disk($this->profilePhotoDisk())->url($this->profile_photo_path)
+                : $this->defaultProfilePhotoUrl();
+        });
     }
 
     /**
@@ -64,7 +59,7 @@ trait HasProfilePhoto
      */
     protected function defaultProfilePhotoUrl(): string
     {
-        $name = trim(collect(explode(' ', $this->name))->map(function ($segment) {
+        $name = trim(collect(explode(' ', $this->name))->map(static function ($segment) {
             return mb_substr($segment, 0, 1);
         })->join(' '));
 

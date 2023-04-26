@@ -6,7 +6,7 @@
     'suffix' => null,
 ])
 
-<label {{ $attributes->class(['filament-forms-field-wrapper-label inline-flex items-center space-x-3 rtl:space-x-reverse']) }}>
+<label {{ $attributes->class(['inline-flex items-center space-x-3 rtl:space-x-reverse']) }}>
     {{ $prefix }}
 
     <span @class([

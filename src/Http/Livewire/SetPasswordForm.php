@@ -2,7 +2,6 @@
 
 namespace Wallo\FilamentCompanies\Http\Livewire;
 
-use App\Models\User;
 use Filament\Notifications\Notification;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Contracts\View\View;
@@ -42,7 +41,7 @@ class SetPasswordForm extends Component
     /**
      * Get the current user of the application.
      */
-    public function getUserProperty(): User|Authenticatable|null
+    public function getUserProperty(): Authenticatable|null
     {
         return Auth::user();
     }
@@ -55,7 +54,7 @@ class SetPasswordForm extends Component
         return view('filament-companies::profile.set-password-form');
     }
 
-    public function passwordSet()
+    public function passwordSet(): void
     {
         Notification::make()
             ->title(__('filament-companies::default.notifications.password_set.title'))

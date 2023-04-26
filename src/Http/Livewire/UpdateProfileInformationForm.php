@@ -2,7 +2,6 @@
 
 namespace Wallo\FilamentCompanies\Http\Livewire;
 
-use App\Models\User;
 use Filament\Notifications\Notification;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Contracts\View\View;
@@ -51,7 +50,7 @@ class UpdateProfileInformationForm extends Component
         $updater->update(
             Auth::user(),
             $this->photo
-                ? array_merge($this->state, ['photo' => $this->photo])
+                ? [...$this->state, 'photo' => $this->photo]
                 : $this->state
         );
 
@@ -62,8 +61,6 @@ class UpdateProfileInformationForm extends Component
         }
 
         $this->profileInformationUpdated();
-
-        $this->emit('refresh-navigation-menu');
 
         return redirect()->back(303);
     }
@@ -83,8 +80,6 @@ class UpdateProfileInformationForm extends Component
     public function deleteProfilePhoto(): void
     {
         Auth::user()?->deleteProfilePhoto();
-
-        $this->emit('refresh-navigation-menu');
     }
 
     /**
@@ -95,12 +90,18 @@ class UpdateProfileInformationForm extends Component
         Auth::user()?->sendEmailVerificationNotification();
 
         $this->verificationLinkSent = true;
+
+        Notification::make()
+            ->title(__('filament-companies::default.notifications.verification_link_sent.title'))
+            ->success()
+            ->body(__('filament-companies::default.notifications.verification_link_sent.body'))
+            ->send();
     }
 
     /**
      * Get the current user of the application.
      */
-    public function getUserProperty(): User|Authenticatable|null
+    public function getUserProperty(): Authenticatable|null
     {
         return Auth::user();
     }
