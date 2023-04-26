@@ -220,6 +220,7 @@ return [
 
     'grid_section_descriptions' => [
         'add_company_employee' => 'Add a new company employee to your company, allowing them to collaborate with you.',
+        'browser_sessions' => 'Manage and log out your active sessions on other browsers and devices.',
         'company_name' => "The company's name and owner information.",
         'create_api_token' => 'API tokens allow third-party services to authenticate with our application on your behalf.',
         'create_company' => 'Create a new company to collaborate with others on projects.',
