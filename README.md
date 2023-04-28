@@ -33,10 +33,8 @@ A Complete Authentication System Kit based on Companies built for Filament:
 
 ### WARNING
 
-* This plugin requires a fresh Filament project
-* If you install this plugin into an existing Filament project you will get errors
-* No modifications need to be made to the filament config files
-* Everything is set once the plugin is installed
+* This plugin requires a fresh Filament project.
+* If you install this plugin into an existing Filament project, you will get errors.
 
 ### Getting Set Up
 
@@ -127,7 +125,7 @@ By Default, the GitHub Provider will be enabled.
 
 You may use any Provider that [Laravel Socialite](https://laravel.com/docs/10.x/socialite/) supports.
 
-You may add or remove any Provider in `config/filament-company.php`
+You may add or remove any Provider in `config/filament-companies.php`
 ```php
     /*
     |--------------------------------------------------------------------------
@@ -355,9 +353,9 @@ protected function configurePermissions(): void
 ```
 
 ### Notice
-* This package is supposed to be a Filament Context and is planning to be used as one in Filament V3.
+* This package is planned to be used as a Context in Filament V3.
 * The default view after installation is not supposed to be the "Admin" Context, this would be the view that a "company owner" or "company user" would see.
-* There are methods to support an "Admin" Context if wanted.
+* There are methods to support an "Admin" Context if desired.
 
 
 ### Contributing
