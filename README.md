@@ -36,6 +36,9 @@ A Complete Authentication System Kit based on Companies built for Filament:
 * This plugin requires a fresh Filament project.
 * If you install this plugin into an existing Filament project, you will get errors.
 
+### Note
+* Example application using package: https://github.com/andrewdwallo/erpsaas/tree/1.x
+
 ### Getting Set Up
 
 * Create a fresh Laravel Project
