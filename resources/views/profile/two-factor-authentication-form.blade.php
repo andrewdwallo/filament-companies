@@ -34,7 +34,7 @@
                     @endif
                 </p>
 
-                <div>
+                <div class="p-2 inline-block bg-white">
                     {!! $this->user->twoFactorQrCodeSvg() !!}
                 </div>
 

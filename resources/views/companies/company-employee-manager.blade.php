@@ -162,7 +162,7 @@
                             <td colspan="1" class="px-6 py-4 whitespace-nowrap">
                                 <div class="space-x-2 text-right">
                                     <!-- Manage Company Employee Role -->
-                                    @if (Gate::check('addCompanyEmployee', $company) && Wallo\FilamentCompanies\FilamentCompanies::hasRoles())
+                                    @if (Gate::check('updateCompanyEmployee', $company) && Wallo\FilamentCompanies\FilamentCompanies::hasRoles())
                                         <x-filament::button size="sm" outlined="true" color="primary" wire:click="manageRole('{{ $user->id }}')">
                                             {{ Wallo\FilamentCompanies\FilamentCompanies::findRole($user->employeeship->role)->name }}
                                         </x-filament::button>

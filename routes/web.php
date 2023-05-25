@@ -25,12 +25,12 @@ Route::group(['middleware' => config('filament-companies.middleware', ['web'])],
     }
 
     $authMiddleware = config('filament-companies.guard')
-            ? 'auth:'.config('filament-companies.guard')
-            : 'auth';
+        ? 'auth:'.config('filament-companies.guard')
+        : 'auth';
 
     $authSessionMiddleware = config('filament-companies.auth_session', false)
-            ? config('filament-companies.auth_session')
-            : null;
+        ? config('filament-companies.auth_session')
+        : null;
 
     Route::group(['middleware' => array_values(array_filter([$authMiddleware, $authSessionMiddleware]))], static function () {
         // User & Profile...
