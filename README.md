@@ -65,22 +65,6 @@ php artisan filament-companies:install filament --companies
 php artisan filament-companies:install filament --companies --socialite
 ```
 
-In `config/fortify.php` set the middleware configuration key's value to the following:
-```php
-    /*
-    |--------------------------------------------------------------------------
-    | Fortify Routes Middleware
-    |--------------------------------------------------------------------------
-    |
-    | Here you may specify which middleware Fortify will assign to the routes
-    | that it registers with the application. If necessary, you may change
-    | these middleware but typically this provided default is preferred.
-    |
-    */
-    
-    'middleware' => config('filament.middleware.base'),
-```
-
 ### Finalizing Installation
 ```shell
 php artisan migrate:fresh
