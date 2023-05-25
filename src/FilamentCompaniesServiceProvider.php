@@ -2,6 +2,7 @@
 
 namespace Wallo\FilamentCompanies;
 
+use Filament\FilamentManager;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\View\Compilers\BladeCompiler;
@@ -13,7 +14,6 @@ use Wallo\FilamentCompanies\Http\Livewire\CreateCompanyForm;
 use Wallo\FilamentCompanies\Http\Livewire\DeleteCompanyForm;
 use Wallo\FilamentCompanies\Http\Livewire\DeleteUserForm;
 use Wallo\FilamentCompanies\Http\Livewire\LogoutOtherBrowserSessionsForm;
-use Wallo\FilamentCompanies\Http\Livewire\NavigationMenu;
 use Wallo\FilamentCompanies\Http\Livewire\SetPasswordForm;
 use Wallo\FilamentCompanies\Http\Livewire\TwoFactorAuthenticationForm;
 use Wallo\FilamentCompanies\Http\Livewire\UpdateCompanyNameForm;
@@ -55,7 +55,7 @@ class FilamentCompaniesServiceProvider extends ServiceProvider
             }
         });
 
-        $this->app->resolving('filament', function ($filament) {
+        $this->app->resolving('filament', function (FilamentManager $filament) {
             $filament->registerPages($this->getPages());
         });
     }
@@ -93,6 +93,10 @@ class FilamentCompaniesServiceProvider extends ServiceProvider
         $this->publishes([
             __DIR__.'/../stubs/config/filament-companies.php' => config_path('filament-companies.php'),
         ], 'filament-companies-config');
+
+        $this->publishes([
+            __DIR__.'/../lang' => lang_path('vendor/filament-companies'),
+        ], 'filament-companies-translations');
 
         $this->publishes([
             __DIR__.'/../database/migrations/2014_10_12_000000_create_users_table.php' => database_path('migrations/2014_10_12_000000_create_users_table.php'),

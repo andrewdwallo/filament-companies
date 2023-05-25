@@ -60,7 +60,7 @@ class InstallCommand extends Command
 
         if (file_exists(resource_path('views/welcome.blade.php'))) {
             $this->replaceInFile("{{ url('/home') }}", "{{ url(config('filament.path')) }}", resource_path('views/welcome.blade.php'));
-            $this->replaceInFile('Home', "{{ucfirst(trans(config('filament.path')))}}", resource_path('views/welcome.blade.php'));
+            $this->replaceInFile('Home', "{{ucfirst(config('filament.path'))}}", resource_path('views/welcome.blade.php'));
         }
 
         // Fortify Provider...
@@ -258,6 +258,7 @@ EOF;
         $this->replaceInFile('use Illuminate\Session\Middleware\AuthenticateSession', 'use Wallo\FilamentCompanies\Http\Middleware\AuthenticateSession', config_path('filament.php'));
         $this->replaceInFile('\Filament\Http\Livewire\Auth\Login::class', 'null', config_path('filament.php'));
         $this->replaceInFile('RouteServiceProvider::HOME', "config('filament.path')", config_path('fortify.php'));
+        $this->replaceInFile("'middleware' => ['web'],", "'middleware' => config('filament.middleware.base'),", config_path('fortify.php'));
 
         // Directories...
         (new Filesystem)->ensureDirectoryExists(app_path('Actions/FilamentCompanies'));
