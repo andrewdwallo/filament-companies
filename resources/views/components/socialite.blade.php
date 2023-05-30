@@ -1,11 +1,11 @@
-<div class="mt-6">
-    <div class="flex flex-row items-center justify-between py-4 text-gray-900 dark:text-white">
+<div class="mt-6 filament-companies-socialite">
+    <div class="filament-companies-socialite-divider flex flex-row items-center justify-between py-4 text-gray-900 dark:text-white">
         <hr class="w-full mr-2">
         {{ __('filament-companies::default.subheadings.auth.login') }}
         <hr class="w-full ml-2">
     </div>
 
-    <div class="mt-6 flex flex-wrap items-center justify-center gap-6">
+    <div class="filament-companies-socialite-button-container mt-6 flex flex-wrap items-center justify-center gap-6">
         @php
             $providers = [
                 'Facebook' => ['provider' => Wallo\FilamentCompanies\Providers::facebook(), 'method' => 'hasFacebook'],
@@ -21,9 +21,10 @@
 
         @foreach ($providers as $name => $provider)
             @if (call_user_func([Wallo\FilamentCompanies\Socialite::class, $provider['method']]))
-                <a href="{{ route('oauth.redirect', ['provider' => $provider['provider']]) }}" class="inline-flex rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 dark:focus:border-primary-500 py-2 px-4 shadow-sm hover:bg-gray-50 dark:hover:bg-gray-600">
+                <a href="{{ route('oauth.redirect', ['provider' => $provider['provider']]) }}"
+                   class="filament-companies-socialite-buttons inline-flex rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 dark:focus:border-primary-500 py-2 px-4 shadow-sm hover:bg-gray-50 dark:hover:bg-gray-600">
                     @php
-                        $name = str_replace('OAuth1', '', str_replace('OAuth2', '', $name));
+                        $name = str_replace(array('OAuth2', 'OAuth1'), '', $name);
                         $icon = strtolower($name);
                     @endphp
                     <span class="sr-only">{{ $name }}</span>

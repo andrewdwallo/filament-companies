@@ -11,9 +11,9 @@
                     this.show = true;
                 });
             ">
-    <div class="max-w-screen-xl mx-auto py-3 px-4 sm:px-6 lg:px-8">
-        <div class="flex items-center justify-between flex-wrap">
-            <div class="w-0 flex-1 flex items-center min-w-0">
+    <div class="filament-companies-banner max-w-screen-xl mx-auto py-3 px-4 sm:px-6 lg:px-8">
+        <div class="filament-companies-banner-container flex items-center justify-between flex-wrap">
+            <div class="filament-companies-banner-header w-0 flex-1 flex items-center min-w-0">
                 <span class="flex items-center p-2 rounded-lg" :class="{ 'bg-primary-600': style === 'success', 'bg-red-600': style === 'danger' }">
                     <svg x-show="style === 'success'" class="h-6 w-6 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -29,10 +29,10 @@
                 <p class="ml-4 font-medium text-sm text-white truncate" x-text="message"></p>
             </div>
 
-            <div class="shrink-0 sm:ml-3">
+            <div class="filament-companies-banner-footer shrink-0 sm:ml-3">
                 <button
                     type="button"
-                    class="-mr-1 flex p-2 rounded-md focus:outline-none sm:-mr-2 transition"
+                    class="filament-companies-banner-button -mr-1 flex p-2 rounded-md focus:outline-none sm:-mr-2 transition"
                     :class="{ 'hover:bg-primary-600 focus:bg-primary-600': style === 'success', 'hover:bg-red-600 focus:bg-red-600': style === 'danger' }"
                     aria-label="Dismiss" x-on:click="show = false">
                     <svg class="h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
