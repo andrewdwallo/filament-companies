@@ -87,7 +87,7 @@ If you would like, you may create a new account using:
 ```shell
 php artisan make:filament-companies-user
 ```
-> You may also create a new user by registering through the application.
+> You may also create a new account by registering through the application.
 
 In the Laravel Welcome Page, you may:
 * Login
