@@ -66,6 +66,7 @@ php artisan filament-companies:install filament --companies --socialite
 ```
 
 ### Finalizing Installation
+
 ```shell
 php artisan migrate:fresh
 ```
@@ -81,6 +82,12 @@ php artisan vendor:publish --tag=filament-companies-translations
 ```
 
 # Usage
+
+If you would like, you may create a new account using:
+```shell
+php artisan make:filament-companies-user
+```
+> You may also create a new user by registering through the application.
 
 In the Laravel Welcome Page, you may:
 * Login
