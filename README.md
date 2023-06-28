@@ -83,7 +83,7 @@ php artisan vendor:publish --tag=filament-companies-translations
 
 # Usage
 
-If you would like, you may create a new user using:
+If you would like, you may create a new account using:
 ```shell
 php artisan make:filament-companies-user
 ```
