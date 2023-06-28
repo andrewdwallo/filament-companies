@@ -140,6 +140,7 @@ class FilamentCompaniesServiceProvider extends ServiceProvider
 
         $this->commands([
             Console\InstallCommand::class,
+            Console\MakeUserCommand::class,
         ]);
     }
 
