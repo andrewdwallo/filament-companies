@@ -95,6 +95,10 @@ class FilamentCompaniesServiceProvider extends ServiceProvider
         ], 'filament-companies-config');
 
         $this->publishes([
+            __DIR__.'/../resources/views' => resource_path('views/vendor/filament-companies'),
+        ], 'filament-companies-views');
+
+        $this->publishes([
             __DIR__.'/../lang' => lang_path('vendor/filament-companies'),
         ], 'filament-companies-translations');
 

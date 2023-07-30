@@ -74,11 +74,16 @@ php artisan migrate:fresh
 npm run dev
 ```
 
-### Translations
+### Translations and Views
 
 If you wish to translate the package, you may publish the language files using:
 ```shell
 php artisan vendor:publish --tag=filament-companies-translations
+```
+
+If you wish to customize the views, you may publish them using:
+```shell
+php artisan vendor:publish --tag=filament-companies-views
 ```
 
 # Usage
