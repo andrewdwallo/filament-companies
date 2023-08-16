@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
 use Livewire\Component;
-use Livewire\Redirector;
+use Livewire\Features\SupportRedirects\Redirector;
 use Wallo\FilamentCompanies\Contracts\DeletesUsers;
 
 class DeleteUserForm extends Component
@@ -33,7 +33,7 @@ class DeleteUserForm extends Component
 
         $this->password = '';
 
-        $this->dispatchBrowserEvent('confirming-delete-user');
+        $this->dispatch('confirming-delete-user');
 
         $this->confirmingUserDeletion = true;
     }

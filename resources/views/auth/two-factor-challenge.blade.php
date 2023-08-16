@@ -13,15 +13,15 @@
             @csrf
 
             <div class="mt-4" x-show="! recovery">
-                <x-forms::field-wrapper id="code" statePath="code" label="{{ __('filament-companies::default.fields.code') }}">
+                <x-filament-forms::field-wrapper id="code" statePath="code" label="{{ __('filament-companies::default.fields.code') }}">
                     <x-filament-companies::input id="code" type="text" inputmode="numeric" name="code" autofocus x-ref="code" autocomplete="one-time-code" />
-                </x-forms::field-wrapper>
+                </x-filament-forms::field-wrapper>
             </div>
 
             <div class="mt-4" x-cloak x-show="recovery">
-                <x-forms::field-wrapper id="recovery_code" statePath="recovery_code" label="{{ __('filament-companies::default.fields.recovery_code') }}">
+                <x-filament-forms::field-wrapper id="recovery_code" statePath="recovery_code" label="{{ __('filament-companies::default.fields.recovery_code') }}">
                     <x-filament-companies::input id="recovery_code" type="text" name="recovery_code" x-ref="recovery_code" autocomplete="one-time-code" />
-                </x-forms::field-wrapper>
+                </x-filament-forms::field-wrapper>
             </div>
 
             <div class="mt-4 flex items-center justify-end">

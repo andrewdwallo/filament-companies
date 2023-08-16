@@ -9,7 +9,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use Laravel\Fortify\Contracts\UpdatesUserProfileInformation;
 use Livewire\Component;
-use Livewire\Redirector;
+use Livewire\Features\SupportRedirects\Redirector;
 use Livewire\WithFileUploads;
 use Wallo\FilamentCompanies\Pages\User\Profile;
 

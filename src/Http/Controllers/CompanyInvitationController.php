@@ -7,7 +7,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Gate;
-use Livewire\Redirector;
+use Livewire\Features\SupportRedirects\Redirector;
 use Wallo\FilamentCompanies\Contracts\AddsCompanyEmployees;
 use Wallo\FilamentCompanies\FilamentCompanies;
 

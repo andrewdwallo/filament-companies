@@ -21,7 +21,7 @@
         </x-slot>
 
         <!-- Delete User Confirmation Modal -->
-        <x-filament-companies::dialog-modal wire:model="confirmingUserDeletion">
+        <x-filament-companies::dialog-modal wire:model.live="confirmingUserDeletion">
 
             <x-slot name="title">
                 {{ __('filament-companies::default.modal_titles.delete_account') }}
@@ -31,9 +31,9 @@
                 {{ __('filament-companies::default.modal_descriptions.delete_account') }}
 
                 <div class="mt-4">
-                    <x-forms::field-wrapper id="password" statePath="password" x-data="{}" x-on:confirming-delete-user.window="setTimeout(() => $refs.password.focus(), 250)">
-                        <x-filament-companies::input type="password" placeholder="{{ __('filament-companies::default.fields.password') }}" x-ref="password" wire:model.defer="password" wire:keydown.enter="deleteUser" />
-                    </x-forms::field-wrapper>
+                    <x-filament-forms::field-wrapper id="password" statePath="password" x-data="{}" x-on:confirming-delete-user.window="setTimeout(() => $refs.password.focus(), 250)">
+                        <x-filament-companies::input type="password" placeholder="{{ __('filament-companies::default.fields.password') }}" x-ref="password" wire:model.live="password" wire:keydown.enter="deleteUser" />
+                    </x-filament-forms::field-wrapper>
                 </div>
             </x-slot>
 

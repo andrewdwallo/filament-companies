@@ -6,7 +6,7 @@ use Exception;
 use Filament\Forms\Components\CheckboxList;
 use Filament\Forms\Components\TextInput;
 use Filament\Notifications\Notification;
-use Filament\Pages\Actions\Action;
+use Filament\Actions\Action;
 use Filament\Pages\Page;
 use Filament\Tables;
 use Filament\Tables\Actions\BulkAction;
@@ -41,12 +41,12 @@ class APITokens extends Page implements Tables\Contracts\HasTable
 
     protected static bool $shouldRegisterNavigation = false;
 
-    protected function getTitle(): string
+    public function getTitle(): string
     {
         return __('filament-companies::default.grid_section_titles.create_api_token');
     }
 
-    protected function getSubHeading(): string
+    public function getSubHeading(): string
     {
         return __('filament-companies::default.grid_section_descriptions.create_api_token');
     }
@@ -160,7 +160,7 @@ class APITokens extends Page implements Tables\Contracts\HasTable
     {
         $this->displayingToken = true;
         $this->plainTextToken = explode('|', $token->plainTextToken, 2)[1];
-        $this->dispatchBrowserEvent('showing-token-modal');
+        $this->dispatch('showing-token-modal');
     }
 
     protected function tokenCreatedNotification($name): void
@@ -242,14 +242,14 @@ class APITokens extends Page implements Tables\Contracts\HasTable
                 ->requiresConfirmation()
                 ->modalWidth(config('filament-companies.layout.modals.api_tokens.revoke_modal_width'))
                 ->modalHeading(__('filament-companies::default.modal_titles.revoke_api_tokens'))
-                ->modalSubheading(__('filament-companies::default.modal_descriptions.revoke_api_tokens'))
-                ->modalButton(__('filament-companies::default.buttons.revoke'))
+                ->modalDescription(__('filament-companies::default.modal_descriptions.revoke_api_tokens'))
+                ->modalSubmitActionLabel(__('filament-companies::default.buttons.revoke'))
                 ->deselectRecordsAfterCompletion()
                 ->color('danger')
                 ->icon('heroicon-o-trash')
                 ->form([
                     TextInput::make('password')
-                        ->disableLabel()
+                        ->hiddenLabel()
                         ->password()
                         ->placeholder(__('filament-companies::default.fields.password'))
                         ->currentPassword()

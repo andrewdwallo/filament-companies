@@ -12,6 +12,6 @@ trait RefreshesNavigationMenu
     protected function refreshNavigationMenu(): void
     {
         $navigationMenu = Blade::render('<x-filament-companies::dropdown.navigation-menu />');
-        $this->dispatchBrowserEvent('refresh-navigation-menu', ['content' => $navigationMenu]);
+        $this->dispatch('refresh-navigation-menu', ['content' => $navigationMenu]);
     }
 }

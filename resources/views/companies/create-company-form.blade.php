@@ -7,7 +7,7 @@
         {{ __('filament-companies::default.grid_section_descriptions.create_company') }}
     </x-slot>
 
-    <form wire:submit.prevent="createCompany" class="col-span-2 sm:col-span-1 mt-5 md:mt-0">
+    <form wire:submit="createCompany" class="col-span-2 sm:col-span-1 mt-5 md:mt-0">
         <x-filament::card>
             <x-filament-companies::label value="{{ __('filament-companies::default.labels.company_owner') }}" />
 
@@ -21,9 +21,9 @@
                 </div>
             </div>
 
-            <x-forms::field-wrapper id="name" statePath="name" required label="{{ __('filament-companies::default.labels.company_name') }}">
-                <x-filament-companies::input id="name" type="text" maxlength="255" wire:model.defer="state.name" autofocus />
-            </x-forms::field-wrapper>
+            <x-filament-forms::field-wrapper id="name" statePath="name" required label="{{ __('filament-companies::default.labels.company_name') }}">
+                <x-filament-companies::input id="name" type="text" maxlength="255" wire:model.live="state.name" autofocus />
+            </x-filament-forms::field-wrapper>
 
             <x-slot name="footer">
                 <div class="text-left">

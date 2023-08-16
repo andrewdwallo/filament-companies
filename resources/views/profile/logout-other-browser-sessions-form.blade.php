@@ -74,9 +74,9 @@
                 {{ __('filament-companies::default.modal_descriptions.logout_browser_sessions') }}
 
                 <div class="mt-4">
-                    <x-forms::field-wrapper id="password" statePath="password" x-on:confirming-logout-other-browser-sessions.window="setTimeout(() => $refs.password.focus(), 250)">
-                        <x-filament-companies::input type="password" placeholder="{{ __('filament-companies::default.fields.password') }}" x-ref="password" wire:model.defer="password" wire:keydown.enter="logoutOtherBrowserSessions" />
-                    </x-forms::field-wrapper>
+                    <x-filament-forms::field-wrapper id="password" statePath="password" x-on:confirming-logout-other-browser-sessions.window="setTimeout(() => $refs.password.focus(), 250)">
+                        <x-filament-companies::input type="password" placeholder="{{ __('filament-companies::default.fields.password') }}" x-ref="password" wire:model.live="password" wire:keydown.enter="logoutOtherBrowserSessions" />
+                    </x-filament-forms::field-wrapper>
                 </div>
             </x-slot>
 

@@ -12,20 +12,20 @@
                 {{ __('filament-companies::default.grid_section_descriptions.add_company_employee') }}
             </x-slot>
 
-            <form wire:submit.prevent="addCompanyEmployee" class="col-span-2 sm:col-span-1 mt-5 md:mt-0">
+            <form wire:submit="addCompanyEmployee" class="col-span-2 sm:col-span-1 mt-5 md:mt-0">
                 <x-filament::card>
                     <p class="text-sm text-gray-600 dark:text-gray-400">
                         {{ __('filament-companies::default.subheadings.companies.company_employee_manager') }}
                     </p>
 
                     <!-- Employee Email -->
-                    <x-forms::field-wrapper id="email" statePath="email" required label="{{ __('filament-companies::default.fields.email') }}">
-                        <x-filament-companies::input id="email" type="email" wire:model.defer="addCompanyEmployeeForm.email" />
-                    </x-forms::field-wrapper>
+                    <x-filament-forms::field-wrapper id="email" statePath="email" required label="{{ __('filament-companies::default.fields.email') }}">
+                        <x-filament-companies::input id="email" type="email" wire:model.live="addCompanyEmployeeForm.email" />
+                    </x-filament-forms::field-wrapper>
 
                     <!-- Role -->
                     @if (count($this->roles) > 0)
-                        <x-forms::field-wrapper id="role" statePath="role" required label="{{ __('filament-companies::default.labels.role') }}">
+                        <x-filament-forms::field-wrapper id="role" statePath="role" required label="{{ __('filament-companies::default.labels.role') }}">
                             <div x-data="{ role: @entangle('addCompanyEmployeeForm.role').defer }" class="relative z-0 mt-1 cursor-pointer rounded-lg border border-gray-200 dark:border-gray-700">
                                 @foreach ($this->roles as $index => $role)
                                     <button type="button"
@@ -57,7 +57,7 @@
                                     </button>
                                 @endforeach
                             </div>
-                        </x-forms::field-wrapper>
+                        </x-filament-forms::field-wrapper>
                     @endif
 
                     <x-slot name="footer">

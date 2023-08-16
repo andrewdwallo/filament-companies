@@ -17,7 +17,7 @@
 </span>
 
 @once
-    <x-filament-companies::dialog-modal wire:model="confirmingPassword">
+    <x-filament-companies::dialog-modal wire:model.live="confirmingPassword">
         <x-slot name="title">
             {{ $title }}
         </x-slot>
@@ -25,7 +25,7 @@
         <x-slot name="content">
             {{ $content }}
 
-            <x-forms::field-wrapper
+            <x-filament-forms::field-wrapper
                     class="mt-4"
                     id="confirmable_password"
                     statePath="confirmable_password"
@@ -36,10 +36,10 @@
                         placeholder="{{ __('filament-companies::default.fields.password') }}"
                         autocomplete="current-password"
                         x-ref="confirmable_password"
-                        wire:model.defer="confirmablePassword"
+                        wire:model.live="confirmablePassword"
                         wire:keydown.enter="confirmPassword"
                 />
-            </x-forms::field-wrapper>
+            </x-filament-forms::field-wrapper>
         </x-slot>
 
         <x-slot name="footer">

@@ -43,13 +43,13 @@
                 </p>
 
                 @if ($showingConfirmation)
-                    <x-forms::field-wrapper id="code" statePath="code"
+                    <x-filament-forms::field-wrapper id="code" statePath="code"
                                             label="{{ __('filament-companies::default.fields.code') }}">
                         <x-filament-companies::input id="code" name="code"
                                                      type="text" inputmode="numeric"
                                                      autofocus autocomplete="one-time-code"
-                                                     wire:model.defer="code" wire:keydown.enter="confirmTwoFactorAuthentication" />
-                    </x-forms::field-wrapper>
+                                                     wire:model.live="code" wire:keydown.enter="confirmTwoFactorAuthentication" />
+                    </x-filament-forms::field-wrapper>
                 @endif
             @endif
 

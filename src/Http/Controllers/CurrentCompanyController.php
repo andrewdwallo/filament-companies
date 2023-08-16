@@ -5,7 +5,7 @@ namespace Wallo\FilamentCompanies\Http\Controllers;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
-use Livewire\Redirector;
+use Livewire\Features\SupportRedirects\Redirector;
 use Wallo\FilamentCompanies\FilamentCompanies;
 use Wallo\FilamentCompanies\Pages\Companies\CompanySettings;
 

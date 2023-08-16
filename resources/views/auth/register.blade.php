@@ -16,21 +16,21 @@
     <form method="POST" class="space-y-8" action="{{ route('register') }}">
         @csrf
 
-        <x-forms::field-wrapper id="name" statePath="name" required label="{{ __('filament-companies::default.fields.name') }}">
+        <x-filament-forms::field-wrapper id="name" statePath="name" required label="{{ __('filament-companies::default.fields.name') }}">
             <x-filament-companies::input id="name" type="text" name="name" :value="old('name')" required autofocus autocomplete="name" />
-        </x-forms::field-wrapper>
+        </x-filament-forms::field-wrapper>
 
-        <x-forms::field-wrapper id="email" statePath="email" required label="{{ __('filament-companies::default.fields.email') }}">
+        <x-filament-forms::field-wrapper id="email" statePath="email" required label="{{ __('filament-companies::default.fields.email') }}">
             <x-filament-companies::input id="email" type="email" name="email" :value="old('email')" required autocomplete="username" />
-        </x-forms::field-wrapper>
+        </x-filament-forms::field-wrapper>
 
-        <x-forms::field-wrapper id="password" statePath="password" required label="{{ __('filament-companies::default.fields.password') }}">
+        <x-filament-forms::field-wrapper id="password" statePath="password" required label="{{ __('filament-companies::default.fields.password') }}">
             <x-filament-companies::input id="password" type="password" name="password" required autocomplete="new-password" />
-        </x-forms::field-wrapper>
+        </x-filament-forms::field-wrapper>
 
-        <x-forms::field-wrapper id="password_confirmation" statePath="password_confirmation" required label="{{ __('filament-companies::default.labels.password_confirmation') }}">
+        <x-filament-forms::field-wrapper id="password_confirmation" statePath="password_confirmation" required label="{{ __('filament-companies::default.labels.password_confirmation') }}">
             <x-filament-companies::input id="password_confirmation" type="password" name="password_confirmation" required autocomplete="new-password" />
-        </x-forms::field-wrapper>
+        </x-filament-forms::field-wrapper>
 
         @if (Wallo\FilamentCompanies\FilamentCompanies::hasTermsAndPrivacyPolicyFeature())
             <x-filament-companies::label for="terms">

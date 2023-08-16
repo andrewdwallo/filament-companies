@@ -10,7 +10,7 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Livewire\Component;
-use Livewire\Redirector;
+use Livewire\Features\SupportRedirects\Redirector;
 use Wallo\FilamentCompanies\ConnectedAccount;
 use Wallo\FilamentCompanies\Pages\User\Profile;
 use Wallo\FilamentCompanies\Socialite;

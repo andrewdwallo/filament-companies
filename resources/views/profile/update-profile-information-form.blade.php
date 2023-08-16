@@ -7,7 +7,7 @@
         {{ __('filament-companies::default.grid_section_descriptions.profile_information') }}
     </x-slot>
 
-    <form wire:submit.prevent="updateProfileInformation" class="col-span-2 sm:col-span-1 mt-5 md:mt-0">
+    <form wire:submit="updateProfileInformation" class="col-span-2 sm:col-span-1 mt-5 md:mt-0">
         <x-filament::card>
             <!-- Profile Photo -->
             @if (Wallo\FilamentCompanies\FilamentCompanies::managesProfilePhotos())
@@ -52,14 +52,14 @@
             @endif
 
             <!-- Name -->
-            <x-forms::field-wrapper id="name" statePath="name" required label="{{ __('filament-companies::default.fields.name') }}">
-                <x-filament-companies::input id="name" type="text" maxLength="255" required wire:model.defer="state.name" autocomplete="name" />
-            </x-forms::field-wrapper>
+            <x-filament-forms::field-wrapper id="name" statePath="name" required label="{{ __('filament-companies::default.fields.name') }}">
+                <x-filament-companies::input id="name" type="text" maxLength="255" required wire:model.live="state.name" autocomplete="name" />
+            </x-filament-forms::field-wrapper>
 
             <!-- Email -->
-            <x-forms::field-wrapper id="email" statePath="email" required label="{{ __('filament-companies::default.fields.email') }}">
-                <x-filament-companies::input id="email" type="email" maxLength="255" required wire:model.defer="state.email" />
-            </x-forms::field-wrapper>
+            <x-filament-forms::field-wrapper id="email" statePath="email" required label="{{ __('filament-companies::default.fields.email') }}">
+                <x-filament-companies::input id="email" type="email" maxLength="255" required wire:model.live="state.email" />
+            </x-filament-forms::field-wrapper>
 
             @if (!$this->user->hasVerifiedEmail() && Laravel\Fortify\Features::enabled(Laravel\Fortify\Features::emailVerification()))
                 <p class="mt-2 text-sm dark:text-white">

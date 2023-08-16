@@ -17,9 +17,9 @@
     <form method="POST" class="space-y-8" action="{{ route('password.email') }}">
         @csrf
 
-        <x-forms::field-wrapper id="email" statePath="email" required label="{{ __('filament-companies::default.fields.email') }}">
+        <x-filament-forms::field-wrapper id="email" statePath="email" required label="{{ __('filament-companies::default.fields.email') }}">
             <x-filament-companies::input id="email" type="email" name="email" :value="old('email')" required autofocus autocomplete="username" />
-        </x-forms::field-wrapper>
+        </x-filament-forms::field-wrapper>
 
         <x-filament::button type="submit" class="w-full">
             {{ __('filament-companies::default.buttons.email_password_reset_link') }}

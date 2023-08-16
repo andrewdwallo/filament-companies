@@ -23,13 +23,13 @@
     <form method="POST" class="space-y-8" action="{{ route('login') }}">
         @csrf
 
-        <x-forms::field-wrapper id="email" statePath="email" required label="{{ __('filament-companies::default.fields.email') }}">
+        <x-filament-forms::field-wrapper id="email" statePath="email" required label="{{ __('filament-companies::default.fields.email') }}">
             <x-filament-companies::input id="email" type="email" name="email" :value="old('email')" required autofocus autocomplete="username" />
-        </x-forms::field-wrapper>
+        </x-filament-forms::field-wrapper>
 
-        <x-forms::field-wrapper id="password" statePath="password" required label="{{ __('filament-companies::default.fields.password') }}">
+        <x-filament-forms::field-wrapper id="password" statePath="password" required label="{{ __('filament-companies::default.fields.password') }}">
             <x-filament-companies::input id="password" type="password" name="password" required autocomplete="current-password" />
-        </x-forms::field-wrapper>
+        </x-filament-forms::field-wrapper>
 
         <div class="flex items-center justify-between text-sm text-gray-600 font-medium tracking-tight dark:text-gray-300">
             <label for="remember_me">

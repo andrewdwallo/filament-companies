@@ -7,7 +7,7 @@
         {{ __('filament-companies::default.grid_section_descriptions.company_name') }}
     </x-slot>
 
-    <form wire:submit.prevent="updateCompanyName" class="col-span-2 sm:col-span-1 mt-5 md:mt-0">
+    <form wire:submit="updateCompanyName" class="col-span-2 sm:col-span-1 mt-5 md:mt-0">
         <x-filament::card>
             <!-- Company Owner Information -->
             <x-filament-companies::label value="{{ __('filament-companies::default.labels.company_owner') }}" />
@@ -23,9 +23,9 @@
             </div>
 
             <!-- Company Name -->
-            <x-forms::field-wrapper id="name" statePath="name" required label="{{ __('filament-companies::default.labels.company_name') }}">
-                <x-filament-companies::input id="name" type="text" maxlength="255" wire:model.defer="state.name" :disabled="!Gate::check('update', $company)" />
-            </x-forms::field-wrapper>
+            <x-filament-forms::field-wrapper id="name" statePath="name" required label="{{ __('filament-companies::default.labels.company_name') }}">
+                <x-filament-companies::input id="name" type="text" maxlength="255" wire:model.live="state.name" :disabled="!Gate::check('update', $company)" />
+            </x-filament-forms::field-wrapper>
 
             @if (Gate::check('update', $company))
                 <x-slot name="footer">

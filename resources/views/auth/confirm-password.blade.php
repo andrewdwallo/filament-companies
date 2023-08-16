@@ -7,9 +7,9 @@
     <form method="POST" action="{{ route('password.confirm') }}">
         @csrf
 
-        <x-forms::field-wrapper id="password" statePath="password" required label="{{ __('filament-companies::default.fields.password') }}">
+        <x-filament-forms::field-wrapper id="password" statePath="password" required label="{{ __('filament-companies::default.fields.password') }}">
             <x-filament-companies::input id="password" type="password" name="password" required autocomplete="current-password" autofocus />
-        </x-forms::field-wrapper>
+        </x-filament-forms::field-wrapper>
 
         <div class="mt-4 flex justify-end">
             <x-filament::button type="submit" class="ml-4">

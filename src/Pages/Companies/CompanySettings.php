@@ -15,7 +15,7 @@ class CompanySettings extends Page
 
     protected static bool $shouldRegisterNavigation = false;
 
-    protected function getTitle(): string
+    public function getTitle(): string
     {
         return __('filament-companies::default.pages.titles.company_settings');
     }
