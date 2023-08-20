@@ -81,16 +81,16 @@ return [
     'errors' => [
         'cannot_leave_company' => 'You may not leave a company that you created.',
         'company_deletion' => 'You may not delete your personal company.',
-        'email_already_associated_with_another_account' => 'An account with that email address already exists. Please login to connect your :Provider account.',
+        'email_already_associated' => 'An account with that email address already exists. Please login to connect your :Provider account.',
         'email_not_found' => 'We were unable to find a registered user with this email address.',
         'employee_already_belongs_to_company' => 'This employee already belongs to the company.',
         'employee_already_invited' => 'This employee has already been invited to the company.',
         'invalid_password' => 'The password you entered is invalid.',
-        'no_email_associated_with_provider_account' => 'No email address is associated with this :Provider account. Please try a different account.',
+        'no_email_with_account' => 'No email address is associated with this :Provider account. Please try a different account.',
         'password_does_not_match' => 'The provided password does not match your current password.',
-        'provider_sign_in_already_associated_with_account' => 'An account with that :Provider sign in already exists, please login.',
-        'provider_sign_in_already_connected' => 'An account with that email address already exists. Please login to connect your :Provider account.',
-        'provider_sign_in_not_found' => 'An account with this :Provider sign in was not found. Please register or try a different sign in method.',
+        'already_associated_account' => 'An account with that :Provider sign in already exists, please login.',
+        'already_connected' => 'An account with that email address already exists. Please login to connect your :Provider account.',
+        'signin_not_found' => 'An account with this :Provider sign in was not found. Please register or try a different sign in method.',
         'user_belongs_to_company' => 'This user already belongs to the company.',
         'valid_role' => 'The :attribute must be a valid role.',
     ],
@@ -107,14 +107,14 @@ return [
     ],
 
     'notifications' => [
-        'api_token_created' => [
-            'title' => 'API token created',
-            'body' => 'A new API token has been created with the name **:name**.',
+        'token_created' => [
+            'title' => 'Personal Access Token created',
+            'body' => 'A new Personal Access Token has been created with the name **:name**.',
         ],
 
-        'api_token_updated' => [
-            'title' => 'API token updated',
-            'body' => 'The API token has been updated successfully.',
+        'token_updated' => [
+            'title' => 'Personal Access Token updated',
+            'body' => 'The Personal Access Token has been updated successfully.',
         ],
 
         'browser_sessions_terminated' => [
@@ -162,17 +162,17 @@ return [
             'body' => 'Your profile information has been updated successfully.',
         ],
 
-        'provider_sign_in_already_associated_with_your_user' => [
+        'already_associated' => [
             'title' => 'Oops!',
             'body' => 'This :Provider sign in account is already associated with your user.',
         ],
 
-        'provider_sign_in_belongs_to_another_user' => [
+        'belongs_to_other_user' => [
             'title' => 'Oops!',
             'body' => 'This :Provider sign in account is already associated with another user. Please try a different account.',
         ],
 
-        'provider_sign_in_successfully_connected' => [
+        'successfully_connected' => [
             'title' => 'Success!',
             'body' => 'You have successfully connected :Provider to your account.',
         ],
@@ -190,7 +190,7 @@ return [
         ],
 
         'links' => [
-            'api_tokens' => 'API Tokens',
+            'tokens' => 'Personal Access Tokens',
             'company_settings' => 'Company Settings',
             'create_company' => 'Create Company',
         ],
@@ -198,7 +198,7 @@ return [
 
     'pages' => [
         'titles' => [
-            'api_tokens' => 'API Tokens',
+            'tokens' => 'Personal Access Tokens',
             'create_company' => 'Create Company',
             'company_settings' => 'Company Settings',
             'profile' => 'Profile',
@@ -209,7 +209,7 @@ return [
         'add_company_employee' => 'Add Company Employee',
         'browser_sessions' => 'Browser Sessions',
         'company_name' => 'Company Name',
-        'create_api_token' => 'Create API Token',
+        'create_token' => 'Create Personal Access Token',
         'create_company' => 'Create Company',
         'delete_account' => 'Delete Account',
         'profile_information' => 'Profile Information',
@@ -222,7 +222,7 @@ return [
         'add_company_employee' => 'Add a new company employee to your company, allowing them to collaborate with you.',
         'browser_sessions' => 'Manage and log out your active sessions on other browsers and devices.',
         'company_name' => "The company's name and owner information.",
-        'create_api_token' => 'API tokens allow third-party services to authenticate with our application on your behalf.',
+        'create_token' => 'Personal Access Tokens allow third-party services to authenticate with our application on your behalf.',
         'create_company' => 'Create a new company to collaborate with others on projects.',
         'delete_account' => 'Permanently delete your account.',
         'profile_information' => "Update your account's profile information and email address.",
@@ -246,10 +246,10 @@ return [
     ],
 
     'modal_titles' => [
-        'api_token' => 'API Token',
-        'api_token_permissions' => 'API Token Permissions',
+        'token' => 'Personal Access Token',
+        'token_permissions' => 'Personal Access Token Permissions',
         'confirm_password' => 'Confirm Password',
-        'delete_api_token' => 'Delete API Token',
+        'delete_token' => 'Delete Personal Access Token',
         'delete_account' => 'Delete Account',
         'delete_company' => 'Delete Company',
         'leave_company' => 'Leave Company',
@@ -257,20 +257,20 @@ return [
         'manage_role' => 'Manage Role',
         'remove_company_employee' => 'Remove Company Employee',
         'remove_connected_account' => 'Remove Connected Account',
-        'revoke_api_tokens' => 'Revoke Tokens',
+        'revoke_tokens' => 'Revoke Tokens',
     ],
 
     'modal_descriptions' => [
-        'api_token' => "Please copy your new API token. For your security, it won't be shown again.",
+        'copy_token' => "Please copy your new Personal Access Token. For your security, it won't be shown again.",
         'confirm_password' => 'For your security, please confirm your password to continue.',
         'delete_account' => 'Please enter your password to confirm you would like to delete your account.',
-        'delete_api_token' => 'Are you sure you would like to delete this API token?',
+        'delete_token' => 'Are you sure you would like to delete this Personal Access Token?',
         'delete_company' => 'Are you sure you want to delete this company?',
         'leave_company' => 'Are you sure you would like to leave this company?',
         'logout_browser_sessions' => 'Please enter your password to confirm you would like to log out of your other browser sessions.',
         'remove_company_employee' => 'Are you sure you would like to remove this person from the company?',
         'remove_connected_account' => 'Please confirm your removal of this account - this action cannot be undone.',
-        'revoke_api_tokens' => 'Please enter your password to confirm.',
+        'revoke_tokens' => 'Please enter your password to confirm.',
     ],
 
     'headings' => [
@@ -307,9 +307,9 @@ return [
             ],
         ],
 
-        'api' => [
-            'api_token_manager' => [
-                'manage_api_tokens' => 'Manage API Tokens',
+        'tokens' => [
+            'token_manager' => [
+                'manage_tokens' => 'Manage Personal Access Tokens',
             ],
         ],
 

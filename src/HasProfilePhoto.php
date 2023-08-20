@@ -11,8 +11,10 @@ trait HasProfilePhoto
     /**
      * Update the user's profile photo.
      */
-    public function updateProfilePhoto(UploadedFile $photo, $storagePath = 'profile-photos'): void
+    public function updateProfilePhoto(UploadedFile $photo): void
     {
+        $storagePath = Features::profilePhotoStoragePath();
+
         tap($this->profile_photo_path, function ($previous) use ($photo, $storagePath) {
             $this->forceFill([
                 'profile_photo_path' => $photo->storePublicly(
@@ -71,6 +73,6 @@ trait HasProfilePhoto
      */
     protected function profilePhotoDisk(): string
     {
-        return isset($_ENV['VAPOR_ARTIFACT_NAME']) ? 's3' : config('filament-companies.profile_photo_disk', 'public');
+        return isset($_ENV['VAPOR_ARTIFACT_NAME']) ? 's3' : Features::profilePhotoDisk();
     }
 }

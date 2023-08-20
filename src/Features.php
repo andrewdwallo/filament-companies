@@ -2,47 +2,141 @@
 
 namespace Wallo\FilamentCompanies;
 
+use Closure;
+
 class Features
 {
     /**
-     * Determine if the given feature is enabled.
+     * Determine if the company is managing profile photos.
      */
-    public static function enabled(string $feature): bool
+    public static bool $managesProfilePhotos = false;
+
+    /**
+     * Determine if the company has a profile photo disk.
+     */
+    public static string $profilePhotoDisk = 'public';
+
+    /**
+     * Determine if the company has a profile photo storage path.
+     */
+    public static string $profilePhotoStoragePath = 'profile-photos';
+
+    /**
+     * Determine if the company is supporting API features.
+     */
+    public static bool $hasApiFeatures = false;
+
+    /**
+     * Determine if the company is supporting company features.
+     */
+    public static bool $hasCompanyFeatures = false;
+
+    /**
+     * Determine if invitations are sent to company employees.
+     */
+    public static bool $sendsCompanyInvitations = false;
+
+    /**
+     * Determine if the application is using the terms confirmation feature.
+     */
+    public static bool $hasTermsAndPrivacyPolicyFeature = false;
+
+    /**
+     * Determine if the application is using any account deletion features.
+     */
+    public static bool $hasAccountDeletionFeatures = false;
+
+    /**
+     * Determine if the company is managing profile photos.
+     */
+    public function profilePhotos(bool|Closure|null $condition = true, string $disk = 'public', string $storagePath = 'profile-photos'): static
     {
-        return in_array($feature, config('filament-companies.features', []), true);
+        static::$managesProfilePhotos = $condition instanceof Closure ? $condition() : $condition;
+        static::$profilePhotoDisk = $disk;
+        static::$profilePhotoStoragePath = $storagePath;
+
+        return $this;
     }
 
     /**
-     * Determine if the feature is enabled and has a given option enabled.
+     * Determine if the company is supporting API features.
      */
-    public static function optionEnabled(string $feature, string $option): bool
+    public function api(bool|Closure|null $condition = true): static
     {
-        return static::enabled($feature) &&
-               config("filament-companies-options.{$feature}.{$option}") === true;
+        static::$hasApiFeatures = $condition instanceof Closure ? $condition() : $condition;
+
+        return $this;
     }
 
     /**
-     * Determine if the application is allowing profile photo uploads.
+     * Determine if the company is supporting company features.
+     */
+    public function companies(bool|Closure|null $condition = true, bool|Closure|null $invitations = null): static
+    {
+        static::$hasCompanyFeatures = $condition instanceof Closure ? $condition() : $condition;
+        static::$sendsCompanyInvitations = $invitations instanceof Closure ? $invitations() : $invitations ?? false;
+
+        return $this;
+    }
+
+    /**
+     * Determine if the application is using the terms confirmation feature.
+     */
+    public function termsAndPrivacyPolicy(bool|Closure|null $condition = true): static
+    {
+        static::$hasTermsAndPrivacyPolicyFeature = $condition instanceof Closure ? $condition() : $condition;
+
+        return $this;
+    }
+
+    /**
+     * Determine if the application is using any account deletion features.
+     */
+    public function accountDeletion(bool|Closure|null $condition = true): static
+    {
+        static::$hasAccountDeletionFeatures = $condition instanceof Closure ? $condition() : $condition;
+
+        return $this;
+    }
+
+    /**
+     * Determine if Company is managing profile photos.
      */
     public static function managesProfilePhotos(): bool
     {
-        return static::enabled(static::profilePhotos());
+        return static::$managesProfilePhotos;
     }
 
     /**
-     * Determine if the application is using any API features.
+     * Get the disk that profile photos should be stored on.
+     */
+    public static function profilePhotoDisk(): string
+    {
+        return static::$profilePhotoDisk;
+    }
+
+    /**
+     * Get the storage path that profile photos should be stored in.
+     */
+    public static function profilePhotoStoragePath(): string
+    {
+        return static::$profilePhotoStoragePath;
+    }
+
+    /**
+     * Determine if Company is supporting API features.
      */
     public static function hasApiFeatures(): bool
     {
-        return static::enabled(static::api());
+        return static::$hasApiFeatures;
     }
 
     /**
-     * Determine if the application is using any company features.
+     * Determine if Company is supporting company features.
      */
     public static function hasCompanyFeatures(): bool
     {
-        return static::enabled(static::companies());
+        return static::$hasCompanyFeatures;
     }
 
     /**
@@ -50,15 +144,25 @@ class Features
      */
     public static function sendsCompanyInvitations(): bool
     {
-        return static::optionEnabled(static::companies(), 'invitations');
+        return static::$sendsCompanyInvitations;
     }
 
     /**
-     * Determine if the application has terms of service / privacy policy confirmation enabled.
+     * Determine if a given user model utilizes the "HasCompanies" trait.
+     */
+    public static function userHasCompanyFeatures(mixed $user): bool
+    {
+        return (array_key_exists(HasCompanies::class, class_uses_recursive($user)) ||
+                method_exists($user, 'currentCompany')) &&
+            static::hasCompanyFeatures();
+    }
+
+    /**
+     * Determine if the application is using the terms confirmation feature.
      */
     public static function hasTermsAndPrivacyPolicyFeature(): bool
     {
-        return static::enabled(static::termsAndPrivacyPolicy());
+        return static::$hasTermsAndPrivacyPolicyFeature;
     }
 
     /**
@@ -66,112 +170,6 @@ class Features
      */
     public static function hasAccountDeletionFeatures(): bool
     {
-        return static::enabled(static::accountDeletion());
-    }
-
-    /**
-     * Determine if the application is using any socialite features.
-     */
-    public static function hasSocialiteFeatures(): bool
-    {
-        return static::enabled(static::socialite());
-    }
-
-    /**
-     * Determine if the application has the generates missing emails feature enabled.
-     */
-    public static function generatesMissingEmails(): bool
-    {
-        return static::optionEnabled(static::socialite(), 'generateMissingEmails');
-    }
-
-    /**
-     * Determine if the application supports creating accounts when logging in for the first time via a provider.
-     */
-    public static function hasCreateAccountOnFirstLoginFeatures(): bool
-    {
-        return static::optionEnabled(static::socialite(), 'createAccountOnFirstLogin');
-    }
-
-    /**
-     * Determine if the application supports logging into existing
-     * accounts when registering with a provider whose email address
-     * is already registered.
-     */
-    public static function hasLoginOnRegistrationFeatures(): bool
-    {
-        return static::optionEnabled(static::socialite(), 'loginOnRegistration');
-    }
-
-    /**
-     * Determine if the application should use provider avatars when registering.
-     */
-    public static function hasProviderAvatarsFeature(): bool
-    {
-        return static::optionEnabled(static::socialite(), 'providerAvatars');
-    }
-
-    /**
-     * Determine if the application should remember the users session on login.
-     */
-    public static function hasRememberSessionFeatures(): bool
-    {
-        return static::optionEnabled(static::socialite(), 'rememberSession');
-    }
-
-    /**
-     * Enable the profile photo upload feature.
-     */
-    public static function profilePhotos(): string
-    {
-        return 'profile-photos';
-    }
-
-    /**
-     * Enable the API feature.
-     */
-    public static function api(): string
-    {
-        return 'api';
-    }
-
-    /**
-     * Enable the companies feature.
-     */
-    public static function companies(array $options = []): string
-    {
-        if (! empty($options)) {
-            config(['filament-companies-options.companies' => $options]);
-        }
-
-        return 'companies';
-    }
-
-    /**
-     * Enable the terms of service and privacy policy feature.
-     */
-    public static function termsAndPrivacyPolicy(): string
-    {
-        return 'terms';
-    }
-
-    /**
-     * Enable the account deletion feature.
-     */
-    public static function accountDeletion(): string
-    {
-        return 'account-deletion';
-    }
-
-    /**
-     * Enable the socialite feature.
-     */
-    public static function socialite(array $options = []): string
-    {
-        if (! empty($options)) {
-            config(['filament-companies-options.socialite' => $options]);
-        }
-
-        return 'socialite';
+        return static::$hasAccountDeletionFeatures;
     }
 }

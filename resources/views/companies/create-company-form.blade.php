@@ -1,37 +1,10 @@
-<x-filament-companies::grid-section>
-    <x-slot name="title">
-        {{ __('filament-companies::default.grid_section_titles.create_company') }}
-    </x-slot>
+<x-filament-panels::page.simple>
+    <x-filament-panels::form wire:submit="register">
+        {{ $this->form }}
 
-    <x-slot name="description">
-        {{ __('filament-companies::default.grid_section_descriptions.create_company') }}
-    </x-slot>
-
-    <form wire:submit="createCompany" class="col-span-2 sm:col-span-1 mt-5 md:mt-0">
-        <x-filament::card>
-            <x-filament-companies::label value="{{ __('filament-companies::default.labels.company_owner') }}" />
-
-            <div class="flex items-center text-sm">
-                <div class="flex-shrink-0">
-                    <img class="h-12 w-12 rounded-full object-cover" src="{{ $this->user->profile_photo_url }}" alt="{{ $this->user->name }}">
-                </div>
-                <div class="ml-4">
-                    <div class="font-medium text-gray-900 dark:text-gray-200">{{ $this->user->name }}</div>
-                    <div class="text-gray-600 dark:text-gray-400">{{ $this->user->email }}</div>
-                </div>
-            </div>
-
-            <x-filament-forms::field-wrapper id="name" statePath="name" required label="{{ __('filament-companies::default.labels.company_name') }}">
-                <x-filament-companies::input id="name" type="text" maxlength="255" wire:model.live="state.name" autofocus />
-            </x-filament-forms::field-wrapper>
-
-            <x-slot name="footer">
-                <div class="text-left">
-                    <x-filament::button type="submit">
-                        {{ __('filament-companies::default.buttons.create') }}
-                    </x-filament::button>
-                </div>
-            </x-slot>
-        </x-filament::card>
-    </form>
-</x-filament-companies::grid-section>
+        <x-filament-panels::form.actions
+            :actions="$this->getCachedFormActions()"
+            :full-width="$this->hasFullWidthFormActions()"
+        />
+    </x-filament-panels::form>
+</x-filament-panels::page.simple>

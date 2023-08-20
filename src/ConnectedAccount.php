@@ -4,12 +4,17 @@ namespace Wallo\FilamentCompanies;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Carbon;
 
 /**
  * @property int $id
  * @property int $user_id
  * @property string $provider
  * @property string $provider_id
+ * @property string $token
+ * @property string|null $secret
+ * @property string|null $refresh_token
+ * @property Carbon|null $expires_at
  */
 abstract class ConnectedAccount extends Model
 {

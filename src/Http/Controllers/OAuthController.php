@@ -11,6 +11,7 @@ use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\MessageBag;
+use Illuminate\Support\Str;
 use Laravel\Fortify\Contracts\LoginResponse;
 use Laravel\Fortify\Features as FortifyFeatures;
 use Laravel\Socialite\Contracts\User as ProviderUser;
@@ -85,11 +86,11 @@ class OAuthController extends Controller
             return $this->handleRegistration($providerAccount, $provider);
         }
 
-        if (!$account && !Socialite::hasCreateAccountOnFirstLoginFeatures()) {
+        if (!$account && !Socialite::hasCreateAccountOnFirstLoginFeature()) {
             return $this->handleSignInNotFound($provider);
         }
 
-        if (!$account && Socialite::hasCreateAccountOnFirstLoginFeatures()) {
+        if (!$account && Socialite::hasCreateAccountOnFirstLoginFeature()) {
             return $this->handleCreateAccountOnFirstLogin($providerAccount, $provider);
         }
 
@@ -121,7 +122,7 @@ class OAuthController extends Controller
         return !$account && FortifyFeatures::enabled(FortifyFeatures::registration()) &&
             (
                 $previousUrl === route('register') ||
-                (Socialite::hasCreateAccountOnFirstLoginFeatures() && $previousUrl === route('login'))
+                (Socialite::hasCreateAccountOnFirstLoginFeature() && $previousUrl === route('login'))
             );
     }
 
@@ -143,7 +144,7 @@ class OAuthController extends Controller
         $messageBag = new MessageBag;
         $messageBag->add(
             'filament-companies',
-            __('filament-companies::default.errors.provider_sign_in_not_found', compact('provider'))
+            __('filament-companies::default.errors.signin_not_found', compact('provider'))
         );
 
         return redirect()->route('login')->withErrors($messageBag);
@@ -155,7 +156,7 @@ class OAuthController extends Controller
             $messageBag = new MessageBag;
             $messageBag->add(
                 'filament-companies',
-                __('filament-companies::default.errors.provider_sign_in_already_connected', compact('provider'))
+                __('filament-companies::default.errors.already_connected', compact('provider'))
             );
 
             return redirect()->route('login')->withErrors($messageBag);
@@ -173,28 +174,28 @@ class OAuthController extends Controller
     {
         if ($account && $account->user_id !== $user->getAuthIdentifier()) {
 
-            $title = __('filament-companies::default.notifications.provider_sign_in_belongs_to_another_user.title');
-            $body = __('filament-companies::default.notifications.provider_sign_in_belongs_to_another_user.body', compact('provider'));
-            $notification = Notification::make()->title($title)->danger()->body($body)->send();
+            $title = __('filament-companies::default.notifications.belongs_to_other_user.title');
+            $body = __('filament-companies::default.notifications.belongs_to_other_user.body', compact('provider'));
+            $notification = Notification::make()->title($title)->danger()->body(Str::inlineMarkdown($body))->send();
 
-            return redirect(Profile::getUrl())->with('notification.error.belongs_to_another_user', $notification);
+            return redirect(Profile::getUrl())->with('notification.error.belongs_to_other_user', $notification);
         }
 
         if (! $account) {
             $this->createsConnectedAccounts->create($user, $provider, $providerAccount);
 
-            $title = __('filament-companies::default.notifications.provider_sign_in_successfully_connected.title');
-            $body = __('filament-companies::default.notifications.provider_sign_in_successfully_connected.body', compact('provider'));
-            $notification = Notification::make()->title($title)->success()->body($body)->send();
+            $title = __('filament-companies::default.notifications.successfully_connected.title');
+            $body = __('filament-companies::default.notifications.successfully_connected.body', compact('provider'));
+            $notification = Notification::make()->title($title)->success()->body(Str::inlineMarkdown($body))->send();
 
             return redirect(Profile::getUrl())->with('notification.success.successfully_connected', $notification);
         }
 
-        $title = __('filament-companies::default.notifications.provider_sign_in_already_associated_with_your_user.title');
-        $body = __('filament-companies::default.notifications.provider_sign_in_already_associated_with_your_user.body', compact('provider'));
-        $notification = Notification::make()->title($title)->danger()->body($body)->send();
+        $title = __('filament-companies::default.notifications.already_associated.title');
+        $body = __('filament-companies::default.notifications.already_associated.body', compact('provider'));
+        $notification = Notification::make()->title($title)->danger()->body(Str::inlineMarkdown($body))->send();
 
-        return redirect(Profile::getUrl())->with('notification.error.already_associated_with_your_user', $notification);
+        return redirect(Profile::getUrl())->with('notification.error.already_associated', $notification);
     }
 
     /**
@@ -202,7 +203,7 @@ class OAuthController extends Controller
      */
     protected function handleUserAlreadyRegistered(Authenticatable $user, ?ConnectedAccount $account, string $provider, ProviderUser $providerAccount): RedirectResponse|LoginResponse
     {
-        if (Socialite::hasLoginOnRegistrationFeatures()) {
+        if (Socialite::hasLoginOnRegistrationFeature()) {
             // The user exists, but they're not registered with the given provider.
             if (! $account) {
                 $this->createsConnectedAccounts->create($user, $provider, $providerAccount);
@@ -212,7 +213,7 @@ class OAuthController extends Controller
         }
 
         $messageBag = new MessageBag;
-        $messageBag->add('filament-companies', __('filament-companies::default.errors.provider_sign_in_already_associated_with_account', compact('provider')));
+        $messageBag->add('filament-companies', __('filament-companies::default.errors.already_associated_account', compact('provider')));
 
         return redirect()->route('register')->withErrors($messageBag);
     }
@@ -226,7 +227,7 @@ class OAuthController extends Controller
             $messageBag = new MessageBag;
             $messageBag->add(
                 'filament-companies',
-                __('filament-companies::default.errors.no_email_associated_with_provider_account', compact('provider'))
+                __('filament-companies::default.errors.no_email_with_account', compact('provider'))
             );
 
             return redirect()->route('register')->withErrors($messageBag);
@@ -236,7 +237,7 @@ class OAuthController extends Controller
             $messageBag = new MessageBag;
             $messageBag->add(
                 'filament-companies',
-                __('filament-companies::default.errors.email_already_associated_with_another_account', compact('provider'))
+                __('filament-companies::default.errors.email_already_associated', compact('provider'))
             );
 
             return redirect()->route('register')->withErrors($messageBag);
@@ -252,7 +253,7 @@ class OAuthController extends Controller
      */
     protected function login(Authenticatable $user): LoginResponse
     {
-        $this->guard->login($user, Socialite::hasRememberSessionFeatures());
+        $this->guard->login($user, Socialite::hasRememberSessionFeature());
 
         return app(LoginResponse::class);
     }

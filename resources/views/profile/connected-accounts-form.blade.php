@@ -1,4 +1,4 @@
-<x-filament-companies::grid-section>
+<x-filament-companies::grid-section md="2">
     <x-slot name="title">
         {{ __('filament-companies::default.action_section_titles.connected_accounts') }}
     </x-slot>
@@ -31,7 +31,7 @@
                     <x-slot name="action">
                         @if ($account !== null)
                             <div class="flex items-center justify-between space-x-1">
-                                @if ($account->avatar_path !== null && Wallo\FilamentCompanies\FilamentCompanies::managesProfilePhotos() && Wallo\FilamentCompanies\Socialite::hasProviderAvatarsFeature())
+                                @if ($account->avatar_path !== null && Wallo\FilamentCompanies\Features::managesProfilePhotos() && Wallo\FilamentCompanies\Socialite::hasProviderAvatarsFeature())
                                     <x-filament::button size="sm" wire:click="setAvatarAsProfilePhoto({{ $account->id }})">
                                         {{ __('filament-companies::default.buttons.use_avatar_as_profile_photo') }}
                                     </x-filament::button>
@@ -44,7 +44,7 @@
                                 @endif
                             </div>
                         @else
-                            <x-filament::button tag="a" color="secondary" size="sm" href="{{ route('oauth.redirect', compact('provider')) }}">
+                            <x-filament::button tag="a" color="gray" size="sm" href="{{ route('oauth.redirect', compact('provider')) }}">
                                 {{ __('filament-companies::default.buttons.connect') }}
                             </x-filament::button>
                         @endif
@@ -64,7 +64,7 @@
             </x-slot>
 
             <x-slot name="footer">
-                <x-filament::button color="secondary" wire:click="$toggle('confirmingRemove')" wire:loading.attr="disabled">
+                <x-filament::button color="gray" wire:click="$toggle('confirmingRemove')" wire:loading.attr="disabled">
                     {{ __('filament-companies::default.buttons.cancel') }}
                 </x-filament::button>
 

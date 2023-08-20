@@ -2,11 +2,13 @@
 
 namespace Wallo\FilamentCompanies\Http\Controllers;
 
+use Filament\Notifications\Notification;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Str;
 use Livewire\Features\SupportRedirects\Redirector;
 use Wallo\FilamentCompanies\Contracts\AddsCompanyEmployees;
 use Wallo\FilamentCompanies\FilamentCompanies;
@@ -31,9 +33,10 @@ class CompanyInvitationController extends Controller
 
         $invitation->delete();
 
-        return redirect(config('fortify.home'))->banner(
-            __('filament-companies::default.banner.company_invitation_accepted', ['company' => $invitation->company->name]),
-        );
+        $title = __('filament-companies::default.banner.company_invitation_accepted', ['company' => $invitation->company->name]);
+        $notification = Notification::make()->title(Str::inlineMarkdown($title))->danger()->send();
+
+        return redirect(config('fortify.home'))->with('notification.success.company_invitation_accepted', $notification);
     }
 
     /**

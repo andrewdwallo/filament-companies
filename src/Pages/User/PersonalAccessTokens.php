@@ -23,7 +23,7 @@ use Illuminate\Support\HtmlString;
 use Laravel\Sanctum\Sanctum;
 use Wallo\FilamentCompanies\FilamentCompanies;
 
-class APITokens extends Page implements Tables\Contracts\HasTable
+class PersonalAccessTokens extends Page implements Tables\Contracts\HasTable
 {
     use Tables\Concerns\InteractsWithTable;
 
@@ -37,23 +37,23 @@ class APITokens extends Page implements Tables\Contracts\HasTable
      */
     public bool $displayingToken = false;
 
-    protected static string $view = 'filament-companies::filament.pages.user.api-tokens';
+    protected static string $view = 'filament-companies::filament.pages.user.personal-access-tokens';
 
     protected static bool $shouldRegisterNavigation = false;
 
     public function getTitle(): string
     {
-        return __('filament-companies::default.grid_section_titles.create_api_token');
+        return __('filament-companies::default.grid_section_titles.create_token');
     }
 
     public function getSubHeading(): string
     {
-        return __('filament-companies::default.grid_section_descriptions.create_api_token');
+        return __('filament-companies::default.grid_section_descriptions.create_token');
     }
 
     public static function getSlug(): string
     {
-        return 'user/api-tokens';
+        return 'personal-access-tokens';
     }
 
     protected function getTableQuery(): Builder
@@ -130,7 +130,7 @@ class APITokens extends Page implements Tables\Contracts\HasTable
         return [
             Action::make('create')
                 ->label(__('filament-companies::default.buttons.create_token'))
-                ->modalWidth(config('filament-companies.layout.modals.api_tokens.create_modal_width'))
+                ->modalWidth(config('filament-companies.layout.modals.tokens.create_modal_width'))
                 ->action(function (array $data) use ($permissions) {
                     $name = $data['name'];
                     $abilities = array_values($data['abilities']);
@@ -166,9 +166,9 @@ class APITokens extends Page implements Tables\Contracts\HasTable
     protected function tokenCreatedNotification($name): void
     {
         Notification::make()
-            ->title(__('filament-companies::default.notifications.api_token_created.title'))
+            ->title(__('filament-companies::default.notifications.token_created.title'))
             ->success()
-            ->body(__('filament-companies::default.notifications.api_token_created.body', compact('name')))
+            ->body(__('filament-companies::default.notifications.token_created.body', compact('name')))
             ->send();
     }
 
@@ -182,8 +182,8 @@ class APITokens extends Page implements Tables\Contracts\HasTable
         return [
             Tables\Actions\Action::make('edit')
                 ->label(__('filament-companies::default.buttons.edit'))
-                ->icon('heroicon-o-pencil-alt')
-                ->modalWidth(config('filament-companies.layout.modals.api_tokens.edit_modal_width'))
+                ->icon('heroicon-o-pencil')
+                ->modalWidth(config('filament-companies.layout.modals.tokens.edit_modal_width'))
                 ->mountUsing(static function ($form, $record) {
                     $form->fill($record->toArray());
                 })
@@ -220,9 +220,9 @@ class APITokens extends Page implements Tables\Contracts\HasTable
     protected function tokenUpdated(): void
     {
         Notification::make()
-            ->title(__('filament-companies::default.notifications.api_token_updated.title'))
+            ->title(__('filament-companies::default.notifications.token_updated.title'))
             ->success()
-            ->body(__('filament-companies::default.notifications.api_token_updated.body'))
+            ->body(__('filament-companies::default.notifications.token_updated.body'))
             ->send();
     }
 
@@ -240,9 +240,9 @@ class APITokens extends Page implements Tables\Contracts\HasTable
                     $records->each(static fn ($record) => $record->delete());
                 })
                 ->requiresConfirmation()
-                ->modalWidth(config('filament-companies.layout.modals.api_tokens.revoke_modal_width'))
-                ->modalHeading(__('filament-companies::default.modal_titles.revoke_api_tokens'))
-                ->modalDescription(__('filament-companies::default.modal_descriptions.revoke_api_tokens'))
+                ->modalWidth(config('filament-companies.layout.modals.tokens.revoke_modal_width'))
+                ->modalHeading(__('filament-companies::default.modal_titles.revoke_tokens'))
+                ->modalDescription(__('filament-companies::default.modal_descriptions.revoke_tokens'))
                 ->modalSubmitActionLabel(__('filament-companies::default.buttons.revoke'))
                 ->deselectRecordsAfterCompletion()
                 ->color('danger')

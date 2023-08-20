@@ -9,6 +9,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 use Livewire\Component;
 use Wallo\FilamentCompanies\Contracts\CreatesCompanies;
 use Wallo\FilamentCompanies\RedirectsActions;
@@ -59,7 +60,7 @@ class CreateCompanyForm extends Component
         Notification::make()
             ->title(__('filament-companies::default.notifications.company_created.title'))
             ->success()
-            ->body(__('filament-companies::default.notifications.company_created.body', compact('name')))
+            ->body(Str::inlineMarkdown(__('filament-companies::default.notifications.company_created.body', compact('name'))))
             ->send();
     }
 }

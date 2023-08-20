@@ -9,6 +9,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 use Livewire\Component;
 use Wallo\FilamentCompanies\Actions\ValidateCompanyDeletion;
 use Wallo\FilamentCompanies\Contracts\DeletesCompanies;
@@ -67,7 +68,7 @@ class DeleteCompanyForm extends Component
         Notification::make()
             ->title(__('filament-companies::default.notifications.company_deleted.title'))
             ->success()
-            ->body(__('filament-companies::default.notifications.company_deleted.body', compact('name')))
+            ->body(Str::inlineMarkdown(__('filament-companies::default.notifications.company_deleted.body', compact('name'))))
             ->send();
     }
 }

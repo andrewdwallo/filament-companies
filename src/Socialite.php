@@ -2,6 +2,8 @@
 
 namespace Wallo\FilamentCompanies;
 
+use App\Models\ConnectedAccount;
+use Closure;
 use Wallo\FilamentCompanies\Contracts\CreatesConnectedAccounts;
 use Wallo\FilamentCompanies\Contracts\CreatesUserFromProvider;
 use Wallo\FilamentCompanies\Contracts\GeneratesProviderRedirect;
@@ -15,123 +17,198 @@ class Socialite
     /**
      * The user model that should be used by FilamentCompanies.
      */
-    public static string $connectedAccountModel = 'App\\Models\\ConnectedAccount';
+    public static string $connectedAccountModel = ConnectedAccount::class;
 
     /**
-     * Determine if Company is supporting socialite features.
+     * Determine if the application is using any socialite features.
+     */
+    public static bool $hasSocialiteFeatures = false;
+
+    /**
+     * The socialite providers that should be used by Company.
+     */
+    public static array $supportedSocialiteProviders = [
+        'github' => false,
+        'gitlab' => false,
+        'google' => false,
+        'facebook' => false,
+        'linkedin' => false,
+        'bitbucket' => false,
+        'twitter' => false,
+        'twitter-oauth-2' => false,
+    ];
+
+    /**
+     * The socialite features that should be used by Company.
+     */
+    public static array $supportedSocialiteFeatures = [
+        'rememberSession' => false,
+        'refreshOAuthTokens' => false,
+        'providerAvatars' => false,
+        'generateMissingEmails' => false,
+        'loginOnRegistration' => false,
+        'createAccountOnFirstLogin' => false,
+    ];
+
+    public function enableSocialite(bool|Closure|null $condition = true): static
+    {
+        static::$hasSocialiteFeatures = $condition instanceof Closure ? $condition() : $condition;
+
+        return $this;
+    }
+
+    public function setProviders(array|null $providers = null): static
+    {
+        if (is_array($providers)) {
+            foreach ($providers as $provider) {
+                if (array_key_exists($provider, static::$supportedSocialiteProviders)) {
+                    static::$supportedSocialiteProviders[$provider] = true;
+                }
+            }
+        }
+
+        return $this;
+    }
+
+    public function setFeatures(array|null $features = null): static
+    {
+        if (is_array($features)) {
+            foreach ($features as $feature) {
+                if (array_key_exists($feature, static::$supportedSocialiteFeatures)) {
+                    static::$supportedSocialiteFeatures[$feature] = true;
+                }
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * Determine if the application has support for socialite.
      */
     public static function hasSocialiteFeatures(): bool
     {
-        return Features::hasSocialiteFeatures();
+        return static::$hasSocialiteFeatures;
     }
 
     /**
-     * Determine which providers the application supports.
-     */
-    public static function providers(): array
-    {
-        return config('filament-companies.providers', []);
-    }
-
-    /**
-     * Determine if the application has support for the Bitbucket provider..
+     * Determine if the application has support for the Bitbucket provider.
      */
     public static function hasBitbucket(): bool
     {
-        return Providers::hasBitbucket();
+        return static::$supportedSocialiteProviders['bitbucket'];
     }
 
     /**
-     * Determine if the application has support for the Facebook provider..
+     * Determine if the application has support for the Facebook provider.
      */
     public static function hasFacebook(): bool
     {
-        return Providers::hasFacebook();
+        return static::$supportedSocialiteProviders['facebook'];
     }
 
     /**
-     * Determine if the application has support for the Gitlab provider..
+     * Determine if the application has support for the GitLab provider.
      */
     public static function hasGitlab(): bool
     {
-        return Providers::hasGitlab();
+        return static::$supportedSocialiteProviders['gitlab'];
     }
 
     /**
-     * Determine if the application has support for the GitHub provider..
+     * Determine if the application has support for the GitHub provider.
      */
     public static function hasGithub(): bool
     {
-        return Providers::hasGithub();
+        return static::$supportedSocialiteProviders['github'];
     }
 
     /**
-     * Determine if the application has support for the Google provider..
+     * Determine if the application has support for the Google provider.
      */
     public static function hasGoogle(): bool
     {
-        return Providers::hasGoogle();
+        return static::$supportedSocialiteProviders['google'];
     }
 
     /**
-     * Determine if the application has support for the LinkedIn provider..
+     * Determine if the application has support for the LinkedIn provider.
      */
     public static function hasLinkedIn(): bool
     {
-        return Providers::hasLinkedIn();
+        return static::$supportedSocialiteProviders['linkedin'];
     }
 
     /**
-     * Determine if the application has support for the Twitter OAuth 1.0 provider..
+     * Determine if the application has support for the Twitter provider.
      */
-    public static function hasTwitterOAuth1(): bool
+    public static function hasTwitter(): bool
     {
-        return Providers::hasTwitterOAuth1();
+        return static::$supportedSocialiteProviders['twitter'];
     }
 
     /**
-     * Determine if the application has support for the Twitter OAuth 2.0 provider..
+     * Determine if the application has support for the Twitter OAuth 2.0 provider.
      */
     public static function hasTwitterOAuth2(): bool
     {
-        return Providers::hasTwitterOAuth2();
+        return static::$supportedSocialiteProviders['twitter-oauth-2'];
     }
 
     /**
-     * Determine if the application has the generates missing emails feature enabled.
+     * Determine if the application has support for Remembering Sessions.
      */
-    public static function generatesMissingEmails(): bool
+    public static function hasRememberSessionFeature(): bool
     {
-        return Features::generatesMissingEmails();
+        return static::$supportedSocialiteFeatures['rememberSession'];
     }
 
     /**
-     * Determine if the application has the create account on first login feature.
+     * Determine if the application has support for Refreshing OAuth Tokens.
      */
-    public static function hasCreateAccountOnFirstLoginFeatures(): bool
+    public static function hasRefreshOAuthTokensFeature(): bool
     {
-        return Features::hasCreateAccountOnFirstLoginFeatures();
-    }
-
-    public static function hasLoginOnRegistrationFeatures(): bool
-    {
-        return Features::hasLoginOnRegistrationFeatures();
+        return static::$supportedSocialiteFeatures['refreshOAuthTokens'];
     }
 
     /**
-     * Determine if the application should use provider avatars when registering.
+     * Determine if the application has support for Provider Avatars.
      */
     public static function hasProviderAvatarsFeature(): bool
     {
-        return Features::hasProviderAvatarsFeature();
+        return static::$supportedSocialiteFeatures['providerAvatars'];
     }
 
     /**
-     * Determine if the application should remember the users session on login.
+     * Determine if the application has support for Generating Missing Emails.
      */
-    public static function hasRememberSessionFeatures(): bool
+    public static function generatesMissingEmails(): bool
     {
-        return Features::hasRememberSessionFeatures();
+        return static::$supportedSocialiteFeatures['generateMissingEmails'];
+    }
+
+    /**
+     * Determine if the application has support for Logging in on Registration.
+     */
+    public static function hasLoginOnRegistrationFeature(): bool
+    {
+        return static::$supportedSocialiteFeatures['loginOnRegistration'];
+    }
+
+    /**
+     * Determine if the application has support for Creating Accounts on First Login.
+     */
+    public static function hasCreateAccountOnFirstLoginFeature(): bool
+    {
+        return static::$supportedSocialiteFeatures['createAccountOnFirstLogin'];
+    }
+
+    /**
+     * Get all of the socialite providers and whether the application supports them.
+     */
+    public static function providers(): array
+    {
+        return static::$supportedSocialiteProviders;
     }
 
     /**

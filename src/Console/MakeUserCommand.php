@@ -6,6 +6,7 @@ use App\Actions\Fortify\CreateNewUser;
 use Filament\Support\Commands\Concerns\CanValidateInput;
 use Illuminate\Console\Command;
 use Laravel\Fortify\Rules\Password;
+use Wallo\FilamentCompanies\Features;
 use Wallo\FilamentCompanies\FilamentCompanies;
 
 class MakeUserCommand extends Command
@@ -50,7 +51,7 @@ class MakeUserCommand extends Command
             'email' => $email,
             'password' => $password,
             'password_confirmation' => $password,
-            'terms' => FilamentCompanies::hasTermsAndPrivacyPolicyFeature(),
+            'terms' => Features::hasTermsAndPrivacyPolicyFeature(),
         ]);
 
         $this->sendSuccessMessage($user);

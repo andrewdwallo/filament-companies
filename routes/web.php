@@ -1,61 +1,56 @@
 <?php
 
+use Filament\Facades\Filament;
 use Illuminate\Support\Facades\Route;
-use Wallo\FilamentCompanies\FilamentCompanies;
+use Wallo\FilamentCompanies\Features;
 use Wallo\FilamentCompanies\Http\Controllers\CompanyInvitationController;
-use Wallo\FilamentCompanies\Http\Controllers\CurrentCompanyController;
-use Wallo\FilamentCompanies\Http\Controllers\Livewire\PrivacyPolicyController;
-use Wallo\FilamentCompanies\Http\Controllers\Livewire\TermsOfServiceController;
 use Wallo\FilamentCompanies\Http\Controllers\OAuthController;
-use Wallo\FilamentCompanies\Pages\Companies\CompanySettings;
-use Wallo\FilamentCompanies\Pages\Companies\CreateCompany;
-use Wallo\FilamentCompanies\Pages\User\APITokens;
-use Wallo\FilamentCompanies\Pages\User\Profile;
+use Wallo\FilamentCompanies\Pages\Auth\PrivacyPolicy;
+use Wallo\FilamentCompanies\Pages\Auth\Terms;
 use Wallo\FilamentCompanies\Socialite;
 
-Route::group(['middleware' => config('filament-companies.middleware', ['web'])], static function () {
-    if (Socialite::hasSocialiteFeatures()) {
-        Route::get('/oauth/{provider}', [OAuthController::class, 'redirectToProvider'])->name('oauth.redirect');
-        Route::get('/oauth/{provider}/callback', [OAuthController::class, 'handleProviderCallback'])->name('oauth.callback');
-    }
+Route::name('filament.')
+    ->group(static function () {
+        foreach (Filament::getPanels() as $panel) {
+            $hasPlugin = $panel->hasPlugin('companies');
 
-    if (FilamentCompanies::hasTermsAndPrivacyPolicyFeature()) {
-        Route::get('/terms-of-service', [TermsOfServiceController::class, 'show'])->name('terms.show');
-        Route::get('/privacy-policy', [PrivacyPolicyController::class, 'show'])->name('policy.show');
-    }
+            if (!$hasPlugin) {
+                continue;
+            }
 
-    $authMiddleware = config('filament-companies.guard')
-        ? 'auth:'.config('filament-companies.guard')
-        : 'auth';
+            $panelId = $panel->getId();
+            $domains = $panel->getDomains();
+            $hasTenancy = $panel->hasTenancy();
+            $plugin = $panel->getPlugin('companies');
 
-    $authSessionMiddleware = config('filament-companies.auth_session', false)
-        ? config('filament-companies.auth_session')
-        : null;
+            foreach ((empty($domains) ? [null] : $domains) as $domain) {
+                Route::domain($domain)
+                    ->middleware($panel->getMiddleware())
+                    ->name("{$panelId}.")
+                    ->prefix($panel->getPath())
+                    ->group(static function () use ($plugin, $hasTenancy) {
+                        $oauth_route = '/oauth/{provider}';
+                        $oauth_callback_route = '/oauth/{provider}/callback';
 
-    Route::group(['middleware' => array_values(array_filter([$authMiddleware, $authSessionMiddleware]))], static function () {
-        // User & Profile...
-        Route::prefix(config('filament.path'))
-            ->group(static function () {
-                Route::get('/user/profile', Profile::class);
+                        if (Socialite::hasSocialiteFeatures() && $plugin->socialite()) {
+                            Route::get($oauth_route, [OAuthController::class, 'redirectToProvider'])->name('oauth.redirect');
+                            Route::get($oauth_callback_route, [OAuthController::class, 'handleProviderCallback'])->name('oauth.callback');
+                        }
 
-                Route::group(['middleware' => 'verified'], static function () {
-                    // API...
-                    if (FilamentCompanies::hasApiFeatures()) {
-                        Route::get('/user/api-tokens', APITokens::class);
-                    }
+                        if (Features::hasTermsAndPrivacyPolicyFeature() && $plugin->termsAndPrivacyPolicy()) {
+                            Route::get(Terms::getSlug(), Terms::class)->name(Terms::getRouteName());
+                            Route::get(PrivacyPolicy::getSlug(), PrivacyPolicy::class)->name(PrivacyPolicy::getRouteName());
+                        }
 
-                    // Companies...
-                    if (FilamentCompanies::hasCompanyFeatures()) {
-                        Route::get('companies/create', CreateCompany::class);
+                        $company_invitations_route = $hasTenancy ? '/{tenant}/company-invitations/{invitation}' : '/company-invitations/{invitation}';
 
-                        Route::get('companies/{company}', CompanySettings::class);
-                        Route::put('/current-company', [CurrentCompanyController::class, 'update'])->name('current-company.update');
-
-                        Route::get('/company-invitations/{invitation}', [CompanyInvitationController::class, 'accept'])
-                            ->middleware(['signed'])
-                            ->name('company-invitations.accept');
-                    }
-                });
-            });
+                        // Companies...
+                        if (Features::hasCompanyFeatures() && $plugin->companies(invitations: true)) {
+                            Route::get($company_invitations_route, [CompanyInvitationController::class, 'accept'])
+                                ->middleware(['signed'])
+                                ->name('company-invitations.accept');
+                        }
+                    });
+            }
+        }
     });
-});

@@ -1,4 +1,4 @@
-<x-filament-companies::grid-section>
+<x-filament-companies::grid-section md="2">
     <x-slot name="title">
         {{ __('filament-companies::default.grid_section_titles.profile_information') }}
     </x-slot>
@@ -7,23 +7,24 @@
         {{ __('filament-companies::default.grid_section_descriptions.profile_information') }}
     </x-slot>
 
-    <form wire:submit="updateProfileInformation" class="col-span-2 sm:col-span-1 mt-5 md:mt-0">
-        <x-filament::card>
+    <x-filament::section>
+        <form wire:submit="updateProfileInformation" class="space-y-6">
             <!-- Profile Photo -->
-            @if (Wallo\FilamentCompanies\FilamentCompanies::managesProfilePhotos())
+            @if (Wallo\FilamentCompanies\Features::managesProfilePhotos())
                 <div x-data="{ photoName: null, photoPreview: null }" class="space-y-2">
                     <!-- Profile Photo File Input -->
-                    <input type="file" class="hidden" wire:model="photo" x-ref="photo"
-                        x-on:change="
-                                    photoName = $refs.photo.files[0].name;
-                                    const reader = new FileReader();
-                                    reader.onload = (e) => {
-                                        photoPreview = e.target.result;
-                                    };
-                                    reader.readAsDataURL($refs.photo.files[0]);
-                        " />
+                    <input type="file" class="hidden" wire:model.live="photo" x-ref="photo"
+                           x-on:change="
+                                const reader = new FileReader();
+                                reader.onload = (e) => {
+                                    photoPreview = e.target.result;
+                                };
+                                reader.readAsDataURL($refs.photo.files[0]);
+                    " />
 
-                    <x-filament-companies::label for="photo" value="{{ __('filament-companies::default.labels.photo') }}" />
+                    <x-filament-forms::field-wrapper.label for="photo">
+                        {{ __('filament-companies::default.labels.photo') }}
+                    </x-filament-forms::field-wrapper.label>
 
                     <!-- Current Profile Photo -->
                     <div x-show="! photoPreview">
@@ -31,11 +32,9 @@
                     </div>
 
                     <!-- New Profile Photo Preview -->
-                    <div x-show="photoPreview" style="display: none;">
-                        <span class="block h-20 w-20 rounded-full bg-cover bg-center bg-no-repeat"
-                            x-bind:style="'background-image: url(\'' + photoPreview + '\');'">
-                        </span>
-                    </div>
+                    <template x-if="photoPreview">
+                        <img :src="photoPreview" class="h-20 w-20 rounded-full object-cover">
+                    </template>
 
                     <x-filament::button size="sm" x-on:click.prevent="$refs.photo.click()">
                         {{ __('filament-companies::default.buttons.new_photo') }}
@@ -47,37 +46,40 @@
                         </x-filament::button>
                     @endif
 
-                    <x-filament-companies::input-error for="photo" />
+                    <x-filament-forms::field-wrapper.error-message for="photo" />
                 </div>
             @endif
 
             <!-- Name -->
-            <x-filament-forms::field-wrapper id="name" statePath="name" required label="{{ __('filament-companies::default.fields.name') }}">
-                <x-filament-companies::input id="name" type="text" maxLength="255" required wire:model.live="state.name" autocomplete="name" />
+            <x-filament-forms::field-wrapper id="name" statePath="name" required="required" label="{{ __('filament-companies::default.fields.name') }}">
+                <x-filament::input.wrapper>
+                    <x-filament::input id="name" type="text" maxLength="255" required="required" wire:model="state.name" autocomplete="name" />
+                </x-filament::input.wrapper>
             </x-filament-forms::field-wrapper>
 
             <!-- Email -->
-            <x-filament-forms::field-wrapper id="email" statePath="email" required label="{{ __('filament-companies::default.fields.email') }}">
-                <x-filament-companies::input id="email" type="email" maxLength="255" required wire:model.live="state.email" />
+            <x-filament-forms::field-wrapper id="email" statePath="email" required="required" label="{{ __('filament-companies::default.fields.email') }}">
+                <x-filament::input.wrapper>
+                    <x-filament::input id="email" type="email" wire:model="state.email" maxLength="255" required="required" autocomplete="username" />
+                </x-filament::input.wrapper>
             </x-filament-forms::field-wrapper>
 
             @if (!$this->user->hasVerifiedEmail() && Laravel\Fortify\Features::enabled(Laravel\Fortify\Features::emailVerification()))
                 <p class="mt-2 text-sm dark:text-white">
                     {{ __('filament-companies::default.headings.profile.update_profile_information.verification_link_not_sent') }}
 
-                    <x-filament::button color="secondary" size="sm" class="mt-2" wire:click.prevent="sendEmailVerification">
+                    <x-filament::button color="gray" size="sm" class="mt-2" wire:click.prevent="sendEmailVerification">
                         {{ __('filament-companies::default.buttons.resend_verification_email') }}
                     </x-filament::button>
                 </p>
             @endif
 
-            <x-slot name="footer">
-                <div class="text-left">
-                    <x-filament::button type="submit" wire:loading.attr="disabled" wire:target="photo">
-                        {{ __('filament-companies::default.buttons.save') }}
-                    </x-filament::button>
-                </div>
-            </x-slot>
-        </x-filament::card>
-    </form>
+
+            <div class="text-left">
+                <x-filament::button type="submit" wire:loading.attr="disabled" wire:target="photo">
+                    {{ __('filament-companies::default.buttons.save') }}
+                </x-filament::button>
+            </div>
+        </form>
+    </x-filament::section>
 </x-filament-companies::grid-section>

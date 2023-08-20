@@ -2,7 +2,15 @@
 
 namespace Wallo\FilamentCompanies;
 
+use App\Models\Company;
+use App\Models\CompanyInvitation;
+use App\Models\Employeeship;
+use App\Models\User;
+use Closure;
+use Filament\Contracts\Plugin;
+use Filament\Panel;
 use Illuminate\Support\Arr;
+use Livewire\Livewire;
 use Wallo\FilamentCompanies\Contracts\AddsCompanyEmployees;
 use Wallo\FilamentCompanies\Contracts\CreatesCompanies;
 use Wallo\FilamentCompanies\Contracts\DeletesCompanies;
@@ -10,8 +18,10 @@ use Wallo\FilamentCompanies\Contracts\DeletesUsers;
 use Wallo\FilamentCompanies\Contracts\InvitesCompanyEmployees;
 use Wallo\FilamentCompanies\Contracts\RemovesCompanyEmployees;
 use Wallo\FilamentCompanies\Contracts\UpdatesCompanyNames;
+use Wallo\FilamentCompanies\Pages\Company\CompanySettings;
+use Wallo\FilamentCompanies\Pages\Company\CreateCompany;
 
-class FilamentCompanies
+class FilamentCompanies implements Plugin
 {
     /**
      * Indicates if Company routes will be registered.
@@ -36,22 +46,124 @@ class FilamentCompanies
     /**
      * The user model that should be used by Company.
      */
-    public static string $userModel = 'App\\Models\\User';
+    public static string $userModel = User::class;
 
     /**
      * The company model that should be used by Company.
      */
-    public static string $companyModel = 'App\\Models\\Company';
+    public static string $companyModel = Company::class;
 
     /**
      * The employeeship model that should be used by Company.
      */
-    public static string $employeeshipModel = 'App\\Models\\Employeeship';
+    public static string $employeeshipModel = Employeeship::class;
 
     /**
      * The company invitation model that should be used by Company.
      */
-    public static string $companyInvitationModel = 'App\\Models\\CompanyInvitation';
+    public static string $companyInvitationModel = CompanyInvitation::class;
+
+    /**
+     * The socialite configuration.
+     */
+    protected Socialite $socialite;
+
+    /**
+     * The features configuration.
+     */
+    protected Features $features;
+
+    /**
+     * Create new instances.
+     */
+    public function __construct()
+    {
+        $this->socialite = new Socialite();
+        $this->features = new Features();
+    }
+
+    /**
+     * Determine if the application supports socialite.
+     */
+    public function socialite(bool|Closure|null $condition = true, array|null $providers = null, array|null $features = null): static
+    {
+        $this->socialite
+            ->enableSocialite($condition)
+            ->setProviders($providers)
+            ->setFeatures($features);
+
+        return $this;
+    }
+
+    /**
+     * Determine if the application supports the profile photos feature.
+     */
+    public function profilePhotos(bool|Closure|null $condition = true, string $disk = 'public', string $storagePath = 'profile-photos'): static
+    {
+        $this->features->profilePhotos($condition, $disk, $storagePath);
+
+        return $this;
+    }
+
+    /**
+     * Determine if the application supports the api feature.
+     */
+    public function api(bool|Closure|null $condition = true): static
+    {
+        $this->features->api($condition);
+
+        return $this;
+    }
+
+    /**
+     * Determine if the application supports the companies features.
+     */
+    public function companies(bool|Closure|null $condition = true, bool|Closure|null $invitations = null): static
+    {
+        $this->features->companies($condition, $invitations);
+
+        return $this;
+    }
+
+    /**
+     * Determine if the application supports the Terms and Privacy Policy features.
+     */
+    public function termsAndPrivacyPolicy(bool|Closure|null $condition = true): static
+    {
+        $this->features->termsAndPrivacyPolicy($condition);
+
+        return $this;
+    }
+
+    /**
+     * Determine if the application supports the Account Deletion features.
+     */
+    public function accountDeletion(bool|Closure|null $condition = true): static
+    {
+        $this->features->accountDeletion($condition);
+
+        return $this;
+    }
+
+    public function getId(): string
+    {
+        return 'companies';
+    }
+
+    public static function make(): static
+    {
+        return app(static::class);
+    }
+
+    public function register(Panel $panel): void
+    {
+        //
+    }
+
+    public function boot(Panel $panel): void
+    {
+       //
+    }
 
     /**
      * Determine if Company has registered roles.
@@ -119,56 +231,6 @@ class FilamentCompanies
     public static function validPermissions(array $permissions): array
     {
         return array_values(array_intersect($permissions, static::$permissions));
-    }
-
-    /**
-     * Determine if Company is managing profile photos.
-     */
-    public static function managesProfilePhotos(): bool
-    {
-        return Features::managesProfilePhotos();
-    }
-
-    /**
-     * Determine if Company is supporting API features.
-     */
-    public static function hasApiFeatures(): bool
-    {
-        return Features::hasApiFeatures();
-    }
-
-    /**
-     * Determine if Company is supporting company features.
-     */
-    public static function hasCompanyFeatures(): bool
-    {
-        return Features::hasCompanyFeatures();
-    }
-
-    /**
-     * Determine if a given user model utilizes the "HasCompanies" trait.
-     */
-    public static function userHasCompanyFeatures(mixed $user): bool
-    {
-        return (array_key_exists(HasCompanies::class, class_uses_recursive($user)) ||
-                method_exists($user, 'currentCompany')) &&
-                static::hasCompanyFeatures();
-    }
-
-    /**
-     * Determine if the application is using the terms confirmation feature.
-     */
-    public static function hasTermsAndPrivacyPolicyFeature(): bool
-    {
-        return Features::hasTermsAndPrivacyPolicyFeature();
-    }
-
-    /**
-     * Determine if the application is using any account deletion features.
-     */
-    public static function hasAccountDeletionFeatures(): bool
-    {
-        return Features::hasAccountDeletionFeatures();
     }
 
     /**

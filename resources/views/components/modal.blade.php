@@ -18,7 +18,7 @@
     ][$maxWidth ?? '2xl'];
 @endphp
 
-<div x-data="{show: @entangle($attributes->wire('model')).live }"
+<div x-data="{show: @entangle($attributes->wire('model')) }"
      x-on:close.stop="show = false"
      x-on:keydown.escape.window="show = false"
      x-show="show"

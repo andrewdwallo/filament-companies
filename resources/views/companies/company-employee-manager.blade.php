@@ -3,7 +3,7 @@
         <x-filament-companies::section-border />
 
         <!-- Add Company Employee -->
-        <x-filament-companies::grid-section>
+        <x-filament-companies::grid-section md="2">
             <x-slot name="title">
                 {{ __('filament-companies::default.grid_section_titles.add_company_employee') }}
             </x-slot>
@@ -12,21 +12,23 @@
                 {{ __('filament-companies::default.grid_section_descriptions.add_company_employee') }}
             </x-slot>
 
-            <form wire:submit="addCompanyEmployee" class="col-span-2 sm:col-span-1 mt-5 md:mt-0">
-                <x-filament::card>
+            <x-filament::section>
+                <x-filament-panels::form wire:submit="addCompanyEmployee">
                     <p class="text-sm text-gray-600 dark:text-gray-400">
                         {{ __('filament-companies::default.subheadings.companies.company_employee_manager') }}
                     </p>
 
                     <!-- Employee Email -->
-                    <x-filament-forms::field-wrapper id="email" statePath="email" required label="{{ __('filament-companies::default.fields.email') }}">
-                        <x-filament-companies::input id="email" type="email" wire:model.live="addCompanyEmployeeForm.email" />
+                    <x-filament-forms::field-wrapper id="email" statePath="email" required="required" label="{{ __('filament-companies::default.fields.email') }}">
+                        <x-filament::input.wrapper class="overflow-hidden">
+                            <x-filament::input id="email" type="email" wire:model="addCompanyEmployeeForm.email" />
+                        </x-filament::input.wrapper>
                     </x-filament-forms::field-wrapper>
 
                     <!-- Role -->
                     @if (count($this->roles) > 0)
-                        <x-filament-forms::field-wrapper id="role" statePath="role" required label="{{ __('filament-companies::default.labels.role') }}">
-                            <div x-data="{ role: @entangle('addCompanyEmployeeForm.role').defer }" class="relative z-0 mt-1 cursor-pointer rounded-lg border border-gray-200 dark:border-gray-700">
+                        <x-filament-forms::field-wrapper id="role" statePath="role" required="required" label="{{ __('filament-companies::default.labels.role') }}">
+                            <div x-data="{ role: @entangle('addCompanyEmployeeForm.role') }" class="relative z-0 mt-1 cursor-pointer rounded-lg border border-gray-200 dark:border-gray-700">
                                 @foreach ($this->roles as $index => $role)
                                     <button type="button"
                                             @click="role = '{{ $role->key }}'"
@@ -60,15 +62,13 @@
                         </x-filament-forms::field-wrapper>
                     @endif
 
-                    <x-slot name="footer">
-                        <div class="text-left">
-                            <x-filament::button type="submit">
-                                {{ __('filament-companies::default.buttons.add') }}
-                            </x-filament::button>
-                        </div>
-                    </x-slot>
-                </x-filament::card>
-            </form>
+                    <div class="text-left">
+                        <x-filament::button type="submit">
+                            {{ __('filament-companies::default.buttons.add') }}
+                        </x-filament::button>
+                    </div>
+                </x-filament-panels::form>
+            </x-filament::section>
         </x-filament-companies::grid-section>
     @endif
 
@@ -76,7 +76,7 @@
         <x-filament-companies::section-border />
 
         <!-- Pending Employee Invitations -->
-        <x-filament-companies::grid-section class="mt-4">
+        <x-filament-companies::grid-section md="2">
             <x-slot name="title">
                 {{ __('filament-companies::default.action_section_titles.pending_company_invitations') }}
             </x-slot>
@@ -126,7 +126,7 @@
         <x-filament-companies::section-border />
 
         <!-- Manage Company Employees -->
-        <x-filament-companies::grid-section class="mt-4">
+        <x-filament-companies::grid-section md="2">
             <x-slot name="title">
                 {{ __('filament-companies::default.action_section_titles.company_employees') }}
             </x-slot>
@@ -167,7 +167,7 @@
                                             {{ Wallo\FilamentCompanies\FilamentCompanies::findRole($user->employeeship->role)->name }}
                                         </x-filament::button>
                                     @elseif (Wallo\FilamentCompanies\FilamentCompanies::hasRoles())
-                                        <x-filament::button size="sm" disabled="true" outlined="true" color="secondary">
+                                        <x-filament::button size="sm" disabled="true" outlined="true" color="gray">
                                             {{ Wallo\FilamentCompanies\FilamentCompanies::findRole($user->employeeship->role)->name }}
                                         </x-filament::button>
                                     @endif
@@ -195,13 +195,13 @@
     @endif
 
     <!-- Role Management Modal -->
-    <x-filament-companies::dialog-modal wire:model="currentlyManagingRole">
+    <x-filament-companies::dialog-modal wire:model.live="currentlyManagingRole">
         <x-slot name="title">
             {{ __('filament-companies::default.modal_titles.manage_role') }}
         </x-slot>
 
         <x-slot name="content">
-            <div x-data="{ role: @entangle('currentRole').defer }"
+            <div x-data="{ role: @entangle('currentRole').live }"
                  class="relative z-0 mt-1 cursor-pointer rounded-lg border border-gray-200 dark:border-gray-700">
                 @foreach ($this->roles as $index => $role)
                     <button type="button"
@@ -236,7 +236,7 @@
         </x-slot>
 
         <x-slot name="footer">
-            <x-filament::button color="secondary" wire:click="stopManagingRole" wire:loading.attr="disabled">
+            <x-filament::button color="gray" wire:click="stopManagingRole" wire:loading.attr="disabled">
                 {{ __('filament-companies::default.buttons.cancel') }}
             </x-filament::button>
 
@@ -247,7 +247,7 @@
     </x-filament-companies::dialog-modal>
 
     <!-- Leave Company Confirmation Modal -->
-    <x-filament-companies::dialog-modal wire:model="confirmingLeavingCompany">
+    <x-filament-companies::dialog-modal wire:model.live="confirmingLeavingCompany">
         <x-slot name="title">
             {{ __('filament-companies::default.modal_titles.leave_company') }}
         </x-slot>
@@ -257,7 +257,7 @@
         </x-slot>
 
         <x-slot name="footer">
-            <x-filament::button color="secondary" wire:click="$toggle('confirmingLeavingCompany')" wire:loading.attr="disabled">
+            <x-filament::button color="gray" wire:click="$toggle('confirmingLeavingCompany')" wire:loading.attr="disabled">
                 {{ __('filament-companies::default.buttons.cancel') }}
             </x-filament::button>
 
@@ -268,7 +268,7 @@
     </x-filament-companies::dialog-modal>
 
     <!-- Remove Company Employee Confirmation Modal -->
-    <x-filament-companies::dialog-modal wire:model="confirmingCompanyEmployeeRemoval">
+    <x-filament-companies::dialog-modal wire:model.live="confirmingCompanyEmployeeRemoval">
         <x-slot name="title">
             {{ __('filament-companies::default.modal_titles.remove_company_employee') }}
         </x-slot>
@@ -278,7 +278,7 @@
         </x-slot>
 
         <x-slot name="footer">
-            <x-filament::button color="secondary" wire:click="$toggle('confirmingCompanyEmployeeRemoval')" wire:loading.attr="disabled">
+            <x-filament::button color="gray" wire:click="$toggle('confirmingCompanyEmployeeRemoval')" wire:loading.attr="disabled">
                 {{ __('filament-companies::default.buttons.cancel') }}
             </x-filament::button>
 

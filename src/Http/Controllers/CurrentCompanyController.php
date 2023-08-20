@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Livewire\Features\SupportRedirects\Redirector;
 use Wallo\FilamentCompanies\FilamentCompanies;
-use Wallo\FilamentCompanies\Pages\Companies\CompanySettings;
+use Wallo\FilamentCompanies\Pages\Company\CompanySettings;
 
 class CurrentCompanyController extends Controller
 {

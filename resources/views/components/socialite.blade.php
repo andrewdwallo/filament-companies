@@ -8,26 +8,22 @@
     <div class="filament-companies-socialite-button-container mt-6 flex flex-wrap items-center justify-center gap-6">
         @php
             $providers = [
-                'Facebook' => ['provider' => Wallo\FilamentCompanies\Providers::facebook(), 'method' => 'hasFacebook'],
-                'TwitterOAuth1' => ['provider' => Wallo\FilamentCompanies\Providers::twitterOAuth1(), 'method' => 'hasTwitterOAuth1'],
-                'GitHub' => ['provider' => Wallo\FilamentCompanies\Providers::github(), 'method' => 'hasGithub'],
-                'Google' => ['provider' => Wallo\FilamentCompanies\Providers::google(), 'method' => 'hasGoogle'],
-                'TwitterOAuth2' => ['provider' => Wallo\FilamentCompanies\Providers::twitterOAuth2(), 'method' => 'hasTwitterOAuth2'],
-                'LinkedIn' => ['provider' => Wallo\FilamentCompanies\Providers::linkedin(), 'method' => 'hasLinkedIn'],
-                'GitLab' => ['provider' => Wallo\FilamentCompanies\Providers::gitlab(), 'method' => 'hasGitlab'],
-                'Bitbucket' => ['provider' => Wallo\FilamentCompanies\Providers::bitbucket(), 'method' => 'hasBitbucket'],
+                'facebook' => ['method' => 'hasFacebook'],
+                'twitter' => ['method' => 'hasTwitter'],
+                'github' => ['method' => 'hasGithub'],
+                'google' => ['method' => 'hasGoogle'],
+                'linkedin' => ['method' => 'hasLinkedIn'],
+                'gitlab' => ['method' => 'hasGitlab'],
+                'bitbucket' => ['method' => 'hasBitbucket'],
+                // Add other providers if needed
             ];
         @endphp
 
-        @foreach ($providers as $name => $provider)
-            @if (call_user_func([Wallo\FilamentCompanies\Socialite::class, $provider['method']]))
-                <a href="{{ route('oauth.redirect', ['provider' => $provider['provider']]) }}"
+        @foreach ($providers as $icon => $provider)
+            @if (Wallo\FilamentCompanies\Providers::{$provider['method']}())
+                <a href="{{ route('oauth.redirect', ['provider' => $icon]) }}"
                    class="filament-companies-socialite-buttons inline-flex rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 dark:focus:border-primary-500 py-2 px-4 shadow-sm hover:bg-gray-50 dark:hover:bg-gray-600">
-                    @php
-                        $name = str_replace(array('OAuth2', 'OAuth1'), '', $name);
-                        $icon = strtolower($name);
-                    @endphp
-                    <span class="sr-only">{{ $name }}</span>
+                    <span class="sr-only">{{ ucfirst($icon) }}</span>
                     <div class="h-6 w-6">
                         @component("filament-companies::components.socialite-icons.{$icon}")@endcomponent
                     </div>

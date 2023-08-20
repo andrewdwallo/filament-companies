@@ -1,4 +1,4 @@
-<x-filament::layouts.card>
+<x-filament-panels::page>
     <div class="space-y-4">
         <div class="text-sm text-gray-600 dark:text-gray-400">
             {{ __('filament-companies::default.headings.auth.verify_email.verification_link_not_sent') }}
@@ -13,7 +13,7 @@
         <form method="POST" action="{{ route('verification.send') }}">
             @csrf
 
-            <x-filament::button type="submit" color="secondary" class="w-full">
+            <x-filament::button type="submit" color="gray" class="w-full">
                 {{ __('filament-companies::default.buttons.resend_verification_email') }}
             </x-filament::button>
         </form>
@@ -26,5 +26,5 @@
             </x-filament::button>
         </form>
     </div>
-</x-filament::layouts.card>
+</x-filament-panels::page>
 

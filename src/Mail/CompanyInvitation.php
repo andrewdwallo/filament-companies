@@ -3,10 +3,13 @@
 namespace Wallo\FilamentCompanies\Mail;
 
 use App\Models\CompanyInvitation as CompanyInvitationModel;
+use Exception;
+use Filament\Facades\Filament;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\URL;
+use Wallo\FilamentCompanies\Features;
 
 class CompanyInvitation extends Mailable
 {
@@ -32,8 +35,20 @@ class CompanyInvitation extends Mailable
      */
     public function build(): static
     {
-        return $this->markdown('filament-companies::mail.company-invitation', ['acceptUrl' => URL::signedRoute('company-invitations.accept', [
+        foreach (Filament::getPanels() as $panel) {
+            $panelId = $panel->getId();
+
+            $routeName = 'filament.' . $panelId . '.' . $panelId . '-invitations.accept';
+
+            return $this->markdown('filament-companies::mail.company-invitation', ['acceptUrl' => URL::signedRoute($routeName, [
+                'invitation' => $this->invitation,
+                'tenant' => Filament::getTenant(),
+            ])])->subject(__('Company Invitation'));
+        }
+
+        return $this->markdown('filament-companies::mail.company-invitation', ['acceptUrl' => URL::signedRoute('filament.company.company-invitations.accept', [
             'invitation' => $this->invitation,
+            'tenant' => Filament::getTenant(),
         ])])->subject(__('Company Invitation'));
     }
 }

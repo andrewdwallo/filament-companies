@@ -1,8 +1,14 @@
 <?php
 
-use Wallo\FilamentCompanies\Features;
-use Wallo\FilamentCompanies\Http\Middleware\AuthenticateSession;
-use Wallo\FilamentCompanies\Providers;
+use Filament\Http\Middleware\DisableBladeIconComponents;
+use Filament\Http\Middleware\DispatchServingFilamentEvent;
+use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
+use Illuminate\Cookie\Middleware\EncryptCookies;
+use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
+use Illuminate\Routing\Middleware\SubstituteBindings;
+use Illuminate\Session\Middleware\StartSession;
+use Illuminate\View\Middleware\ShareErrorsFromSession;
+use Illuminate\Session\Middleware\AuthenticateSession;
 
 return [
 
@@ -30,7 +36,17 @@ return [
      |
      */
 
-    'middleware' => config('filament.middleware.base'),
+    'middleware' => [
+        EncryptCookies::class,
+        AddQueuedCookiesToResponse::class,
+        StartSession::class,
+        AuthenticateSession::class,
+        ShareErrorsFromSession::class,
+        VerifyCsrfToken::class,
+        SubstituteBindings::class,
+        DisableBladeIconComponents::class,
+        DispatchServingFilamentEvent::class,
+    ],
 
     'auth_session' => AuthenticateSession::class,
 
@@ -59,7 +75,7 @@ return [
     */
 
     'providers' => [
-        // Providers::github(),
+        //
     ],
 
     /*
@@ -74,12 +90,7 @@ return [
     */
 
     'features' => [
-        Features::termsAndPrivacyPolicy(),
-        Features::profilePhotos(),
-        Features::api(),
-        Features::companies(['invitations' => true]),
-        Features::accountDeletion(),
-        // Features::socialite(['rememberSession' => true, 'providerAvatars' => true]),
+        //
     ],
 
     /*

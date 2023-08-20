@@ -8,23 +8,11 @@ use Illuminate\Support\Str;
 class Providers
 {
     /**
-     * Determine if the given provider is enabled.
-     */
-    public static function enabled(string $provider): bool
-    {
-        if (! Socialite::hasSocialiteFeatures()) {
-            return false;
-        }
-
-        return in_array($provider, config('filament-companies.providers', []), true);
-    }
-
-    /**
      * Determine if the application has support for the Bitbucket provider.
      */
     public static function hasBitbucket(): bool
     {
-        return static::enabled(static::bitbucket());
+        return Socialite::hasBitbucket();
     }
 
     /**
@@ -32,7 +20,7 @@ class Providers
      */
     public static function hasFacebook(): bool
     {
-        return static::enabled(static::facebook());
+        return Socialite::hasFacebook();
     }
 
     /**
@@ -40,7 +28,7 @@ class Providers
      */
     public static function hasGitlab(): bool
     {
-        return static::enabled(static::gitlab());
+        return Socialite::hasGitlab();
     }
 
     /**
@@ -48,7 +36,7 @@ class Providers
      */
     public static function hasGithub(): bool
     {
-        return static::enabled(static::github());
+        return Socialite::hasGithub();
     }
 
     /**
@@ -56,7 +44,7 @@ class Providers
      */
     public static function hasGoogle(): bool
     {
-        return static::enabled(static::google());
+        return Socialite::hasGoogle();
     }
 
     /**
@@ -64,7 +52,7 @@ class Providers
      */
     public static function hasLinkedIn(): bool
     {
-        return static::enabled(static::linkedin());
+        return Socialite::hasLinkedIn();
     }
 
     /**
@@ -72,7 +60,7 @@ class Providers
      */
     public static function hasTwitterOAuth1(): bool
     {
-        return static::enabled(static::twitterOAuth1());
+        return Socialite::hasTwitter();
     }
 
     /**
@@ -80,7 +68,7 @@ class Providers
      */
     public static function hasTwitterOAuth2(): bool
     {
-        return static::enabled(static::twitterOAuth2());
+        return Socialite::hasTwitterOAuth2();
     }
 
     /**
@@ -145,29 +133,6 @@ class Providers
     public static function twitterOAuth2(): string
     {
         return 'twitter-oauth-2';
-    }
-
-    /**
-     * Dynamically handle static calls.
-     *
-     * @return mixed
-     */
-    public static function __callStatic($name, $arguments)
-    {
-        // If the method exists on the class, call it. Otherwise, attempt to
-        // determine the provider from the method name being called.
-        if (method_exists(static::class, $name)) {
-            return static::$name(...$arguments);
-        }
-
-        /** @example $name = "hasMyCustomProvider" */
-        if (preg_match('/^has.*$/', $name)) {
-            $provider = Str::remove('has', $name);
-
-            return static::enabled(Str::kebab($provider)) || static::enabled(Str::lower($provider));
-        }
-
-        static::throwBadMethodCallException($name);
     }
 
     /**

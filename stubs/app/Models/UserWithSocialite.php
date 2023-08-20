@@ -4,9 +4,14 @@ namespace App\Models;
 
 use Filament\Models\Contracts\FilamentUser;
 use Filament\Models\Contracts\HasAvatar;
+use Filament\Models\Contracts\HasDefaultTenant;
+use Filament\Models\Contracts\HasTenants;
+use Filament\Panel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Collection;
 use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravel\Sanctum\HasApiTokens;
 use Wallo\FilamentCompanies\HasCompanies;
@@ -14,7 +19,7 @@ use Wallo\FilamentCompanies\HasConnectedAccounts;
 use Wallo\FilamentCompanies\HasProfilePhoto;
 use Wallo\FilamentCompanies\SetsProfilePhotoFromUrl;
 
-class User extends Authenticatable implements FilamentUser, HasAvatar
+class User extends Authenticatable implements FilamentUser, HasAvatar, HasTenants, HasDefaultTenant
 {
     use HasApiTokens;
     use HasFactory;
@@ -25,12 +30,27 @@ class User extends Authenticatable implements FilamentUser, HasAvatar
     use SetsProfilePhotoFromUrl;
     use TwoFactorAuthenticatable;
 
-    public function canAccessFilament(): bool
+    public function canAccessPanel(Panel $panel): bool
     {
         return true;
     }
 
-    public function getFilamentAvatarUrl(): ?string
+    public function getTenants(Panel $panel): array|Collection
+    {
+        return $this->allCompanies();
+    }
+
+    public function canAccessTenant(Model $tenant): bool
+    {
+        return $this->belongsToCompany($tenant);
+    }
+
+    public function getDefaultTenant(Panel $panel): ?Model
+    {
+        return $this->currentCompany;
+    }
+
+    public function getFilamentAvatarUrl(): string
     {
         return $this->profile_photo_url;
     }

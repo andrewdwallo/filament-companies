@@ -80,13 +80,13 @@ return [
     'errors' => [
         'company_deletion' => 'لا يمكنك حذف شركتك الشخصية.',
         'valid_role' => 'يجب أن يكون :attribute دور صالح.',
-        'provider_sign_in_not_found' => 'لم يتم العثور على حساب بهذا التسجيل في :Provider. يرجى التسجيل أو محاولة طريقة تسجيل دخول مختلفة.',
-        'provider_sign_in_already_connected' => 'حساب بعنوان البريد الإلكتروني هذا موجود بالفعل. يرجى تسجيل الدخول للاتصال حسابك على :Provider.',
-        'provider_sign_in_belongs_to_another_user' => 'حساب تسجيل الدخول هذا في :Provider مرتبط بالفعل بمستخدم آخر. يرجى تجربة حساب مختلف.',
-        'provider_sign_in_successfully_connected' => 'تم الاتصال بنجاح :Provider بحسابك.',
-        'provider_sign_in_already_associated_with_your_user' => 'حساب تسجيل الدخول هذا في :Provider مرتبط بالفعل بمستخدمك.',
-        'no_email_associated_with_provider_account' => 'لا يوجد عنوان بريد إلكتروني مرتبط بهذا الحساب في :Provider. يرجى تجربة حساب مختلف.',
-        'email_already_associated_with_another_account' => 'حساب بعنوان البريد الإلكتروني هذا موجود بالفعل. يرجى تسجيل الدخول للاتصال حسابك على :Provider.',
+        'signin_not_found' => 'لم يتم العثور على حساب بهذا التسجيل في :Provider. يرجى التسجيل أو محاولة طريقة تسجيل دخول مختلفة.',
+        'already_connected' => 'حساب بعنوان البريد الإلكتروني هذا موجود بالفعل. يرجى تسجيل الدخول للاتصال حسابك على :Provider.',
+        'belongs_to_other_user' => 'حساب تسجيل الدخول هذا في :Provider مرتبط بالفعل بمستخدم آخر. يرجى تجربة حساب مختلف.',
+        'successfully_connected' => 'تم الاتصال بنجاح :Provider بحسابك.',
+        'already_associated' => 'حساب تسجيل الدخول هذا في :Provider مرتبط بالفعل بمستخدمك.',
+        'no_email_with_account' => 'لا يوجد عنوان بريد إلكتروني مرتبط بهذا الحساب في :Provider. يرجى تجربة حساب مختلف.',
+        'email_already_associated' => 'حساب بعنوان البريد الإلكتروني هذا موجود بالفعل. يرجى تسجيل الدخول للاتصال حسابك على :Provider.',
         'invalid_password' => 'كلمة المرور التي أدخلتها غير صالحة.',
         'email_not_found' => 'لم نتمكن من العثور على مستخدم مسجل بهذا البريد الإلكتروني.',
         'user_belongs_to_company' => 'هذا المستخدم ينتمي بالفعل إلى الشركة.',
@@ -146,12 +146,12 @@ return [
             'body' => 'تم تسجيل خروج حسابك من جلسات المستعرض الأخرى لأغراض الأمان.',
         ],
 
-        'api_token_created' => [
+        'token_created' => [
             'title' => 'تم إنشاء رمز API',
             'body' => 'تم إنشاء رمز API جديد بالاسم **:name.**',
         ],
 
-        'api_token_updated' => [
+        'token_updated' => [
             'title' => 'تم تحديث رمز API',
             'body' => 'تم تحديث رمز API بنجاح.',
         ],
@@ -166,7 +166,7 @@ return [
         'links' => [
             'company_settings' => 'إعدادات الشركة',
             'new_company' => 'شركة جديدة',
-            'api_tokens' => 'رموز API',
+            'tokens' => 'رموز API',
         ],
     ],
 
@@ -174,7 +174,7 @@ return [
         'titles' => [
             'create_company' => 'إنشاء شركة',
             'company_settings' => 'إعدادات الشركة',
-            'api_tokens' => 'رموز API',
+            'tokens' => 'رموز API',
             'profile' => 'الملف الشخصي',
         ],
     ],
@@ -185,7 +185,7 @@ return [
         'two_factor_authentication' => 'المصادقة الثنائية العاملة',
         'browser_sessions' => 'جلسات المتصفح',
         'delete_account' => 'حذف الحساب',
-        'create_api_token' => 'إنشاء رمز API',
+        'create_token' => 'إنشاء رمز API',
         'company_name' => 'اسم الشركة',
         'create_company' => 'إنشاء شركة جديدة',
         'add_company_employee' => 'إضافة موظف للشركة',
@@ -198,7 +198,7 @@ return [
         'two_factor_authentication' => 'إضافة أمان إضافي لحسابك باستخدام المصادقة الثنائية العاملة.',
         'browser_sessions' => 'إدارة وتسجيل الخروج من جلساتك النشطة في متصفحات وأجهزة أخرى.',
         'delete_account' => 'حذف حسابك بشكل دائم.',
-        'create_api_token' => 'تسمح رموز API للخدمات الأخرى بالمصادقة مع تطبيقنا نيابة عنك.',
+        'create_token' => 'تسمح رموز API للخدمات الأخرى بالمصادقة مع تطبيقنا نيابة عنك.',
         'company_name' => "اسم الشركة ومعلومات المالك.",
         'create_company' => 'إنشاء شركة جديدة للتعاون مع الآخرين في المشاريع.',
         'add_company_employee' => 'إضافة موظف جديد إلى شركتك للسماح لهم بالتعاون معك.',
@@ -218,9 +218,9 @@ return [
     ],
 
     'modal_titles' => [
-        'api_token' => 'رمز API',
-        'api_token_permissions' => 'أذونات رمز API',
-        'delete_api_token' => 'حذف رمز API',
+        'token' => 'رمز API',
+        'token_permissions' => 'أذونات رمز API',
+        'delete_token' => 'حذف رمز API',
         'manage_role' => 'إدارة الدور',
         'leave_company' => 'مغادرة الشركة',
         'remove_company_employee' => 'إزالة موظف الشركة',
@@ -228,19 +228,19 @@ return [
         'delete_account' => 'حذف الحساب',
         'delete_company' => 'حذف الشركة',
         'remove_connected_account' => 'إزالة الحساب المتصل',
-        'revoke_api_tokens' => 'إلغاء الرموز الممنوحة',
+        'revoke_tokens' => 'إلغاء الرموز الممنوحة',
     ],
 
     'modal_descriptions' => [
-        'api_token' => "يرجى نسخ رمز API الجديد الخاص بك. لأمانك ، لن يتم عرضه مرة أخرى.",
-        'delete_api_token' => 'هل أنت متأكد أنك تريد حذف رمز API هذا؟',
+        'copy_token' => "يرجى نسخ رمز API الجديد الخاص بك. لأمانك ، لن يتم عرضه مرة أخرى.",
+        'delete_token' => 'هل أنت متأكد أنك تريد حذف رمز API هذا؟',
         'leave_company' => 'هل أنت متأكد أنك تريد مغادرة هذه الشركة؟',
         'remove_company_employee' => 'هل أنت متأكد أنك تريد إزالة هذا الشخص من الشركة؟',
         'logout_browser_sessions' => 'يرجى إدخال كلمة المرور الخاصة بك لتأكيد أنك تريد تسجيل الخروج من جلسات المتصفح الأخرى عبر جميع أجهزتك.',
         'delete_account' => 'هل أنت متأكد أنك تريد حذف حسابك؟ بمجرد حذف حسابك ، سيتم حذف جميع الموارد والبيانات الخاصة به بشكل دائم. يرجى إدخال كلمة المرور الخاصة بك لتأكيد رغبتك في حذف حسابك بشكل دائم.',
         'delete_company' => 'هل أنت متأكد أنك تريد حذف هذه الشركة؟ بمجرد حذف الشركة ، سيتم حذف جميع الموارد والبيانات الخاصة بها بشكل دائم.',
         'remove_connected_account' => 'يرجى تأكيد إزالة حسابك - لا يمكن التراجع عن هذا الإجراء.',
-        'revoke_api_tokens' => 'يرجى إدخال كلمة المرور الخاصة بك لتأكيد الإجراء.',
+        'revoke_tokens' => 'يرجى إدخال كلمة المرور الخاصة بك لتأكيد الإجراء.',
     ],
 
     'headings' => [
@@ -278,9 +278,9 @@ return [
             ],
         ],
 
-        'api' => [
-            'api_token_manager' => [
-                'manage_api_tokens' => 'إدارة رموز API',
+        'tokens' => [
+            'token_manager' => [
+                'manage_tokens' => 'إدارة رموز API',
             ],
         ],
 

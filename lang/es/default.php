@@ -76,7 +76,7 @@ return [
         'links' => [
             'company_settings' => 'Configuración de empresa',
             'new_company' => 'Nueva Empresa',
-            'api_tokens' => 'API Tokens',
+            'tokens' => 'Personal Access Tokens',
         ],
     ],
 
@@ -84,7 +84,7 @@ return [
         'titles' => [
             'create_company' => 'Crear Empresa',
             'company_settings' => 'Configuración de la empresa',
-            'api_tokens' => 'API Tokens',
+            'tokens' => 'Personal Access Tokens',
             'profile' => 'Perfil',
         ],
     ],
@@ -95,7 +95,7 @@ return [
         'two_factor_authentication' => 'Autenticación de dos factores',
         'browser_sessions' => 'Sesiones del Navegador',
         'delete_account' => 'Eliminar cuenta',
-        'create_api_token' => 'Crear API Token',
+        'create_token' => 'Crear Personal Access Token',
         'company_name' => 'Nombre de la empresa',
         'create_company' => 'Crear Empresa',
         'add_company_employee' => 'Agregar empleado de la empresa',
@@ -107,7 +107,7 @@ return [
         'two_factor_authentication' => 'Asegúrate de que su cuenta esté usando una contraseña larga y aleatoria para mantener la seguridad.',
         'browser_sessions' => 'Administra y cierra sesión en tus sesiones activas en otros navegadores y dispositivos.',
         'delete_account' => 'Eliminar permanentemente su cuenta.',
-        'create_api_token' => 'Los tokens del API permiten que los servicios de terceros se autentiquen con nuestra aplicación en su nombre.',
+        'create_token' => 'Los tokens del API permiten que los servicios de terceros se autentiquen con nuestra aplicación en su nombre.',
         'company_name' => 'El nombre de la empresa y la información del propietario.',
         'create_company' => 'Crea una nueva empresa para colaborar con otros en sus proyectos.',
         'add_company_employee' => 'Agregar un nuevo empleado a la empresa para que pueda colaborar con usted.',
@@ -126,9 +126,9 @@ return [
     ],
 
     'modal_titles' => [
-        'api_token' => 'API Token',
-        'api_token_permissions' => 'Persimos API Token',
-        'delete_api_token' => 'Borrar API Token',
+        'token' => 'Personal Access Token',
+        'token_permissions' => 'Persimos Personal Access Token',
+        'delete_token' => 'Borrar Personal Access Token',
         'manage_role' => 'Gestionar Rol',
         'leave_company' => 'Salir de la empresa',
         'remove_company_employee' => 'Eliminar empleado de la empresa',
@@ -138,8 +138,8 @@ return [
     ],
 
     'modal_descriptions' => [
-        'api_token' => 'Guarde su nuevo token API. Por su seguridad, no se volverá a mostrar',
-        'delete_api_token' => '¿Está seguro de que desea eliminar este token de API?',
+        'copy_token' => 'Guarde su nuevo token API. Por su seguridad, no se volverá a mostrar',
+        'delete_token' => '¿Está seguro de que desea eliminar este token de API?',
         'leave_company' => '¿Está seguro de que desea dejar esta empresa?',
         'remove_company_employee' => '¿Está seguro de que desea eliminar a esta persona de la empresa?',
         'logout_browser_sessions' => 'Ingrese su contraseña para confirmar que desea cerrar sesión en sus otras sesiones de navegador en todos sus dispositivos.',
@@ -176,9 +176,9 @@ return [
             ],
         ],
 
-        'api' => [
-            'api_token_manager' => [
-                'manage_api_tokens' => 'Administrar tokens de API',
+        'tokens' => [
+            'token_manager' => [
+                'manage_tokens' => 'Administrar tokens de API',
             ],
         ],
 

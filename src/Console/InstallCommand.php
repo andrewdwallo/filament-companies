@@ -293,6 +293,10 @@ EOF;
         // Factories...
         copy(__DIR__.'/../../database/factories/UserFactory.php', base_path('database/factories/UserFactory.php'));
         copy(__DIR__.'/../../database/factories/CompanyFactory.php', base_path('database/factories/CompanyFactory.php'));
+
+        // Terms Of Service / Privacy Policy...
+        copy(__DIR__.'/../../stubs/resources/css/filament/company/tailwind.config.js', resource_path('css/filament/company/tailwind.config.js'));
+        copy(__DIR__.'/../../stubs/resources/css/filament/company/theme.css', resource_path('css/filament/company/theme.css'));
     }
 
     protected function ensureApplicationIsSocialiteCompatible(): void

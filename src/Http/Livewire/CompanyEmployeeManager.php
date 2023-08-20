@@ -10,6 +10,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 use Livewire\Component;
 use Wallo\FilamentCompanies\Actions\UpdateCompanyEmployeeRole;
 use Wallo\FilamentCompanies\Contracts\AddsCompanyEmployees;
@@ -246,7 +247,7 @@ class CompanyEmployeeManager extends Component
         Notification::make()
             ->title(__('filament-companies::default.notifications.company_invitation_sent.title'))
             ->success()
-            ->body(__('filament-companies::default.notifications.company_invitation_sent.body', compact('email')))
+            ->body(Str::inlineMarkdown(__('filament-companies::default.notifications.company_invitation_sent.body', compact('email'))))
             ->send();
     }
 }

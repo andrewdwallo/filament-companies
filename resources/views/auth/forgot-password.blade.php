@@ -1,4 +1,4 @@
-<x-filament::layouts.card>
+<x-filament-panels::page>
 
     <h2 class="text-2xl font-bold tracking-tight text-center">
         {{ __('filament-companies::default.headings.auth.forgot_password') }}
@@ -17,12 +17,12 @@
     <form method="POST" class="space-y-8" action="{{ route('password.email') }}">
         @csrf
 
-        <x-filament-forms::field-wrapper id="email" statePath="email" required label="{{ __('filament-companies::default.fields.email') }}">
-            <x-filament-companies::input id="email" type="email" name="email" :value="old('email')" required autofocus autocomplete="username" />
-        </x-filament-forms::field-wrapper>
+        <x-filament::input.wrapper id="email" statePath="email" required="required" label="{{ __('filament-companies::default.fields.email') }}">
+            <x-filament::input id="email" type="email" name="email" :value="old('email')" required="required" autofocus="autofocus" autocomplete="username" />
+        </x-filament::input.wrapper>
 
         <x-filament::button type="submit" class="w-full">
             {{ __('filament-companies::default.buttons.email_password_reset_link') }}
         </x-filament::button>
     </form>
-</x-filament::layouts.card>
+</x-filament-panels::page>

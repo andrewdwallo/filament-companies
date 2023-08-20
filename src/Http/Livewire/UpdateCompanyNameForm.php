@@ -6,14 +6,12 @@ use Filament\Notifications\Notification;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 use Livewire\Component;
 use Wallo\FilamentCompanies\Contracts\UpdatesCompanyNames;
-use Wallo\FilamentCompanies\RefreshesNavigationMenu;
 
 class UpdateCompanyNameForm extends Component
 {
-    use RefreshesNavigationMenu;
-
     /**
      * The company instance.
      */
@@ -45,8 +43,6 @@ class UpdateCompanyNameForm extends Component
 
         $name = $this->state['name'];
 
-        $this->refreshNavigationMenu();
-
         $this->companyNameUpdated($name);
     }
 
@@ -55,7 +51,7 @@ class UpdateCompanyNameForm extends Component
         Notification::make()
             ->title(__('filament-companies::default.notifications.company_name_updated.title'))
             ->success()
-            ->body(__('filament-companies::default.notifications.company_name_updated.body', compact('name')))
+            ->body(Str::inlineMarkdown(__('filament-companies::default.notifications.company_name_updated.body', compact('name'))))
             ->send();
     }
 

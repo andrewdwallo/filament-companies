@@ -3,6 +3,7 @@
 namespace Wallo\FilamentCompanies\Pages\User;
 
 use Filament\Pages\Page;
+use Illuminate\Support\Facades\Auth;
 
 class Profile extends Page
 {
@@ -18,12 +19,7 @@ class Profile extends Page
     protected function getViewData(): array
     {
         return [
-            'user' => auth()->user(),
+            'user' => Auth::user(),
         ];
-    }
-
-    public static function getSlug(): string
-    {
-        return 'user/profile';
     }
 }

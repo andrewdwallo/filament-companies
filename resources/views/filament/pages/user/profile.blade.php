@@ -1,4 +1,4 @@
-<x-filament::page>
+<x-filament-panels::page>
     @if (Laravel\Fortify\Features::canUpdateProfileInformation())
         @livewire(Wallo\FilamentCompanies\Http\Livewire\UpdateProfileInformationForm::class)
         <x-filament-companies::section-border />
@@ -14,10 +14,10 @@
 
     @if ($user->password !== null && Laravel\Fortify\Features::canManageTwoFactorAuthentication())
         @livewire(Wallo\FilamentCompanies\Http\Livewire\TwoFactorAuthenticationForm::class)
-        <x-filament-companies::section-border />
     @endif
 
     @if (Wallo\FilamentCompanies\Socialite::hasSocialiteFeatures())
+        <x-filament-companies::section-border />
         @livewire(Wallo\FilamentCompanies\Http\Livewire\ConnectedAccountsForm::class)
     @endif
 
@@ -26,8 +26,8 @@
         @livewire(Wallo\FilamentCompanies\Http\Livewire\LogoutOtherBrowserSessionsForm::class)
     @endif
 
-    @if ($user->password !== null && Wallo\FilamentCompanies\FilamentCompanies::hasAccountDeletionFeatures())
+    @if ($user->password !== null && Wallo\FilamentCompanies\Features::hasAccountDeletionFeatures())
         <x-filament-companies::section-border />
         @livewire(Wallo\FilamentCompanies\Http\Livewire\DeleteUserForm::class)
     @endif
-</x-filament::page>
+</x-filament-panels::page>

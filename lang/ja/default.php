@@ -81,16 +81,16 @@ return [
     'errors' => [
         'cannot_leave_company' => 'あなた自身が登録した会社からの退社はできません。',
         'company_deletion' => 'デフォルトの会社は削除できません。',
-        'email_already_associated_with_another_account' => 'ご指定のメールアドレスはすでに登録されています。 :Providerアカウントにログインしてください。',
+        'email_already_associated' => 'ご指定のメールアドレスはすでに登録されています。 :Providerアカウントにログインしてください。',
         'email_not_found' => 'ご指定のメールアドレスで登録されているユーザーは見つかりませんでした。',
         'employee_already_belongs_to_company' => 'このユーザーは社員として登録済みです。',
         'employee_already_invited' => 'このユーザーは社員として招待済みです。',
         'invalid_password' => 'パスワードが無効です。',
-        'no_email_associated_with_provider_account' => ':Providerに該当するメールアドレスは見つかりませんでした。別のアカウントをお試しください。',
+        'no_email_with_account' => ':Providerに該当するメールアドレスは見つかりませんでした。別のアカウントをお試しください。',
         'password_does_not_match' => 'パスワードが間違っています。',
-        'provider_sign_in_already_associated_with_account' => 'アカウント:Providerはすでに存在しています。ログインしてください。',
-        'provider_sign_in_already_connected' => 'ご指定のメールアドレスに該当するアカウントはすでに存在しています。:Providerにログインしてください。',
-        'provider_sign_in_not_found' => 'アカウント:Providerは見つかりませんでした。アカウント登録、もしくは別のログイン方法をお試しください。',
+        'already_associated_account' => 'アカウント:Providerはすでに存在しています。ログインしてください。',
+        'already_connected' => 'ご指定のメールアドレスに該当するアカウントはすでに存在しています。:Providerにログインしてください。',
+        'signin_not_found' => 'アカウント:Providerは見つかりませんでした。アカウント登録、もしくは別のログイン方法をお試しください。',
         'user_belongs_to_company' => 'ご指定のユーザーはすでに社員として登録されています。',
         'valid_role' => ':attributeが有効な役割である必要があります。',
     ],
@@ -107,12 +107,12 @@ return [
     ],
 
     'notifications' => [
-        'api_token_created' => [
+        'token_created' => [
             'title' => 'APIトークン発行完了',
             'body' => 'APIトークン「**:name**」が発行されました。',
         ],
 
-        'api_token_updated' => [
+        'token_updated' => [
             'title' => 'APIトークン更新完了',
             'body' => 'APIトークンが無事更新されました。',
         ],
@@ -162,17 +162,17 @@ return [
             'body' => 'アカウント情報が無事更新されました。',
         ],
 
-        'provider_sign_in_already_associated_with_your_user' => [
+        'already_associated' => [
             'title' => 'おっと！',
             'body' => ':Providerは既にあなたのアカウントと連携されています。',
         ],
 
-        'provider_sign_in_belongs_to_another_user' => [
+        'belongs_to_other_user' => [
             'title' => 'おっと！',
             'body' => ':Providerは他のユーザーによって使用されています。別のアカウントをご使用ください。',
         ],
 
-        'provider_sign_in_successfully_connected' => [
+        'successfully_connected' => [
             'title' => '成功！',
             'body' => 'ご利用のアカウントは:Providerと無事連携できました。',
         ],
@@ -190,7 +190,7 @@ return [
         ],
 
         'links' => [
-            'api_tokens' => 'APIトークン一覧',
+            'tokens' => 'APIトークン一覧',
             'company_settings' => '会社設定',
             'create_company' => '新規会社登録',
         ],
@@ -198,7 +198,7 @@ return [
 
     'pages' => [
         'titles' => [
-            'api_tokens' => 'APIトークン一覧',
+            'tokens' => 'APIトークン一覧',
             'create_company' => '新規会社登録',
             'company_settings' => '会社設定',
             'profile' => 'プロフィール',
@@ -209,7 +209,7 @@ return [
         'add_company_employee' => '社員追加',
         'browser_sessions' => 'ブラウザセッション',
         'company_name' => '社名',
-        'create_api_token' => 'APIトークン発行',
+        'create_token' => 'APIトークン発行',
         'create_company' => '会社を登録',
         'delete_account' => 'アカウント削除',
         'profile_information' => 'プロフィール情報',
@@ -222,7 +222,7 @@ return [
         'add_company_employee' => '会社に社員を追加し、共同でプロジェクトを行えるようにします。',
         'browser_sessions' => 'その他デバイスやブラウザにおけるアカウントのセッションを管理します。',
         'company_name' => "会社の名前とオーナー情報",
-        'create_api_token' => 'APIトークンは第三者にあなたを代表して情報アクセス権限を付与します。',
+        'create_token' => 'APIトークンは第三者にあなたを代表して情報アクセス権限を付与します。',
         'create_company' => '新規会社を登録し、共同でプロジェクトを進めるために社員を招待します。',
         'delete_account' => 'アカウントを完全消去します。',
         'profile_information' => "会社情報やメールアドレスを更新します。",
@@ -246,10 +246,10 @@ return [
     ],
 
     'modal_titles' => [
-        'api_token' => 'APIトークン',
-        'api_token_permissions' => 'APIトークン許可',
+        'token' => 'APIトークン',
+        'token_permissions' => 'APIトークン許可',
         'confirm_password' => 'パスワード認証',
-        'delete_api_token' => 'APIトークン削除',
+        'delete_token' => 'APIトークン削除',
         'delete_account' => 'アカウント削除',
         'delete_company' => '会社削除',
         'leave_company' => '退社する',
@@ -257,20 +257,20 @@ return [
         'manage_role' => '役割設定',
         'remove_company_employee' => '社員削除',
         'remove_connected_account' => 'アカウント連携解除',
-        'revoke_api_tokens' => 'トークンの無効化',
+        'revoke_tokens' => 'トークンの無効化',
     ],
 
     'modal_descriptions' => [
-        'api_token' => "新規APIトークンをコピーしてください。セキュリティ上の理由により、一度しか表示されません。",
+        'copy_token' => "新規APIトークンをコピーしてください。セキュリティ上の理由により、一度しか表示されません。",
         'confirm_password' => '安全のため、パスワード認証を行ってください。',
         'delete_account' => 'アカウントを削除するにはパスワード認証が必要です。',
-        'delete_api_token' => '本当にAPIトークンを削除してもよろしいですか？',
+        'delete_token' => '本当にAPIトークンを削除してもよろしいですか？',
         'delete_company' => '本当に会社を削除してもよろしいですか？',
         'leave_company' => '本当にこの会社から退社してもよろしいですか？',
         'logout_browser_sessions' => 'その他のブラウザにおけるセッションを無効にするためにパスワード認証を行ってください。',
         'remove_company_employee' => 'このユーザーを社員リストから削除してもよろしいですか？',
         'remove_connected_account' => '本当にアカウントを削除しますか？復元は出来ません。',
-        'revoke_api_tokens' => 'パスワード認証が必要です。',
+        'revoke_tokens' => 'パスワード認証が必要です。',
     ],
 
     'headings' => [
@@ -307,9 +307,9 @@ return [
             ],
         ],
 
-        'api' => [
-            'api_token_manager' => [
-                'manage_api_tokens' => 'APIトークン管理',
+        'tokens' => [
+            'token_manager' => [
+                'manage_tokens' => 'APIトークン管理',
             ],
         ],
 

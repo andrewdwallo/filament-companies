@@ -10,7 +10,6 @@ use Wallo\FilamentCompanies\Contracts\CreatesConnectedAccounts;
 use Wallo\FilamentCompanies\Contracts\CreatesUserFromProvider;
 use Wallo\FilamentCompanies\Features;
 use Wallo\FilamentCompanies\FilamentCompanies;
-use Wallo\FilamentCompanies\Socialite;
 
 class CreateUserFromProvider implements CreatesUserFromProvider
 {
@@ -55,8 +54,8 @@ class CreateUserFromProvider implements CreatesUserFromProvider
     private function shouldSetProfilePhoto(ProviderUserContract $providerUser): bool
     {
         return Features::profilePhotos() &&
-            Socialite::hasProviderAvatarsFeature() &&
-            FilamentCompanies::managesProfilePhotos() &&
+            Features::hasProviderAvatarsFeature() &&
+            Features::managesProfilePhotos() &&
             $providerUser->getAvatar();
     }
 

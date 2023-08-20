@@ -2,6 +2,7 @@
 
 namespace Wallo\FilamentCompanies;
 
+use Filament\Notifications\Notification;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Str;
@@ -22,8 +23,11 @@ trait SetsProfilePhotoFromUrl
 
             $this->updateProfilePhoto(new UploadedFile($file, $name));
         } else {
-            session()->flash('flash.banner', 'Unable to retrieve image');
-            session()->flash('flash.bannerStyle', 'danger');
+            Notification::make()
+                ->title('Unable to retrieve image')
+                ->danger()
+                ->persistent()
+                ->send();
         }
     }
 }
