@@ -14,6 +14,7 @@ use App\Actions\FilamentCompanies\ResolveSocialiteUser;
 use App\Actions\FilamentCompanies\SetUserPassword;
 use App\Actions\FilamentCompanies\UpdateCompanyName;
 use App\Actions\FilamentCompanies\UpdateConnectedAccount;
+use Illuminate\Support\Facades\Auth;
 use Wallo\FilamentCompanies\Actions\GenerateRedirectForProvider;
 use Wallo\FilamentCompanies\Pages\Auth\Login;
 use Wallo\FilamentCompanies\Pages\Company\CompanySettings;
@@ -37,6 +38,7 @@ use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 use Wallo\FilamentCompanies\FilamentCompanies;
 use Wallo\FilamentCompanies\Pages\Company\CreateCompany;
+use Wallo\FilamentCompanies\Pages\User\Profile;
 use Wallo\FilamentCompanies\Socialite;
 
 class FilamentCompaniesServiceProvider extends PanelProvider
@@ -49,8 +51,10 @@ class FilamentCompaniesServiceProvider extends PanelProvider
             ->default()
             ->login(Login::class)
             ->passwordReset()
+            ->homeUrl(static fn (): string => url(Pages\Dashboard::getUrl(panel: 'company', tenant: Auth::user()->personalCompany())))
             ->plugin(
                 FilamentCompanies::make()
+                    ->userPanel('user')
                     ->profilePhotos()
                     ->api()
                     ->companies(invitations: true)
@@ -58,8 +62,8 @@ class FilamentCompaniesServiceProvider extends PanelProvider
                     ->accountDeletion()
                     ->socialite(
                         providers: ['github'],
-                        features: ['rememberSession', 'providerAvatars'],
-                    ),
+                        features: ['rememberSession','providerAvatars']
+                    )
             )
             ->registration(Register::class)
             ->colors([
@@ -78,7 +82,7 @@ class FilamentCompaniesServiceProvider extends PanelProvider
                 'profile' => MenuItem::make()
                     ->label('Profile')
                     ->icon('heroicon-o-user-circle')
-                    ->url(static fn () => route('filament.admin.pages.profile')),
+                    ->url(static fn () => route(Profile::getRouteName(panel: 'user'))),
             ])
             ->authGuard('web')
             ->discoverWidgets(in: app_path('Filament/Company/Widgets'), for: 'App\\Filament\\Company\\Widgets')

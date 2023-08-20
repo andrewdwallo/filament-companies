@@ -8,7 +8,7 @@
     </x-slot>
 
     <x-filament::section>
-        <form wire:submit="updateProfileInformation" class="space-y-6">
+        <x-filament-panels::form wire:submit="updateProfileInformation">
             <!-- Profile Photo -->
             @if (Wallo\FilamentCompanies\Features::managesProfilePhotos())
                 <div x-data="{ photoName: null, photoPreview: null }" class="space-y-2">
@@ -52,14 +52,14 @@
 
             <!-- Name -->
             <x-filament-forms::field-wrapper id="name" statePath="name" required="required" label="{{ __('filament-companies::default.fields.name') }}">
-                <x-filament::input.wrapper>
+                <x-filament::input.wrapper class="overflow-hidden">
                     <x-filament::input id="name" type="text" maxLength="255" required="required" wire:model="state.name" autocomplete="name" />
                 </x-filament::input.wrapper>
             </x-filament-forms::field-wrapper>
 
             <!-- Email -->
             <x-filament-forms::field-wrapper id="email" statePath="email" required="required" label="{{ __('filament-companies::default.fields.email') }}">
-                <x-filament::input.wrapper>
+                <x-filament::input.wrapper class="overflow-hidden">
                     <x-filament::input id="email" type="email" wire:model="state.email" maxLength="255" required="required" autocomplete="username" />
                 </x-filament::input.wrapper>
             </x-filament-forms::field-wrapper>
@@ -80,6 +80,6 @@
                     {{ __('filament-companies::default.buttons.save') }}
                 </x-filament::button>
             </div>
-        </form>
+        </x-filament-panels::form>
     </x-filament::section>
 </x-filament-companies::grid-section>

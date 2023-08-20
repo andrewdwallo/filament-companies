@@ -8,7 +8,7 @@
     </x-slot>
 
     <x-filament::section>
-        <div class="space-y-6">
+        <div class="grid gap-y-6">
             <h3 class="text-lg font-medium text-gray-900 dark:text-gray-100">
                 @if ($this->enabled)
                     @if ($showingConfirmation)
@@ -45,7 +45,7 @@
 
                     @if ($showingConfirmation)
                         <x-filament-forms::field-wrapper id="code" statePath="code" label="{{ __('filament-companies::default.fields.code') }}">
-                            <x-filament::input.wrapper>
+                            <x-filament::input.wrapper class="overflow-hidden">
                                 <x-filament::input id="code" name="code" type="text" inputmode="numeric" autofocus="autofocus" autocomplete="one-time-code" wire:model="code" wire:keydown.enter="confirmTwoFactorAuthentication" />
                             </x-filament::input.wrapper>
                         </x-filament-forms::field-wrapper>

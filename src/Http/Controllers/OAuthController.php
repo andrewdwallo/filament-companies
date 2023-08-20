@@ -2,7 +2,10 @@
 
 namespace Wallo\FilamentCompanies\Http\Controllers;
 
+use Filament\Exceptions\NoDefaultPanelSetException;
+use Filament\Facades\Filament;
 use Filament\Notifications\Notification;
+use Illuminate\Auth\Events\Registered;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Contracts\Auth\StatefulGuard;
 use Illuminate\Http\RedirectResponse;
@@ -12,7 +15,7 @@ use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\MessageBag;
 use Illuminate\Support\Str;
-use Laravel\Fortify\Contracts\LoginResponse;
+use Filament\Http\Responses\Auth\LoginResponse;
 use Laravel\Fortify\Features as FortifyFeatures;
 use Laravel\Socialite\Contracts\User as ProviderUser;
 use Laravel\Socialite\Two\InvalidStateException;
@@ -30,6 +33,11 @@ use Wallo\FilamentCompanies\Socialite;
 
 class OAuthController extends Controller
 {
+    protected string $registrationUrl;
+    protected string $loginUrl;
+
+    protected string $userPanel;
+
     /**
      * Create a new controller instance.
      */
@@ -40,7 +48,9 @@ class OAuthController extends Controller
         protected UpdatesConnectedAccounts $updatesConnectedAccounts,
         protected HandlesInvalidState $invalidStateHandler
     ) {
-        //
+        $this->registrationUrl = Filament::getCurrentPanel()->getRegistrationUrl();
+        $this->loginUrl = Filament::getCurrentPanel()->getLoginUrl();
+        $this->userPanel = FilamentCompanies::getUserPanel();
     }
 
     /**
@@ -55,6 +65,7 @@ class OAuthController extends Controller
 
     /**
      * Attempt to log the user in via the provider user returned from Socialite.
+     * @throws NoDefaultPanelSetException
      */
     public function handleProviderCallback(Request $request, string $provider, ResolvesSocialiteUsers $resolver): Response|RedirectResponse|LoginResponse
     {
@@ -105,24 +116,29 @@ class OAuthController extends Controller
         return $this->login($user);
     }
 
+    /**
+     * @throws NoDefaultPanelSetException
+     */
     protected function handleError(Request $request): RedirectResponse
     {
         $messageBag = new MessageBag;
         $messageBag->add('filament-companies', $request->error_description);
 
-        return Auth::check()
-            ? redirect(config('fortify.home'))->dangerBanner($request->error_description)
-            : redirect()->route(
-                FortifyFeatures::enabled(FortifyFeatures::registration()) ? 'register' : 'login'
-            )->withErrors($messageBag);
+        if (Auth::check()) {
+            return redirect(filament()->getDefaultPanel()->getHomeUrl())->withErrors($request->error_description);
+        }
+
+        $route = FortifyFeatures::enabled(FortifyFeatures::registration()) ? $this->registrationUrl : $this->loginUrl;
+
+        return redirect(url($route))->withErrors($messageBag);
     }
 
     protected function shouldRegister(ConnectedAccount|null $account, string $previousUrl): bool
     {
         return !$account && FortifyFeatures::enabled(FortifyFeatures::registration()) &&
             (
-                $previousUrl === route('register') ||
-                (Socialite::hasCreateAccountOnFirstLoginFeature() && $previousUrl === route('login'))
+                $previousUrl === url($this->registrationUrl) ||
+                (Socialite::hasCreateAccountOnFirstLoginFeature() && $previousUrl === url($this->loginUrl))
             );
     }
 
@@ -147,7 +163,7 @@ class OAuthController extends Controller
             __('filament-companies::default.errors.signin_not_found', compact('provider'))
         );
 
-        return redirect()->route('login')->withErrors($messageBag);
+        return redirect(url($this->loginUrl))->withErrors($messageBag);
     }
 
     protected function handleCreateAccountOnFirstLogin(ProviderUser $providerAccount, string $provider): RedirectResponse|LoginResponse
@@ -159,7 +175,7 @@ class OAuthController extends Controller
                 __('filament-companies::default.errors.already_connected', compact('provider'))
             );
 
-            return redirect()->route('login')->withErrors($messageBag);
+            return redirect(url($this->loginUrl))->withErrors($messageBag);
         }
 
         $user = $this->createsUser->create($provider, $providerAccount);
@@ -178,7 +194,7 @@ class OAuthController extends Controller
             $body = __('filament-companies::default.notifications.belongs_to_other_user.body', compact('provider'));
             $notification = Notification::make()->title($title)->danger()->body(Str::inlineMarkdown($body))->send();
 
-            return redirect(Profile::getUrl())->with('notification.error.belongs_to_other_user', $notification);
+            return redirect(route(Profile::getRouteName(panel: $this->userPanel)))->with('notification.error.belongs_to_other_user', $notification);
         }
 
         if (! $account) {
@@ -188,14 +204,14 @@ class OAuthController extends Controller
             $body = __('filament-companies::default.notifications.successfully_connected.body', compact('provider'));
             $notification = Notification::make()->title($title)->success()->body(Str::inlineMarkdown($body))->send();
 
-            return redirect(Profile::getUrl())->with('notification.success.successfully_connected', $notification);
+            return redirect(route(Profile::getRouteName(panel: $this->userPanel)))->with('notification.success.successfully_connected', $notification);
         }
 
         $title = __('filament-companies::default.notifications.already_associated.title');
         $body = __('filament-companies::default.notifications.already_associated.body', compact('provider'));
         $notification = Notification::make()->title($title)->danger()->body(Str::inlineMarkdown($body))->send();
 
-        return redirect(Profile::getUrl())->with('notification.error.already_associated', $notification);
+        return redirect(route(Profile::getRouteName(panel: $this->userPanel)))->with('notification.error.already_associated', $notification);
     }
 
     /**
@@ -215,7 +231,7 @@ class OAuthController extends Controller
         $messageBag = new MessageBag;
         $messageBag->add('filament-companies', __('filament-companies::default.errors.already_associated_account', compact('provider')));
 
-        return redirect()->route('register')->withErrors($messageBag);
+        return redirect(url($this->registrationUrl))->withErrors($messageBag);
     }
 
     /**
@@ -230,7 +246,7 @@ class OAuthController extends Controller
                 __('filament-companies::default.errors.no_email_with_account', compact('provider'))
             );
 
-            return redirect()->route('register')->withErrors($messageBag);
+            return redirect(url($this->registrationUrl))->withErrors($messageBag);
         }
 
         if (FilamentCompanies::newUserModel()->where('email', $providerAccount->getEmail())->exists()) {
@@ -240,7 +256,7 @@ class OAuthController extends Controller
                 __('filament-companies::default.errors.email_already_associated', compact('provider'))
             );
 
-            return redirect()->route('register')->withErrors($messageBag);
+            return redirect(url($this->registrationUrl))->withErrors($messageBag);
         }
 
         $user = $this->createsUser->create($provider, $providerAccount);
@@ -253,7 +269,11 @@ class OAuthController extends Controller
      */
     protected function login(Authenticatable $user): LoginResponse
     {
-        $this->guard->login($user, Socialite::hasRememberSessionFeature());
+        event(new Registered($user));
+
+        Filament::auth()->login($user, Socialite::hasRememberSessionFeature());
+
+        session()->regenerate();
 
         return app(LoginResponse::class);
     }

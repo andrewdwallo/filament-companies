@@ -264,6 +264,7 @@ EOF;
         (new Filesystem)->ensureDirectoryExists(app_path('Actions/FilamentCompanies'));
         (new Filesystem)->ensureDirectoryExists(app_path('Events'));
         (new Filesystem)->ensureDirectoryExists(app_path('Policies'));
+        (new Filesystem)->ensureDirectoryExists(resource_path('css/filament/company'));
 
         // Service Providers...
         copy(__DIR__.'/../../stubs/app/Providers/FilamentCompaniesServiceProvider.php', app_path('Providers/FilamentCompaniesServiceProvider.php'));

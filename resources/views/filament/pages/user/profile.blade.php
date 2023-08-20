@@ -6,9 +6,11 @@
 
     @if ($user->password !== null && Laravel\Fortify\Features::enabled(Laravel\Fortify\Features::updatePasswords()))
         @livewire(Wallo\FilamentCompanies\Http\Livewire\UpdatePasswordForm::class)
-        <x-filament-companies::section-border />
     @else
         @livewire(Wallo\FilamentCompanies\Http\Livewire\SetPasswordForm::class)
+    @endif
+
+    @if($user->password !== null)
         <x-filament-companies::section-border />
     @endif
 

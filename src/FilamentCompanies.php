@@ -43,6 +43,8 @@ class FilamentCompanies implements Plugin
      */
     public static array $defaultPermissions = [];
 
+    public static string $userPanel = '';
+
     /**
      * The user model that should be used by Company.
      */
@@ -80,6 +82,24 @@ class FilamentCompanies implements Plugin
     {
         $this->socialite = new Socialite();
         $this->features = new Features();
+    }
+
+    /**
+     * Get the user panel.
+     */
+    public function userPanel(string $panel): static
+    {
+        static::$userPanel = $panel;
+
+        return $this;
+    }
+
+    /**
+     * Get the user panel.
+     */
+    public static function getUserPanel(): string
+    {
+        return static::$userPanel;
     }
 
     /**

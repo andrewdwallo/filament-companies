@@ -9,7 +9,8 @@
         @php
             $providers = [
                 'facebook' => ['method' => 'hasFacebook'],
-                'twitter' => ['method' => 'hasTwitter'],
+                'twitter' => ['method' => 'hasTwitterOAuth1'],
+                'twitter' => ['method' => 'hasTwitterOAuth2'],
                 'github' => ['method' => 'hasGithub'],
                 'google' => ['method' => 'hasGoogle'],
                 'linkedin' => ['method' => 'hasLinkedIn'],
@@ -21,7 +22,7 @@
 
         @foreach ($providers as $icon => $provider)
             @if (Wallo\FilamentCompanies\Providers::{$provider['method']}())
-                <a href="{{ route('oauth.redirect', ['provider' => $icon]) }}"
+                <a href="{{ route('filament.company.oauth.redirect', ['provider' => $icon]) }}"
                    class="filament-companies-socialite-buttons inline-flex rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 dark:focus:border-primary-500 py-2 px-4 shadow-sm hover:bg-gray-50 dark:hover:bg-gray-600">
                     <span class="sr-only">{{ ucfirst($icon) }}</span>
                     <div class="h-6 w-6">

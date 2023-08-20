@@ -8,6 +8,7 @@ use App\Actions\FilamentCompanies\DeleteUser;
 use App\Actions\FilamentCompanies\InviteCompanyEmployee;
 use App\Actions\FilamentCompanies\RemoveCompanyEmployee;
 use App\Actions\FilamentCompanies\UpdateCompanyName;
+use Illuminate\Support\Facades\Auth;
 use Wallo\FilamentCompanies\Pages\Auth\Login;
 use Wallo\FilamentCompanies\Pages\Company\CompanySettings;
 use Filament\Navigation\MenuItem;
@@ -42,8 +43,10 @@ class FilamentCompaniesServiceProvider extends PanelProvider
             ->default()
             ->login(Login::class)
             ->passwordReset()
+            ->homeUrl(static fn (): string => url(Pages\Dashboard::getUrl(panel: 'company', tenant: Auth::user()->personalCompany())))
             ->plugin(
                 FilamentCompanies::make()
+                    ->userPanel('user')
                     ->profilePhotos()
                     ->api()
                     ->companies(invitations: true)
@@ -67,7 +70,7 @@ class FilamentCompaniesServiceProvider extends PanelProvider
                 'profile' => MenuItem::make()
                     ->label('Profile')
                     ->icon('heroicon-o-user-circle')
-                    ->url(static fn () => route(Profile::getRouteName(panel: 'admin'))),
+                    ->url(static fn () => route(Profile::getRouteName(panel: 'user'))),
             ])
             ->authGuard('web')
             ->discoverWidgets(in: app_path('Filament/Company/Widgets'), for: 'App\\Filament\\Company\\Widgets')

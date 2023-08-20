@@ -208,7 +208,7 @@ class Socialite
      */
     public static function providers(): array
     {
-        return static::$supportedSocialiteProviders;
+        return array_keys(array_filter(static::$supportedSocialiteProviders));
     }
 
     /**
