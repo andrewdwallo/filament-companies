@@ -318,7 +318,7 @@ Install the package in your application's `composer.json` file using the `dev` p
 {
     ...
     "require": {
-        "andrewdwallo/filament-companies": "dev-fix/error-message",
+        "andrewdwallo/filament-companies": "*",
     },
     "repositories": [
         {
