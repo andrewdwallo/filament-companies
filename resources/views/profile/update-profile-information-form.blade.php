@@ -13,7 +13,9 @@
             @if (Wallo\FilamentCompanies\Features::managesProfilePhotos())
                 <div x-data="{ photoName: null, photoPreview: null }" class="space-y-2">
                     <!-- Profile Photo File Input -->
-                    <input type="file" class="hidden" wire:model.live="photo" x-ref="photo"
+                    <input type="file" class="hidden"
+                           wire:model.live="photo"
+                           x-ref="photo"
                            x-on:change="
                                 const reader = new FileReader();
                                 reader.onload = (e) => {

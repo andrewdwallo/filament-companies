@@ -8,7 +8,7 @@
     </x-slot>
 
     <x-filament::section>
-        <div class="space-y-6">
+        <div class="grid gap-y-6">
             <div class="max-w-xl text-sm text-gray-600 dark:text-gray-400">
                 {{ __('filament-companies::default.subheadings.companies.delete_company') }}
             </div>

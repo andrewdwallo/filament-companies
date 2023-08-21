@@ -48,8 +48,8 @@ class OAuthController extends Controller
         protected UpdatesConnectedAccounts $updatesConnectedAccounts,
         protected HandlesInvalidState $invalidStateHandler
     ) {
-        $this->registrationUrl = Filament::getCurrentPanel()->getRegistrationUrl();
-        $this->loginUrl = Filament::getCurrentPanel()->getLoginUrl();
+        $this->registrationUrl = Filament::getRegistrationUrl();
+        $this->loginUrl = Filament::getLoginUrl();
         $this->userPanel = FilamentCompanies::getUserPanel();
     }
 
@@ -125,17 +125,17 @@ class OAuthController extends Controller
         $messageBag->add('filament-companies', $request->error_description);
 
         if (Auth::check()) {
-            return redirect(filament()->getDefaultPanel()->getHomeUrl())->withErrors($request->error_description);
+            return redirect(filament()->getHomeUrl())->withErrors($request->error_description);
         }
 
-        $route = FortifyFeatures::enabled(FortifyFeatures::registration()) ? $this->registrationUrl : $this->loginUrl;
+        $route = $this->registrationUrl ?: $this->loginUrl;
 
         return redirect(url($route))->withErrors($messageBag);
     }
 
     protected function shouldRegister(ConnectedAccount|null $account, string $previousUrl): bool
     {
-        return !$account && FortifyFeatures::enabled(FortifyFeatures::registration()) &&
+        return !$account && $this->registrationUrl &&
             (
                 $previousUrl === url($this->registrationUrl) ||
                 (Socialite::hasCreateAccountOnFirstLoginFeature() && $previousUrl === url($this->loginUrl))

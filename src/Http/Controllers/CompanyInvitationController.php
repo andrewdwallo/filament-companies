@@ -36,7 +36,7 @@ class CompanyInvitationController extends Controller
         $title = __('filament-companies::default.banner.company_invitation_accepted', ['company' => $invitation->company->name]);
         $notification = Notification::make()->title(Str::inlineMarkdown($title))->danger()->send();
 
-        return redirect(config('fortify.home'))->with('notification.success.company_invitation_accepted', $notification);
+        return redirect(filament()->getHomeUrl())->with('notification.success.company_invitation_accepted', $notification);
     }
 
     /**

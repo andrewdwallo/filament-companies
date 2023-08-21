@@ -18,7 +18,7 @@ trait RedirectsActions
         } else {
             $response = property_exists($action, 'redirectTo')
                 ? $action->redirectTo
-                : config('fortify.home');
+                : filament()->getHomeUrl();
         }
 
         return $response instanceof Response ? $response : redirect($response);

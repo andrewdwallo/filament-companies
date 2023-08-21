@@ -43,7 +43,7 @@ class FilamentCompanies implements Plugin
      */
     public static array $defaultPermissions = [];
 
-    public static string $userPanel = '';
+    public static ?string $userPanel = null;
 
     /**
      * The user model that should be used by Company.
@@ -100,6 +100,11 @@ class FilamentCompanies implements Plugin
     public static function getUserPanel(): string
     {
         return static::$userPanel;
+    }
+
+    public static function hasUserPanel(): bool
+    {
+        return static::$userPanel !== null;
     }
 
     /**
@@ -177,7 +182,10 @@ class FilamentCompanies implements Plugin
 
     public function register(Panel $panel): void
     {
-        //
+        if (Features::hasCompanyFeatures()) {
+            Livewire::component('filament.pages.companies.create_company', CreateCompany::class);
+            Livewire::component('filament.pages.companies.company_settings', CompanySettings::class);
+        }
     }
 
     public function boot(Panel $panel): void

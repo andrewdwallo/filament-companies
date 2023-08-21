@@ -52,6 +52,8 @@ class DeleteCompanyForm extends Component
 
         $this->companyDeleted($name);
 
+        $this->company = null;
+
         return $this->redirectPath($deleter);
     }
 

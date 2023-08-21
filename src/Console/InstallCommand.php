@@ -21,8 +21,6 @@ class InstallCommand extends Command
     protected $signature = 'filament-companies:install {stack : The development stack that should be installed (filament)}
                                               {--companies : Indicates if company support should be installed}
                                               {--socialite : Indicates if socialite support should be installed}
-                                              {--api : Indicates if API support should be installed}
-                                              {--verification : Indicates if email verification support should be installed}
                                               {--pest : Indicates if Pest should be installed}
                                               {--composer=global : Absolute path to the Composer binary which should be used to install packages}';
 
@@ -59,8 +57,11 @@ class InstallCommand extends Command
         $this->replaceInFile('/home', '', app_path('Providers/RouteServiceProvider.php'));
 
         if (file_exists(resource_path('views/welcome.blade.php'))) {
-            $this->replaceInFile("{{ url('/home') }}", "{{ url(config('filament.path')) }}", resource_path('views/welcome.blade.php'));
-            $this->replaceInFile('Home', "{{ucfirst(config('filament.path'))}}", resource_path('views/welcome.blade.php'));
+            $this->replaceInFile("Route::has('login')", "filament()->getLoginUrl()", resource_path('views/welcome.blade.php'));
+            $this->replaceInFile("{{ url('/home') }}", "{{ url(filament()->getHomeUrl()) }}", resource_path('views/welcome.blade.php'));
+            $this->replaceInFile("{{ route('login') }}", "{{ url(filament()->getLoginUrl()) }}", resource_path('views/welcome.blade.php'));
+            $this->replaceInFile("{{ route('register') }}", "{{ url(filament()->getRegistrationUrl()) }}", resource_path('views/welcome.blade.php'));
+            $this->replaceInFile('Home', "{{ ucfirst(filament()->getCurrentPanel()->getId()) }}", resource_path('views/welcome.blade.php'));
         }
 
         // Fortify Provider...
@@ -68,16 +69,6 @@ class InstallCommand extends Command
 
         // Configure Session...
         $this->configureSession();
-
-        // Configure API...
-        if ($this->option('api')) {
-            $this->replaceInFile('// Features::api(),', 'Features::api(),', config_path('filament-companies.php'));
-        }
-
-        // Configure Email Verification...
-        if ($this->option('verification')) {
-            $this->replaceInFile('// Features::emailVerification(),', 'Features::emailVerification(),', config_path('fortify.php'));
-        }
 
         // Install Stack...
         if ($this->argument('stack') === 'filament') {
@@ -168,10 +159,6 @@ class InstallCommand extends Command
         // Routes...
         $this->replaceInFile('auth:api', 'auth:sanctum', base_path('routes/api.php'));
 
-        if (! Str::contains(file_get_contents(base_path('routes/web.php')), "'/admin'")) {
-            (new Filesystem)->append(base_path('routes/web.php'), $this->livewireRouteDefinition());
-        }
-
         // Tests...
         $stubs = $this->getTestStubsPath();
 
@@ -225,24 +212,6 @@ class InstallCommand extends Command
     }
 
     /**
-     * Get the route definition(s) that should be installed for Filament.
-     */
-    protected function livewireRouteDefinition(): string
-    {
-        return <<<'EOF'
-
-Route::middleware([
-    'auth:sanctum',
-    config('filament-companies.auth_session'),
-    'verified'
-])->group(function () {
-
-});
-
-EOF;
-    }
-
-    /**
      * Ensure the installed user model is ready for company usage.
      */
     protected function ensureApplicationIsCompanyCompatible(): void
@@ -252,13 +221,6 @@ EOF;
 
         // Publish Filament Configuration File...
         $this->callSilent('vendor:publish', ['--tag' => 'filament-config', '--force' => true]);
-
-        // Configuration...
-        $this->replaceInFile('use Filament\Http\Middleware\Authenticate', 'use App\Http\Middleware\Authenticate', config_path('filament.php'));
-        $this->replaceInFile('use Illuminate\Session\Middleware\AuthenticateSession', 'use Wallo\FilamentCompanies\Http\Middleware\AuthenticateSession', config_path('filament.php'));
-        $this->replaceInFile('\Filament\Http\Livewire\Auth\Login::class', 'null', config_path('filament.php'));
-        $this->replaceInFile('RouteServiceProvider::HOME', "config('filament.path')", config_path('fortify.php'));
-        $this->replaceInFile("'middleware' => ['web'],", "'middleware' => config('filament.middleware.base'),", config_path('fortify.php'));
 
         // Directories...
         (new Filesystem)->ensureDirectoryExists(app_path('Actions/FilamentCompanies'));
@@ -304,10 +266,6 @@ EOF;
     {
         // Publish FilamentCompanies Socialite Migrations...
         $this->callSilent('vendor:publish', ['--tag' => 'filament-companies-socialite-migrations', '--force' => true]);
-
-        // Configuration...
-        $this->replaceInFile('// Features::socialite([\'rememberSession\' => true, \'providerAvatars\' => true])', 'Features::socialite([\'rememberSession\' => true, \'providerAvatars\' => true])', config_path('filament-companies.php'));
-        $this->replaceInFile('// Providers::github(),', 'Providers::github(),', config_path('filament-companies.php'));
 
         // Directories...
         (new Filesystem)->ensureDirectoryExists(app_path('Actions/FilamentCompanies'));
