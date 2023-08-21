@@ -46,7 +46,7 @@ class FilamentCompaniesServiceProvider extends PanelProvider
             ->homeUrl(static fn (): string => url(Pages\Dashboard::getUrl(panel: 'company', tenant: Auth::user()->personalCompany())))
             ->plugin(
                 FilamentCompanies::make()
-                    ->userPanel('user')
+                    ->userPanel('admin')
                     ->profilePhotos()
                     ->api()
                     ->companies(invitations: true)

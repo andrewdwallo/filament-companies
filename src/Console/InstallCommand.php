@@ -58,10 +58,10 @@ class InstallCommand extends Command
 
         if (file_exists(resource_path('views/welcome.blade.php'))) {
             $this->replaceInFile("Route::has('login')", "filament()->getLoginUrl()", resource_path('views/welcome.blade.php'));
+            $this->replaceInFile('Home', "{{ ucfirst(filament()->getCurrentPanel()->getId()) }}", resource_path('views/welcome.blade.php'));
             $this->replaceInFile("{{ url('/home') }}", "{{ url(filament()->getHomeUrl()) }}", resource_path('views/welcome.blade.php'));
             $this->replaceInFile("{{ route('login') }}", "{{ url(filament()->getLoginUrl()) }}", resource_path('views/welcome.blade.php'));
             $this->replaceInFile("{{ route('register') }}", "{{ url(filament()->getRegistrationUrl()) }}", resource_path('views/welcome.blade.php'));
-            $this->replaceInFile('Home', "{{ ucfirst(filament()->getCurrentPanel()->getId()) }}", resource_path('views/welcome.blade.php'));
         }
 
         // Fortify Provider...
