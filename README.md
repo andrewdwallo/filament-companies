@@ -1,7 +1,7 @@
 ![gif (1)](https://user-images.githubusercontent.com/104294090/221399175-add7c34b-4887-49b7-9061-6781f6391409.gif)
 <p align="center">
     <a href="https://filamentadmin.com/docs/2.x/admin/installation">
-        <img alt="FILAMENT 8.x" src="https://img.shields.io/badge/FILAMENT-2.x-EBB304?style=for-the-badge">
+        <img alt="FILAMENT 3.x" src="https://img.shields.io/badge/FILAMENT-3.x-EBB304?style=for-the-badge">
     </a>
     <a href="https://packagist.org/packages/andrewdwallo/filament-companies">
         <img alt="Packagist" src="https://img.shields.io/packagist/v/andrewdwallo/filament-companies.svg?style=for-the-badge&logo=packagist">
@@ -31,11 +31,6 @@ A Complete Authentication System Kit based on Companies built for Filament:
 
 # Getting Started
 
-### WARNING
-
-* This plugin requires a fresh Filament project.
-* If you install this plugin into an existing Filament project, you will get errors.
-
 ### Note
 * Example application using package: https://github.com/andrewdwallo/erpsaas/tree/1.x
 
@@ -43,11 +38,7 @@ A Complete Authentication System Kit based on Companies built for Filament:
 
 * Create a fresh Laravel Project
 * Configure your database
-* Install the filament admin package
-
-```shell
-composer require filament/filament
-```
+* Install the filament panel package
 
 # Installation
 
@@ -70,9 +61,76 @@ php artisan filament-companies:install filament --companies --socialite
 ```shell
 php artisan migrate:fresh
 ```
+
+Run the following command to install Tailwind CSS with the Tailwind Forms and Typography plugins:
 ```shell
+npm install tailwindcss @tailwindcss/forms @tailwindcss/typography postcss autoprefixer --save-dev
+```
+
+Create a postcss.config.js file in the root of your project and register Tailwind CSS and Autoprefixer as plugins:
+```js
+export default {
+    plugins: {
+        tailwindcss: {},
+        autoprefixer: {},
+    },
+}
+```
+
+Update your Vite configuration:
+```js
+export default defineConfig({
+    plugins: [
+        laravel({
+            input: [
+                'resources/css/app.css',
+                'resources/js/app.js',
+                'resources/css/filament/company/theme.css',
+            ],
+            refresh: true,
+        }),
+    ],
+});
+```
+
+Run the following to compile your assets and the company theme:
+```
+npm run build
 npm run dev
 ```
+
+After installation, there will be a company panel registered for your application. In order for this package to work you must also have a "User" panel in order to have a profile page and personal access tokens page.
+
+For this example, I will use the default panel that Filament provides when installing the panel package, the "Admin" panel.
+
+In your "Admin" panel, make sure to register the following pages:
+```php
+->pages([
+    Profile::class,
+    PersonalAccessTokens::class,
+])
+```
+
+Register the following items as well:
+```php
+->userMenuItems([
+    'profile' => MenuItem::make()
+        ->label('Profile')
+        ->icon('heroicon-o-user-circle')
+        ->url(static fn () => url(Profile::getUrl())),
+    MenuItem::make()
+        ->label('Company')
+        ->icon('heroicon-o-building-office')
+        ->url(static fn () => url(Pages\Dashboard::getUrl(panel: 'company', tenant: Auth::user()->personalCompany()))),
+])
+->navigationItems([
+    NavigationItem::make('APITokens')
+        ->label(static fn (): string => __('filament-companies::default.navigation.links.tokens'))
+        ->icon('heroicon-o-key')
+        ->url(static fn () => url(PersonalAccessTokens::getUrl())),
+])
+```
+>They may be configured in the way you like but as long as they are registered.
 
 ### Translations and Views
 
@@ -94,36 +152,7 @@ php artisan make:filament-companies-user
 ```
 > You may also create a new account by registering through the application.
 
-In the Laravel Welcome Page, you may:
-* Login
-* Register
-
-In the company dropdown, you may:
-* Create a new company
-* Manage your current company's settings
-* Switch your current company
-
-In the user dropdown, where your avatar is, you may:
-* Create API Tokens
-* Manage your personal profile's settings
-
 This package is extensively "borrowed" from the work of Taylor Otwell, his contributors and the Laravel Jetstream package. You can get a full understanding of the capabilities by reviewing the Jetstream [Documentation](https://jetstream.laravel.com/2.x/introduction.html/).
-
-If you want to change the filament path prefix to something such as "company", you may do so as you normally would in `config/filament.php`
-```php
-    /*
-    |--------------------------------------------------------------------------
-    | Filament Path
-    |--------------------------------------------------------------------------
-    |
-    | The default is `admin` but you can change it to whatever works best and
-    | doesn't conflict with the routing in your application.
-    |
-    */
-
-    'path' => env('FILAMENT_PATH', 'company'),
-```
-> The Laravel Welcome Page & Fortify will respect your changes
 
 ### Socialite
 
@@ -131,56 +160,23 @@ By Default, the GitHub Provider will be enabled.
 
 You may use any Provider that [Laravel Socialite](https://laravel.com/docs/10.x/socialite/) supports.
 
-You may add or remove any Provider in `config/filament-companies.php`
+You may add or remove any Provider in the company panel configuration:
 ```php
-    /*
-    |--------------------------------------------------------------------------
-    | Socialite Providers
-    |--------------------------------------------------------------------------
-    |
-    | Here you may specify the providers your application supports for OAuth.
-    | Out of the box, FilamentCompanies provides support for all the OAuth
-    | providers that are supported by Laravel Socialite.
-    |
-    */
-
-    'providers' => [
-        Providers::github(),
-        Providers::google(),
-        Providers::gitlab(),
-        Providers::bitbucket(),
-        Providers::facebook(),
-        Providers::linkedin(),
-        Providers::twitterOAuth1(),
-        Providers::twitterOAuth2(),
-    ],
+->plugin(
+    FilamentCompanies::make()
+        ->userPanel('admin')
+        ->profilePhotos()
+        ->api()
+        ->companies(invitations: true)
+        ->termsAndPrivacyPolicy()
+        ->accountDeletion()
+        ->socialite(
+            providers: ['github', 'gitlab', 'google', 'facebook', 'linkedin', 'bitbucket', 'twitter', 'twitter-oauth-2'],
+            features: ['rememberSession','providerAvatars']
+        )
+)
 ```
 > If Twitter is desired, you may only use either Twitter OAuth1 or Twitter OAuth2, not both. 
-
-You may use this syntax if it is desired.
-```php
-    /*
-    |--------------------------------------------------------------------------
-    | Socialite Providers
-    |--------------------------------------------------------------------------
-    |
-    | Here you may specify the providers your application supports for OAuth.
-    | Out of the box, FilamentCompanies provides support for all the OAuth
-    | providers that are supported by Laravel Socialite.
-    |
-    */
-
-    'providers' => [
-        github,
-        google,
-        gitlab,
-        bitbucket,
-        facebook,
-        linkedin,
-        twitter,
-        twitter-oauth-2,
-    ],
-```
 
 In `config/services.php` pass your Provider's credentials in the providers array:
 ```php
@@ -199,16 +195,16 @@ In `config/services.php` pass your Provider's credentials in the providers array
     'github' => [
         'client_id' => env('GITHUB_CLIENT_ID'),
         'client_secret' => env('GITHUB_CLIENT_SECRET'),
-        'redirect' => 'https://filament.test/oauth/github/callback',
+        'redirect' => 'https://filament.test/company/oauth/github/callback',
     ],
 ```
-> The Provider's Redirect URI must look similar to the above (e.g. 'APP_URL/oauth/provider_name/callback')
+> The Provider's Redirect URI must look similar to the above (e.g. 'APP_URL/company/oauth/provider_name/callback')
 
 An Example: How to Set Up GitHub (using Filament as Application Name & APP_URL)
 1. Go to https://github.com/settings/applications/new
 2. Application Name: `Filament`
-3. Homepage URL: `https://filament.test/admin`
-4. Authorization callback URL: `https://filament.test/oauth/github/callback`
+3. Homepage URL: `https://filament.test/company`
+4. Authorization callback URL: `https://filament.test/company/oauth/github/callback`
 5. Click on Device Flow & Save
 6. Copy the Client Secret & store somewhere safe.
 > Authorization callback URL = 'redirect' from above
@@ -218,31 +214,6 @@ In the `.env` file, for example:
 GITHUB_CLIENT_ID=aluffgef97f9f79f434t
 GITHUB_CLIENT_SECRET=hefliueoioffbo8338yhf2p9f4g2gg33
 ```
-
-
-You may temporarily turn off Socialite support if you previously chose it as an option during installation:
-```php
-    /*
-    |--------------------------------------------------------------------------
-    | Features
-    |--------------------------------------------------------------------------
-    |
-    | Some of Company's features are optional. You may disable the features
-    | by removing them from this array. You're free to only remove some of
-    | these features, or you can even remove all of these if you need to.
-    |
-    */
-
-    'features' => [
-        Features::termsAndPrivacyPolicy(),
-        Features::profilePhotos(),
-        Features::api(),
-        Features::companies(['invitations' => true]),
-        Features::accountDeletion(),
-        // Features::socialite(['rememberSession' => true, 'providerAvatars' => true]),
-    ],
-```
-
 
 The Socialite package is extensively "borrowed" from the work of Joel Butcher, his contributors and the Socialstream package. You can get a full understanding of the capabilities by reviewing the Socialstream [Documentation](https://docs.socialstream.dev/).
 
@@ -285,34 +256,6 @@ $user->companyPermissions($company) : array
 $user->hasCompanyPermission($company, 'server:create') : bool
 ```
 > $user represents the current user of the application. Interchangeable with `Auth::user()`
-
-Example #1: Only allowing a certain company ID to see & visit a filament page, resource, etc...
-```php
-protected static function shouldRegisterNavigation(): bool
-{
-    return Auth::user()->currentCompany->id === 3;
-}
-
-public function mount(): void
-{
-    abort_unless(Auth::user()->currentCompany->id === 3, 403);
-}
-```
-
-Example #2: Using the Current Company Name
-```php
-protected static function shouldRegisterNavigation(): bool
-{
-    return Auth::user()->currentCompany->name === "Filament";
-}
-
-public function mount(): void
-{
-    abort_unless(Auth::user()->currentCompany->name === "Filament", 403);
-}
-```
-> You can use collections of different companies and group them together, or you may use different ranges of values, and more.
-
 
 ### Company Invitations
 In my opinion, if you are using GMAIL & you are testing, this is the easiest route to setup the Mail Server:
@@ -359,10 +302,10 @@ protected function configurePermissions(): void
 ```
 
 ### Notice
-* This package is planned to be used as a Context in Filament V3.
-* The default view after installation is not supposed to be the "Admin" Context, this would be the view that a "company owner" or "company user" would see.
-* There are methods to support an "Admin" Context if desired.
-
+* This package is currently in beta
+* If you have any questions please ask
+* PR's and Issues are welcome.
+* If you have a general question and not a legitimate issue please ask in either my package's Discord or make a discussion post.
 
 ### Contributing
 * Fork this repository to your GitHub account.
