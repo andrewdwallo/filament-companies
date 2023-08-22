@@ -42,7 +42,7 @@ Route::name('filament.')
                             Route::get(PrivacyPolicy::getSlug(), PrivacyPolicy::class)->name(PrivacyPolicy::getRouteName());
                         }
 
-                        $company_invitations_route = $hasTenancy ? '/{tenant}/company-invitations/{invitation}' : '/company-invitations/{invitation}';
+                        $company_invitations_route = '/company-invitations/{invitation}';
 
                         // Companies...
                         if (Features::hasCompanyFeatures() && $plugin->companies(invitations: true)) {

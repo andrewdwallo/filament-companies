@@ -2,6 +2,7 @@
 
 namespace Wallo\FilamentCompanies\Http\Controllers;
 
+use Filament\Facades\Filament;
 use Filament\Notifications\Notification;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\RedirectResponse;
@@ -23,6 +24,7 @@ class CompanyInvitationController extends Controller
         $model = FilamentCompanies::companyInvitationModel();
 
         $invitation = $model::whereKey($invitationId)->firstOrFail();
+        $user = FilamentCompanies::userModel()::where('email', $invitation->email)->first();
 
         app(AddsCompanyEmployees::class)->add(
             $invitation->company->owner,
@@ -34,9 +36,14 @@ class CompanyInvitationController extends Controller
         $invitation->delete();
 
         $title = __('filament-companies::default.banner.company_invitation_accepted', ['company' => $invitation->company->name]);
-        $notification = Notification::make()->title(Str::inlineMarkdown($title))->danger()->send();
+        $notification = Notification::make()->title(Str::inlineMarkdown($title))->success()->persistent()->send();
 
-        return redirect(filament()->getHomeUrl())->with('notification.success.company_invitation_accepted', $notification);
+        if ($user) {
+            Filament::auth()->login($user);
+            return redirect(url(filament()->getHomeUrl()))->with('notification.success.company_invitation_accepted', $notification);
+        }
+
+        return redirect(url(filament()->getLoginUrl()));
     }
 
     /**

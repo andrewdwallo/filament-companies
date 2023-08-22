@@ -28,7 +28,7 @@
                     <!-- Role -->
                     @if (count($this->roles) > 0)
                         <x-filament-forms::field-wrapper id="role" statePath="role" required="required" label="{{ __('filament-companies::default.labels.role') }}">
-                            <div x-data="{ role: @entangle('addCompanyEmployeeForm.role') }" class="relative z-0 mt-1 cursor-pointer rounded-lg border border-gray-200 dark:border-gray-700">
+                            <div x-data="{ role: @entangle('addCompanyEmployeeForm.role').live }" class="relative z-0 mt-1 cursor-pointer rounded-lg border border-gray-200 dark:border-gray-700">
                                 @foreach ($this->roles as $index => $role)
                                     <button type="button"
                                             @click="role = '{{ $role->key }}'"

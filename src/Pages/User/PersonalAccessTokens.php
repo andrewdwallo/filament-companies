@@ -13,13 +13,13 @@ use Filament\Tables\Actions\BulkAction;
 use Filament\Tables\Columns\Layout\Panel;
 use Filament\Tables\Columns\Layout\Split;
 use Filament\Tables\Columns\Layout\Stack;
-use Filament\Tables\Columns\TagsColumn;
 use Filament\Tables\Columns\TextColumn;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\HtmlString;
+use Illuminate\Support\Str;
 use Laravel\Sanctum\Sanctum;
 use Wallo\FilamentCompanies\FilamentCompanies;
 
@@ -82,7 +82,8 @@ class PersonalAccessTokens extends Page implements Tables\Contracts\HasTable
                     ->label(__('filament-companies::default.labels.token_name'))
                     ->sortable()
                     ->searchable(),
-                TagsColumn::make('abilities')
+                TextColumn::make('abilities')
+                    ->badge()
                     ->label(__('filament-companies::default.labels.permissions')),
             ]),
             Panel::make([
@@ -168,7 +169,7 @@ class PersonalAccessTokens extends Page implements Tables\Contracts\HasTable
         Notification::make()
             ->title(__('filament-companies::default.notifications.token_created.title'))
             ->success()
-            ->body(__('filament-companies::default.notifications.token_created.body', compact('name')))
+            ->body(Str::inlineMarkdown(__('filament-companies::default.notifications.token_created.body', compact('name'))))
             ->send();
     }
 
