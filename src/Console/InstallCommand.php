@@ -6,8 +6,6 @@ use Exception;
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Str;
-use JsonException;
-use RuntimeException;
 use Symfony\Component\Process\PhpExecutableFinder;
 use Symfony\Component\Process\Process;
 
@@ -227,7 +225,6 @@ class InstallCommand extends Command
         (new Filesystem)->ensureDirectoryExists(app_path('Actions/FilamentCompanies'));
         (new Filesystem)->ensureDirectoryExists(app_path('Events'));
         (new Filesystem)->ensureDirectoryExists(app_path('Policies'));
-        (new Filesystem)->ensureDirectoryExists(resource_path('css/filament/company'));
 
         // Service Providers...
         copy(__DIR__.'/../../stubs/app/Providers/FilamentCompaniesServiceProvider.php', app_path('Providers/FilamentCompaniesServiceProvider.php'));
@@ -257,10 +254,6 @@ class InstallCommand extends Command
         // Factories...
         copy(__DIR__.'/../../database/factories/UserFactory.php', base_path('database/factories/UserFactory.php'));
         copy(__DIR__.'/../../database/factories/CompanyFactory.php', base_path('database/factories/CompanyFactory.php'));
-
-        // Terms Of Service / Privacy Policy...
-        copy(__DIR__.'/../../stubs/resources/css/filament/company/tailwind.config.js', resource_path('css/filament/company/tailwind.config.js'));
-        copy(__DIR__.'/../../stubs/resources/css/filament/company/theme.css', resource_path('css/filament/company/theme.css'));
     }
 
     protected function ensureApplicationIsSocialiteCompatible(): void

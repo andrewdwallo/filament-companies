@@ -57,7 +57,6 @@ class FilamentCompaniesServiceProvider extends PanelProvider
             ->colors([
                 'primary' => Color::Amber,
             ])
-            ->viteTheme('resources/css/filament/company/theme.css')
             ->tenant(Company::class)
             ->tenantProfile(CompanySettings::class)
             ->tenantRegistration(CreateCompany::class)
