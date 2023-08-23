@@ -121,22 +121,33 @@ It would also be wise to allow your users to navigate back to the Company Panel.
 
 You may use the following as a guide:
 ```php
-->userMenuItems([
-    'profile' => MenuItem::make()
-        ->label('Profile')
-        ->icon('heroicon-o-user-circle')
-        ->url(static fn () => url(Profile::getUrl())),
-    MenuItem::make()
-        ->label('Company')
-        ->icon('heroicon-o-building-office')
-        ->url(static fn () => url(Pages\Dashboard::getUrl(panel: 'company', tenant: Auth::user()->personalCompany()))),
-])
-->navigationItems([
-    NavigationItem::make('Personal Access Tokens')
-        ->label(static fn (): string => __('filament-companies::default.navigation.links.tokens'))
-        ->icon('heroicon-o-key')
-        ->url(static fn () => url(PersonalAccessTokens::getUrl())),
-])
+use Filament\Navigation\MenuItem;
+use Filament\Navigation\NavigationItem;
+use Illuminate\Support\Facades\Auth;
+use Wallo\FilamentCompanies\Pages\User\PersonalAccessTokens;
+use Wallo\FilamentCompanies\Pages\User\Profile;
+
+public function panel(Panel $panel): Panel
+{
+    return $panel
+        // ...
+        ->userMenuItems([
+            'profile' => MenuItem::make()
+                ->label('Profile')
+                ->icon('heroicon-o-user-circle')
+                ->url(static fn () => url(Profile::getUrl())),
+            MenuItem::make()
+                ->label('Company')
+                ->icon('heroicon-o-building-office')
+                ->url(static fn () => url(Pages\Dashboard::getUrl(panel: 'company', tenant: Auth::user()->personalCompany()))),
+        ])
+        ->navigationItems([
+            NavigationItem::make('Personal Access Tokens')
+                ->label(static fn (): string => __('filament-companies::default.navigation.links.tokens'))
+                ->icon('heroicon-o-key')
+                ->url(static fn () => url(PersonalAccessTokens::getUrl())),
+        ])
+}
 ```
 
 You may change the value used for the User Panel using the id of the panel:
