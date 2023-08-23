@@ -31,87 +31,97 @@ A Complete Authentication System Kit based on Companies built for Filament:
 
 # Getting Started
 
-### Note
-* Example application using package: https://github.com/andrewdwallo/erpsaas/tree/1.x
-
-### Getting Set Up
-
 * Create a fresh Laravel Project
 * Configure your database
-* Install the filament panel package
+* Install the [Panel Builder](https://filamentphp.com/docs/3.x/panels/installation#installation)
+
+After installing the Panel Builder, make sure that you have created a panel using the following command:
+```shell
+php artisan filament:install --panels
+```
+> If you've followed the Panel Builder documentation, you should have already done this.
 
 # Installation
 
-Install this package
+Install the package
 ```shell
 composer require andrewdwallo/filament-companies
 ```
 
-After installing the package, you may execute the `filament-companies:install` Artisan command. This command requires the name of the stack to be `filament` and the option to be `--companies`. In addition, you may use the `--socialite` switch to enable socialite support.
-
-Use one of the following commands to scaffold the application: 
+Execute one of the following Artisan commands to scaffold the application. The options include the base package or enabling Socialite support:
 ```shell
-php artisan filament-companies:install filament --companies
+php artisan filament-companies:install filament --companies 
 
-php artisan filament-companies:install filament --companies --socialite
+php artisan filament-companies:install filament --companies --socialite 
 ```
 
-### Finalizing Installation
-
+Run migrations:
 ```shell
 php artisan migrate:fresh
 ```
 
-Run the following command to install Tailwind CSS with the Tailwind Forms and Typography plugins:
+# Preparing Your Application
+
+### Creating a Theme
+
+After installation, there will be a company panel registered for your application. It is located within the `FilamentCompaniesServiceProvider.php` file.
+
+In order for Tailwind to process the CSS used within this package and for the company panel, a user must [create a custom theme](https://filamentphp.com/docs/3.x/panels/themes#creating-a-custom-theme). 
+
+To create a custom theme for the company panel, you can use the php artisan make:filament-theme command:
 ```shell
-npm install tailwindcss @tailwindcss/forms @tailwindcss/typography postcss autoprefixer --save-dev
+php artisan make:filament-theme company
+```
+> Please follow the instructions in the console to complete the setup process
+
+Here is a reference to the instructions that should show after running the command:
+```shell
+⇂ First, add a new item to the `input` array of `vite.config.js`: `resources/css/filament/company/theme.css`  
+⇂ Next, register the theme in the company panel provider using `->viteTheme('resources/css/filament/company/theme.css')`  
+⇂ Finally, run `npm run build` to compile the theme
 ```
 
-Create a postcss.config.js file in the root of your project and register Tailwind CSS and Autoprefixer as plugins:
+After completing the process for creating a custom theme for the company panel, add this package's vendor directory into the content array of the `tailwind.config.js` file that should be located in the `resources/css/filament/company/` directory of your application:
 ```js
 export default {
-    plugins: {
-        tailwindcss: {},
-        autoprefixer: {},
-    },
+    content: [
+        './resources/**/*.blade.php',
+        './vendor/filament/**/*.blade.php',
+        './vendor/andrewdwallo/filament-companies/resources/views/**/*.blade.php', // The package's vendor directory
+    ],
+    // ...
 }
 ```
 
-Update your Vite configuration:
-```js
-export default defineConfig({
-    plugins: [
-        laravel({
-            input: [
-                'resources/css/app.css',
-                'resources/js/app.js',
-                'resources/css/filament/company/theme.css',
-            ],
-            refresh: true,
-        }),
-    ],
-});
-```
+### The User Panel
 
-Run the following to compile your assets and the company theme:
-```
-npm run build
-npm run dev
-```
+As you may have noticed, after installation, there will be a company panel registered for your application. In order for this package to work you must also have a "User" panel to contain the profile page and personal access tokens page.
 
-After installation, there will be a company panel registered for your application. In order for this package to work you must also have a "User" panel in order to have a profile page and personal access tokens page.
-
-For this example, I will use the default panel that Filament provides when installing the panel package, the "Admin" panel.
+For this example, I will use the default panel that Filament provides when installing the panel builder, the "Admin" panel.
+> You may create a separate User Panel following the documentation for [creating a new panel](https://filamentphp.com/docs/3.x/panels/configuration#creating-a-new-panel)
 
 In your "Admin" panel, make sure to register the following pages:
 ```php
-->pages([
-    Profile::class,
-    PersonalAccessTokens::class,
-])
+use Filament\Navigation\MenuItem;
+use Filament\Navigation\NavigationItem;
+use Wallo\FilamentCompanies\Pages\User\PersonalAccessTokens;
+use Wallo\FilamentCompanies\Pages\User\Profile;
+
+public function panel(Panel $panel): Panel
+{
+    return $panel
+        // ...
+        ->pages([
+            Profile::class,
+            PersonalAccessTokens::class,
+        ])
+}
 ```
 
-Register the following items as well:
+Please make sure to provide a way for your users to navigate to the Profile and Personal Access Tokens pages.
+It would also be wise to allow your users to navigate back to the Company Panel. 
+
+You may use the following as a guide:
 ```php
 ->userMenuItems([
     'profile' => MenuItem::make()
@@ -124,13 +134,32 @@ Register the following items as well:
         ->url(static fn () => url(Pages\Dashboard::getUrl(panel: 'company', tenant: Auth::user()->personalCompany()))),
 ])
 ->navigationItems([
-    NavigationItem::make('APITokens')
+    NavigationItem::make('Personal Access Tokens')
         ->label(static fn (): string => __('filament-companies::default.navigation.links.tokens'))
         ->icon('heroicon-o-key')
         ->url(static fn () => url(PersonalAccessTokens::getUrl())),
 ])
 ```
->They may be configured in the way you like but as long as they are registered.
+
+You may change the value used for the User Panel using the id of the panel:
+```php
+use Filament\Panel;
+use Wallo\FilamentCompanies\FilamentCompanies;
+
+class FilamentCompaniesServiceProvider extends PanelProvider
+{
+    public function panel(Panel $panel): Panel
+    {
+        return $panel
+            // ...
+            ->plugin(
+                FilamentCompanies::make()
+                    ->userPanel('user')
+            )
+    }
+}
+```
+> Make sure to create a panel with the id you're passing
 
 ### Translations and Views
 
@@ -162,19 +191,24 @@ You may use any Provider that [Laravel Socialite](https://laravel.com/docs/10.x/
 
 You may add or remove any Provider in the company panel configuration:
 ```php
-->plugin(
-    FilamentCompanies::make()
-        ->userPanel('admin')
-        ->profilePhotos()
-        ->api()
-        ->companies(invitations: true)
-        ->termsAndPrivacyPolicy()
-        ->accountDeletion()
-        ->socialite(
-            providers: ['github', 'gitlab', 'google', 'facebook', 'linkedin', 'bitbucket', 'twitter', 'twitter-oauth-2'],
-            features: ['rememberSession','providerAvatars']
-        )
-)
+use Filament\Panel;
+use Wallo\FilamentCompanies\FilamentCompanies;
+
+class FilamentCompaniesServiceProvider extends PanelProvider
+{
+    public function panel(Panel $panel): Panel
+    {
+        return $panel
+            // ...
+            ->plugin(
+                FilamentCompanies::make()
+                    ->socialite(
+                        providers: ['github', 'gitlab', 'google', 'facebook', 'linkedin', 'bitbucket', 'twitter', 'twitter-oauth-2'],
+                        features: ['rememberSession','providerAvatars']
+                    )
+            )
+    }
+}
 ```
 > If Twitter is desired, you may only use either Twitter OAuth1 or Twitter OAuth2, not both. 
 
@@ -270,11 +304,10 @@ MAIL_HOST=smtp.gmail.com
 MAIL_PORT=587
 MAIL_USERNAME=yourgmailusername@gmail.com
 MAIL_PASSWORD=of9f9279g924792g49t           # GMAIL App Password
-MAIL_ENCRYPTION=tsl                         # tsl is recommended over ssl
+MAIL_ENCRYPTION=tls                         # tls is recommended over ssl
 MAIL_FROM_ADDRESS="filament@company.com"
 MAIL_FROM_NAME="${APP_NAME}"
 ```
-> Port does not have to be specific
 
 ### Roles & Permissions
 You may change roles & permissions in `app/Providers/FilamentCompaniesServiceProvider.php`
@@ -304,8 +337,8 @@ protected function configurePermissions(): void
 ### Notice
 * This package is currently in beta
 * If you have any questions please ask
-* PR's and Issues are welcome.
-* If you have a general question and not a legitimate issue please ask in either my package's Discord or make a discussion post.
+* PR's and Issues are welcome
+* If you have a general question and not an issue please ask in either my package's [Discord Channel](https://discord.com/channels/883083792112300104/1059008724410310767) or make a discussion post.
 
 ### Contributing
 * Fork this repository to your GitHub account.
@@ -313,7 +346,7 @@ protected function configurePermissions(): void
 * Clone your fork in your App's root directory.
 * In the `/filament-companies` directory, create a branch for your fix, e.g. `fix/error-message`.
 
-Install the package in your application's `composer.json` file using the `dev` prefix followed by your branches name:
+Install the package in your application's `composer.json` file:
 ```json
 {
     ...
