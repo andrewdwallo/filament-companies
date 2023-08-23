@@ -68,7 +68,7 @@ After installation, there will be a company panel registered for your applicatio
 
 In order for Tailwind to process the CSS used within this package and for the company panel, a user must [create a custom theme](https://filamentphp.com/docs/3.x/panels/themes#creating-a-custom-theme). 
 
-To create a custom theme for the company panel, you can use the php artisan make:filament-theme command:
+To create a custom theme for the company panel, you can use the following command:
 ```shell
 php artisan make:filament-theme company
 ```
