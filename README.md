@@ -102,8 +102,6 @@ For this example, I will use the default panel that Filament provides when insta
 
 In your "Admin" panel, make sure to register the following pages:
 ```php
-use Filament\Navigation\MenuItem;
-use Filament\Navigation\NavigationItem;
 use Wallo\FilamentCompanies\Pages\User\PersonalAccessTokens;
 use Wallo\FilamentCompanies\Pages\User\Profile;
 
