@@ -355,7 +355,7 @@ protected function configurePermissions(): void
 * Clone your fork in your App's root directory.
 * In the `/filament-companies` directory, create a branch for your fix, e.g. `fix/error-message`.
 
-Install the package in your application's `composer.json` file, using the `dev` prefix followed by your branche's name:
+Install the package in your application's `composer.json` file, using the `dev` prefix followed by your branch's name:
 ```json
 {
     ...
