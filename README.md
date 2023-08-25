@@ -212,8 +212,20 @@ class FilamentCompaniesServiceProvider extends PanelProvider
             ->plugin(
                 FilamentCompanies::make()
                     ->socialite(
-                        providers: ['github', 'gitlab', 'google', 'facebook', 'linkedin', 'bitbucket', 'twitter', 'twitter-oauth-2'],
-                        features: ['rememberSession','providerAvatars']
+                        providers: [
+                            Providers::github(),
+                            Providers::gitlab(),
+                            Providers::google(),
+                            Providers::facebook(),
+                            Providers::linkedin(),
+                            Providers::bitbucket(),
+                            Providers::twitter(),
+                            Providers::twitterOAuth2(),
+                        ],
+                        features: [
+                            Socialite::rememberSession(),
+                            Socialite::providerAvatars(),
+                        ]
                     )
             )
     }
