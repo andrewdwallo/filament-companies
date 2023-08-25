@@ -39,6 +39,7 @@ use Illuminate\View\Middleware\ShareErrorsFromSession;
 use Wallo\FilamentCompanies\FilamentCompanies;
 use Wallo\FilamentCompanies\Pages\Company\CreateCompany;
 use Wallo\FilamentCompanies\Pages\User\Profile;
+use Wallo\FilamentCompanies\Providers;
 use Wallo\FilamentCompanies\Socialite;
 
 class FilamentCompaniesServiceProvider extends PanelProvider
@@ -61,8 +62,8 @@ class FilamentCompaniesServiceProvider extends PanelProvider
                     ->termsAndPrivacyPolicy()
                     ->accountDeletion()
                     ->socialite(
-                        providers: ['github'],
-                        features: ['rememberSession','providerAvatars']
+                        providers: [Providers::github()],
+                        features: [Socialite::rememberSession(), Socialite::providerAvatars()]
                     )
             )
             ->registration(Register::class)
