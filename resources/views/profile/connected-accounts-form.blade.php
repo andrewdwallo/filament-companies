@@ -24,7 +24,6 @@
             <div class="grid gap-y-6">
                 @foreach ($this->providers as $provider)
                     @php
-                        $account = null;
                         $account = $this->accounts->where('provider', $provider)->first();
                     @endphp
 

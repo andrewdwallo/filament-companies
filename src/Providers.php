@@ -2,9 +2,6 @@
 
 namespace Wallo\FilamentCompanies;
 
-use BadMethodCallException;
-use Illuminate\Support\Str;
-
 class Providers
 {
     /**
@@ -12,7 +9,7 @@ class Providers
      */
     public static function hasBitbucket(): bool
     {
-        return Socialite::hasBitbucket();
+        return Socialite::$supportedSocialiteProviders['bitbucket'];
     }
 
     /**
@@ -20,7 +17,7 @@ class Providers
      */
     public static function hasFacebook(): bool
     {
-        return Socialite::hasFacebook();
+        return Socialite::$supportedSocialiteProviders['facebook'];
     }
 
     /**
@@ -28,7 +25,7 @@ class Providers
      */
     public static function hasGitlab(): bool
     {
-        return Socialite::hasGitlab();
+        return Socialite::$supportedSocialiteProviders['gitlab'];
     }
 
     /**
@@ -36,7 +33,7 @@ class Providers
      */
     public static function hasGithub(): bool
     {
-        return Socialite::hasGithub();
+        return Socialite::$supportedSocialiteProviders['github'];
     }
 
     /**
@@ -44,7 +41,7 @@ class Providers
      */
     public static function hasGoogle(): bool
     {
-        return Socialite::hasGoogle();
+        return Socialite::$supportedSocialiteProviders['google'];
     }
 
     /**
@@ -52,15 +49,15 @@ class Providers
      */
     public static function hasLinkedIn(): bool
     {
-        return Socialite::hasLinkedIn();
+        return Socialite::$supportedSocialiteProviders['linkedin'];
     }
 
     /**
      * Determine if the application has support for the Twitter OAuth 1.0 provider.
      */
-    public static function hasTwitterOAuth1(): bool
+    public static function hasTwitter(): bool
     {
-        return Socialite::hasTwitter();
+        return Socialite::$supportedSocialiteProviders['twitter'];
     }
 
     /**
@@ -68,7 +65,7 @@ class Providers
      */
     public static function hasTwitterOAuth2(): bool
     {
-        return Socialite::hasTwitterOAuth2();
+        return Socialite::$supportedSocialiteProviders['twitter-oauth-2'];
     }
 
     /**
@@ -122,7 +119,7 @@ class Providers
     /**
      * Enable the Twitter OAuth 1.0 provider.
      */
-    public static function twitterOAuth1(): string
+    public static function twitter(): string
     {
         return 'twitter';
     }
@@ -133,17 +130,5 @@ class Providers
     public static function twitterOAuth2(): string
     {
         return 'twitter-oauth-2';
-    }
-
-    /**
-     * Throw a bad method call exception for the given method.
-     *
-     * @throws BadMethodCallException
-     */
-    protected static function throwBadMethodCallException(string $method): void
-    {
-        throw new BadMethodCallException(sprintf(
-            'Call to undefined method %s::%s()', static::class, $method
-        ));
     }
 }
