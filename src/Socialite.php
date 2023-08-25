@@ -42,12 +42,12 @@ class Socialite
      * The socialite features that should be used by Company.
      */
     public static array $supportedSocialiteFeatures = [
-        'rememberSession' => false,
-        'refreshOAuthTokens' => false,
-        'providerAvatars' => false,
-        'generateMissingEmails' => false,
-        'loginOnRegistration' => false,
-        'createAccountOnFirstLogin' => false,
+        'remember-session' => false,
+        'refresh-oauth-tokens' => false,
+        'provider-avatars' => false,
+        'generate-missing-emails' => false,
+        'login-on-registration' => false,
+        'create-account-on-first-login' => false,
     ];
 
     public function enableSocialite(bool|Closure|null $condition = true): static
@@ -59,7 +59,7 @@ class Socialite
 
     public function setProviders(array|null $providers = null): static
     {
-        if (is_array($providers)) {
+        if (is_array($providers) && static::$hasSocialiteFeatures) {
             foreach ($providers as $provider) {
                 if (array_key_exists($provider, static::$supportedSocialiteProviders)) {
                     static::$supportedSocialiteProviders[$provider] = true;
@@ -72,7 +72,7 @@ class Socialite
 
     public function setFeatures(array|null $features = null): static
     {
-        if (is_array($features)) {
+        if (is_array($features) && static::$hasSocialiteFeatures) {
             foreach ($features as $feature) {
                 if (array_key_exists($feature, static::$supportedSocialiteFeatures)) {
                     static::$supportedSocialiteFeatures[$feature] = true;
@@ -92,75 +92,11 @@ class Socialite
     }
 
     /**
-     * Determine if the application has support for the Bitbucket provider.
-     */
-    public static function hasBitbucket(): bool
-    {
-        return static::$supportedSocialiteProviders['bitbucket'];
-    }
-
-    /**
-     * Determine if the application has support for the Facebook provider.
-     */
-    public static function hasFacebook(): bool
-    {
-        return static::$supportedSocialiteProviders['facebook'];
-    }
-
-    /**
-     * Determine if the application has support for the GitLab provider.
-     */
-    public static function hasGitlab(): bool
-    {
-        return static::$supportedSocialiteProviders['gitlab'];
-    }
-
-    /**
-     * Determine if the application has support for the GitHub provider.
-     */
-    public static function hasGithub(): bool
-    {
-        return static::$supportedSocialiteProviders['github'];
-    }
-
-    /**
-     * Determine if the application has support for the Google provider.
-     */
-    public static function hasGoogle(): bool
-    {
-        return static::$supportedSocialiteProviders['google'];
-    }
-
-    /**
-     * Determine if the application has support for the LinkedIn provider.
-     */
-    public static function hasLinkedIn(): bool
-    {
-        return static::$supportedSocialiteProviders['linkedin'];
-    }
-
-    /**
-     * Determine if the application has support for the Twitter provider.
-     */
-    public static function hasTwitter(): bool
-    {
-        return static::$supportedSocialiteProviders['twitter'];
-    }
-
-    /**
-     * Determine if the application has support for the Twitter OAuth 2.0 provider.
-     */
-    public static function hasTwitterOAuth2(): bool
-    {
-        return static::$supportedSocialiteProviders['twitter-oauth-2'];
-    }
-
-    /**
      * Determine if the application has support for Remembering Sessions.
      */
     public static function hasRememberSessionFeature(): bool
     {
-        return static::$supportedSocialiteFeatures['rememberSession'];
+        return static::$supportedSocialiteFeatures['remember-session'];
     }
 
     /**
@@ -168,7 +104,7 @@ class Socialite
      */
     public static function hasRefreshOAuthTokensFeature(): bool
     {
-        return static::$supportedSocialiteFeatures['refreshOAuthTokens'];
+        return static::$supportedSocialiteFeatures['refresh-oauth-tokens'];
     }
 
     /**
@@ -176,7 +112,7 @@ class Socialite
      */
     public static function hasProviderAvatarsFeature(): bool
     {
-        return static::$supportedSocialiteFeatures['providerAvatars'];
+        return static::$supportedSocialiteFeatures['provider-avatars'];
     }
 
     /**
@@ -184,7 +120,7 @@ class Socialite
      */
     public static function generatesMissingEmails(): bool
     {
-        return static::$supportedSocialiteFeatures['generateMissingEmails'];
+        return static::$supportedSocialiteFeatures['generate-missing-emails'];
     }
 
     /**
@@ -192,7 +128,7 @@ class Socialite
      */
     public static function hasLoginOnRegistrationFeature(): bool
     {
-        return static::$supportedSocialiteFeatures['loginOnRegistration'];
+        return static::$supportedSocialiteFeatures['login-on-registration'];
     }
 
     /**
@@ -200,11 +136,59 @@ class Socialite
      */
     public static function hasCreateAccountOnFirstLoginFeature(): bool
     {
-        return static::$supportedSocialiteFeatures['createAccountOnFirstLogin'];
+        return static::$supportedSocialiteFeatures['create-account-on-first-login'];
     }
 
     /**
-     * Get all of the socialite providers and whether the application supports them.
+     * Enabled the generate missing emails feature.
+     */
+    public static function generateMissingEmails(): string
+    {
+        return 'generate-missing-emails';
+    }
+
+    /**
+     * Enable the create account on first login feature.
+     */
+    public static function createAccountOnFirstLogin(): string
+    {
+        return 'create-account-on-first-login';
+    }
+
+    /**
+     * Enable the login on registration feature.
+     */
+    public static function loginOnRegistration(): string
+    {
+        return 'login-on-registration';
+    }
+
+    /**
+     * Enable the provider avatars feature.
+     */
+    public static function providerAvatars(): string
+    {
+        return 'provider-avatars';
+    }
+
+    /**
+     * Enable the remember session feature for logging in.
+     */
+    public static function rememberSession(): string
+    {
+        return 'remember-session';
+    }
+
+    /**
+     * Enable the automatic refresh token update on token retrieval.
+     */
+    public static function refreshOauthTokens(): string
+    {
+        return 'refresh-oauth-tokens';
+    }
+
+    /**
+     * Get all the socialite providers and whether the application supports them.
      */
     public static function providers(): array
     {
