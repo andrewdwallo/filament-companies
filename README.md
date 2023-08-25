@@ -202,6 +202,8 @@ You may add or remove any Provider in the company panel configuration:
 ```php
 use Filament\Panel;
 use Wallo\FilamentCompanies\FilamentCompanies;
+use Wallo\FilamentCompanies\Providers;
+use Wallo\FilamentCompanies\Socialite;
 
 class FilamentCompaniesServiceProvider extends PanelProvider
 {
