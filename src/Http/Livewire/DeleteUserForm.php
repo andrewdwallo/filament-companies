@@ -15,11 +15,6 @@ use Wallo\FilamentCompanies\Contracts\DeletesUsers;
 class DeleteUserForm extends Component
 {
     /**
-     * Indicates if user deletion is being confirmed.
-     */
-    public bool $confirmingUserDeletion = false;
-
-    /**
      * The user's current password.
      */
     public string $password = '';
@@ -35,7 +30,7 @@ class DeleteUserForm extends Component
 
         $this->dispatch('confirming-delete-user');
 
-        $this->confirmingUserDeletion = true;
+        $this->dispatch('open-modal', id: 'confirmingUserDeletion');
     }
 
     /**
@@ -60,7 +55,7 @@ class DeleteUserForm extends Component
             session()->regenerateToken();
         }
 
-        return redirect(config('fortify.redirects.logout') ?? '/');
+        return redirect(url(filament()->getLogoutUrl()));
     }
 
     /**

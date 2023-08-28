@@ -2,7 +2,6 @@
 
 namespace Wallo\FilamentCompanies\Http\Controllers;
 
-use Filament\Exceptions\NoDefaultPanelSetException;
 use Filament\Facades\Filament;
 use Filament\Notifications\Notification;
 use Illuminate\Auth\Events\Registered;
@@ -12,11 +11,9 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\MessageBag;
 use Illuminate\Support\Str;
 use Filament\Http\Responses\Auth\LoginResponse;
-use Laravel\Fortify\Features as FortifyFeatures;
 use Laravel\Socialite\Contracts\User as ProviderUser;
 use Laravel\Socialite\Two\InvalidStateException;
 use Symfony\Component\HttpFoundation\RedirectResponse as SymfonyRedirectResponse;
@@ -35,19 +32,29 @@ class OAuthController extends Controller
 {
     protected string $registrationUrl;
     protected string $loginUrl;
-
     protected string $userPanel;
+
+    protected StatefulGuard $guard;
+    protected CreatesUserFromProvider $createsUser;
+    protected CreatesConnectedAccounts $createsConnectedAccounts;
+    protected UpdatesConnectedAccounts $updatesConnectedAccounts;
+    protected HandlesInvalidState $invalidStateHandler;
 
     /**
      * Create a new controller instance.
      */
     public function __construct(
-        protected StatefulGuard $guard,
-        protected CreatesUserFromProvider $createsUser,
-        protected CreatesConnectedAccounts $createsConnectedAccounts,
-        protected UpdatesConnectedAccounts $updatesConnectedAccounts,
-        protected HandlesInvalidState $invalidStateHandler
+        CreatesUserFromProvider $createsUser,
+        CreatesConnectedAccounts $createsConnectedAccounts,
+        UpdatesConnectedAccounts $updatesConnectedAccounts,
+        HandlesInvalidState $invalidStateHandler
     ) {
+        $this->createsUser = $createsUser;
+        $this->createsConnectedAccounts = $createsConnectedAccounts;
+        $this->updatesConnectedAccounts = $updatesConnectedAccounts;
+        $this->invalidStateHandler = $invalidStateHandler;
+
+        $this->guard = Filament::auth();
         $this->registrationUrl = Filament::getRegistrationUrl();
         $this->loginUrl = Filament::getLoginUrl();
         $this->userPanel = FilamentCompanies::getUserPanel();
@@ -58,14 +65,13 @@ class OAuthController extends Controller
      */
     public function redirectToProvider(string $provider, GeneratesProviderRedirect $generator): SymfonyRedirectResponse
     {
-        session()->put('filament-companies.previous_url', back()->getTargetUrl());
+        session()->put('filament-companies.previous_url', url()->previous());
 
         return $generator->generate($provider);
     }
 
     /**
      * Attempt to log the user in via the provider user returned from Socialite.
-     * @throws NoDefaultPanelSetException
      */
     public function handleProviderCallback(Request $request, string $provider, ResolvesSocialiteUsers $resolver): Response|RedirectResponse|LoginResponse
     {
@@ -87,7 +93,7 @@ class OAuthController extends Controller
 
         $account = Socialite::findConnectedAccountForProviderAndId($provider, $providerAccount->getId());
 
-        if (($user = Auth::user()) !== null) {
+        if (($user = $this->guard->user()) !== null) {
             return $this->alreadyAuthenticated($user, $account, $provider, $providerAccount);
         }
 
@@ -117,15 +123,17 @@ class OAuthController extends Controller
     }
 
     /**
-     * @throws NoDefaultPanelSetException
+     * Handle error and return appropriate response.
      */
     protected function handleError(Request $request): RedirectResponse
     {
-        $messageBag = new MessageBag;
-        $messageBag->add('filament-companies', $request->error_description);
+        $error_description = $request->input('error_description');
 
-        if (Auth::check()) {
-            return redirect(filament()->getHomeUrl())->withErrors($request->error_description);
+        $messageBag = new MessageBag;
+        $messageBag->add('filament-companies', $error_description);
+
+        if ($this->guard->check()) {
+            return redirect(filament()->getHomeUrl())->withErrors($error_description);
         }
 
         $route = $this->registrationUrl ?: $this->loginUrl;
@@ -133,6 +141,9 @@ class OAuthController extends Controller
         return redirect(url($route))->withErrors($messageBag);
     }
 
+    /**
+     * Determine if the user should be registered.
+     */
     protected function shouldRegister(ConnectedAccount|null $account, string $previousUrl): bool
     {
         return !$account && $this->registrationUrl &&
@@ -142,6 +153,9 @@ class OAuthController extends Controller
             );
     }
 
+    /**
+     * Handle the registration process for the user.
+     */
     protected function handleRegistration(ProviderUser $providerAccount, string $provider): RedirectResponse|LoginResponse
     {
         $user = FilamentCompanies::newUserModel()->where('email', $providerAccount->getEmail())->first();
@@ -155,6 +169,9 @@ class OAuthController extends Controller
         return $this->register($provider, $providerAccount);
     }
 
+    /**
+     * Handle the case where the sign-in was not found.
+     */
     protected function handleSignInNotFound(string $provider): RedirectResponse
     {
         $messageBag = new MessageBag;
@@ -166,6 +183,9 @@ class OAuthController extends Controller
         return redirect(url($this->loginUrl))->withErrors($messageBag);
     }
 
+    /**
+     * Handle account creation on first login.
+     */
     protected function handleCreateAccountOnFirstLogin(ProviderUser $providerAccount, string $provider): RedirectResponse|LoginResponse
     {
         if (FilamentCompanies::newUserModel()->where('email', $providerAccount->getEmail())->exists()) {
@@ -217,7 +237,7 @@ class OAuthController extends Controller
     /**
      * Handle when a user is already registered.
      */
-    protected function handleUserAlreadyRegistered(Authenticatable $user, ?ConnectedAccount $account, string $provider, ProviderUser $providerAccount): RedirectResponse|LoginResponse
+    protected function handleUserAlreadyRegistered(Authenticatable $user, ConnectedAccount|null $account, string $provider, ProviderUser $providerAccount): RedirectResponse|LoginResponse
     {
         if (Socialite::hasLoginOnRegistrationFeature()) {
             // The user exists, but they're not registered with the given provider.
@@ -271,7 +291,7 @@ class OAuthController extends Controller
     {
         event(new Registered($user));
 
-        Filament::auth()->login($user, Socialite::hasRememberSessionFeature());
+        $this->guard->login($user, Socialite::hasRememberSessionFeature());
 
         session()->regenerate();
 

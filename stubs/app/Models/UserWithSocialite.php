@@ -12,7 +12,6 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Collection;
-use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravel\Sanctum\HasApiTokens;
 use Wallo\FilamentCompanies\HasCompanies;
 use Wallo\FilamentCompanies\HasConnectedAccounts;
@@ -28,7 +27,6 @@ class User extends Authenticatable implements FilamentUser, HasAvatar, HasTenant
     use HasConnectedAccounts;
     use Notifiable;
     use SetsProfilePhotoFromUrl;
-    use TwoFactorAuthenticatable;
 
     public function canAccessPanel(Panel $panel): bool
     {
@@ -72,8 +70,6 @@ class User extends Authenticatable implements FilamentUser, HasAvatar, HasTenant
     protected $hidden = [
         'password',
         'remember_token',
-        'two_factor_recovery_codes',
-        'two_factor_secret',
     ];
 
     /**

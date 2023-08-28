@@ -19,7 +19,6 @@ class InstallCommand extends Command
     protected $signature = 'filament-companies:install {stack : The development stack that should be installed (filament)}
                                               {--companies : Indicates if company support should be installed}
                                               {--socialite : Indicates if socialite support should be installed}
-                                              {--pest : Indicates if Pest should be installed}
                                               {--composer=global : Absolute path to the Composer binary which should be used to install packages}';
 
     /**
@@ -41,18 +40,10 @@ class InstallCommand extends Command
         }
 
         // Publish...
-        $this->callSilent('vendor:publish', ['--tag' => 'filament-companies-config', '--force' => true]);
         $this->callSilent('vendor:publish', ['--tag' => 'filament-companies-migrations', '--force' => true]);
-
-        $this->callSilent('vendor:publish', ['--tag' => 'fortify-config', '--force' => true]);
-        $this->callSilent('vendor:publish', ['--tag' => 'fortify-support', '--force' => true]);
-        $this->callSilent('vendor:publish', ['--tag' => 'fortify-migrations', '--force' => true]);
 
         // Storage...
         $this->callSilent('storage:link');
-
-        // "Home" Route...
-        $this->replaceInFile('/home', '', app_path('Providers/RouteServiceProvider.php'));
 
         if (file_exists(resource_path('views/welcome.blade.php'))) {
             $this->replaceInFile("Route::has('login')", "filament()->getLoginUrl()", resource_path('views/welcome.blade.php'));
@@ -63,9 +54,6 @@ class InstallCommand extends Command
             $this->replaceInFile("{{ route('register') }}", "{{ url(filament()->getRegistrationUrl()) }}", resource_path('views/welcome.blade.php'));
         }
 
-        // Fortify Provider...
-        $this->installServiceProviderAfter('RouteServiceProvider', 'FortifyServiceProvider');
-
         // Configure Session...
         $this->configureSession();
 
@@ -73,27 +61,6 @@ class InstallCommand extends Command
         if ($this->argument('stack') === 'filament') {
             $this->installFilamentStack();
         }
-
-        // Tests...
-        $stubs = $this->getTestStubsPath();
-
-        if ($this->option('pest')) {
-            $this->removeComposerDevPackages(['nunomaduro/collision', 'phpunit/phpunit']);
-
-            if (! $this->requireComposerDevPackages(['nunomaduro/collision:^6.4', 'pestphp/pest:^1.22', 'pestphp/pest-plugin-laravel:^1.2'])) {
-                return 1;
-            }
-
-            copy($stubs.'/Pest.php', base_path('tests/Pest.php'));
-            copy($stubs.'/ExampleTest.php', base_path('tests/Feature/ExampleTest.php'));
-            copy($stubs.'/ExampleUnitTest.php', base_path('tests/Unit/ExampleTest.php'));
-        }
-
-        copy($stubs.'/AuthenticationTest.php', base_path('tests/Feature/AuthenticationTest.php'));
-        copy($stubs.'/EmailVerificationTest.php', base_path('tests/Feature/EmailVerificationTest.php'));
-        copy($stubs.'/PasswordConfirmationTest.php', base_path('tests/Feature/PasswordConfirmationTest.php'));
-        copy($stubs.'/PasswordResetTest.php', base_path('tests/Feature/PasswordResetTest.php'));
-        copy($stubs.'/RegistrationTest.php', base_path('tests/Feature/RegistrationTest.php'));
 
         return 0;
     }
@@ -128,12 +95,9 @@ class InstallCommand extends Command
                     $this->output->write($output);
                 });
 
-        // Update Configuration...
-        $this->replaceInFile('filament', 'filament', config_path('filament-companies.php'));
         // $this->replaceInFile("'guard' => 'web'", "'guard' => 'sanctum'", config_path('auth.php'));
 
         // Directories...
-        (new Filesystem)->ensureDirectoryExists(app_path('Actions/Fortify'));
         (new Filesystem)->ensureDirectoryExists(app_path('Actions/FilamentCompanies'));
         (new Filesystem)->ensureDirectoryExists(resource_path('markdown'));
 
@@ -144,28 +108,19 @@ class InstallCommand extends Command
         copy(__DIR__.'/../../stubs/resources/markdown/policy.md', resource_path('markdown/policy.md'));
 
         // Service Providers...
-        $this->installServiceProviderAfter('FortifyServiceProvider', 'FilamentCompaniesServiceProvider');
+        $this->installServiceProviderAfter('RouteServiceProvider', 'FilamentCompaniesServiceProvider');
 
         // Factories...
         copy(__DIR__.'/../../database/factories/UserFactory.php', base_path('database/factories/UserFactory.php'));
 
         // Actions...
-        copy(__DIR__.'/../../stubs/app/Actions/Fortify/CreateNewUser.php', app_path('Actions/Fortify/CreateNewUser.php'));
-        copy(__DIR__.'/../../stubs/app/Actions/Fortify/UpdateUserPassword.php', app_path('Actions/Fortify/UpdateUserPassword.php'));
-        copy(__DIR__.'/../../stubs/app/Actions/Fortify/UpdateUserProfileInformation.php', app_path('Actions/Fortify/UpdateUserProfileInformation.php'));
+        copy(__DIR__.'/../../stubs/app/Actions/FilamentCompanies/CreateNewUser.php', app_path('Actions/FilamentCompanies/CreateNewUser.php'));
+        copy(__DIR__.'/../../stubs/app/Actions/FilamentCompanies/UpdateUserPassword.php', app_path('Actions/FilamentCompanies/UpdateUserPassword.php'));
+        copy(__DIR__.'/../../stubs/app/Actions/FilamentCompanies/UpdateUserProfileInformation.php', app_path('Actions/FilamentCompanies/UpdateUserProfileInformation.php'));
         copy(__DIR__.'/../../stubs/app/Actions/FilamentCompanies/DeleteUser.php', app_path('Actions/FilamentCompanies/DeleteUser.php'));
 
         // Routes...
         $this->replaceInFile('auth:api', 'auth:sanctum', base_path('routes/api.php'));
-
-        // Tests...
-        $stubs = $this->getTestStubsPath();
-
-        copy($stubs.'/filament/BrowserSessionsTest.php', base_path('tests/Feature/BrowserSessionsTest.php'));
-        copy($stubs.'/filament/DeleteAccountTest.php', base_path('tests/Feature/DeleteAccountTest.php'));
-        copy($stubs.'/filament/ProfileInformationTest.php', base_path('tests/Feature/ProfileInformationTest.php'));
-        copy($stubs.'/filament/TwoFactorAuthenticationSettingsTest.php', base_path('tests/Feature/TwoFactorAuthenticationSettingsTest.php'));
-        copy($stubs.'/filament/UpdatePasswordTest.php', base_path('tests/Feature/UpdatePasswordTest.php'));
 
         // Companies...
         if ($this->option('companies')) {
@@ -183,17 +138,6 @@ class InstallCommand extends Command
      */
     protected function installFilamentCompanyStack(): void
     {
-        // Tests...
-        $stubs = $this->getTestStubsPath();
-
-        copy($stubs.'/filament/CreateCompanyTest.php', base_path('tests/Feature/CreateCompanyTest.php'));
-        copy($stubs.'/filament/DeleteCompanyTest.php', base_path('tests/Feature/DeleteCompanyTest.php'));
-        copy($stubs.'/filament/InviteCompanyEmployeeTest.php', base_path('tests/Feature/InviteCompanyEmployeeTest.php'));
-        copy($stubs.'/filament/LeaveCompanyTest.php', base_path('tests/Feature/LeaveCompanyTest.php'));
-        copy($stubs.'/filament/RemoveCompanyEmployeeTest.php', base_path('tests/Feature/RemoveCompanyEmployeeTest.php'));
-        copy($stubs.'/filament/UpdateCompanyEmployeeRoleTest.php', base_path('tests/Feature/UpdateCompanyEmployeeRoleTest.php'));
-        copy($stubs.'/filament/UpdateCompanyNameTest.php', base_path('tests/Feature/UpdateCompanyNameTest.php'));
-
         $this->ensureApplicationIsCompanyCompatible();
 
         // Socialite...
@@ -218,9 +162,6 @@ class InstallCommand extends Command
         // Publish FilamentCompanies Company Migrations...
         $this->callSilent('vendor:publish', ['--tag' => 'filament-companies-company-migrations', '--force' => true]);
 
-        // Publish Filament Configuration File...
-        $this->callSilent('vendor:publish', ['--tag' => 'filament-config', '--force' => true]);
-
         // Directories...
         (new Filesystem)->ensureDirectoryExists(app_path('Actions/FilamentCompanies'));
         (new Filesystem)->ensureDirectoryExists(app_path('Events'));
@@ -243,10 +184,8 @@ class InstallCommand extends Command
         copy(__DIR__.'/../../stubs/app/Actions/FilamentCompanies/InviteCompanyEmployee.php', app_path('Actions/FilamentCompanies/InviteCompanyEmployee.php'));
         copy(__DIR__.'/../../stubs/app/Actions/FilamentCompanies/RemoveCompanyEmployee.php', app_path('Actions/FilamentCompanies/RemoveCompanyEmployee.php'));
         copy(__DIR__.'/../../stubs/app/Actions/FilamentCompanies/UpdateCompanyName.php', app_path('Actions/FilamentCompanies/UpdateCompanyName.php'));
-
-        // Fortify Actions...
-        copy(__DIR__.'/../../stubs/app/Actions/Fortify/CreateNewUser.php', app_path('Actions/Fortify/CreateNewUser.php'));
-        copy(__DIR__.'/../../stubs/app/Actions/Fortify/UpdateUserPassword.php', app_path('Actions/Fortify/UpdateUserPassword.php'));
+        copy(__DIR__.'/../../stubs/app/Actions/FilamentCompanies/CreateNewUser.php', app_path('Actions/FilamentCompanies/CreateNewUser.php'));
+        copy(__DIR__.'/../../stubs/app/Actions/FilamentCompanies/UpdateUserPassword.php', app_path('Actions/FilamentCompanies/UpdateUserPassword.php'));
 
         // Policies...
         copy(__DIR__.'/../../stubs/app/Policies/CompanyPolicy.php', app_path('Policies/CompanyPolicy.php'));
@@ -298,16 +237,6 @@ class InstallCommand extends Command
                 $appConfig
             ));
         }
-    }
-
-    /**
-     * Returns the path to the correct test stubs.
-     */
-    protected function getTestStubsPath(): string
-    {
-        return $this->option('pest')
-            ? __DIR__.'/../../stubs/pest-tests'
-            : __DIR__.'/../../stubs/tests';
     }
 
     /**

@@ -2,12 +2,10 @@
 
 namespace Wallo\FilamentCompanies\Console;
 
-use App\Actions\Fortify\CreateNewUser;
+use App\Actions\FilamentCompanies\CreateNewUser;
 use Filament\Support\Commands\Concerns\CanValidateInput;
 use Illuminate\Console\Command;
-use Laravel\Fortify\Rules\Password;
 use Wallo\FilamentCompanies\Features;
-use Wallo\FilamentCompanies\FilamentCompanies;
 
 class MakeUserCommand extends Command
 {
@@ -42,7 +40,7 @@ class MakeUserCommand extends Command
     {
         $name = $this->validateInput(fn () => $this->options['name'] ?? $this->ask('Name'), 'name', ['required', 'string', 'max:255'], fn () => $this->options['name'] = null);
         $email = $this->validateInput(fn () => $this->options['email'] ?? $this->ask('Email address'), 'email', ['required', 'string', 'email', 'max:255', 'unique:' . $this->getUserModel()], fn () => $this->options['email'] = null);
-        $password = $this->validateInput(fn () => $this->options['password'] ?? $this->secret('Password'), 'password', ['required', 'string', (new Password)->length(8)], fn () => $this->options['password'] = null);
+        $password = $this->validateInput(fn () => $this->options['password'] ?? $this->secret('Password'), 'password', ['required', 'string', 'min:8'], fn () => $this->options['password'] = null);
 
         $createNewUser = new CreateNewUser();
 

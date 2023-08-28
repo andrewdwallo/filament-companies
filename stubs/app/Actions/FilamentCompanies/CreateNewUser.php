@@ -1,20 +1,17 @@
 <?php
 
-namespace App\Actions\Fortify;
+namespace App\Actions\FilamentCompanies;
 
 use App\Models\Company;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
-use Laravel\Fortify\Contracts\CreatesNewUsers;
+use Wallo\FilamentCompanies\Contracts\CreatesNewUsers;
 use Wallo\FilamentCompanies\Features;
-use Wallo\FilamentCompanies\FilamentCompanies;
 
 class CreateNewUser implements CreatesNewUsers
 {
-    use PasswordValidationRules;
-
     /**
      * Create a newly registered user.
      *
@@ -25,7 +22,7 @@ class CreateNewUser implements CreatesNewUsers
         Validator::make($input, [
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => $this->passwordRules(),
+            'password' => ['required', 'string', 'min:8', 'confirmed'],
             'terms' => Features::hasTermsAndPrivacyPolicyFeature() ? ['accepted', 'required'] : '',
         ])->validate();
 

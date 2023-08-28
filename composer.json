@@ -27,7 +27,6 @@
         "illuminate/console": "^10.0",
         "illuminate/contracts": "^10.0",
         "illuminate/support": "^10.0",
-        "laravel/fortify": "^1.15",
         "laravel/socialite": "^5.6",
         "matomo/device-detector": "^6.1"
     },
@@ -45,7 +44,6 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Wallo\\FilamentCompanies\\Tests\\": "tests/",
             "App\\": "stubs/app/",
             "Database\\Factories\\": "database/factories/"
         }

@@ -66,17 +66,6 @@
                 </x-filament::input.wrapper>
             </x-filament-forms::field-wrapper>
 
-            @if (!$this->user->hasVerifiedEmail() && Laravel\Fortify\Features::enabled(Laravel\Fortify\Features::emailVerification()))
-                <p class="mt-2 text-sm dark:text-white">
-                    {{ __('filament-companies::default.headings.profile.update_profile_information.verification_link_not_sent') }}
-
-                    <x-filament::button color="gray" size="sm" class="mt-2" wire:click.prevent="sendEmailVerification">
-                        {{ __('filament-companies::default.buttons.resend_verification_email') }}
-                    </x-filament::button>
-                </p>
-            @endif
-
-
             <div class="text-left">
                 <x-filament::button type="submit" wire:loading.attr="disabled" wire:target="photo">
                     {{ __('filament-companies::default.buttons.save') }}

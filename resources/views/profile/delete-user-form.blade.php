@@ -1,3 +1,7 @@
+@php
+    $modals = \Wallo\FilamentCompanies\FilamentCompanies::getModals();
+@endphp
+
 <x-filament-companies::grid-section md="2">
     <x-slot name="title">
         {{ __('filament-companies::default.grid_section_titles.delete_account') }}
@@ -14,7 +18,7 @@
             </p>
 
             <!-- Delete User Confirmation Modal -->
-            <x-filament::modal id="confirmingUserDeletion" icon="heroicon-o-exclamation-triangle" icon-color="danger" alignment="center" footer-actions-alignment="center" width="3xl">
+            <x-filament::modal id="confirmingUserDeletion" icon="heroicon-o-exclamation-triangle" icon-color="danger" alignment="{{ $modals['alignment'] }}" footer-actions-alignment="{{ $modals['formActionsAlignment'] }}" width="{{ $modals['width'] }}">
                 <x-slot name="trigger">
                     <div class="text-left">
                         <x-filament::button color="danger" wire:click="confirmUserDeletion" wire:loading.attr="disabled">
@@ -38,9 +42,11 @@
                 </x-filament-forms::field-wrapper>
 
                 <x-slot name="footerActions">
-                    <x-filament::button color="gray" x-on:click="$dispatch('close-modal', { id: 'confirmingUserDeletion' })" wire:loading.attr="disabled">
-                        {{ __('filament-companies::default.buttons.cancel') }}
-                    </x-filament::button>
+                    @if($modals['cancelButtonAction'])
+                        <x-filament::button color="gray" x-on:click="$dispatch('close-modal', { id: 'confirmingUserDeletion' })" wire:loading.attr="disabled">
+                            {{ __('filament-companies::default.buttons.cancel') }}
+                        </x-filament::button>
+                    @endif
 
                     <x-filament::button color="danger" wire:click="deleteUser" wire:loading.attr="disabled">
                         {{ __('filament-companies::default.buttons.delete_account') }}

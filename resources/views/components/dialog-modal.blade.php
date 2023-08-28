@@ -1,4 +1,4 @@
-@props(['id' => null, 'maxWidth' => config('filament-companies.layout.modals.dialog_modal_width', '2xl')])
+@props(['id' => null, 'maxWidth' =>  '2xl'])
 
 <x-filament-companies::modal :id="$id" :maxWidth="$maxWidth" {{ $attributes }}>
     <div class="filament-companies-dialog-modal-header-container space-y-4 p-4">

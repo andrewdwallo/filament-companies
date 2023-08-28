@@ -18,11 +18,6 @@ use Livewire\Component;
 class LogoutOtherBrowserSessionsForm extends Component
 {
     /**
-     * Indicates if logout is being confirmed.
-     */
-    public bool $confirmingLogout = false;
-
-    /**
      * The user's current password.
      */
     public string $password = '';
@@ -36,7 +31,7 @@ class LogoutOtherBrowserSessionsForm extends Component
 
         $this->dispatch('confirming-logout-other-browser-sessions');
 
-        $this->confirmingLogout = true;
+        $this->dispatch('open-modal', id: 'confirmingLogout');
     }
 
     /**
@@ -66,9 +61,9 @@ class LogoutOtherBrowserSessionsForm extends Component
             'password_hash_'.Auth::getDefaultDriver() => Auth::user()?->getAuthPassword(),
         ]);
 
-        $this->confirmingLogout = false;
-
         $this->browserSessionsTerminated();
+
+        $this->dispatch('close-modal', id: 'confirmingLogout');
     }
 
     /**

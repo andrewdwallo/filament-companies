@@ -1,3 +1,7 @@
+@php
+    $modals = \Wallo\FilamentCompanies\FilamentCompanies::getModals();
+@endphp
+
 <x-filament-companies::grid-section md="2">
     <x-slot name="title">
         {{ __('filament-companies::default.action_section_titles.connected_accounts') }}
@@ -54,25 +58,28 @@
             </div>
 
             <!-- Remove Connected Account Confirmation Modal -->
-            <x-filament-companies::dialog-modal wire:model="confirmingRemove">
-                <x-slot name="title">
+            <x-filament::modal id="confirmingRemove" icon="heroicon-o-exclamation-triangle" icon-color="danger" alignment="{{ $modals['alignment'] }}" footer-actions-alignment="{{ $modals['formActionsAlignment'] }}" width="{{ $modals['width'] }}">
+
+                <x-slot name="heading">
                     {{ __('filament-companies::default.modal_titles.remove_connected_account') }}
                 </x-slot>
 
-                <x-slot name="content">
+                <x-slot name="description">
                     {{ __('filament-companies::default.modal_descriptions.remove_connected_account') }}
                 </x-slot>
 
-                <x-slot name="footer">
-                    <x-filament::button color="gray" wire:click="$toggle('confirmingRemove')" wire:loading.attr="disabled">
-                        {{ __('filament-companies::default.buttons.cancel') }}
-                    </x-filament::button>
+                <x-slot name="footerActions">
+                    @if($modals['cancelButtonAction'])
+                        <x-filament::button color="gray" x-on:click="$dispatch('close-modal', { id: 'confirmingRemove' })" wire:loading.attr="disabled">
+                            {{ __('filament-companies::default.buttons.cancel') }}
+                        </x-filament::button>
+                    @endif
 
                     <x-filament::button color="danger" wire:click="removeConnectedAccount({{ $this->selectedAccountId }})" wire:loading.attr="disabled">
                         {{ __('filament-companies::default.buttons.remove_connected_account') }}
                     </x-filament::button>
                 </x-slot>
-            </x-filament-companies::dialog-modal>
+            </x-filament::modal>
         </div>
     </x-filament::section>
 </x-filament-companies::grid-section>

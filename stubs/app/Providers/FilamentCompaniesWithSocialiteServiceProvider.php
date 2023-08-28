@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Actions\FilamentCompanies\AddCompanyEmployee;
 use App\Actions\FilamentCompanies\CreateConnectedAccount;
+use App\Actions\FilamentCompanies\CreateNewUser;
 use App\Actions\FilamentCompanies\CreateUserFromProvider;
 use App\Actions\FilamentCompanies\DeleteCompany;
 use App\Actions\FilamentCompanies\DeleteUser;
@@ -14,6 +15,8 @@ use App\Actions\FilamentCompanies\ResolveSocialiteUser;
 use App\Actions\FilamentCompanies\SetUserPassword;
 use App\Actions\FilamentCompanies\UpdateCompanyName;
 use App\Actions\FilamentCompanies\UpdateConnectedAccount;
+use App\Actions\FilamentCompanies\UpdateUserPassword;
+use App\Actions\FilamentCompanies\UpdateUserProfileInformation;
 use Illuminate\Support\Facades\Auth;
 use Wallo\FilamentCompanies\Actions\GenerateRedirectForProvider;
 use Wallo\FilamentCompanies\Pages\Auth\Login;
@@ -56,6 +59,8 @@ class FilamentCompaniesServiceProvider extends PanelProvider
             ->plugin(
                 FilamentCompanies::make()
                     ->userPanel('admin')
+                    ->updateProfileInformation()
+                    ->updatePasswords()
                     ->profilePhotos()
                     ->api()
                     ->companies(invitations: true)
@@ -112,6 +117,10 @@ class FilamentCompaniesServiceProvider extends PanelProvider
     public function boot(): void
     {
         $this->configurePermissions();
+
+        FilamentCompanies::createUsersUsing(CreateNewUser::class);
+        FilamentCompanies::updateUserProfileInformationUsing(UpdateUserProfileInformation::class);
+        FilamentCompanies::updateUserPasswordsUsing(UpdateUserPassword::class);
 
         FilamentCompanies::createCompaniesUsing(CreateCompany::class);
         FilamentCompanies::updateCompanyNamesUsing(UpdateCompanyName::class);

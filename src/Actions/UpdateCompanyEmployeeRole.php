@@ -2,7 +2,6 @@
 
 namespace Wallo\FilamentCompanies\Actions;
 
-use Filament\Notifications\Notification;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Validator;

@@ -1,21 +1,13 @@
 <x-filament-panels::page>
-    @if (Laravel\Fortify\Features::canUpdateProfileInformation())
+    @if (Wallo\FilamentCompanies\Features::canUpdateProfileInformation())
         @livewire(Wallo\FilamentCompanies\Http\Livewire\UpdateProfileInformationForm::class)
         <x-filament-companies::section-border />
     @endif
 
-    @if ($user->password !== null && Laravel\Fortify\Features::enabled(Laravel\Fortify\Features::updatePasswords()))
+    @if ($user->password !== null && Wallo\FilamentCompanies\Features::canUpdatePasswords())
         @livewire(Wallo\FilamentCompanies\Http\Livewire\UpdatePasswordForm::class)
     @else
         @livewire(Wallo\FilamentCompanies\Http\Livewire\SetPasswordForm::class)
-    @endif
-
-    @if($user->password !== null)
-        <x-filament-companies::section-border />
-    @endif
-
-    @if ($user->password !== null && Laravel\Fortify\Features::canManageTwoFactorAuthentication())
-        @livewire(Wallo\FilamentCompanies\Http\Livewire\TwoFactorAuthenticationForm::class)
     @endif
 
     @if (Wallo\FilamentCompanies\Socialite::hasSocialiteFeatures())

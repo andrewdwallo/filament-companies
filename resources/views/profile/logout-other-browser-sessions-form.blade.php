@@ -1,3 +1,7 @@
+@php
+    $modals = \Wallo\FilamentCompanies\FilamentCompanies::getModals();
+@endphp
+
 <x-filament-companies::grid-section md="2">
     <x-slot name="title">
         {{ __('filament-companies::default.grid_section_titles.browser_sessions') }}
@@ -57,7 +61,7 @@
             @endif
 
             <!-- Log Out Other Devices Confirmation Modal -->
-            <x-filament::modal id="confirmingLogout" icon="heroicon-o-information-circle" icon-color="primary" alignment="center" footer-actions-alignment="center" width="3xl">
+            <x-filament::modal id="confirmingLogout" icon="heroicon-o-information-circle" icon-color="primary" alignment="{{ $modals['alignment'] }}" footer-actions-alignment="{{ $modals['formActionsAlignment'] }}" width="{{ $modals['width'] }}">
 
                 <x-slot name="trigger">
                     <div class="text-left">
@@ -82,9 +86,11 @@
                 </x-filament-forms::field-wrapper>
 
                 <x-slot name="footerActions">
-                    <x-filament::button color="gray" x-on:click="$dispatch('close-modal', { id: 'confirmingLogout' })" wire:loading.attr="disabled">
-                        {{ __('filament-companies::default.buttons.cancel') }}
-                    </x-filament::button>
+                    @if($modals['cancelButtonAction'])
+                        <x-filament::button color="gray" x-on:click="$dispatch('close-modal', { id: 'confirmingLogout' })" wire:loading.attr="disabled">
+                            {{ __('filament-companies::default.buttons.cancel') }}
+                        </x-filament::button>
+                    @endif
 
                     <x-filament::button wire:click="logoutOtherBrowserSessions" wire:loading.attr="disabled">
                         {{ __('filament-companies::default.buttons.logout_browser_sessions') }}

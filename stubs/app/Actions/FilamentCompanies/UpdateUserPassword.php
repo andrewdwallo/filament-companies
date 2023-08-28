@@ -1,16 +1,14 @@
 <?php
 
-namespace App\Actions\Fortify;
+namespace App\Actions\FilamentCompanies;
 
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
-use Laravel\Fortify\Contracts\UpdatesUserPasswords;
+use Wallo\FilamentCompanies\Contracts\UpdatesUserPasswords;
 
 class UpdateUserPassword implements UpdatesUserPasswords
 {
-    use PasswordValidationRules;
-
     /**
      * Validate and update the user's password.
      *
@@ -20,7 +18,7 @@ class UpdateUserPassword implements UpdatesUserPasswords
     {
         Validator::make($input, [
             'current_password' => ['required', 'string', 'current_password:web'],
-            'password' => $this->passwordRules(),
+            'password' => ['required', 'string', 'min:8', 'confirmed'],
         ], [
             'current_password.current_password' => __('filament-companies::default.errors.password_does_not_match'),
         ])->validateWithBag('updatePassword');
