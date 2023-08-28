@@ -2,7 +2,7 @@
 
 namespace Wallo\FilamentCompanies\Http\Livewire;
 
-use Illuminate\Contracts\Auth\StatefulGuard;
+use Filament\Facades\Filament;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
@@ -36,9 +36,11 @@ class DeleteUserForm extends Component
     /**
      * Delete the current user.
      */
-    public function deleteUser(DeletesUsers $deleter, StatefulGuard $auth): RedirectResponse|Redirector
+    public function deleteUser(DeletesUsers $deleter): RedirectResponse|Redirector
     {
         $this->resetErrorBag();
+
+        $auth = Filament::auth();
 
         if (! Hash::check($this->password, Auth::user()->password)) {
             throw ValidationException::withMessages([
@@ -55,7 +57,7 @@ class DeleteUserForm extends Component
             session()->regenerateToken();
         }
 
-        return redirect(url(filament()->getLogoutUrl()));
+        return redirect()->to(Filament::hasLogin() ? Filament::getLoginUrl() : Filament::getUrl());
     }
 
     /**

@@ -66,6 +66,7 @@ class FilamentCompaniesServiceProvider extends PanelProvider
                     ->companies(invitations: true)
                     ->termsAndPrivacyPolicy()
                     ->accountDeletion()
+                    ->modals()
                     ->socialite(
                         providers: [Providers::github()],
                         features: [Socialite::rememberSession(), Socialite::providerAvatars()]

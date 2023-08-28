@@ -3,9 +3,9 @@
 namespace Wallo\FilamentCompanies\Http\Livewire;
 
 use DeviceDetector\DeviceDetector;
+use Filament\Facades\Filament;
 use Filament\Notifications\Notification;
 use Illuminate\Auth\AuthenticationException;
-use Illuminate\Contracts\Auth\StatefulGuard;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
@@ -39,13 +39,15 @@ class LogoutOtherBrowserSessionsForm extends Component
      *
      * @throws AuthenticationException
      */
-    public function logoutOtherBrowserSessions(StatefulGuard $guard): void
+    public function logoutOtherBrowserSessions(): void
     {
         if (config('session.driver') !== 'database') {
             return;
         }
 
         $this->resetErrorBag();
+
+        $guard = Filament::auth();
 
         if (! Hash::check($this->password, Auth::user()->password)) {
             throw ValidationException::withMessages([

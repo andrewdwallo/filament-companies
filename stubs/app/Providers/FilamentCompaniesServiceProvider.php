@@ -56,7 +56,8 @@ class FilamentCompaniesServiceProvider extends PanelProvider
                     ->api()
                     ->companies(invitations: true)
                     ->termsAndPrivacyPolicy()
-                    ->accountDeletion(),
+                    ->accountDeletion()
+                    ->modals(),
             )
             ->registration(Register::class)
             ->colors([
