@@ -2,7 +2,7 @@
 
 namespace Wallo\FilamentCompanies\Http\Livewire;
 
-use Illuminate\Contracts\Auth\StatefulGuard;
+use Filament\Facades\Filament;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
@@ -14,11 +14,6 @@ use Wallo\FilamentCompanies\Contracts\DeletesUsers;
 
 class DeleteUserForm extends Component
 {
-    /**
-     * Indicates if user deletion is being confirmed.
-     */
-    public bool $confirmingUserDeletion = false;
-
     /**
      * The user's current password.
      */
@@ -35,15 +30,17 @@ class DeleteUserForm extends Component
 
         $this->dispatch('confirming-delete-user');
 
-        $this->confirmingUserDeletion = true;
+        $this->dispatch('open-modal', id: 'confirmingUserDeletion');
     }
 
     /**
      * Delete the current user.
      */
-    public function deleteUser(DeletesUsers $deleter, StatefulGuard $auth): RedirectResponse|Redirector
+    public function deleteUser(DeletesUsers $deleter): RedirectResponse|Redirector
     {
         $this->resetErrorBag();
+
+        $auth = Filament::auth();
 
         if (! Hash::check($this->password, Auth::user()->password)) {
             throw ValidationException::withMessages([
@@ -60,7 +57,15 @@ class DeleteUserForm extends Component
             session()->regenerateToken();
         }
 
-        return redirect(config('fortify.redirects.logout') ?? '/');
+        return redirect()->to(Filament::hasLogin() ? Filament::getLoginUrl() : Filament::getUrl());
+    }
+
+    /**
+     * Cancel the user deletion.
+     */
+    public function cancelUserDeletion(): void
+    {
+        $this->dispatch('close-modal', id: 'confirmingUserDeletion');
     }
 
     /**

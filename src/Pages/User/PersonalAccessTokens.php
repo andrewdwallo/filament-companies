@@ -131,7 +131,7 @@ class PersonalAccessTokens extends Page implements Tables\Contracts\HasTable
         return [
             Action::make('create')
                 ->label(__('filament-companies::default.buttons.create_token'))
-                ->modalWidth(config('filament-companies.layout.modals.tokens.create_modal_width'))
+                ->modalWidth(FilamentCompanies::getModals()['width'])
                 ->action(function (array $data) use ($permissions) {
                     $name = $data['name'];
                     $abilities = array_values($data['abilities']);
@@ -159,9 +159,17 @@ class PersonalAccessTokens extends Page implements Tables\Contracts\HasTable
 
     protected function displayTokenValue($token): void
     {
-        $this->displayingToken = true;
+        $this->dispatch('open-modal', id: 'displayingToken');
         $this->plainTextToken = explode('|', $token->plainTextToken, 2)[1];
         $this->dispatch('showing-token-modal');
+    }
+
+    /**
+     * Cancel displaying the token value to the user.
+     */
+    public function cancelDisplayingToken(): void
+    {
+        $this->dispatch('close-modal', id: 'displayingToken');
     }
 
     protected function tokenCreatedNotification($name): void
@@ -184,7 +192,7 @@ class PersonalAccessTokens extends Page implements Tables\Contracts\HasTable
             Tables\Actions\Action::make('edit')
                 ->label(__('filament-companies::default.buttons.edit'))
                 ->icon('heroicon-o-pencil')
-                ->modalWidth(config('filament-companies.layout.modals.tokens.edit_modal_width'))
+                ->modalWidth(FilamentCompanies::getModals()['width'])
                 ->mountUsing(static function ($form, $record) {
                     $form->fill($record->toArray());
                 })
@@ -241,7 +249,7 @@ class PersonalAccessTokens extends Page implements Tables\Contracts\HasTable
                     $records->each(static fn ($record) => $record->delete());
                 })
                 ->requiresConfirmation()
-                ->modalWidth(config('filament-companies.layout.modals.tokens.revoke_modal_width'))
+                ->modalWidth(FilamentCompanies::getModals()['width'])
                 ->modalHeading(__('filament-companies::default.modal_titles.revoke_tokens'))
                 ->modalDescription(__('filament-companies::default.modal_descriptions.revoke_tokens'))
                 ->modalSubmitActionLabel(__('filament-companies::default.buttons.revoke'))

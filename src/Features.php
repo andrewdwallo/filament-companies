@@ -7,6 +7,16 @@ use Closure;
 class Features
 {
     /**
+     * Determine if the application can update a user's profile information.
+     */
+    public static bool $canUpdateProfileInformation = false;
+
+    /**
+     * Determine if the application can update a user's password.
+     */
+    public static bool $canUpdatePasswords = false;
+
+    /**
      * Determine if the company is managing profile photos.
      */
     public static bool $managesProfilePhotos = false;
@@ -45,6 +55,26 @@ class Features
      * Determine if the application is using any account deletion features.
      */
     public static bool $hasAccountDeletionFeatures = false;
+
+    /**
+     * Determine if the application supports updating profile information.
+     */
+    public function updateProfileInformation(bool|Closure|null $condition = true): static
+    {
+        static::$canUpdateProfileInformation = $condition instanceof Closure ? $condition() : $condition;
+
+        return $this;
+    }
+
+    /**
+     * Determine if the application supports updating user passwords.
+     */
+    public function updatePasswords(bool|Closure|null $condition = true): static
+    {
+        static::$canUpdatePasswords = $condition instanceof Closure ? $condition() : $condition;
+
+        return $this;
+    }
 
     /**
      * Determine if the company is managing profile photos.
@@ -97,6 +127,22 @@ class Features
         static::$hasAccountDeletionFeatures = $condition instanceof Closure ? $condition() : $condition;
 
         return $this;
+    }
+
+    /**
+     * Determine if the application can update a user's profile information.
+     */
+    public static function canUpdateProfileInformation(): bool
+    {
+        return static::$canUpdateProfileInformation;
+    }
+
+    /**
+     * Determine if the application can update a user's password.
+     */
+    public static function canUpdatePasswords(): bool
+    {
+        return static::$canUpdatePasswords;
     }
 
     /**

@@ -6,7 +6,7 @@ use Filament\Notifications\Notification;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Auth;
-use Laravel\Fortify\Contracts\UpdatesUserPasswords;
+use Wallo\FilamentCompanies\Contracts\UpdatesUserPasswords;
 use Livewire\Component;
 
 class UpdatePasswordForm extends Component

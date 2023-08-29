@@ -1,3 +1,7 @@
+@php
+    $modals = \Wallo\FilamentCompanies\FilamentCompanies::getModals();
+@endphp
+
 <div>
     @if (Gate::check('addCompanyEmployee', $company))
         <x-filament-companies::section-border />
@@ -45,10 +49,9 @@
                                                     {{ $role->name }}
                                                 </div>
 
-                                                <svg class="text-primary-500 ml-2 h-5 w-5" x-cloak :class="{ 'hidden': role !== '{{ $role->key }}' }"
-                                                     xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-                                                    <path fill-rule="evenodd" d="M8.603 3.799A4.49 4.49 0 0112 2.25c1.357 0 2.573.6 3.397 1.549a4.49 4.49 0 013.498 1.307 4.491 4.491 0 011.307 3.497A4.49 4.49 0 0121.75 12a4.49 4.49 0 01-1.549 3.397 4.491 4.491 0 01-1.307 3.497 4.491 4.491 0 01-3.497 1.307A4.49 4.49 0 0112 21.75a4.49 4.49 0 01-3.397-1.549 4.49 4.49 0 01-3.498-1.306 4.491 4.491 0 01-1.307-3.498A4.49 4.49 0 012.25 12c0-1.357.6-2.573 1.549-3.397a4.49 4.49 0 011.307-3.497 4.49 4.49 0 013.497-1.307zm7.007 6.387a.75.75 0 10-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 00-1.06 1.06l2.25 2.25a.75.75 0 001.14-.094l3.75-5.25z" clip-rule="evenodd" />
-                                                </svg>
+                                                <div x-cloak :class="{ 'hidden': role !== '{{ $role->key }}' }">
+                                                    <x-heroicon-o-check-badge class="text-primary-500 ml-2 h-5 w-5" />
+                                                </div>
                                             </div>
 
                                             <!-- Role Description -->
@@ -151,7 +154,7 @@
                             <td colspan="2" class="px-6 py-4 text-left whitespace-nowrap">
                                 <div class="flex items-center text-sm">
                                     <div class="flex-shrink-0">
-                                        <img class="h-10 w-10 rounded-full object-cover" src="{{ $user->profile_photo_url }}" alt="{{ $user->name }}">
+                                        <x-filament-panels::avatar.user :user="$user" size="lg" />
                                     </div>
                                     <div class="ml-4">
                                         <div class="font-medium text-gray-900 dark:text-gray-200">{{ $user->name }}</div>
@@ -174,7 +177,7 @@
 
                                     <!-- Leave Company -->
                                     @if ($this->user->id === $user->id)
-                                        <x-filament::button size="sm" color="danger" wire:click="$toggle('confirmingLeavingCompany')">
+                                        <x-filament::button size="sm" color="danger" wire:click="confirmLeavingCompany">
                                             {{ __('filament-companies::default.buttons.leave') }}
                                         </x-filament::button>
 
@@ -195,96 +198,99 @@
     @endif
 
     <!-- Role Management Modal -->
-    <x-filament-companies::dialog-modal wire:model.live="currentlyManagingRole">
-        <x-slot name="title">
+    <x-filament::modal id="currentlyManagingRole" icon="heroicon-o-shield-check" icon-color="primary" alignment="{{ $modals['alignment'] }}" footer-actions-alignment="{{ $modals['formActionsAlignment'] }}" width="{{ $modals['width'] }}">
+        <x-slot name="heading">
             {{ __('filament-companies::default.modal_titles.manage_role') }}
         </x-slot>
 
-        <x-slot name="content">
-            <div x-data="{ role: @entangle('currentRole').live }"
-                 class="relative z-0 mt-1 cursor-pointer rounded-lg border border-gray-200 dark:border-gray-700">
-                @foreach ($this->roles as $index => $role)
-                    <button type="button"
-                            @click="role = '{{ $role->key }}'"
-                            @class([
-                                'relative inline-flex w-full rounded-lg px-4 py-3 transition focus:z-10 focus:outline-none focus:ring-2 focus:border-primary-500 focus:ring-primary-500 dark:focus:border-primary-600 dark:focus:ring-primary-600',
-                                'border-t border-gray-200 dark:border-gray-700 rounded-t-none' => ($index > 0),
-                                'rounded-b-none' => (! $loop->last),
-                            ])
-                    >
-                        <div :class="role === '{{ $role->key }}' || 'opacity-50'">
-                            <!-- Role Name -->
-                            <div class="flex items-center">
-                                <div class="text-sm text-gray-600 dark:text-gray-100" :class="role === '{{ $role->key }}' ? 'font-semibold' : ''">
-                                    {{ $role->name }}
-                                </div>
-
-                                <svg class="text-primary-500 ml-2 h-5 w-5" x-cloak :class="{ 'hidden': role !== '{{ $role->key }}' }"
-                                     xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-                                    <path fill-rule="evenodd" d="M8.603 3.799A4.49 4.49 0 0112 2.25c1.357 0 2.573.6 3.397 1.549a4.49 4.49 0 013.498 1.307 4.491 4.491 0 011.307 3.497A4.49 4.49 0 0121.75 12a4.49 4.49 0 01-1.549 3.397 4.491 4.491 0 01-1.307 3.497 4.491 4.491 0 01-3.497 1.307A4.49 4.49 0 0112 21.75a4.49 4.49 0 01-3.397-1.549 4.49 4.49 0 01-3.498-1.306 4.491 4.491 0 01-1.307-3.498A4.49 4.49 0 012.25 12c0-1.357.6-2.573 1.549-3.397a4.49 4.49 0 011.307-3.497 4.49 4.49 0 013.497-1.307zm7.007 6.387a.75.75 0 10-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 00-1.06 1.06l2.25 2.25a.75.75 0 001.14-.094l3.75-5.25z" clip-rule="evenodd" />
-                                </svg>
+        <div x-data="{ role: @entangle('currentRole').live }"
+             class="relative z-0 mt-1 cursor-pointer rounded-lg border border-gray-200 dark:border-gray-700">
+            @foreach ($this->roles as $index => $role)
+                <button type="button"
+                        @click="role = '{{ $role->key }}'"
+                        @class([
+                            'relative inline-flex w-full rounded-lg px-4 py-3 transition focus:z-10 focus:outline-none focus:ring-2 focus:border-primary-500 focus:ring-primary-500 dark:focus:border-primary-600 dark:focus:ring-primary-600',
+                            'border-t border-gray-200 dark:border-gray-700 rounded-t-none' => ($index > 0),
+                            'rounded-b-none' => (! $loop->last),
+                        ])
+                >
+                    <div :class="role === '{{ $role->key }}' || 'opacity-50'">
+                        <!-- Role Name -->
+                        <div class="flex items-center">
+                            <div class="text-sm text-gray-600 dark:text-gray-100" :class="role === '{{ $role->key }}' ? 'font-semibold' : ''">
+                                {{ $role->name }}
                             </div>
 
-                            <!-- Role Description -->
-                            <div class="mt-2 text-xs text-gray-600 dark:text-gray-400">
-                                {{ $role->description }}
+                            <div x-cloak :class="{ 'hidden': role !== '{{ $role->key }}' }">
+                                <x-heroicon-o-check-badge class="text-primary-500 ml-2 h-5 w-5" />
                             </div>
                         </div>
-                    </button>
-                @endforeach
-            </div>
-        </x-slot>
 
-        <x-slot name="footer">
-            <x-filament::button color="gray" wire:click="stopManagingRole" wire:loading.attr="disabled">
-                {{ __('filament-companies::default.buttons.cancel') }}
-            </x-filament::button>
+                        <!-- Role Description -->
+                        <div class="mt-2 text-xs text-gray-600 dark:text-gray-400">
+                            {{ $role->description }}
+                        </div>
+                    </div>
+                </button>
+            @endforeach
+        </div>
 
-            <x-filament::button wire:click="updateRole" wire:loading.attr="disabled">
+        <x-slot name="footerActions">
+            @if($modals['cancelButtonAction'])
+                <x-filament::button color="gray" wire:click="stopManagingRole">
+                    {{ __('filament-companies::default.buttons.cancel') }}
+                </x-filament::button>
+            @endif
+
+            <x-filament::button wire:click="updateRole">
                 {{ __('filament-companies::default.buttons.save') }}
             </x-filament::button>
         </x-slot>
-    </x-filament-companies::dialog-modal>
+    </x-filament::modal>
 
     <!-- Leave Company Confirmation Modal -->
-    <x-filament-companies::dialog-modal wire:model.live="confirmingLeavingCompany">
-        <x-slot name="title">
+    <x-filament::modal id="confirmingLeavingCompany" icon="heroicon-o-exclamation-triangle" icon-color="danger" alignment="{{ $modals['alignment'] }}" footer-actions-alignment="{{ $modals['formActionsAlignment'] }}" width="{{ $modals['width'] }}">
+        <x-slot name="heading">
             {{ __('filament-companies::default.modal_titles.leave_company') }}
         </x-slot>
 
-        <x-slot name="content">
+        <x-slot name="description">
             {{ __('filament-companies::default.modal_descriptions.leave_company') }}
         </x-slot>
 
-        <x-slot name="footer">
-            <x-filament::button color="gray" wire:click="$toggle('confirmingLeavingCompany')" wire:loading.attr="disabled">
-                {{ __('filament-companies::default.buttons.cancel') }}
-            </x-filament::button>
+        <x-slot name="footerActions">
+            @if($modals['cancelButtonAction'])
+                <x-filament::button color="gray" wire:click="cancelLeavingCompany">
+                    {{ __('filament-companies::default.buttons.cancel') }}
+                </x-filament::button>
+            @endif
 
-            <x-filament::button color="danger" wire:click="leaveCompany" wire:loading.attr="disabled">
+            <x-filament::button color="danger" wire:click="leaveCompany">
                 {{ __('filament-companies::default.buttons.leave') }}
             </x-filament::button>
         </x-slot>
-    </x-filament-companies::dialog-modal>
+    </x-filament::modal>
 
     <!-- Remove Company Employee Confirmation Modal -->
-    <x-filament-companies::dialog-modal wire:model.live="confirmingCompanyEmployeeRemoval">
-        <x-slot name="title">
+    <x-filament::modal id="confirmingCompanyEmployeeRemoval" icon="heroicon-o-exclamation-triangle" icon-color="danger" alignment="{{ $modals['alignment'] }}" footer-actions-alignment="{{ $modals['formActionsAlignment'] }}" width="{{ $modals['width'] }}">
+        <x-slot name="heading">
             {{ __('filament-companies::default.modal_titles.remove_company_employee') }}
         </x-slot>
 
-        <x-slot name="content">
+        <x-slot name="description">
             {{ __('filament-companies::default.modal_descriptions.remove_company_employee') }}
         </x-slot>
 
-        <x-slot name="footer">
-            <x-filament::button color="gray" wire:click="$toggle('confirmingCompanyEmployeeRemoval')" wire:loading.attr="disabled">
-                {{ __('filament-companies::default.buttons.cancel') }}
-            </x-filament::button>
+        <x-slot name="footerActions">
+            @if($modals['cancelButtonAction'])
+                <x-filament::button color="gray" wire:click="cancelCompanyEmployeeRemoval">
+                    {{ __('filament-companies::default.buttons.cancel') }}
+                </x-filament::button>
+            @endif
 
-            <x-filament::button color="danger" wire:click="removeCompanyEmployee" wire:loading.attr="disabled">
+            <x-filament::button color="danger" wire:click="removeCompanyEmployee">
                 {{ __('filament-companies::default.buttons.remove') }}
             </x-filament::button>
         </x-slot>
-    </x-filament-companies::dialog-modal>
+    </x-filament::modal>
 </div>

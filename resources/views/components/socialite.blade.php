@@ -23,7 +23,7 @@
     <div class="filament-companies-socialite-button-container mt-6 flex flex-wrap items-center justify-center gap-6">
         @foreach ($providers as $iconKey => $provider)
             @php
-                $icon = $iconKey === Providers::twitterOAuth2() ? Providers::twitter() : $iconKey;
+                $icon = $iconKey === 'twitter-oauth-2' ? 'twitter' : $iconKey;
             @endphp
             @if ($provider['method'])
                 <a href="{{ route('filament.company.oauth.redirect', ['provider' => $iconKey]) }}"
@@ -37,3 +37,4 @@
         @endforeach
     </div>
 </div>
+

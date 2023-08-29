@@ -4,16 +4,13 @@ namespace Wallo\FilamentCompanies;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\View\Compilers\BladeCompiler;
-use Laravel\Fortify\Fortify;
 use Livewire\Livewire;
 use Wallo\FilamentCompanies\Http\Livewire\CompanyEmployeeManager;
 use Wallo\FilamentCompanies\Http\Livewire\ConnectedAccountsForm;
-use Wallo\FilamentCompanies\Http\Livewire\CreateCompanyForm;
 use Wallo\FilamentCompanies\Http\Livewire\DeleteCompanyForm;
 use Wallo\FilamentCompanies\Http\Livewire\DeleteUserForm;
 use Wallo\FilamentCompanies\Http\Livewire\LogoutOtherBrowserSessionsForm;
 use Wallo\FilamentCompanies\Http\Livewire\SetPasswordForm;
-use Wallo\FilamentCompanies\Http\Livewire\TwoFactorAuthenticationForm;
 use Wallo\FilamentCompanies\Http\Livewire\UpdateCompanyNameForm;
 use Wallo\FilamentCompanies\Http\Livewire\UpdatePasswordForm;
 use Wallo\FilamentCompanies\Http\Livewire\UpdateProfileInformationForm;
@@ -25,18 +22,14 @@ class FilamentCompaniesServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        $this->mergeConfigFrom(__DIR__.'/../config/filament-companies.php', 'filament-companies');
-
         $this->app->afterResolving(BladeCompiler::class, static function () {
-            if (class_exists(Livewire::class) && config('filament-companies.stack') === 'filament') {
+            if (class_exists(Livewire::class)) {
                 Livewire::component('update-profile-information-form', UpdateProfileInformationForm::class);
                 Livewire::component('update-password-form', UpdatePasswordForm::class);
-                Livewire::component('two-factor-authentication-form', TwoFactorAuthenticationForm::class);
                 Livewire::component('logout-other-browser-sessions-form', LogoutOtherBrowserSessionsForm::class);
                 Livewire::component('delete-user-form', DeleteUserForm::class);
 
                 if (Features::hasCompanyFeatures()) {
-                    Livewire::component('create-company-form', CreateCompanyForm::class);
                     Livewire::component('update-company-name-form', UpdateCompanyNameForm::class);
                     Livewire::component('company-employee-manager', CompanyEmployeeManager::class);
                     Livewire::component('delete-company-form', DeleteCompanyForm::class);
@@ -59,8 +52,6 @@ class FilamentCompaniesServiceProvider extends ServiceProvider
 
         $this->loadTranslationsFrom(__DIR__.'/../lang', 'filament-companies');
 
-        Fortify::viewPrefix('filament-companies::auth.');
-
         // $this->configureComponents();
         $this->configurePublishing();
         $this->configureRoutes();
@@ -75,10 +66,6 @@ class FilamentCompaniesServiceProvider extends ServiceProvider
         if (! $this->app->runningInConsole()) {
             return;
         }
-
-        $this->publishes([
-            __DIR__.'/../stubs/config/filament-companies.php' => config_path('filament-companies.php'),
-        ], 'filament-companies-config');
 
         $this->publishes([
             __DIR__.'/../resources/views' => resource_path('views/vendor/filament-companies'),

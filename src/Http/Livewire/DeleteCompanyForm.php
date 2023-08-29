@@ -25,11 +25,6 @@ class DeleteCompanyForm extends Component
     public mixed $company;
 
     /**
-     * Indicates if company deletion is being confirmed.
-     */
-    public bool $confirmingCompanyDeletion = false;
-
-    /**
      * Mount the component.
      */
     public function mount(mixed $company): void
@@ -55,6 +50,14 @@ class DeleteCompanyForm extends Component
         $this->company = null;
 
         return $this->redirectPath($deleter);
+    }
+
+    /**
+     * Cancel the company deletion.
+     */
+    public function cancelCompanyDeletion(): void
+    {
+        $this->dispatch('close-modal', id: 'confirmingCompanyDeletion');
     }
 
     /**

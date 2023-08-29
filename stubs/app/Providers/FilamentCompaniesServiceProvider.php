@@ -3,11 +3,14 @@
 namespace App\Providers;
 
 use App\Actions\FilamentCompanies\AddCompanyEmployee;
+use App\Actions\FilamentCompanies\CreateNewUser;
 use App\Actions\FilamentCompanies\DeleteCompany;
 use App\Actions\FilamentCompanies\DeleteUser;
 use App\Actions\FilamentCompanies\InviteCompanyEmployee;
 use App\Actions\FilamentCompanies\RemoveCompanyEmployee;
 use App\Actions\FilamentCompanies\UpdateCompanyName;
+use App\Actions\FilamentCompanies\UpdateUserPassword;
+use App\Actions\FilamentCompanies\UpdateUserProfileInformation;
 use Illuminate\Support\Facades\Auth;
 use Wallo\FilamentCompanies\Pages\Auth\Login;
 use Wallo\FilamentCompanies\Pages\Company\CompanySettings;
@@ -47,11 +50,14 @@ class FilamentCompaniesServiceProvider extends PanelProvider
             ->plugin(
                 FilamentCompanies::make()
                     ->userPanel('admin')
+                    ->updateProfileInformation()
+                    ->updatePasswords()
+                    ->accountDeletion()
                     ->profilePhotos()
                     ->api()
                     ->companies(invitations: true)
                     ->termsAndPrivacyPolicy()
-                    ->accountDeletion(),
+                    ->modals(),
             )
             ->registration(Register::class)
             ->colors([
@@ -99,6 +105,10 @@ class FilamentCompaniesServiceProvider extends PanelProvider
     public function boot(): void
     {
         $this->configurePermissions();
+
+        FilamentCompanies::createUsersUsing(CreateNewUser::class);
+        FilamentCompanies::updateUserProfileInformationUsing(UpdateUserProfileInformation::class);
+        FilamentCompanies::updateUserPasswordsUsing(UpdateUserPassword::class);
 
         FilamentCompanies::createCompaniesUsing(CreateCompany::class);
         FilamentCompanies::updateCompanyNamesUsing(UpdateCompanyName::class);

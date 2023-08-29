@@ -18,11 +18,6 @@ use Wallo\FilamentCompanies\Socialite;
 class ConnectedAccountsForm extends Component
 {
     /**
-     * Indicates whether removal of a provider is being confirmed.
-     */
-    public bool $confirmingRemove = false;
-
-    /**
      * The ID of the currently connected account.
      */
     public string|int $selectedAccountId = '';
@@ -50,7 +45,7 @@ class ConnectedAccountsForm extends Component
     {
         $this->selectedAccountId = $accountId;
 
-        $this->confirmingRemove = true;
+        $this->dispatch('open-modal', id: 'confirmingRemove');
     }
 
     /**
@@ -80,9 +75,17 @@ class ConnectedAccountsForm extends Component
             ->where('id', $accountId)
             ->delete();
 
-        $this->confirmingRemove = false;
-
         $this->connectedAccountRemoved();
+
+        $this->dispatch('close-modal', id: 'confirmingRemove');
+    }
+
+    /**
+     * Cancel the connected account removal.
+     */
+    public function cancelConnectedAccountRemoval(): void
+    {
+        $this->dispatch('close-modal', id: 'confirmingRemove');
     }
 
     /**

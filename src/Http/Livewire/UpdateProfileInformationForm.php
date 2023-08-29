@@ -7,10 +7,10 @@ use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
-use Laravel\Fortify\Contracts\UpdatesUserProfileInformation;
 use Livewire\Component;
 use Livewire\Features\SupportRedirects\Redirector;
 use Livewire\WithFileUploads;
+use Wallo\FilamentCompanies\Contracts\UpdatesUserProfileInformation;
 use Wallo\FilamentCompanies\Pages\User\Profile;
 
 class UpdateProfileInformationForm extends Component

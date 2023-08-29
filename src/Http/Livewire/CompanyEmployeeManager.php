@@ -31,11 +31,6 @@ class CompanyEmployeeManager extends Component
     public mixed $company;
 
     /**
-     * Indicates if a user's role is currently being managed.
-     */
-    public bool $currentlyManagingRole = false;
-
-    /**
      * The user that is having their role managed.
      */
     public mixed $managingRoleFor;
@@ -44,16 +39,6 @@ class CompanyEmployeeManager extends Component
      * The current role for the user that is having their role managed.
      */
     public string $currentRole;
-
-    /**
-     * Indicates if the application is confirming if a user wishes to leave the current company.
-     */
-    public bool $confirmingLeavingCompany = false;
-
-    /**
-     * Indicates if the application is confirming if a company employee should be removed.
-     */
-    public bool $confirmingCompanyEmployeeRemoval = false;
 
     /**
      * The ID of the company employee being removed.
@@ -132,7 +117,7 @@ class CompanyEmployeeManager extends Component
      */
     public function manageRole(int $userId): void
     {
-        $this->currentlyManagingRole = true;
+        $this->dispatch('open-modal', id: 'currentlyManagingRole');
         $this->managingRoleFor = FilamentCompanies::findUserByIdOrFail($userId);
         $this->currentRole = $this->managingRoleFor->companyRole($this->company)->key;
     }
@@ -153,7 +138,7 @@ class CompanyEmployeeManager extends Component
 
         $this->company = $this->company->fresh();
 
-        $this->stopManagingRole();
+        $this->dispatch('close-modal', id: 'currentlyManagingRole');
     }
 
     /**
@@ -161,7 +146,15 @@ class CompanyEmployeeManager extends Component
      */
     public function stopManagingRole(): void
     {
-        $this->currentlyManagingRole = false;
+        $this->dispatch('close-modal', id: 'currentlyManagingRole');
+    }
+
+    /**
+     * Confirm that the currently authenticated user should leave the company.
+     */
+    public function confirmLeavingCompany(): void
+    {
+        $this->dispatch('open-modal', id: 'confirmingLeavingCompany');
     }
 
     /**
@@ -175,7 +168,7 @@ class CompanyEmployeeManager extends Component
             $this->user
         );
 
-        $this->confirmingLeavingCompany = false;
+        $this->dispatch('close-modal', id: 'confirmingLeavingCompany');
 
         $this->company = $this->company->fresh();
 
@@ -183,12 +176,19 @@ class CompanyEmployeeManager extends Component
     }
 
     /**
+     * Cancel leaving the company.
+     */
+    public function cancelLeavingCompany(): void
+    {
+        $this->dispatch('close-modal', id: 'confirmingLeavingCompany');
+    }
+
+    /**
      * Confirm that the given company employee should be removed.
      */
     public function confirmCompanyEmployeeRemoval(int $userId): void
     {
-        $this->confirmingCompanyEmployeeRemoval = true;
-
+        $this->dispatch('open-modal', id: 'confirmingCompanyEmployeeRemoval');
         $this->companyEmployeeIdBeingRemoved = $userId;
     }
 
@@ -203,11 +203,19 @@ class CompanyEmployeeManager extends Component
             $user = FilamentCompanies::findUserByIdOrFail($this->companyEmployeeIdBeingRemoved)
         );
 
-        $this->confirmingCompanyEmployeeRemoval = false;
+        $this->dispatch('close-modal', id: 'confirmingCompanyEmployeeRemoval');
 
         $this->companyEmployeeIdBeingRemoved = null;
 
         $this->company = $this->company->fresh();
+    }
+
+    /**
+     * Cancel the removal of a company employee.
+     */
+    public function cancelCompanyEmployeeRemoval(): void
+    {
+        $this->dispatch('close-modal', id: 'confirmingCompanyEmployeeRemoval');
     }
 
     /**

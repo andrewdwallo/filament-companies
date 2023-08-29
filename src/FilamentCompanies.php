@@ -9,15 +9,24 @@ use App\Models\User;
 use Closure;
 use Filament\Contracts\Plugin;
 use Filament\Panel;
+use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Support\Arr;
 use Livewire\Livewire;
 use Wallo\FilamentCompanies\Contracts\AddsCompanyEmployees;
 use Wallo\FilamentCompanies\Contracts\CreatesCompanies;
+use Wallo\FilamentCompanies\Contracts\CreatesConnectedAccounts;
+use Wallo\FilamentCompanies\Contracts\CreatesNewUsers;
+use Wallo\FilamentCompanies\Contracts\CreatesUserFromProvider;
 use Wallo\FilamentCompanies\Contracts\DeletesCompanies;
 use Wallo\FilamentCompanies\Contracts\DeletesUsers;
+use Wallo\FilamentCompanies\Contracts\HandlesInvalidState;
 use Wallo\FilamentCompanies\Contracts\InvitesCompanyEmployees;
 use Wallo\FilamentCompanies\Contracts\RemovesCompanyEmployees;
 use Wallo\FilamentCompanies\Contracts\UpdatesCompanyNames;
+use Wallo\FilamentCompanies\Contracts\UpdatesConnectedAccounts;
+use Wallo\FilamentCompanies\Contracts\UpdatesUserPasswords;
+use Wallo\FilamentCompanies\Contracts\UpdatesUserProfileInformation;
+use Wallo\FilamentCompanies\Http\Controllers\OAuthController;
 use Wallo\FilamentCompanies\Pages\Company\CompanySettings;
 use Wallo\FilamentCompanies\Pages\Company\CreateCompany;
 
@@ -43,7 +52,15 @@ class FilamentCompanies implements Plugin
      */
     public static array $defaultPermissions = [];
 
-    public static ?string $userPanel = null;
+    /**
+     * The user panel.
+     */
+    public static string|null $userPanel = null;
+
+    /**
+     * The configuration for the modals.
+     */
+    public static array $modals = [];
 
     /**
      * The user model that should be used by Company.
@@ -71,7 +88,7 @@ class FilamentCompanies implements Plugin
     protected Socialite $socialite;
 
     /**
-     * The features configuration.
+     * The features' configuration.
      */
     protected Features $features;
 
@@ -95,16 +112,54 @@ class FilamentCompanies implements Plugin
     }
 
     /**
-     * Get the user panel.
+     * Get the modals' configuration.
+     */
+    public function modals(string $width = '2xl', string $alignment = 'center', string $formActionsAlignment = 'center', bool $cancelButtonAction = false): static
+    {
+        static::$modals = compact('width', 'alignment', 'formActionsAlignment', 'cancelButtonAction');
+
+        return $this;
+    }
+
+    /**
+     * Get the user panel configuration.
      */
     public static function getUserPanel(): string
     {
         return static::$userPanel;
     }
 
+    /**
+     * Get the modals' configuration.
+     */
+    public static function getModals(): array
+    {
+        return static::$modals;
+    }
+
     public static function hasUserPanel(): bool
     {
         return static::$userPanel !== null;
+    }
+
+    /**
+     * Determine if the application supports updating profile information.
+     */
+    public function updateProfileInformation(bool|Closure|null $condition = true): static
+    {
+        $this->features->updateProfileInformation($condition);
+
+        return $this;
+    }
+
+    /**
+     * Determine if the application supports updating passwords.
+     */
+    public function updatePasswords(bool|Closure|null $condition = true): static
+    {
+        $this->features->updatePasswords($condition);
+
+        return $this;
     }
 
     /**
@@ -185,6 +240,17 @@ class FilamentCompanies implements Plugin
         if (Features::hasCompanyFeatures()) {
             Livewire::component('filament.pages.companies.create_company', CreateCompany::class);
             Livewire::component('filament.pages.companies.company_settings', CompanySettings::class);
+        }
+
+        if (Socialite::hasSocialiteFeatures()) {
+            app()->bind(OAuthController::class, static function (Application $app) {
+                return new OAuthController(
+                    $app->make(CreatesUserFromProvider::class),
+                    $app->make(CreatesConnectedAccounts::class),
+                    $app->make(UpdatesConnectedAccounts::class),
+                    $app->make(HandlesInvalidState::class),
+                );
+            });
         }
     }
 
@@ -367,6 +433,30 @@ class FilamentCompanies implements Plugin
         static::$companyInvitationModel = $model;
 
         return new static;
+    }
+
+    /**
+     * Register a class / callback that should be used to create new users.
+     */
+    public static function createUsersUsing(string $class): void
+    {
+        app()->singleton(CreatesNewUsers::class, $class);
+    }
+
+    /**
+     * Register a class / callback that should be used to update user profile information.
+     */
+    public static function updateUserProfileInformationUsing(string $class): void
+    {
+        app()->singleton(UpdatesUserProfileInformation::class, $class);
+    }
+
+    /**
+     * Register a class / callback that should be used to update user passwords.
+     */
+    public static function updateUserPasswordsUsing(string $class): void
+    {
+        app()->singleton(UpdatesUserPasswords::class, $class);
     }
 
     /**
