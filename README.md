@@ -309,6 +309,9 @@ class FilamentCompaniesServiceProvider extends PanelProvider
                         features: [
                             Socialite::rememberSession(),
                             Socialite::providerAvatars(),
+                            Socialite::generateMissingEmails(),
+                            Socialite::loginOnRegistration(),
+                            Socialite::createAccountOnFirstLogin(),
                         ]
                     )
             )
