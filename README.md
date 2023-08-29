@@ -179,7 +179,7 @@ If you wish to customize the views, you may publish them using:
 php artisan vendor:publish --tag=filament-companies-views
 ```
 
-# Usage
+# Usage & Configuration
 
 If you would like, you may create a new account using:
 ```shell
@@ -187,7 +187,66 @@ php artisan make:filament-companies-user
 ```
 > You may also create a new account by registering through the application.
 
-This package is extensively "borrowed" from the work of Taylor Otwell, his contributors and the Laravel Jetstream package. You can get a full understanding of the capabilities by reviewing the Jetstream [Documentation](https://jetstream.laravel.com/2.x/introduction.html/).
+### Enabling Profile Photos
+
+To allow users to upload custom profile photos, you can enable this feature by including the `profilePhotos()` method in your `FilamentCompaniesServiceProvider`.
+```php
+use Filament\Panel;
+use Wallo\FilamentCompanies\FilamentCompanies;
+
+class FilamentCompaniesServiceProvider extends PanelProvider
+{
+    public function panel(Panel $panel): Panel
+    {
+        return $panel
+            // ...
+            ->plugin(
+                FilamentCompanies::make()
+                    ->profilePhotos()
+            )
+    }
+}
+```
+
+#### Customizing Disk Storage
+By default, the package uses Laravel's `public` disk for storing images. However, you can specify a different disk by passing the `disk` parameter.
+```php
+// Using Amazon S3 for storing profile photos
+->profilePhotos(disk: 's3')
+```
+
+#### Setting a Custom Storage Path
+If you want to store profile photos in a specific directory, you can set the `storagePath` parameter.
+```php
+// Storing profile photos under 'profile-avatars' directory
+->profilePhotos(storagePath: 'profile-avatars')
+```
+
+### Configuring Modal Layouts
+To adjust the layout and behavior of modals, use the `modals()` method. Below are the package's default settings:
+
+```php
+use Filament\Panel;
+use Wallo\FilamentCompanies\FilamentCompanies;
+
+class FilamentCompaniesServiceProvider extends PanelProvider
+{
+    public function panel(Panel $panel): Panel
+    {
+        return $panel
+            // ...
+            ->plugin(
+                FilamentCompanies::make()
+                    ->modals(
+                        width: '2xl', 
+                        alignment: 'center', 
+                        formActionsAlignment: 'center', 
+                        cancelButtonAction: false
+                    )
+            );
+    }
+}
+```
 
 ### Socialite
 
@@ -270,6 +329,8 @@ GITHUB_CLIENT_SECRET=hefliueoioffbo8338yhf2p9f4g2gg33
 ```
 
 The Socialite package is extensively "borrowed" from the work of Joel Butcher, his contributors and the Socialstream package. You can get a full understanding of the capabilities by reviewing the Socialstream [Documentation](https://docs.socialstream.dev/).
+
+This package is extensively "borrowed" from the work of Taylor Otwell, his contributors and the Laravel Jetstream package. You can get a full understanding of the capabilities by reviewing the Jetstream [Documentation](https://jetstream.laravel.com/2.x/introduction.html/).
 
 The following examples are a visual representation of the features this package supports that were provided by the methods implemented in Laravel Jetstream. You may find all of the features as provided by the Laravel Jetstream package [here](https://jetstream.laravel.com/3.x/features/teams.html) in their documentation.
 
