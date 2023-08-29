@@ -52,11 +52,11 @@ class FilamentCompaniesServiceProvider extends PanelProvider
                     ->userPanel('admin')
                     ->updateProfileInformation()
                     ->updatePasswords()
+                    ->accountDeletion()
                     ->profilePhotos()
                     ->api()
                     ->companies(invitations: true)
                     ->termsAndPrivacyPolicy()
-                    ->accountDeletion()
                     ->modals(),
             )
             ->registration(Register::class)
