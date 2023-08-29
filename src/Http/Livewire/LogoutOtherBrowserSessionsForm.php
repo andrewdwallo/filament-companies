@@ -69,6 +69,14 @@ class LogoutOtherBrowserSessionsForm extends Component
     }
 
     /**
+     * Cancel the other browser sessions logout process.
+     */
+    public function cancelLogoutOtherBrowserSessions(): void
+    {
+        $this->dispatch('close-modal', id: 'confirmingLogout');
+    }
+
+    /**
      * Delete the other browser session records from storage.
      */
     protected function deleteOtherSessionRecords(): void

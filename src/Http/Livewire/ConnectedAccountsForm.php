@@ -81,6 +81,14 @@ class ConnectedAccountsForm extends Component
     }
 
     /**
+     * Cancel the connected account removal.
+     */
+    public function cancelConnectedAccountRemoval(): void
+    {
+        $this->dispatch('close-modal', id: 'confirmingRemove');
+    }
+
+    /**
      * Get the users connected accounts.
      */
     public function getAccountsProperty(): Collection

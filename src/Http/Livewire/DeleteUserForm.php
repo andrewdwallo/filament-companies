@@ -61,6 +61,14 @@ class DeleteUserForm extends Component
     }
 
     /**
+     * Cancel the user deletion.
+     */
+    public function cancelUserDeletion(): void
+    {
+        $this->dispatch('close-modal', id: 'confirmingUserDeletion');
+    }
+
+    /**
      * Render the component.
      */
     public function render(): View

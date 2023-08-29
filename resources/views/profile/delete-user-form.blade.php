@@ -12,7 +12,7 @@
     </x-slot>
 
     <x-filament::section>
-        <div class="space-y-6">
+        <div class="grid gap-y-6">
             <p class="text-sm text-gray-600 dark:text-gray-400">
                 {{ __('filament-companies::default.subheadings.profile.delete_user') }}
             </p>
@@ -21,7 +21,7 @@
             <x-filament::modal id="confirmingUserDeletion" icon="heroicon-o-exclamation-triangle" icon-color="danger" alignment="{{ $modals['alignment'] }}" footer-actions-alignment="{{ $modals['formActionsAlignment'] }}" width="{{ $modals['width'] }}">
                 <x-slot name="trigger">
                     <div class="text-left">
-                        <x-filament::button color="danger" wire:click="confirmUserDeletion" wire:loading.attr="disabled">
+                        <x-filament::button color="danger" wire:click="confirmUserDeletion">
                             {{ __('filament-companies::default.buttons.delete_account') }}
                         </x-filament::button>
                     </div>
@@ -43,12 +43,12 @@
 
                 <x-slot name="footerActions">
                     @if($modals['cancelButtonAction'])
-                        <x-filament::button color="gray" x-on:click="$dispatch('close-modal', { id: 'confirmingUserDeletion' })" wire:loading.attr="disabled">
+                        <x-filament::button color="gray" wire:click="cancelUserDeletion">
                             {{ __('filament-companies::default.buttons.cancel') }}
                         </x-filament::button>
                     @endif
 
-                    <x-filament::button color="danger" wire:click="deleteUser" wire:loading.attr="disabled">
+                    <x-filament::button color="danger" wire:click="deleteUser">
                         {{ __('filament-companies::default.buttons.delete_account') }}
                     </x-filament::button>
                 </x-slot>

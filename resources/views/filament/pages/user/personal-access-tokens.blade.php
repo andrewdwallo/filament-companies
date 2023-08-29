@@ -6,7 +6,6 @@
     {{ $this->table }}
 
     <x-filament::modal id="displayingToken" icon="heroicon-o-key" icon-color="primary" alignment="{{ $modals['alignment'] }}" footer-actions-alignment="{{ $modals['formActionsAlignment'] }}" width="{{ $modals['width'] }}">
-
         <x-slot name="heading">
             {{ __('filament-companies::default.modal_titles.token') }}
         </x-slot>
@@ -25,7 +24,7 @@
 
         @if($modals['cancelButtonAction'])
             <x-slot name="footerActions">
-                <x-filament::button color="gray" wire:click="$set('displayingToken', false)" wire:loading.attr="disabled">
+                <x-filament::button color="gray" wire:click="cancelDisplayingToken">
                     {{ __('filament-companies::default.buttons.close') }}
                 </x-filament::button>
             </x-slot>

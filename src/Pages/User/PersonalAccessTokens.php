@@ -164,6 +164,14 @@ class PersonalAccessTokens extends Page implements Tables\Contracts\HasTable
         $this->dispatch('showing-token-modal');
     }
 
+    /**
+     * Cancel displaying the token value to the user.
+     */
+    public function cancelDisplayingToken(): void
+    {
+        $this->dispatch('close-modal', id: 'displayingToken');
+    }
+
     protected function tokenCreatedNotification($name): void
     {
         Notification::make()

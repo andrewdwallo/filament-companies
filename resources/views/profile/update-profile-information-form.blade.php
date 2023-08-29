@@ -17,6 +17,7 @@
                            wire:model.live="photo"
                            x-ref="photo"
                            x-on:change="
+                                photoName = $refs.photo.files[0].name;
                                 const reader = new FileReader();
                                 reader.onload = (e) => {
                                     photoPreview = e.target.result;
@@ -30,12 +31,12 @@
 
                     <!-- Current Profile Photo -->
                     <div x-show="! photoPreview">
-                        <img src="{{ $this->user->profile_photo_url }}" alt="{{ $this->user->name }}" class="h-20 w-20 rounded-full object-cover">
+                        <x-filament-panels::avatar.user style="height: 5rem; width: 5rem;" />
                     </div>
 
                     <!-- New Profile Photo Preview -->
                     <template x-if="photoPreview">
-                        <img :src="photoPreview" class="h-20 w-20 rounded-full object-cover">
+                        <img :src="photoPreview" style="height: 5rem; width: 5rem; border-radius: 9999px; object-fit: cover;">
                     </template>
 
                     <x-filament::button size="sm" x-on:click.prevent="$refs.photo.click()">
@@ -48,7 +49,7 @@
                         </x-filament::button>
                     @endif
 
-                    <x-filament-forms::field-wrapper.error-message for="photo" />
+                    <x-filament-companies::input-error for="photo" />
                 </div>
             @endif
 
@@ -67,7 +68,7 @@
             </x-filament-forms::field-wrapper>
 
             <div class="text-left">
-                <x-filament::button type="submit" wire:loading.attr="disabled" wire:target="photo">
+                <x-filament::button type="submit" wire:target="photo">
                     {{ __('filament-companies::default.buttons.save') }}
                 </x-filament::button>
             </div>

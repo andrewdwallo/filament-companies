@@ -16,7 +16,7 @@
 
                 <div class="flex items-center text-sm">
                     <div class="flex-shrink-0">
-                        <img class="h-12 w-12 rounded-full object-cover" src="{{ $company->owner->profile_photo_url }}" alt="{{ $company->owner->name }}">
+                        <x-filament-panels::avatar.user :user="$company->owner" style="height: 3rem; width: 3rem;" />
                     </div>
                     <div class="ml-4">
                         <div class="font-medium text-gray-900 dark:text-gray-200">{{ $company->owner->name }}</div>
