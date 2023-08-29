@@ -187,6 +187,32 @@ php artisan make:filament-companies-user
 ```
 > You may also create a new account by registering through the application.
 
+### Configuring Profile Features
+
+You can selectively enable or disable certain profile features. If you choose to omit a feature, it will be considered as disabled (`false`) by default.
+
+To do so, modify your `FilamentCompaniesServiceProvider` class as shown below:
+
+```php
+use Filament\Panel;
+use Wallo\FilamentCompanies\FilamentCompanies;
+
+class FilamentCompaniesServiceProvider extends PanelProvider
+{
+    public function panel(Panel $panel): Panel
+    {
+        return $panel
+            // ...
+            ->plugin(
+                FilamentCompanies::make()
+                    ->updateProfileInformation()  // Enables updating profile information
+                    ->updatePasswords()           // Enables password updates
+                    ->accountDeletion()           // Enables account deletion
+            );
+    }
+}
+```
+
 ### Enabling Profile Photos
 
 To allow users to upload custom profile photos, you can enable this feature by including the `profilePhotos()` method in your `FilamentCompaniesServiceProvider`.
@@ -211,15 +237,15 @@ class FilamentCompaniesServiceProvider extends PanelProvider
 #### Customizing Disk Storage
 By default, the package uses Laravel's `public` disk for storing images. However, you can specify a different disk by passing the `disk` parameter.
 ```php
-// Using Amazon S3 for storing profile photos
-->profilePhotos(disk: 's3')
+FilamentCompanies::make()
+    ->profilePhotos(disk: 's3')
 ```
 
 #### Setting a Custom Storage Path
 If you want to store profile photos in a specific directory, you can set the `storagePath` parameter.
 ```php
-// Storing profile photos under 'profile-avatars' directory
-->profilePhotos(storagePath: 'profile-avatars')
+FilamentCompanies::make()
+    ->profilePhotos(storagePath: 'profile-avatars')
 ```
 
 ### Configuring Modal Layouts
