@@ -445,7 +445,6 @@ protected function configurePermissions(): void
 ```
 
 ### Notice
-* This package is currently in beta
 * If you have any questions please ask
 * PR's and Issues are welcome
 * If you have a general question and not an issue please ask in either my package's [Discord Channel](https://discord.com/channels/883083792112300104/1059008724410310767) or make a discussion post.
