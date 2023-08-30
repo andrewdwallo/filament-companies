@@ -22,7 +22,7 @@
             </x-filament-forms::field-wrapper>
 
             <div class="text-left">
-                <x-filament::button type="submit">
+                <x-filament::button type="submit" x-on:click="setTimeout(() => location.reload(), 3000)">
                     {{ __('filament-companies::default.buttons.save') }}
                 </x-filament::button>
             </div>

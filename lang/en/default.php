@@ -149,7 +149,7 @@ return [
 
         'password_set' => [
             'title' => 'Password set',
-            'body' => 'Your account is now password protected. Please refresh the page to continue.',
+            'body' => 'Your account is now password protected. The page will automatically refresh in a moment to update your settings.',
         ],
 
         'password_updated' => [
