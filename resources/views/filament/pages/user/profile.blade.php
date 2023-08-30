@@ -6,17 +6,18 @@
 
     @if ($user->password !== null && Wallo\FilamentCompanies\Features::canUpdatePasswords())
         @livewire(Wallo\FilamentCompanies\Http\Livewire\UpdatePasswordForm::class)
-    @else
+        <x-filament-companies::section-border />
+    @elseif ($user->password === null)
         @livewire(Wallo\FilamentCompanies\Http\Livewire\SetPasswordForm::class)
+        <x-filament-companies::section-border />
     @endif
 
     @if (Wallo\FilamentCompanies\Socialite::hasSocialiteFeatures())
-        <x-filament-companies::section-border />
         @livewire(Wallo\FilamentCompanies\Http\Livewire\ConnectedAccountsForm::class)
+        <x-filament-companies::section-border />
     @endif
 
     @if ($user->password !== null)
-        <x-filament-companies::section-border />
         @livewire(Wallo\FilamentCompanies\Http\Livewire\LogoutOtherBrowserSessionsForm::class)
     @endif
 

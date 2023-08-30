@@ -60,6 +60,7 @@ class SetPasswordForm extends Component
             ->title(__('filament-companies::default.notifications.password_set.title'))
             ->success()
             ->body(__('filament-companies::default.notifications.password_set.body'))
+            ->duration(3000)
             ->send();
     }
 }
