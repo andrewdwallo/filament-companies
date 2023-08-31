@@ -145,28 +145,6 @@ class Socialite
     }
 
     /**
-     * Get the socialite specific components that should be used.
-     */
-    public static function getComponents(): array
-    {
-        $components = [];
-
-        if (static::canSetPasswords()) {
-            $components[] = static::$setPasswordForm;
-        }
-
-        if (static::canManageConnectedAccounts()) {
-            $components[] = static::$connectedAccountsForm;
-        }
-
-        uasort($components, static function ($a, $b) {
-            return static::$componentSortOrder[$a] <=> static::$componentSortOrder[$b];
-        });
-
-        return $components;
-    }
-
-    /**
      * Determine if the application has support for socialite.
      */
     public static function hasSocialiteFeatures(): bool
@@ -227,7 +205,11 @@ class Socialite
      */
     public static function canSetPasswords(): bool
     {
-        return static::$canSetPasswords && static::getUser()?->getAuthPassword() === null;
+        $hasSocialiteFeatures = static::hasSocialiteFeatures();
+        $canSetPasswords = static::$canSetPasswords;
+        $passwordIsNull = static::getUser()?->getAuthPassword() === null;
+
+        return $hasSocialiteFeatures && $canSetPasswords && $passwordIsNull;
     }
 
     /**
@@ -235,7 +217,10 @@ class Socialite
      */
     public static function canManageConnectedAccounts(): bool
     {
-        return static::$canManageConnectedAccounts;
+        $hasSocialiteFeatures = static::hasSocialiteFeatures();
+        $canManageConnectedAccounts = static::$canManageConnectedAccounts;
+
+        return $hasSocialiteFeatures && $canManageConnectedAccounts;
     }
 
     /**
@@ -331,6 +316,44 @@ class Socialite
         static::$connectedAccountModel = $model;
 
         return new static;
+    }
+
+    /**
+     * Get the component that should be used when displaying the "Set Password" form.
+     */
+    public static function getSetPasswordForm(): string
+    {
+        return static::$setPasswordForm;
+    }
+
+    /**
+     * Get the component that should be used when displaying the "Connected Accounts" form.
+     */
+    public static function getConnectedAccountsForm(): string
+    {
+        return static::$connectedAccountsForm;
+    }
+
+    /**
+     * Get the socialite specific components that should be used.
+     */
+    public static function getComponents(): array
+    {
+        $components = [];
+
+        if (static::canSetPasswords()) {
+            $components[] = static::getSetPasswordForm();
+        }
+
+        if (static::canManageConnectedAccounts()) {
+            $components[] = static::getConnectedAccountsForm();
+        }
+
+        uasort($components, static function ($a, $b) {
+            return static::$componentSortOrder[$a] <=> static::$componentSortOrder[$b];
+        });
+
+        return $components;
     }
 
     /**

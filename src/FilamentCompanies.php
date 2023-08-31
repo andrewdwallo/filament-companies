@@ -88,6 +88,10 @@ class FilamentCompanies implements Plugin
      */
     public static string $companyInvitationModel = CompanyInvitation::class;
 
+    public static array $addedProfileComponents = [];
+
+    public static array $componentSortOrder = [];
+
     /**
      * The socialite configuration.
      */
@@ -202,6 +206,14 @@ class FilamentCompanies implements Plugin
         return $this;
     }
 
+    public function addProfileComponents(array $components, $sort = []): static
+    {
+        static::$addedProfileComponents = [...static::$addedProfileComponents, ...$components];
+        static::$componentSortOrder = [...static::$componentSortOrder, ...$sort];
+
+        return $this;
+    }
+
     /**
      * Determine if the application supports socialite.
      */
@@ -256,22 +268,31 @@ class FilamentCompanies implements Plugin
     }
 
     /**
+     * Get the added profile page components.
+     */
+    public static function getAddedProfileComponents(): array
+    {
+        return static::$addedProfileComponents;
+    }
+
+    /**
      * Get the profile page components.
      */
     public static function getProfileComponents(): array
     {
         $featureComponents = Features::getComponents();
         $socialiteComponents = Socialite::getComponents();
+        $addedComponents = static::$addedProfileComponents;
 
-        $combinedComponents = [...$featureComponents, ...$socialiteComponents];
+        $components = [...$featureComponents, ...$socialiteComponents, ...$addedComponents];
 
-        $combinedSortOrder = [...Features::$componentSortOrder, ...Socialite::$componentSortOrder];
+        $sortOrder = [...Features::$componentSortOrder, ...Socialite::$componentSortOrder, ...static::$componentSortOrder];
 
-        uasort($combinedComponents, static function ($a, $b) use ($combinedSortOrder) {
-            return $combinedSortOrder[$a] <=> $combinedSortOrder[$b];
+        uasort($components, static function ($a, $b) use ($sortOrder) {
+            return $sortOrder[$a] <=> $sortOrder[$b];
         });
 
-        return $combinedComponents;
+        return $components;
     }
 
     public function getId(): string

@@ -204,7 +204,10 @@ class Features
      */
     public static function canUpdatePasswords(): bool
     {
-        return static::$canUpdatePasswords && static::getUser()?->getAuthPassword() !== null;
+        $canUpdatePasswords = static::$canUpdatePasswords;
+        $passwordIsSet = static::getUser()?->getAuthPassword() !== null;
+
+        return $canUpdatePasswords && $passwordIsSet;
     }
 
     /**
@@ -212,7 +215,10 @@ class Features
      */
     public static function canManageBrowserSessions(): bool
     {
-        return static::$canManageBrowserSessions && static::getUser()?->getAuthPassword() !== null;
+        $canManageBrowserSessions = static::$canManageBrowserSessions;
+        $passwordIsSet = static::getUser()?->getAuthPassword() !== null;
+
+        return $canManageBrowserSessions && $passwordIsSet;
     }
 
     /**
@@ -220,7 +226,10 @@ class Features
      */
     public static function hasAccountDeletionFeatures(): bool
     {
-        return static::$hasAccountDeletionFeatures && static::getUser()?->getAuthPassword() !== null;
+        $hasAccountDeletionFeatures = static::$hasAccountDeletionFeatures;
+        $passwordIsSet = static::getUser()?->getAuthPassword() !== null;
+
+        return $hasAccountDeletionFeatures && $passwordIsSet;
     }
 
     /**
@@ -290,6 +299,38 @@ class Features
     }
 
     /**
+     * Get the component that should be used when displaying the "Update Profile Information" form.
+     */
+    public static function getUpdateProfileInformationForm(): string
+    {
+        return static::$updateProfileInformationForm;
+    }
+
+    /**
+     * Get the component that should be used when displaying the "Update Password" form.
+     */
+    public static function getUpdatePasswordForm(): string
+    {
+        return static::$updatePasswordForm;
+    }
+
+    /**
+     * Get the component that should be used when displaying the "Delete User" form.
+     */
+    public static function getDeleteUserForm(): string
+    {
+        return static::$deleteUserForm;
+    }
+
+    /**
+     * Get the component that should be used when displaying the "Logout Other Browser Sessions" form.
+     */
+    public static function getLogoutOtherBrowserSessionsForm(): string
+    {
+        return static::$logoutOtherBrowserSessionsForm;
+    }
+
+    /**
      * Get the feature specific components.
      */
     public static function getComponents(): array
@@ -297,19 +338,19 @@ class Features
         $components = [];
 
         if (static::canUpdateProfileInformation()) {
-            $components[] = static::$updateProfileInformationForm;
+            $components[] = static::getUpdateProfileInformationForm();
         }
 
         if (static::canUpdatePasswords()) {
-            $components[] = static::$updatePasswordForm;
+            $components[] = static::getUpdatePasswordForm();
         }
 
         if (static::hasAccountDeletionFeatures()) {
-            $components[] = static::$deleteUserForm;
+            $components[] = static::getDeleteUserForm();
         }
 
         if (static::canManageBrowserSessions()) {
-            $components[] = static::$logoutOtherBrowserSessionsForm;
+            $components[] = static::getLogoutOtherBrowserSessionsForm();
         }
 
         uasort($components, static function ($a, $b) {
