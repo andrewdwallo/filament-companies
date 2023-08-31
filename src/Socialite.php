@@ -4,6 +4,8 @@ namespace Wallo\FilamentCompanies;
 
 use App\Models\ConnectedAccount;
 use Closure;
+use Filament\Facades\Filament;
+use Illuminate\Contracts\Auth\Authenticatable;
 use Wallo\FilamentCompanies\Contracts\CreatesConnectedAccounts;
 use Wallo\FilamentCompanies\Contracts\CreatesUserFromProvider;
 use Wallo\FilamentCompanies\Contracts\GeneratesProviderRedirect;
@@ -11,6 +13,8 @@ use Wallo\FilamentCompanies\Contracts\HandlesInvalidState;
 use Wallo\FilamentCompanies\Contracts\ResolvesSocialiteUsers;
 use Wallo\FilamentCompanies\Contracts\SetsUserPasswords;
 use Wallo\FilamentCompanies\Contracts\UpdatesConnectedAccounts;
+use Wallo\FilamentCompanies\Http\Livewire\ConnectedAccountsForm;
+use Wallo\FilamentCompanies\Http\Livewire\SetPasswordForm;
 
 class Socialite
 {
@@ -50,6 +54,39 @@ class Socialite
         'create-account-on-first-login' => false,
     ];
 
+    /**
+     * Determine if the application can set a user's password.
+     */
+    public static bool $canSetPasswords = false;
+
+    /**
+     * Determine if the application can manage connected accounts.
+     */
+    public static bool $canManageConnectedAccounts = false;
+
+    /**
+     * The component that should be used when displaying the "Set Password" form.
+     */
+    public static string $setPasswordForm = SetPasswordForm::class;
+
+    /**
+     * The component that should be used when displaying the "Connected Accounts" form.
+     */
+    public static string $connectedAccountsForm = ConnectedAccountsForm::class;
+
+    /**
+     * The sort order of the components.
+     */
+    public static array $componentSortOrder = [];
+
+    /**
+     * Get the user of the application.
+     */
+    public static function getUser(): Authenticatable|null
+    {
+        return Filament::auth()->user();
+    }
+
     public function enableSocialite(bool|Closure|null $condition = true): static
     {
         static::$hasSocialiteFeatures = $condition instanceof Closure ? $condition() : $condition;
@@ -81,6 +118,52 @@ class Socialite
         }
 
         return $this;
+    }
+
+    /**
+     * Determine if the application supports setting user passwords.
+     */
+    public function setPasswords(bool|Closure|null $condition = true, $component = SetPasswordForm::class, int $sort = 2): static
+    {
+        static::$canSetPasswords = $condition instanceof Closure ? $condition() : $condition;
+        static::$setPasswordForm = $component;
+        static::$componentSortOrder[$component] = $sort;
+
+        return $this;
+    }
+
+    /**
+     * Determine if the application supports managing connected accounts.
+     */
+    public function connectedAccounts(bool|Closure|null $condition = true, $component = ConnectedAccountsForm::class, int $sort = 3): static
+    {
+        static::$canManageConnectedAccounts = $condition instanceof Closure ? $condition() : $condition;
+        static::$connectedAccountsForm = $component;
+        static::$componentSortOrder[$component] = $sort;
+
+        return $this;
+    }
+
+    /**
+     * Get the socialite specific components that should be used.
+     */
+    public static function getComponents(): array
+    {
+        $components = [];
+
+        if (static::canSetPasswords()) {
+            $components[] = static::$setPasswordForm;
+        }
+
+        if (static::canManageConnectedAccounts()) {
+            $components[] = static::$connectedAccountsForm;
+        }
+
+        uasort($components, static function ($a, $b) {
+            return static::$componentSortOrder[$a] <=> static::$componentSortOrder[$b];
+        });
+
+        return $components;
     }
 
     /**
@@ -137,6 +220,22 @@ class Socialite
     public static function hasCreateAccountOnFirstLoginFeature(): bool
     {
         return static::$supportedSocialiteFeatures['create-account-on-first-login'];
+    }
+
+    /**
+     * Determine if the application can set user passwords.
+     */
+    public static function canSetPasswords(): bool
+    {
+        return static::$canSetPasswords && static::getUser()?->getAuthPassword() === null;
+    }
+
+    /**
+     * Determine if the application can manage connected accounts.
+     */
+    public static function canManageConnectedAccounts(): bool
+    {
+        return static::$canManageConnectedAccounts;
     }
 
     /**

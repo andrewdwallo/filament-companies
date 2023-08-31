@@ -3,6 +3,12 @@
 namespace Wallo\FilamentCompanies;
 
 use Closure;
+use Filament\Facades\Filament;
+use Illuminate\Contracts\Auth\Authenticatable;
+use Wallo\FilamentCompanies\Http\Livewire\DeleteUserForm;
+use Wallo\FilamentCompanies\Http\Livewire\LogoutOtherBrowserSessionsForm;
+use Wallo\FilamentCompanies\Http\Livewire\UpdatePasswordForm;
+use Wallo\FilamentCompanies\Http\Livewire\UpdateProfileInformationForm;
 
 class Features
 {
@@ -52,16 +58,48 @@ class Features
     public static bool $hasTermsAndPrivacyPolicyFeature = false;
 
     /**
+     * Determine if the application is using any browser session management features.
+     */
+    public static bool $canManageBrowserSessions = false;
+
+    /**
      * Determine if the application is using any account deletion features.
      */
     public static bool $hasAccountDeletionFeatures = false;
 
     /**
+     * The component that should be used when displaying the "Update Profile Information" form.
+     */
+    public static string $updateProfileInformationForm = UpdateProfileInformationForm::class;
+
+    /**
+     * The component that should be used when displaying the "Update Password" form.
+     */
+    public static string $updatePasswordForm = UpdatePasswordForm::class;
+
+    /**
+     * The component that should be used when displaying the "Delete User" form.
+     */
+    public static string $deleteUserForm = DeleteUserForm::class;
+
+    /**
+     * The component that should be used when displaying the "Logout Other Browser Sessions" form.
+     */
+    public static string $logoutOtherBrowserSessionsForm = LogoutOtherBrowserSessionsForm::class;
+
+    /**
+     * The sort order of the components.
+     */
+    public static array $componentSortOrder = [];
+
+    /**
      * Determine if the application supports updating profile information.
      */
-    public function updateProfileInformation(bool|Closure|null $condition = true): static
+    public function updateProfileInformation(bool|Closure|null $condition = true, $component = UpdateProfileInformationForm::class, int $sort = 0): static
     {
         static::$canUpdateProfileInformation = $condition instanceof Closure ? $condition() : $condition;
+        static::$updateProfileInformationForm = $component;
+        static::$componentSortOrder[$component] = $sort;
 
         return $this;
     }
@@ -69,9 +107,35 @@ class Features
     /**
      * Determine if the application supports updating user passwords.
      */
-    public function updatePasswords(bool|Closure|null $condition = true): static
+    public function updatePasswords(bool|Closure|null $condition = true, $component = UpdatePasswordForm::class, int $sort = 1): static
     {
         static::$canUpdatePasswords = $condition instanceof Closure ? $condition() : $condition;
+        static::$updatePasswordForm = $component;
+        static::$componentSortOrder[$component] = $sort;
+
+        return $this;
+    }
+
+    /**
+     * Determine if the application supports managing browser sessions.
+     */
+    public function manageBrowserSessions(bool|Closure|null $condition = true, $component = LogoutOtherBrowserSessionsForm::class, int $sort = 4): static
+    {
+        static::$canManageBrowserSessions = $condition instanceof Closure ? $condition() : $condition;
+        static::$logoutOtherBrowserSessionsForm = $component;
+        static::$componentSortOrder[$component] = $sort;
+
+        return $this;
+    }
+
+    /**
+     * Determine if the application is using any account deletion features.
+     */
+    public function accountDeletion(bool|Closure|null $condition = true, $component = DeleteUserForm::class, int $sort = 5): static
+    {
+        static::$hasAccountDeletionFeatures = $condition instanceof Closure ? $condition() : $condition;
+        static::$deleteUserForm = $component;
+        static::$componentSortOrder[$component] = $sort;
 
         return $this;
     }
@@ -120,13 +184,11 @@ class Features
     }
 
     /**
-     * Determine if the application is using any account deletion features.
+     * Get the user of the application.
      */
-    public function accountDeletion(bool|Closure|null $condition = true): static
+    public static function getUser(): Authenticatable|null
     {
-        static::$hasAccountDeletionFeatures = $condition instanceof Closure ? $condition() : $condition;
-
-        return $this;
+        return Filament::auth()->user();
     }
 
     /**
@@ -142,7 +204,23 @@ class Features
      */
     public static function canUpdatePasswords(): bool
     {
-        return static::$canUpdatePasswords;
+        return static::$canUpdatePasswords && static::getUser()?->getAuthPassword() !== null;
+    }
+
+    /**
+     * Determine if the application can manage browser sessions.
+     */
+    public static function canManageBrowserSessions(): bool
+    {
+        return static::$canManageBrowserSessions && static::getUser()?->getAuthPassword() !== null;
+    }
+
+    /**
+     * Determine if the application is using any account deletion features.
+     */
+    public static function hasAccountDeletionFeatures(): bool
+    {
+        return static::$hasAccountDeletionFeatures && static::getUser()?->getAuthPassword() !== null;
     }
 
     /**
@@ -212,10 +290,32 @@ class Features
     }
 
     /**
-     * Determine if the application is using any account deletion features.
+     * Get the feature specific components.
      */
-    public static function hasAccountDeletionFeatures(): bool
+    public static function getComponents(): array
     {
-        return static::$hasAccountDeletionFeatures;
+        $components = [];
+
+        if (static::canUpdateProfileInformation()) {
+            $components[] = static::$updateProfileInformationForm;
+        }
+
+        if (static::canUpdatePasswords()) {
+            $components[] = static::$updatePasswordForm;
+        }
+
+        if (static::hasAccountDeletionFeatures()) {
+            $components[] = static::$deleteUserForm;
+        }
+
+        if (static::canManageBrowserSessions()) {
+            $components[] = static::$logoutOtherBrowserSessionsForm;
+        }
+
+        uasort($components, static function ($a, $b) {
+            return static::$componentSortOrder[$a] <=> static::$componentSortOrder[$b];
+        });
+
+        return $components;
     }
 }
