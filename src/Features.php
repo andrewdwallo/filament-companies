@@ -4,7 +4,6 @@ namespace Wallo\FilamentCompanies;
 
 use Closure;
 use Filament\Facades\Filament;
-use Illuminate\Auth\GuardHelpers;
 use Wallo\FilamentCompanies\Http\Livewire\DeleteUserForm;
 use Wallo\FilamentCompanies\Http\Livewire\LogoutOtherBrowserSessionsForm;
 use Wallo\FilamentCompanies\Http\Livewire\UpdatePasswordForm;
@@ -12,8 +11,6 @@ use Wallo\FilamentCompanies\Http\Livewire\UpdateProfileInformationForm;
 
 class Features
 {
-    use GuardHelpers;
-
     /**
      * Determine if the application can update a user's profile information.
      */
