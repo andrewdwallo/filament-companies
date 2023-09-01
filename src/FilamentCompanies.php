@@ -27,6 +27,12 @@ use Wallo\FilamentCompanies\Contracts\UpdatesConnectedAccounts;
 use Wallo\FilamentCompanies\Contracts\UpdatesUserPasswords;
 use Wallo\FilamentCompanies\Contracts\UpdatesUserProfileInformation;
 use Wallo\FilamentCompanies\Http\Controllers\OAuthController;
+use Wallo\FilamentCompanies\Http\Livewire\ConnectedAccountsForm;
+use Wallo\FilamentCompanies\Http\Livewire\DeleteUserForm;
+use Wallo\FilamentCompanies\Http\Livewire\LogoutOtherBrowserSessionsForm;
+use Wallo\FilamentCompanies\Http\Livewire\SetPasswordForm;
+use Wallo\FilamentCompanies\Http\Livewire\UpdatePasswordForm;
+use Wallo\FilamentCompanies\Http\Livewire\UpdateProfileInformationForm;
 use Wallo\FilamentCompanies\Pages\Company\CompanySettings;
 use Wallo\FilamentCompanies\Pages\Company\CreateCompany;
 
@@ -81,6 +87,10 @@ class FilamentCompanies implements Plugin
      * The company invitation model that should be used by Company.
      */
     public static string $companyInvitationModel = CompanyInvitation::class;
+
+    public static array $addedProfileComponents = [];
+
+    public static array $componentSortOrder = [];
 
     /**
      * The socialite configuration.
@@ -145,9 +155,9 @@ class FilamentCompanies implements Plugin
     /**
      * Determine if the application supports updating profile information.
      */
-    public function updateProfileInformation(bool|Closure|null $condition = true): static
+    public function updateProfileInformation(bool|Closure|null $condition = true, $component = UpdateProfileInformationForm::class, int $sort = 0): static
     {
-        $this->features->updateProfileInformation($condition);
+        $this->features->updateProfileInformation($condition, $component, $sort);
 
         return $this;
     }
@@ -155,9 +165,53 @@ class FilamentCompanies implements Plugin
     /**
      * Determine if the application supports updating passwords.
      */
-    public function updatePasswords(bool|Closure|null $condition = true): static
+    public function updatePasswords(bool|Closure|null $condition = true, $component = UpdatePasswordForm::class, int $sort = 1): static
     {
-        $this->features->updatePasswords($condition);
+        $this->features->updatePasswords($condition, $component, $sort);
+
+        return $this;
+    }
+
+    public function setPasswords(bool|Closure|null $condition = true, $component = SetPasswordForm::class, int $sort = 2): static
+    {
+        $this->socialite->setPasswords($condition, $component, $sort);
+
+        return $this;
+    }
+
+    public function connectedAccounts(bool|Closure|null $condition = true, $component = ConnectedAccountsForm::class, int $sort = 3): static
+    {
+        $this->socialite->connectedAccounts($condition, $component, $sort);
+
+        return $this;
+    }
+
+    /**
+     * Determine if the application supports managing browser sessions.
+     */
+    public function manageBrowserSessions(bool|Closure|null $condition = true, $component = LogoutOtherBrowserSessionsForm::class, int $sort = 4): static
+    {
+        $this->features->manageBrowserSessions($condition, $component, $sort);
+
+        return $this;
+    }
+
+    /**
+     * Determine if the application supports the Account Deletion features.
+     */
+    public function accountDeletion(bool|Closure|null $condition = true, $component = DeleteUserForm::class, int $sort = 5): static
+    {
+        $this->features->accountDeletion($condition, $component, $sort);
+
+        return $this;
+    }
+
+    public function addProfileComponents(array $componentsWithSortOrder): static
+    {
+        foreach ($componentsWithSortOrder as $sort => $component) {
+            static::$addedProfileComponents[] = $component;
+            static::$componentSortOrder[$component] = $sort;
+        }
 
         return $this;
     }
@@ -216,13 +270,31 @@ class FilamentCompanies implements Plugin
     }
 
     /**
-     * Determine if the application supports the Account Deletion features.
+     * Get the added profile page components.
      */
-    public function accountDeletion(bool|Closure|null $condition = true): static
+    public static function getAddedProfileComponents(): array
     {
-        $this->features->accountDeletion($condition);
+        return static::$addedProfileComponents;
+    }
 
-        return $this;
+    /**
+     * Get the profile page components.
+     */
+    public static function getProfileComponents(): array
+    {
+        $featureComponents = Features::getComponents();
+        $socialiteComponents = Socialite::getComponents();
+        $addedComponents = static::getAddedProfileComponents();
+
+        $components = [...$featureComponents, ...$socialiteComponents, ...$addedComponents];
+
+        $sortOrder = [...Features::$componentSortOrder, ...Socialite::$componentSortOrder, ...static::$componentSortOrder];
+
+        uasort($components, static function ($a, $b) use ($sortOrder) {
+            return $sortOrder[$a] <=> $sortOrder[$b];
+        });
+
+        return $components;
     }
 
     public function getId(): string
