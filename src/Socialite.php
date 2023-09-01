@@ -5,7 +5,6 @@ namespace Wallo\FilamentCompanies;
 use App\Models\ConnectedAccount;
 use Closure;
 use Filament\Facades\Filament;
-use Illuminate\Contracts\Auth\Authenticatable;
 use Wallo\FilamentCompanies\Contracts\CreatesConnectedAccounts;
 use Wallo\FilamentCompanies\Contracts\CreatesUserFromProvider;
 use Wallo\FilamentCompanies\Contracts\GeneratesProviderRedirect;
@@ -78,14 +77,6 @@ class Socialite
      * The sort order of the components.
      */
     public static array $componentSortOrder = [];
-
-    /**
-     * Get the user of the application.
-     */
-    public static function getUser(): Authenticatable|null
-    {
-        return Filament::auth()->user();
-    }
 
     public function enableSocialite(bool|Closure|null $condition = true): static
     {
