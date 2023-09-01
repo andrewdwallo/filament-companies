@@ -174,14 +174,14 @@ class FilamentCompanies implements Plugin
 
     public function setPasswords(bool|Closure|null $condition = true, $component = SetPasswordForm::class, int $sort = 2): static
     {
-        $this->socialite->setPasswords($condition, $component);
+        $this->socialite->setPasswords($condition, $component, $sort);
 
         return $this;
     }
 
     public function connectedAccounts(bool|Closure|null $condition = true, $component = ConnectedAccountsForm::class, int $sort = 3): static
     {
-        $this->socialite->connectedAccounts($condition, $component);
+        $this->socialite->connectedAccounts($condition, $component, $sort);
 
         return $this;
     }
@@ -206,10 +206,12 @@ class FilamentCompanies implements Plugin
         return $this;
     }
 
-    public function addProfileComponents(array $components, $sort = []): static
+    public function addProfileComponents(array $componentsWithSortOrder): static
     {
-        static::$addedProfileComponents = [...static::$addedProfileComponents, ...$components];
-        static::$componentSortOrder = [...static::$componentSortOrder, ...$sort];
+        foreach ($componentsWithSortOrder as $sort => $component) {
+            static::$addedProfileComponents[] = $component;
+            static::$componentSortOrder[$component] = $sort;
+        }
 
         return $this;
     }
@@ -282,7 +284,7 @@ class FilamentCompanies implements Plugin
     {
         $featureComponents = Features::getComponents();
         $socialiteComponents = Socialite::getComponents();
-        $addedComponents = static::$addedProfileComponents;
+        $addedComponents = static::getAddedProfileComponents();
 
         $components = [...$featureComponents, ...$socialiteComponents, ...$addedComponents];
 

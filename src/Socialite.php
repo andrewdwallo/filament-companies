@@ -207,9 +207,8 @@ class Socialite
     {
         $hasSocialiteFeatures = static::hasSocialiteFeatures();
         $canSetPasswords = static::$canSetPasswords;
-        $passwordIsNull = static::getUser()?->getAuthPassword() === null;
 
-        return $hasSocialiteFeatures && $canSetPasswords && $passwordIsNull;
+        return $hasSocialiteFeatures && $canSetPasswords;
     }
 
     /**
@@ -340,8 +339,10 @@ class Socialite
     public static function getComponents(): array
     {
         $components = [];
+        $user = Filament::auth()->user();
+        $passwordIsNull = $user?->getAuthPassword() === null;
 
-        if (static::canSetPasswords()) {
+        if ($passwordIsNull && static::canSetPasswords()) {
             $components[] = static::getSetPasswordForm();
         }
 

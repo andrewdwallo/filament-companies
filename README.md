@@ -207,10 +207,55 @@ class FilamentCompaniesServiceProvider extends PanelProvider
                 FilamentCompanies::make()
                     ->updateProfileInformation()  // Enables updating profile information
                     ->updatePasswords()           // Enables password updates
+                    ->setPasswords()              // Enables setting passwords only if Socialite is enabled
+                    ->connectedAccounts()         // Enables connected account management only if Socialite is enabled
+                    ->manageBrowserSessions()     // Enables browser session management
                     ->accountDeletion()           // Enables account deletion
             );
     }
 }
+```
+
+#### Changing the Default Components
+
+If you would like to change the default components used for profile features, you may do so by passing the component class name to the corresponding method's `component` parameter:
+
+For example, if you would like to use a custom component for updating profile information, you may do so by passing the component class name to the `updateProfileInformation()` method:
+
+```php
+use App\Livewire\CustomComponent;
+
+FilamentCompanies::make()
+    ->updateProfileInformation(component: CustomComponent::class);
+```
+
+#### Sorting the Profile Features
+
+If you would like to change the order of the profile features, you may do so by setting the `sort` parameter to the corresponding method. 
+
+The default sort order is as follows:
+
+```php
+FilamentCompanies::make()
+    ->updateProfileInformation(sort: 0)
+    ->updatePasswords(sort: 1)
+    ->setPasswords(sort: 2)
+    ->connectedAccounts(sort: 3)
+    ->manageBrowserSessions(sort: 4)
+    ->accountDeletion(sort: 5);
+```
+
+#### Adding Custom Profile Features/Components
+
+If you would like to add custom profile components, you may do so by passing the component class name along with the sort order to the `addProfileComponents()` method:
+
+```php
+use App\Livewire\CustomComponent;
+
+FilamentCompanies::make()
+    ->addProfileComponents([
+        7 => CustomComponent::class,
+    ]);
 ```
 
 ### Enabling Profile Photos

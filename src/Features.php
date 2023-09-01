@@ -4,7 +4,7 @@ namespace Wallo\FilamentCompanies;
 
 use Closure;
 use Filament\Facades\Filament;
-use Illuminate\Contracts\Auth\Authenticatable;
+use Illuminate\Auth\GuardHelpers;
 use Wallo\FilamentCompanies\Http\Livewire\DeleteUserForm;
 use Wallo\FilamentCompanies\Http\Livewire\LogoutOtherBrowserSessionsForm;
 use Wallo\FilamentCompanies\Http\Livewire\UpdatePasswordForm;
@@ -12,6 +12,8 @@ use Wallo\FilamentCompanies\Http\Livewire\UpdateProfileInformationForm;
 
 class Features
 {
+    use GuardHelpers;
+
     /**
      * Determine if the application can update a user's profile information.
      */
@@ -184,14 +186,6 @@ class Features
     }
 
     /**
-     * Get the user of the application.
-     */
-    public static function getUser(): Authenticatable|null
-    {
-        return Filament::auth()->user();
-    }
-
-    /**
      * Determine if the application can update a user's profile information.
      */
     public static function canUpdateProfileInformation(): bool
@@ -204,10 +198,7 @@ class Features
      */
     public static function canUpdatePasswords(): bool
     {
-        $canUpdatePasswords = static::$canUpdatePasswords;
-        $passwordIsSet = static::getUser()?->getAuthPassword() !== null;
-
-        return $canUpdatePasswords && $passwordIsSet;
+        return static::$canUpdatePasswords;
     }
 
     /**
@@ -215,10 +206,7 @@ class Features
      */
     public static function canManageBrowserSessions(): bool
     {
-        $canManageBrowserSessions = static::$canManageBrowserSessions;
-        $passwordIsSet = static::getUser()?->getAuthPassword() !== null;
-
-        return $canManageBrowserSessions && $passwordIsSet;
+        return static::$canManageBrowserSessions;
     }
 
     /**
@@ -226,10 +214,7 @@ class Features
      */
     public static function hasAccountDeletionFeatures(): bool
     {
-        $hasAccountDeletionFeatures = static::$hasAccountDeletionFeatures;
-        $passwordIsSet = static::getUser()?->getAuthPassword() !== null;
-
-        return $hasAccountDeletionFeatures && $passwordIsSet;
+        return static::$hasAccountDeletionFeatures;
     }
 
     /**
@@ -336,21 +321,23 @@ class Features
     public static function getComponents(): array
     {
         $components = [];
+        $user = Filament::auth()->user();
+        $passwordIsSet = $user?->getAuthPassword() !== null;
 
         if (static::canUpdateProfileInformation()) {
             $components[] = static::getUpdateProfileInformationForm();
         }
 
-        if (static::canUpdatePasswords()) {
+        if ($passwordIsSet && static::canUpdatePasswords()) {
             $components[] = static::getUpdatePasswordForm();
         }
 
-        if (static::hasAccountDeletionFeatures()) {
-            $components[] = static::getDeleteUserForm();
+        if ($passwordIsSet && static::canManageBrowserSessions()) {
+            $components[] = static::getLogoutOtherBrowserSessionsForm();
         }
 
-        if (static::canManageBrowserSessions()) {
-            $components[] = static::getLogoutOtherBrowserSessionsForm();
+        if ($passwordIsSet && static::hasAccountDeletionFeatures()) {
+            $components[] = static::getDeleteUserForm();
         }
 
         uasort($components, static function ($a, $b) {

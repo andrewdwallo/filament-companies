@@ -2,6 +2,7 @@
 
 namespace Wallo\FilamentCompanies;
 
+use Illuminate\Contracts\Auth\StatefulGuard;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\View\Compilers\BladeCompiler;
 use Livewire\Livewire;
@@ -22,38 +23,28 @@ class FilamentCompaniesServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        $this->app->afterResolving(BladeCompiler::class, function () {
-            $this->registerComponents();
-        });
-    }
+        $this->app->afterResolving(BladeCompiler::class, static function () {
+            if (class_exists(Livewire::class)) {
 
-    public function registerComponents(): void
-    {
-        if (!class_exists(Livewire::class)) {
-            return;
-        }
+                $featureComponentMap = [
+                    'update-profile-information-form' => [Features::canUpdateProfileInformation(), UpdateProfileInformationForm::class],
+                    'update-password-form' => [Features::canUpdatePasswords(), UpdatePasswordForm::class],
+                    'delete-user-form' => [Features::hasAccountDeletionFeatures(), DeleteUserForm::class],
+                    'logout-other-browser-sessions-form' => [Features::canManageBrowserSessions(), LogoutOtherBrowserSessionsForm::class],
+                    'update-company-name-form' => [Features::hasCompanyFeatures(), UpdateCompanyNameForm::class],
+                    'company-employee-manager' => [Features::hasCompanyFeatures(), CompanyEmployeeManager::class],
+                    'delete-company-form' => [Features::hasCompanyFeatures(), DeleteCompanyForm::class],
+                    'set-password-form' => [Socialite::canSetPasswords(), SetPasswordForm::class],
+                    'connected-accounts-form' => [Socialite::canManageConnectedAccounts(), ConnectedAccountsForm::class],
+                ];
 
-        $featuresToComponents = [
-            Features::canUpdateProfileInformation() => ['update-profile-information-form', UpdateProfileInformationForm::class],
-            Features::canUpdatePasswords() => ['update-password-form', UpdatePasswordForm::class],
-            Features::canManageBrowserSessions() => ['logout-other-browser-sessions-form', LogoutOtherBrowserSessionsForm::class],
-            Features::hasAccountDeletionFeatures() => ['delete-user-form', DeleteUserForm::class],
-            Features::hasCompanyFeatures() => [
-                ['update-company-name-form', UpdateCompanyNameForm::class],
-                ['company-employee-manager', CompanyEmployeeManager::class],
-                ['delete-company-form', DeleteCompanyForm::class],
-            ],
-            Socialite::canSetPasswords() => ['set-password-form', SetPasswordForm::class],
-            Socialite::canManageConnectedAccounts() => ['connected-accounts-form', ConnectedAccountsForm::class],
-        ];
-
-        foreach ($featuresToComponents as $feature => $components) {
-            if ($feature && is_array($components[0])) {
-                foreach ($components as $component) {
-                    Livewire::component($component[0], $component[1]);
+                foreach ($featureComponentMap as $alias => [$enabled, $component]) {
+                    if ($enabled) {
+                        Livewire::component($alias, $component);
+                    }
                 }
             }
-        }
+        });
     }
 
     /**
