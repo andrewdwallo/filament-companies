@@ -258,6 +258,32 @@ FilamentCompanies::make()
     ]);
 ```
 
+Within your component's view, you may use the grid section component to match the style of other components:
+
+```blade
+<x-filament-companies::grid-section md="2">
+    <x-slot name="title">
+        {{ __('My Custom Component') }}
+    </x-slot>
+
+    <x-slot name="description">
+        {{ __('This is my custom component.') }}
+    </x-slot>
+
+    <x-filament::section>
+        <x-filament-panels::form wire:submit="submit">
+            {{ $this->form }}
+
+            <div class="text-left">
+                <x-filament::button type="submit">
+                    {{ __('Save') }}
+                </x-filament::button>
+            </div>
+        </x-filament-panels::form>
+    </x-filament::section>
+</x-filament-companies::grid-section>
+```
+
 ### Enabling Profile Photos
 
 To allow users to upload custom profile photos, you can enable this feature by including the `profilePhotos()` method in your `FilamentCompaniesServiceProvider`.
