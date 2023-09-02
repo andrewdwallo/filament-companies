@@ -15,13 +15,14 @@
 
 # Filament Companies
 
-A Complete Authentication System Kit based on Companies built for Filament:
-- 🔥 **Socialite (Optional)**
+A comprehensive multi-tenant authentication and authorization solution designed for Filament, with a focus on company-based tenancy.
+
+- 🔥 **Socialite**
 - 🔥 **Terms & Privacy Policy**
 - 🔥 **Password Reset via Email**
 - 🔥 **Personal Profile Management**
 - 🔥 **Browser Session Management**
-- 🔥 **Sanctum API**
+- 🔥 **Sanctum**
 - 🔥 **Company Management**
 - 🔥 **Employee Invitations via Email**
 - 🔥 **Roles & Permissions**
@@ -36,7 +37,7 @@ After installing the Panel Builder, make sure that you have created a panel usin
 ```shell
 php artisan filament:install --panels
 ```
-> If you've followed the Panel Builder documentation, you should have already done this.
+> 📝 If you've followed the Panel Builder documentation, you should have already done this.
 
 # Installation
 
@@ -45,7 +46,7 @@ Install the package
 composer require andrewdwallo/filament-companies
 ```
 
-Execute one of the following Artisan commands to scaffold the application. The options include the base package or enabling Socialite support:
+Execute one of the following Artisan commands to scaffold the application. The options include the **Base package** or enabling **Socialite** support.
 ```shell
 php artisan filament-companies:install filament --companies 
 
@@ -69,7 +70,7 @@ To create a custom theme for the company panel, you can use the following comman
 ```shell
 php artisan make:filament-theme company
 ```
-> Please follow the instructions in the console to complete the setup process
+> 🛠️ Please follow the instructions in the console to complete the setup process
 
 Here is a reference to the instructions that should show after running the command:
 ```shell
@@ -92,10 +93,9 @@ export default {
 
 ### The User Panel
 
-As you may have noticed, after installation, there will be a company panel registered for your application. In order for this package to work you must also have a "User" panel to contain the profile page and personal access tokens page.
+As you may have noticed, after installation, there will be a company panel registered for your application. In order for this package to work you must also have a "User" panel to contain the Profile page and Personal Access Tokens page.
 
 For this example, I will use the default panel that Filament provides when installing the panel builder, the "Admin" panel.
-> You may create a separate User Panel following the documentation for [creating a new panel](https://filamentphp.com/docs/3.x/panels/configuration#creating-a-new-panel)
 
 In your "Admin" panel, make sure to register the following pages:
 ```php
@@ -112,8 +112,10 @@ public function panel(Panel $panel): Panel
         ])
 }
 ```
+> 🛑 You may create a separate User Panel following the documentation for [creating a new panel](https://filamentphp.com/docs/3.x/panels/configuration#creating-a-new-panel)
 
-Please make sure to provide a way for your users to navigate to the Profile and Personal Access Tokens pages.
+You must provide a way for your users to navigate to the Profile and Personal Access Tokens pages.
+
 It would also be wise to allow your users to navigate back to the Company Panel. 
 
 You may use the following as a guide:
@@ -147,7 +149,7 @@ public function panel(Panel $panel): Panel
 }
 ```
 
-You may change the value used for the User Panel using the id of the panel:
+You may change the value used for the User Panel using the `id` of the panel:
 ```php
 use Filament\Panel;
 use Wallo\FilamentCompanies\FilamentCompanies;
@@ -165,7 +167,7 @@ class FilamentCompaniesServiceProvider extends PanelProvider
     }
 }
 ```
-> Make sure to create a panel with the id you're passing
+> 🚧 Make sure to create a panel with the id you're passing
 
 ### Translations and Views
 
@@ -185,9 +187,9 @@ If you would like, you may create a new account using:
 ```shell
 php artisan make:filament-companies-user
 ```
-> You may also create a new account by registering through the application.
+> 📘 You may also create a new account by registering through the application.
 
-### Configuring Profile Features
+## Configuring Profile Features
 
 You can selectively enable or disable certain profile features. If you choose to omit a feature, it will be considered as disabled (`false`) by default.
 
@@ -216,7 +218,7 @@ class FilamentCompaniesServiceProvider extends PanelProvider
 }
 ```
 
-#### Changing the Default Components
+### Customizing Components
 
 If you would like to change the default components used for profile features, you may do so by passing the component class name to the corresponding method's `component` parameter:
 
@@ -229,7 +231,7 @@ FilamentCompanies::make()
     ->updateProfileInformation(component: CustomComponent::class);
 ```
 
-#### Sorting the Profile Features
+### Sorting Components
 
 If you would like to change the order of the profile features, you may do so by setting the `sort` parameter to the corresponding method. 
 
@@ -245,7 +247,7 @@ FilamentCompanies::make()
     ->accountDeletion(sort: 5);
 ```
 
-#### Adding Custom Profile Features/Components
+### Adding Components
 
 If you would like to add custom profile components, you may do so by passing the component class name along with the sort order to the `addProfileComponents()` method:
 
@@ -284,7 +286,7 @@ Within your component's view, you may use the grid section component to match th
 </x-filament-companies::grid-section>
 ```
 
-### Enabling Profile Photos
+## Profile Photos
 
 To allow users to upload custom profile photos, you can enable this feature by including the `profilePhotos()` method in your `FilamentCompaniesServiceProvider`.
 ```php
@@ -305,23 +307,25 @@ class FilamentCompaniesServiceProvider extends PanelProvider
 }
 ```
 
-#### Customizing Disk Storage
+### Disk Storage
+
 By default, the package uses Laravel's `public` disk for storing images. However, you can specify a different disk by passing the `disk` parameter.
 ```php
 FilamentCompanies::make()
     ->profilePhotos(disk: 's3')
 ```
 
-#### Setting a Custom Storage Path
+### Storage Path
+
 If you want to store profile photos in a specific directory, you can set the `storagePath` parameter.
 ```php
 FilamentCompanies::make()
     ->profilePhotos(storagePath: 'profile-avatars')
 ```
 
-### Configuring Modal Layouts
-To adjust the layout and behavior of modals, use the `modals()` method. Below are the package's default settings:
+## Modals
 
+To adjust the layout and behavior of modals, use the `modals()` method. Below are the package's default settings:
 ```php
 use Filament\Panel;
 use Wallo\FilamentCompanies\FilamentCompanies;
@@ -345,7 +349,8 @@ class FilamentCompaniesServiceProvider extends PanelProvider
 }
 ```
 
-### Configuring Notifications
+## Notifications
+
 To configure the notifications that are sent by the package, use the `notifications()` method.
 
 Unless specified otherwise, the package will send notifications. In order to disable notifications, you must pass `false` to the `notifications()` method.
@@ -368,55 +373,63 @@ class FilamentCompaniesServiceProvider extends PanelProvider
 }
 ```
 
-#### Overriding Notifications
+### Overriding Notifications
 
 To override the default notifications sent by the package, you should provide the following methods for each corresponding action.
 
 The parameters passed to each method are optional and may be omitted if not needed.
 
-**Update User Profile Information**
+#### Update User Profile Information
+
 ```php
 \App\Actions\FilamentCompanies\UpdateUserProfileInformation::class
 
 /** @method void profileInformationUpdated(\Illuminate\Foundation\Auth\User|null $user = null, array|null $input = null) */
 ```
 
-**Update User Password**
+#### Update User Password
+
 ```php
 \App\Actions\FilamentCompanies\UpdateUserPassword::class
 
 /** @method void passwordUpdated(\Illuminate\Foundation\Auth\User|null $user = null, array|null $input = null) */
 ```
 
-**Set User Password**
+#### Set User Password
+
 ```php
 \App\Actions\FilamentCompanies\SetUserPassword::class
 
 /** @method void passwordSet(\Illuminate\Foundation\Auth\User|null $user, array|null $input = null) */
 ```
 
-**Update Company Name**
+#### Update Company Name
+
 ```php
 \App\Actions\FilamentCompanies\UpdateCompanyName::class
 
 /** @method void companyNameUpdated(\Illuminate\Foundation\Auth\User|null $user = null, \Illuminate\Database\Eloquent\Model|null $company = null, array|null $input = null) */
 ```
 
-**Invite Company Employee**
+#### Invite Company Employee
+
 ```php
 \App\Actions\FilamentCompanies\InviteCompanyEmployee::class
 
 /** @method void employeeInvitationSent(\Illuminate\Foundation\Auth\User|null $user = null, \Illuminate\Database\Eloquent\Model|null $company = null, string|null $email = null, string|null $role = null) */
 ```
 
-**Delete Company**
+#### Delete Company
+
 ```php
 \App\Actions\FilamentCompanies\DeleteCompany::class
 
 /** @method void companyDeleted(\Illuminate\Database\Eloquent\Model|null $company = null) */
 ```
 
-For example, if you would like to override the notification that is sent when a user updates their password, you may do the following:
+#### Example
+
+If you would like to override the notification that is sent when a user updates their password, you may do the following:
 ```php
 <?php
 
@@ -450,7 +463,57 @@ class UpdateUserPassword implements UpdatesUserPasswords
 }
 ```
 
-### Socialite
+## Company Invitations
+
+### Example - Gmail
+
+1. **Sign in** to your account
+
+2. **Go** to [App passwords](https://myaccount.google.com/apppasswords)
+
+3. **Click** on "Select app", enter name of Application, and then click "Generate".
+
+4. **Copy** your app password and store it somewhere safe.
+
+6. **Add** the credentials in your application's `.env` file:
+```dosini
+MAIL_MAILER=smtp
+MAIL_HOST=smtp.gmail.com
+MAIL_PORT=587
+MAIL_USERNAME=yourgmailusername@gmail.com
+MAIL_PASSWORD=of9f9279g924792g49t          
+MAIL_ENCRYPTION=tls                         
+MAIL_FROM_ADDRESS="filament@company.com"
+MAIL_FROM_NAME="${APP_NAME}"
+```
+
+## Roles & Permissions
+
+You may change the roles & permissions in `app/Providers/FilamentCompaniesServiceProvider.php`
+```php
+/**
+ * Configure the roles and permissions that are available within the application.
+ */
+protected function configurePermissions(): void
+{
+    FilamentCompanies::defaultApiTokenPermissions(['read']);
+
+    FilamentCompanies::role('admin', 'Administrator', [
+        'create',
+        'read',
+        'update',
+        'delete',
+    ])->description('Administrator users can perform any action.');
+
+    FilamentCompanies::role('editor', 'Editor', [
+        'read',
+        'create',
+        'update',
+    ])->description('Editor users have the ability to read, create, and update.');
+}
+```
+
+## Socialite
 
 By Default, the GitHub Provider will be enabled.
 
@@ -494,9 +557,9 @@ class FilamentCompaniesServiceProvider extends PanelProvider
     }
 }
 ```
-> If Twitter is desired, you may only use either Twitter OAuth1 or Twitter OAuth2, not both. 
+> ⚠️ If Twitter is desired, you may only use either Twitter OAuth1 or Twitter OAuth2. 
 
-In `config/services.php` pass your Provider's credentials in the providers array:
+Pass your Provider's credentials in the provider's array in `config/services.php`:
 ```php
     /*
     |--------------------------------------------------------------------------
@@ -516,30 +579,46 @@ In `config/services.php` pass your Provider's credentials in the providers array
         'redirect' => 'https://filament.test/company/oauth/github/callback',
     ],
 ```
-> The Provider's Redirect URI must look similar to the above (e.g. 'APP_URL/company/oauth/provider_name/callback')
+> ‼️ The Provider's Redirect URI must look similar to the above (e.g. 'APP_URL/company/oauth/provider/callback')
 
-An Example: How to Set Up GitHub (using Filament as Application Name & APP_URL)
-1. Go to https://github.com/settings/applications/new
-2. Application Name: `Filament`
-3. Homepage URL: `https://filament.test/company`
-4. Authorization callback URL: `https://filament.test/company/oauth/github/callback`
-5. Click on Device Flow & Save
-6. Copy the Client Secret & store somewhere safe.
-> Authorization callback URL = 'redirect' from above
+### Example - GitHub
 
-In the `.env` file, for example:
+1. Register a [new OAuth application](https://github.com/settings/applications/new)
+
+2. Application name
+```
+Filament
+```
+
+3. Homepage URL
+```
+http://filament.test/company
+```
+
+4. Authorization callback URL
+```
+http://filament.test/company/oauth/github/callback
+```
+
+5. ☑ Enable Device Flow
+
+6. Click on **Register application**
+
+7. **Copy** the Client Secret & **store** somewhere safe
+
+8. **Add** the Client ID and Client Secret in `.env`
 ```dosini
 GITHUB_CLIENT_ID=aluffgef97f9f79f434t
 GITHUB_CLIENT_SECRET=hefliueoioffbo8338yhf2p9f4g2gg33
 ```
 
-The Socialite package is extensively "borrowed" from the work of Joel Butcher, his contributors and the Socialstream package. You can get a full understanding of the capabilities by reviewing the Socialstream [Documentation](https://docs.socialstream.dev/).
+## Methodology
 
-This package is extensively "borrowed" from the work of Taylor Otwell, his contributors and the Laravel Jetstream package. You can get a full understanding of the capabilities by reviewing the Jetstream [Documentation](https://jetstream.laravel.com/2.x/introduction.html/).
-
-The following examples are a visual representation of the features this package supports that were provided by the methods implemented in Laravel Jetstream. You may find all of the features as provided by the Laravel Jetstream package [here](https://jetstream.laravel.com/3.x/features/teams.html) in their documentation.
-
-Information about a user's companies may be accessed via the methods provided by the `Wallo\FilamentCompanies\HasCompanies` trait. This trait is automatically applied to your application's `App\Models\User` model during installation. This trait provides a variety of helpful methods that allow you to inspect a user's companies or company:
+- The following examples are a visual representation of the features this package supports that were provided by the methods implemented in Laravel Jetstream.
+- You may find all of the features as provided by the package [in the documentation](https://jetstream.laravel.com/3.x/features/teams.html).
+- Information about a User's companies may be accessed via the methods provided by the `Wallo\FilamentCompanies\HasCompanies` trait.
+- This trait is automatically applied to your application's `App\Models\User` model during installation.
+- This trait provides a variety of helpful methods that allow you to inspect a User's companies or company:
 
 ```php
 // Access a user's currently selected company...
@@ -575,57 +654,19 @@ $user->companyPermissions($company) : array
 // Determine if a user has a given company permission...
 $user->hasCompanyPermission($company, 'server:create') : bool
 ```
-> $user represents the current user of the application. Interchangeable with `Auth::user()`
+> 📘 $user represents the current user of the application. Interchangeable with `Auth::user()`
 
-### Company Invitations
-In my opinion, if you are using GMAIL & you are testing, this is the easiest route to setup the Mail Server:
-1. Go to https://myaccount.google.com/apppasswords (May ask you to Sign in)
-2. Click on "Select app", enter name of Application, then click "Generate".
-3. Copy your app password and store it somewhere safe.
+## Credits
 
-In your application's `.env` file, for example:
-```dosini
-MAIL_MAILER=smtp
-MAIL_HOST=smtp.gmail.com
-MAIL_PORT=587
-MAIL_USERNAME=yourgmailusername@gmail.com
-MAIL_PASSWORD=of9f9279g924792g49t           # GMAIL App Password
-MAIL_ENCRYPTION=tls                         # tls is recommended over ssl
-MAIL_FROM_ADDRESS="filament@company.com"
-MAIL_FROM_NAME="${APP_NAME}"
-```
+- [Laravel Jetstream](https://jetstream.laravel.com/introduction.html)
+- [Socialstream](https://docs.socialstream.dev/)
 
-### Roles & Permissions
-You may change roles & permissions in `app/Providers/FilamentCompaniesServiceProvider.php`
-```php
-/**
- * Configure the roles and permissions that are available within the application.
- */
-protected function configurePermissions(): void
-{
-    FilamentCompanies::defaultApiTokenPermissions(['read']);
-
-    FilamentCompanies::role('admin', 'Administrator', [
-        'create',
-        'read',
-        'update',
-        'delete',
-    ])->description('Administrator users can perform any action.');
-
-    FilamentCompanies::role('editor', 'Editor', [
-        'read',
-        'create',
-        'update',
-    ])->description('Editor users have the ability to read, create, and update.');
-}
-```
-
-### Notice
+## Notice
 * If you have any questions please ask
 * PR's and Issues are welcome
 * If you have a general question and not an issue please ask in either my package's [Discord Channel](https://discord.com/channels/883083792112300104/1059008724410310767) or make a discussion post.
 
-### Contributing
+## Contributing
 * Fork this repository to your GitHub account.
 * Create a fresh Laravel & Filament Project.
 * Clone your fork in your App's root directory.
