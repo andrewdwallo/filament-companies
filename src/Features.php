@@ -12,6 +12,11 @@ use Wallo\FilamentCompanies\Http\Livewire\UpdateProfileInformationForm;
 class Features
 {
     /**
+     * The event listener to register.
+     */
+    protected static bool $switchesCurrentCompany = false;
+
+    /**
      * Determine if the application can update a user's profile information.
      */
     public static bool $canUpdateProfileInformation = false;
@@ -95,6 +100,16 @@ class Features
      * The sort order of the components.
      */
     public static array $componentSortOrder = [];
+
+    /**
+     * Determine if the application supports switching current company.
+     */
+    public function switchCurrentCompany(bool $condition = true): static
+    {
+        static::$switchesCurrentCompany = $condition;
+
+        return $this;
+    }
 
     /**
      * Determine if the application supports updating profile information.
@@ -195,6 +210,14 @@ class Features
         static::$hasNotificationsFeature = $condition instanceof Closure ? $condition() : $condition;
 
         return $this;
+    }
+
+    /**
+     * Determine if the application switches the current company.
+     */
+    public static function switchesCurrentCompany(): bool
+    {
+        return static::$switchesCurrentCompany;
     }
 
     /**
