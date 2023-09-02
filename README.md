@@ -189,6 +189,28 @@ php artisan make:filament-companies-user
 ```
 > 📘 You may also create a new account by registering through the application.
 
+### Switching the Current Company
+
+Filament has a built-in event that is fired when the application needs to set the tenant for the current request. This event is `Filament\Events\TenantSet`. If you would like to either enable or disable the ability to switch the current company, you may do so by using the `switchCurrentCompany()` method in your `FilamentCompaniesServiceProvider` class.
+
+```php
+use Filament\Panel;
+use Wallo\FilamentCompanies\FilamentCompanies;
+
+class FilamentCompaniesServiceProvider extends PanelProvider
+{
+    public function panel(Panel $panel): Panel
+    {
+        return $panel
+            // ...
+            ->plugin(
+                FilamentCompanies::make()
+                    ->switchCurrentCompany()
+            );
+    }
+}
+```
+
 ## Configuring Profile Features
 
 You can selectively enable or disable certain profile features. If you choose to omit a feature, it will be considered as disabled (`false`) by default.
