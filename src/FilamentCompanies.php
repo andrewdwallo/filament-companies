@@ -8,9 +8,11 @@ use App\Models\Employeeship;
 use App\Models\User;
 use Closure;
 use Filament\Contracts\Plugin;
+use Filament\Events\TenantSet;
 use Filament\Panel;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Event;
 use Livewire\Livewire;
 use Wallo\FilamentCompanies\Contracts\AddsCompanyEmployees;
 use Wallo\FilamentCompanies\Contracts\CreatesCompanies;
@@ -33,6 +35,7 @@ use Wallo\FilamentCompanies\Http\Livewire\LogoutOtherBrowserSessionsForm;
 use Wallo\FilamentCompanies\Http\Livewire\SetPasswordForm;
 use Wallo\FilamentCompanies\Http\Livewire\UpdatePasswordForm;
 use Wallo\FilamentCompanies\Http\Livewire\UpdateProfileInformationForm;
+use Wallo\FilamentCompanies\Listeners\SwitchCurrentCompany;
 use Wallo\FilamentCompanies\Pages\Company\CompanySettings;
 use Wallo\FilamentCompanies\Pages\Company\CreateCompany;
 
@@ -127,6 +130,16 @@ class FilamentCompanies implements Plugin
     public function modals(string $width = '2xl', string $alignment = 'center', string $formActionsAlignment = 'center', bool $cancelButtonAction = false): static
     {
         static::$modals = compact('width', 'alignment', 'formActionsAlignment', 'cancelButtonAction');
+
+        return $this;
+    }
+
+    /**
+     * Determine if the application supports switching current company.
+     */
+    public function switchCurrentCompany(bool $condition = true): static
+    {
+        $this->features->switchCurrentCompany($condition);
 
         return $this;
     }
@@ -338,7 +351,9 @@ class FilamentCompanies implements Plugin
 
     public function boot(Panel $panel): void
     {
-       //
+        if (Features::switchesCurrentCompany()) {
+            Event::listen(TenantSet::class, SwitchCurrentCompany::class);
+        }
     }
 
     /**

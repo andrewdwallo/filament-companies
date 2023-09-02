@@ -50,6 +50,7 @@ class FilamentCompaniesServiceProvider extends PanelProvider
             ->plugin(
                 FilamentCompanies::make()
                     ->userPanel('admin')
+                    ->switchCurrentCompany()
                     ->updateProfileInformation()
                     ->updatePasswords()
                     ->manageBrowserSessions()
