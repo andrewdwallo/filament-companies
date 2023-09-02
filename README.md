@@ -345,6 +345,111 @@ class FilamentCompaniesServiceProvider extends PanelProvider
 }
 ```
 
+### Configuring Notifications
+To configure the notifications that are sent by the package, use the `notifications()` method.
+
+Unless specified otherwise, the package will send notifications. In order to disable notifications, you must pass `false` to the `notifications()` method.
+
+```php
+use Filament\Panel;
+use Wallo\FilamentCompanies\FilamentCompanies;
+
+class FilamentCompaniesServiceProvider extends PanelProvider
+{
+    public function panel(Panel $panel): Panel
+    {
+        return $panel
+            // ...
+            ->plugin(
+                FilamentCompanies::make()
+                    ->notifications(condition: false)
+            );
+    }
+}
+```
+
+#### Overriding Notifications
+
+To override the default notifications sent by the package, you should provide the following methods for each corresponding action.
+
+The parameters passed to each method are optional and may be omitted if not needed.
+
+**Update User Profile Information**
+```php
+\App\Actions\FilamentCompanies\UpdateUserProfileInformation::class
+
+/** @method void profileInformationUpdated(\Illuminate\Foundation\Auth\User|null $user = null, array|null $input = null) */
+```
+
+**Update User Password**
+```php
+\App\Actions\FilamentCompanies\UpdateUserPassword::class
+
+/** @method void passwordUpdated(\Illuminate\Foundation\Auth\User|null $user = null, array|null $input = null) */
+```
+
+**Set User Password**
+```php
+\App\Actions\FilamentCompanies\SetUserPassword::class
+
+/** @method void passwordSet(\Illuminate\Foundation\Auth\User|null $user, array|null $input = null) */
+```
+
+**Update Company Name**
+```php
+\App\Actions\FilamentCompanies\UpdateCompanyName::class
+
+/** @method void companyNameUpdated(\Illuminate\Foundation\Auth\User|null $user = null, \Illuminate\Database\Eloquent\Model|null $company = null, array|null $input = null) */
+```
+
+**Invite Company Employee**
+```php
+\App\Actions\FilamentCompanies\InviteCompanyEmployee::class
+
+/** @method void employeeInvitationSent(\Illuminate\Foundation\Auth\User|null $user = null, \Illuminate\Database\Eloquent\Model|null $company = null, string|null $email = null, string|null $role = null) */
+```
+
+**Delete Company**
+```php
+\App\Actions\FilamentCompanies\DeleteCompany::class
+
+/** @method void companyDeleted(\Illuminate\Database\Eloquent\Model|null $company = null) */
+```
+
+For example, if you would like to override the notification that is sent when a user updates their password, you may do the following:
+```php
+<?php
+
+namespace App\Actions\FilamentCompanies;
+
+use App\Models\User;
+use Filament\Notifications\Notification;
+use Wallo\FilamentCompanies\Contracts\UpdatesUserPasswords;
+
+class UpdateUserPassword implements UpdatesUserPasswords
+{
+    /**
+     * Validate and update the user's password.
+     *
+     * @param  array<string, string>  $input
+     */
+    public function update(User $user, array $input): void
+    {
+       // ...
+    }
+
+    public function passwordUpdated(): void
+    {
+        Notification::make()
+            ->title('Password Updated')
+            ->body('Your password has been updated.')
+            ->success();
+            ->send();
+    }
+    
+}
+```
+
 ### Socialite
 
 By Default, the GitHub Provider will be enabled.

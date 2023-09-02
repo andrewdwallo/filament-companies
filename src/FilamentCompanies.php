@@ -270,6 +270,16 @@ class FilamentCompanies implements Plugin
     }
 
     /**
+     * Determine if the application supports notifications.
+     */
+    public function notifications(bool|Closure|null $condition = true): static
+    {
+        $this->features->notifications($condition);
+
+        return $this;
+    }
+
+    /**
      * Get the added profile page components.
      */
     public static function getAddedProfileComponents(): array

@@ -57,6 +57,11 @@ class Features
     public static bool $hasTermsAndPrivacyPolicyFeature = false;
 
     /**
+     * Determine if the application is using notifications.
+     */
+    public static bool $hasNotificationsFeature = true;
+
+    /**
      * Determine if the application is using any browser session management features.
      */
     public static bool $canManageBrowserSessions = false;
@@ -183,6 +188,16 @@ class Features
     }
 
     /**
+     * Determine if the application is using notifications.
+     */
+    public function notifications(bool|Closure|null $condition = true): static
+    {
+        static::$hasNotificationsFeature = $condition instanceof Closure ? $condition() : $condition;
+
+        return $this;
+    }
+
+    /**
      * Determine if the application can update a user's profile information.
      */
     public static function canUpdateProfileInformation(): bool
@@ -278,6 +293,14 @@ class Features
     public static function hasTermsAndPrivacyPolicyFeature(): bool
     {
         return static::$hasTermsAndPrivacyPolicyFeature;
+    }
+
+    /**
+     * Determine if the application is using notifications.
+     */
+    public static function hasNotificationsFeature(): bool
+    {
+        return static::$hasNotificationsFeature;
     }
 
     /**

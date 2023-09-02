@@ -3,11 +3,13 @@
 namespace Wallo\FilamentCompanies\Http\Livewire;
 
 use Filament\Notifications\Notification;
+use Filament\Support\Colors\Color;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 use Wallo\FilamentCompanies\Contracts\SetsUserPasswords;
+use Wallo\FilamentCompanies\Features;
 
 class SetPasswordForm extends Component
 {
@@ -35,7 +37,13 @@ class SetPasswordForm extends Component
             'password_confirmation' => '',
         ];
 
-        $this->passwordSet();
+        if (Features::hasNotificationsFeature()) {
+            if (method_exists($setter, 'passwordSet')) {
+                $setter->passwordSet(Auth::user(), $this->state);
+            } else {
+                $this->passwordSet();
+            }
+        }
     }
 
     /**
@@ -59,6 +67,7 @@ class SetPasswordForm extends Component
         Notification::make()
             ->title(__('filament-companies::default.notifications.password_set.title'))
             ->success()
+            ->color(Color::Green)
             ->body(__('filament-companies::default.notifications.password_set.body'))
             ->duration(3000)
             ->send();
