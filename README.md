@@ -1,13 +1,13 @@
 ![gif (1)](https://user-images.githubusercontent.com/104294090/221399175-add7c34b-4887-49b7-9061-6781f6391409.gif)
 <p align="center">
-    <a href="https://filamentadmin.com/docs/2.x/admin/installation">
+    <a href="https://filamentphp.com/docs/3.x/panels/installation">
         <img alt="FILAMENT 3.x" src="https://img.shields.io/badge/FILAMENT-3.x-EBB304?style=for-the-badge">
     </a>
     <a href="https://packagist.org/packages/andrewdwallo/filament-companies">
         <img alt="Packagist" src="https://img.shields.io/packagist/v/andrewdwallo/filament-companies.svg?style=for-the-badge&logo=packagist">
     </a>
-    <a href="https://packagist.org/packages/andrewdwallo/filament-companies">
-        <img alt="Downloads" src="https://img.shields.io/packagist/dt/andrewdwallo/filament-companies?color=red&style=for-the-badge" >
+    <a href="https://packagist.org/packages/andrewdwallo/filament-companies/stats">
+        <img alt="Downloads" src="https://img.shields.io/packagist/dt/andrewdwallo/filament-companies?style=for-the-badge&logo=packagist&logoColor=red&color=red">
     </a>
 </p>
 
@@ -16,15 +16,15 @@
 # Filament Companies
 
 A Complete Authentication System Kit based on Companies built for Filament:
-- :fire: **Socialite (Optional)**
-- :fire: **Terms & Privacy Policy**
-- :fire: **Password Reset via Email**
-- :fire: **Personal Profile Management**
-- :fire: **Browser Session Management**
-- :fire: **Sanctum API**
-- :fire: **Company Management**
-- :fire: **Employee Invitations via Email**
-- :fire: **Roles & Permissions**
+- 🔥 **Socialite (Optional)**
+- 🔥 **Terms & Privacy Policy**
+- 🔥 **Password Reset via Email**
+- 🔥 **Personal Profile Management**
+- 🔥 **Browser Session Management**
+- 🔥 **Sanctum API**
+- 🔥 **Company Management**
+- 🔥 **Employee Invitations via Email**
+- 🔥 **Roles & Permissions**
 
 # Getting Started
 
