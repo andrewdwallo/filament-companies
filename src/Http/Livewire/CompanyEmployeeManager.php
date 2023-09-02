@@ -66,19 +66,19 @@ class CompanyEmployeeManager extends Component
     /**
      * Add a new company employee to a company.
      */
-    public function addCompanyEmployee(): void
+    public function addCompanyEmployee(InvitesCompanyEmployees $inviter, AddsCompanyEmployees $adder): void
     {
         $this->resetErrorBag();
 
         if (Features::sendsCompanyInvitations()) {
-            app(InvitesCompanyEmployees::class)->invite(
+            $inviter->invite(
                 $this->user,
                 $this->company,
                 $this->addCompanyEmployeeForm['email'],
                 $this->addCompanyEmployeeForm['role']
             );
         } else {
-            app(AddsCompanyEmployees::class)->add(
+            $adder->add(
                 $this->user,
                 $this->company,
                 $this->addCompanyEmployeeForm['email'],
@@ -86,9 +86,19 @@ class CompanyEmployeeManager extends Component
             );
         }
 
-        $email = $this->addCompanyEmployeeForm['email'];
-
-        $this->employeeInvitationSent($email);
+        if (Features::hasNotificationsFeature()) {
+            if (method_exists($inviter, 'employeeInvitationSent')) {
+                $inviter->employeeInvitationSent(
+                    $this->user,
+                    $this->company,
+                    $this->addCompanyEmployeeForm['email'],
+                    $this->addCompanyEmployeeForm['role']
+                );
+            } else {
+                $email = $this->addCompanyEmployeeForm['email'];
+                $this->employeeInvitationSent($email);
+            }
+        }
 
         $this->addCompanyEmployeeForm = [
             'email' => '',

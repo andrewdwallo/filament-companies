@@ -5,12 +5,11 @@ namespace Wallo\FilamentCompanies\Http\Livewire;
 use Filament\Notifications\Notification;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Contracts\View\View;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
-use Livewire\Features\SupportRedirects\Redirector;
 use Livewire\WithFileUploads;
 use Wallo\FilamentCompanies\Contracts\UpdatesUserProfileInformation;
+use Wallo\FilamentCompanies\Features;
 use Wallo\FilamentCompanies\Pages\User\Profile;
 
 class UpdateProfileInformationForm extends Component
@@ -45,7 +44,7 @@ class UpdateProfileInformationForm extends Component
     /**
      * Update the user's profile information.
      */
-    public function updateProfileInformation(UpdatesUserProfileInformation $updater): Redirector|RedirectResponse
+    public function updateProfileInformation(UpdatesUserProfileInformation $updater): void
     {
         $this->resetErrorBag();
 
@@ -57,14 +56,16 @@ class UpdateProfileInformationForm extends Component
         );
 
         if (isset($this->photo)) {
-            $this->profileInformationUpdated();
-
-            return redirect(Profile::getUrl());
+            redirect(Profile::getUrl());
         }
 
-        $this->profileInformationUpdated();
-
-        return redirect()->back(303);
+        if (Features::hasNotificationsFeature()) {
+            if (method_exists($updater, 'profileInformationUpdated')) {
+                $updater->profileInformationUpdated(Auth::user(), $this->state);
+            } else {
+                $this->profileInformationUpdated();
+            }
+        }
     }
 
     protected function profileInformationUpdated(): void

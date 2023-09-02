@@ -58,6 +58,7 @@ class FilamentCompaniesServiceProvider extends PanelProvider
                     ->api()
                     ->companies(invitations: true)
                     ->termsAndPrivacyPolicy()
+                    ->notifications()
                     ->modals(),
             )
             ->registration(Register::class)

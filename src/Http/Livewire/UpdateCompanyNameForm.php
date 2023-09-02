@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use Livewire\Component;
 use Wallo\FilamentCompanies\Contracts\UpdatesCompanyNames;
+use Wallo\FilamentCompanies\Features;
 
 class UpdateCompanyNameForm extends Component
 {
@@ -41,13 +42,19 @@ class UpdateCompanyNameForm extends Component
 
         $updater->update($this->user, $this->company, $this->state);
 
-        $name = $this->state['name'];
-
-        $this->companyNameUpdated($name);
+        if (Features::hasNotificationsFeature()) {
+            if (method_exists($updater, 'companyNameUpdated')) {
+                $updater->companyNameUpdated($this->user, $this->company, $this->state);
+            } else {
+                $this->companyNameUpdated($this->company);
+            }
+        }
     }
 
-    protected function companyNameUpdated($name): void
+    protected function companyNameUpdated($company): void
     {
+        $name = $company->name;
+
         Notification::make()
             ->title(__('filament-companies::default.notifications.company_name_updated.title'))
             ->success()

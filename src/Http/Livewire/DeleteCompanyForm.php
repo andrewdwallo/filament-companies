@@ -13,6 +13,7 @@ use Illuminate\Support\Str;
 use Livewire\Component;
 use Wallo\FilamentCompanies\Actions\ValidateCompanyDeletion;
 use Wallo\FilamentCompanies\Contracts\DeletesCompanies;
+use Wallo\FilamentCompanies\Features;
 use Wallo\FilamentCompanies\RedirectsActions;
 
 class DeleteCompanyForm extends Component
@@ -43,9 +44,13 @@ class DeleteCompanyForm extends Component
 
         $deleter->delete($this->company);
 
-        $name = $this->company->name;
-
-        $this->companyDeleted($name);
+        if (Features::hasNotificationsFeature()) {
+            if (method_exists($deleter, 'companyDeleted')) {
+                $deleter->companyDeleted($this->company);
+            } else {
+                $this->companyDeleted($this->company);
+            }
+        }
 
         $this->company = null;
 
@@ -68,8 +73,10 @@ class DeleteCompanyForm extends Component
         return view('filament-companies::companies.delete-company-form');
     }
 
-    public function companyDeleted($name): void
+    public function companyDeleted($company): void
     {
+        $name = $company->name;
+
         Notification::make()
             ->title(__('filament-companies::default.notifications.company_deleted.title'))
             ->success()
