@@ -184,10 +184,10 @@ class Features
     /**
      * Determine if the company is supporting company features.
      */
-    public function companies(bool|Closure|null $condition = true, bool|Closure|null $invitations = null): static
+    public function companies(bool|Closure|null $condition = true, bool $invitations = false): static
     {
         static::$hasCompanyFeatures = $condition instanceof Closure ? $condition() : $condition;
-        static::$sendsCompanyInvitations = $invitations instanceof Closure ? $invitations() : $invitations ?? false;
+        static::$sendsCompanyInvitations = $invitations;
 
         return $this;
     }
@@ -297,7 +297,7 @@ class Features
      */
     public static function sendsCompanyInvitations(): bool
     {
-        return static::$sendsCompanyInvitations;
+        return static::hasCompanyFeatures() && static::$sendsCompanyInvitations;
     }
 
     /**
