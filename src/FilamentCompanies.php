@@ -265,7 +265,7 @@ class FilamentCompanies implements Plugin
     /**
      * Determine if the application supports the companies features.
      */
-    public function companies(bool|Closure|null $condition = true, bool|Closure|null $invitations = null): static
+    public function companies(bool|Closure|null $condition = true, bool $invitations = false): static
     {
         $this->features->companies($condition, $invitations);
 
