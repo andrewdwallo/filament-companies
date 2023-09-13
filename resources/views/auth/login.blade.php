@@ -17,6 +17,6 @@
     </x-filament-panels::form>
 
     @if (Wallo\FilamentCompanies\Socialite::hasSocialiteFeatures())
-        <x-filament-companies::socialite />
+        <x-filament-companies::socialite :panelId="$panelId" />
     @endif
 </x-filament-panels::page.simple>

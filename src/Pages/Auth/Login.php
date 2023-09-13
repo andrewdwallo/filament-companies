@@ -2,6 +2,7 @@
 
 namespace Wallo\FilamentCompanies\Pages\Auth;
 
+use Filament\Facades\Filament;
 use Filament\Forms\Form;
 use Filament\Pages\Auth\Login as FilamentLogin;
 use Wallo\FilamentCompanies\FilamentCompanies;
@@ -20,5 +21,12 @@ class Login extends FilamentLogin
             ])
             ->statePath('data')
             ->model(FilamentCompanies::userModel());
+    }
+
+    protected function getViewData(): array
+    {
+        return [
+            'panelId' => Filament::getCurrentPanel()->getId()
+        ];
     }
 }
