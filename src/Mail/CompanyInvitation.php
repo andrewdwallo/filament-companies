@@ -33,7 +33,7 @@ class CompanyInvitation extends Mailable
      */
     public function build(): static
     {
-        $panelId = Filament::getCurrentPanel()?->getId();
+        $panelId = \Wallo\FilamentCompanies\Socialite::getPanelId();
 
         $routeName = 'filament.' . $panelId . '.' . $panelId . '-invitations.accept';
 

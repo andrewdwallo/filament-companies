@@ -22,11 +22,4 @@ class Login extends FilamentLogin
             ->statePath('data')
             ->model(FilamentCompanies::userModel());
     }
-
-    protected function getViewData(): array
-    {
-        return [
-            'panelId' => Filament::getCurrentPanel()->getId()
-        ];
-    }
 }
