@@ -2,6 +2,7 @@
 
 namespace Wallo\FilamentCompanies\Pages\Auth;
 
+use Filament\Facades\Filament;
 use Filament\Pages\Concerns\HasRoutes;
 use Filament\Pages\SimplePage;
 use Illuminate\Support\Str;
@@ -24,11 +25,15 @@ class PrivacyPolicy extends SimplePage
 
     public static function getSlug(): string
     {
-        return static::$slug ?? 'privacy-policy';
+        return 'privacy-policy';
     }
 
-    public static function getRouteName(): string
+    public static function getRouteName(?string $panel = null): string
     {
-        return 'auth.policy';
+        $panel ??= Filament::getCurrentPanel()?->getId();
+
+        return (string) str(static::getSlug())
+            ->replace('/', '.')
+            ->prepend("filament.{$panel}.auth.");
     }
 }

@@ -403,4 +403,9 @@ class Socialite
     {
         app()->singleton(GeneratesProviderRedirect::class, $callback);
     }
+
+    public static function getPanelId(): string
+    {
+        return Filament::getCurrentPanel()?->getId();
+    }
 }

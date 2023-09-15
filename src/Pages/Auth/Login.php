@@ -2,6 +2,7 @@
 
 namespace Wallo\FilamentCompanies\Pages\Auth;
 
+use Filament\Facades\Filament;
 use Filament\Forms\Form;
 use Filament\Pages\Auth\Login as FilamentLogin;
 use Wallo\FilamentCompanies\FilamentCompanies;

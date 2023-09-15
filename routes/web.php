@@ -20,7 +20,6 @@ Route::name('filament.')
 
             $panelId = $panel->getId();
             $domains = $panel->getDomains();
-            $hasTenancy = $panel->hasTenancy();
             $plugin = $panel->getPlugin('companies');
 
             foreach ((empty($domains) ? [null] : $domains) as $domain) {
@@ -28,7 +27,7 @@ Route::name('filament.')
                     ->middleware($panel->getMiddleware())
                     ->name("{$panelId}.")
                     ->prefix($panel->getPath())
-                    ->group(static function () use ($plugin, $hasTenancy) {
+                    ->group(static function () use ($plugin, $panel) {
                         $oauth_route = '/oauth/{provider}';
                         $oauth_callback_route = '/oauth/{provider}/callback';
 
@@ -37,10 +36,12 @@ Route::name('filament.')
                             Route::get($oauth_callback_route, [OAuthController::class, 'handleProviderCallback'])->name('oauth.callback');
                         }
 
-                        if (Features::hasTermsAndPrivacyPolicyFeature() && $plugin->termsAndPrivacyPolicy()) {
-                            Route::get(Terms::getSlug(), Terms::class)->name(Terms::getRouteName());
-                            Route::get(PrivacyPolicy::getSlug(), PrivacyPolicy::class)->name(PrivacyPolicy::getRouteName());
-                        }
+                        Route::name('auth.')->group(static function () use ($plugin, $panel): void {
+                            if (Features::hasTermsAndPrivacyPolicyFeature() && $plugin->termsAndPrivacyPolicy()) {
+                                Terms::routes($panel);
+                                PrivacyPolicy::routes($panel);
+                            }
+                        });
 
                         $company_invitations_route = '/company-invitations/{invitation}';
 
