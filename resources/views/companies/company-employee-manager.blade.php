@@ -50,12 +50,12 @@
                                                 </div>
 
                                                 <div x-cloak :class="{ 'hidden': role !== '{{ $role->key }}' }">
-                                                    <x-heroicon-o-check-badge class="text-primary-500 ml-2 h-5 w-5" />
+                                                    <x-heroicon-o-check-badge class="text-primary-500 ltr:ml-2 rtl:mr-2 h-5 w-5" />
                                                 </div>
                                             </div>
 
                                             <!-- Role Description -->
-                                            <div class="mt-2 text-left text-sm text-gray-600 dark:text-gray-400">
+                                            <div class="mt-2 ltr:text-left rtl:text-right text-sm text-gray-600 dark:text-gray-400">
                                                 {{ $role->description }}
                                             </div>
                                         </div>
@@ -65,7 +65,7 @@
                         </x-filament-forms::field-wrapper>
                     @endif
 
-                    <div class="text-left">
+                    <div class="ltr:text-left rtl:text-right">
                         <x-filament::button type="submit">
                             {{ __('filament-companies::default.buttons.add') }}
                         </x-filament::button>
@@ -92,7 +92,7 @@
                 <table class="w-full divide-y divide-gray-200 dark:divide-gray-700">
                     <thead class="bg-gray-100 dark:bg-gray-800">
                     <tr>
-                        <th colspan="3" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                        <th colspan="3" class="px-6 py-3 ltr:text-left rtl:text-right text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
                             {{ __('filament-companies::default.fields.email') }}
                         </th>
                     </tr>
@@ -141,9 +141,9 @@
             <!-- Company Employee List -->
             <div class="overflow-x-auto space-y-2 bg-white rounded-xl shadow dark:border-gray-600 dark:bg-gray-800 col-span-2 mt-5 sm:col-span-1 md:col-start-2 md:mt-0">
                 <table class="w-full divide-y divide-gray-200 dark:divide-gray-700">
-                    <thead class="bg-white dark:bg-gray-800">
+                    <thead class="bg-gray-100 dark:bg-gray-800">
                     <tr>
-                        <th scope="col" colspan="3" class="px-6 py-3 text-left text-xs font-medium text-gray-600 dark:text-gray-400 uppercase tracking-wider">
+                        <th scope="col" colspan="3" class="px-6 py-3 ltr:text-left rtl:text-right text-xs font-medium text-gray-600 dark:text-gray-400 uppercase tracking-wider">
                             {{ __('filament-companies::default.fields.name') }}
                         </th>
                     </tr>
@@ -151,19 +151,19 @@
                     <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
                     @foreach ($company->users->sortBy('name') as $user)
                         <tr>
-                            <td colspan="2" class="px-6 py-4 text-left whitespace-nowrap">
-                                <div class="flex items-center text-sm">
+                            <td colspan="2" class="px-6 py-4 ltr:text-left rtl:text-right whitespace-nowrap">
+                                <div class="flex items-center text-sm gap-4">
                                     <div class="flex-shrink-0">
                                         <x-filament-panels::avatar.user :user="$user" size="lg" />
                                     </div>
-                                    <div class="ml-4">
+                                    <div>
                                         <div class="font-medium text-gray-900 dark:text-gray-200">{{ $user->name }}</div>
                                         <div class="text-gray-600 dark:text-gray-400 hidden sm:block">{{ $user->email }}</div>
                                     </div>
                                 </div>
                             </td>
                             <td colspan="1" class="px-6 py-4 whitespace-nowrap">
-                                <div class="space-x-2 text-right">
+                                <div class="space-x-2 space-x-reverse ltr:text-right rtl:text-left">
                                     <!-- Manage Company Employee Role -->
                                     @if (Gate::check('updateCompanyEmployee', $company) && Wallo\FilamentCompanies\FilamentCompanies::hasRoles())
                                         <x-filament::button size="sm" outlined="true" color="primary" wire:click="manageRole('{{ $user->id }}')">
@@ -222,7 +222,7 @@
                             </div>
 
                             <div x-cloak :class="{ 'hidden': role !== '{{ $role->key }}' }">
-                                <x-heroicon-o-check-badge class="text-primary-500 ml-2 h-5 w-5" />
+                                <x-heroicon-o-check-badge class="text-primary-500 ltr:ml-2 rtl:mr-2 h-5 w-5" />
                             </div>
                         </div>
 
