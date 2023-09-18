@@ -2,7 +2,6 @@
 
 namespace Wallo\FilamentCompanies;
 
-use Illuminate\Contracts\Auth\StatefulGuard;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\View\Compilers\BladeCompiler;
 use Livewire\Livewire;

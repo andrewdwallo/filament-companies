@@ -39,7 +39,7 @@ class MakeUserCommand extends Command
     public function handle(): int
     {
         $name = $this->validateInput(fn () => $this->options['name'] ?? $this->ask('Name'), 'name', ['required', 'string', 'max:255'], fn () => $this->options['name'] = null);
-        $email = $this->validateInput(fn () => $this->options['email'] ?? $this->ask('Email address'), 'email', ['required', 'string', 'email', 'max:255', 'unique:' . $this->getUserModel()], fn () => $this->options['email'] = null);
+        $email = $this->validateInput(fn () => $this->options['email'] ?? $this->ask('Email address'), 'email', ['required', 'string', 'email', 'max:255', 'unique:'.$this->getUserModel()], fn () => $this->options['email'] = null);
         $password = $this->validateInput(fn () => $this->options['password'] ?? $this->secret('Password'), 'password', ['required', 'string', 'min:8'], fn () => $this->options['password'] = null);
 
         $createNewUser = new CreateNewUser();
@@ -63,7 +63,7 @@ class MakeUserCommand extends Command
     protected function sendSuccessMessage($user): void
     {
         $loginUrl = route('login');
-        $this->info('Success! ' . ($user->name ?? $user->email ?? 'You') . " may now log in at {$loginUrl}.");
+        $this->info('Success! '.($user->name ?? $user->email ?? 'You')." may now log in at {$loginUrl}.");
 
         if ($this->confirm('Would you like to show some love by starring the repo?', true) && $this->getUserModel()::count() === 1) {
             if (PHP_OS_FAMILY === 'Darwin') {

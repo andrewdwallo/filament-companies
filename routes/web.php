@@ -14,7 +14,7 @@ Route::name('filament.')
         foreach (Filament::getPanels() as $panel) {
             $hasPlugin = $panel->hasPlugin('companies');
 
-            if (!$hasPlugin) {
+            if (! $hasPlugin) {
                 continue;
             }
 

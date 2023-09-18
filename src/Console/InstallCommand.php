@@ -46,12 +46,12 @@ class InstallCommand extends Command
         $this->callSilent('storage:link');
 
         if (file_exists(resource_path('views/welcome.blade.php'))) {
-            $this->replaceInFile("Route::has('login')", "filament()->getLoginUrl()", resource_path('views/welcome.blade.php'));
-            $this->replaceInFile("Route::has('register')", "filament()->getRegistrationUrl()", resource_path('views/welcome.blade.php'));
-            $this->replaceInFile('Home', "{{ ucfirst(filament()->getCurrentPanel()->getId()) }}", resource_path('views/welcome.blade.php'));
-            $this->replaceInFile("{{ url('/home') }}", "{{ url(filament()->getHomeUrl()) }}", resource_path('views/welcome.blade.php'));
-            $this->replaceInFile("{{ route('login') }}", "{{ url(filament()->getLoginUrl()) }}", resource_path('views/welcome.blade.php'));
-            $this->replaceInFile("{{ route('register') }}", "{{ url(filament()->getRegistrationUrl()) }}", resource_path('views/welcome.blade.php'));
+            $this->replaceInFile("Route::has('login')", 'filament()->getLoginUrl()', resource_path('views/welcome.blade.php'));
+            $this->replaceInFile("Route::has('register')", 'filament()->getRegistrationUrl()', resource_path('views/welcome.blade.php'));
+            $this->replaceInFile('Home', '{{ ucfirst(filament()->getCurrentPanel()->getId()) }}', resource_path('views/welcome.blade.php'));
+            $this->replaceInFile("{{ url('/home') }}", '{{ url(filament()->getHomeUrl()) }}', resource_path('views/welcome.blade.php'));
+            $this->replaceInFile("{{ route('login') }}", '{{ url(filament()->getLoginUrl()) }}', resource_path('views/welcome.blade.php'));
+            $this->replaceInFile("{{ route('register') }}", '{{ url(filament()->getRegistrationUrl()) }}', resource_path('views/welcome.blade.php'));
         }
 
         // Configure Session...
@@ -90,10 +90,10 @@ class InstallCommand extends Command
     {
         // Sanctum...
         (new Process([$this->phpBinary(), 'artisan', 'vendor:publish', '--provider=Laravel\Sanctum\SanctumServiceProvider', '--force'], base_path()))
-                ->setTimeout(null)
-                ->run(function ($type, $output) {
-                    $this->output->write($output);
-                });
+            ->setTimeout(null)
+            ->run(function ($type, $output) {
+                $this->output->write($output);
+            });
 
         // $this->replaceInFile("'guard' => 'web'", "'guard' => 'sanctum'", config_path('auth.php'));
 
@@ -253,10 +253,10 @@ class InstallCommand extends Command
         $command = [...$command ?? ['composer', 'remove', '--dev'], ...is_array($packages) ? $packages : func_get_args()];
 
         return (new Process($command, base_path(), ['COMPOSER_MEMORY_LIMIT' => '-1']))
-                ->setTimeout(null)
-                ->run(function ($type, $output) {
-                    $this->output->write($output);
-                }) === 0;
+            ->setTimeout(null)
+            ->run(function ($type, $output) {
+                $this->output->write($output);
+            }) === 0;
     }
 
     /**
@@ -273,10 +273,10 @@ class InstallCommand extends Command
         $command = [...$command ?? ['composer', 'require', '--dev'], ...is_array($packages) ? $packages : func_get_args()];
 
         return (new Process($command, base_path(), ['COMPOSER_MEMORY_LIMIT' => '-1']))
-                ->setTimeout(null)
-                ->run(function ($type, $output) {
-                    $this->output->write($output);
-                }) === 0;
+            ->setTimeout(null)
+            ->run(function ($type, $output) {
+                $this->output->write($output);
+            }) === 0;
     }
 
     /**

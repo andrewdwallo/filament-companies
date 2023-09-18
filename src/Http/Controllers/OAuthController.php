@@ -3,6 +3,7 @@
 namespace Wallo\FilamentCompanies\Http\Controllers;
 
 use Filament\Facades\Filament;
+use Filament\Http\Responses\Auth\LoginResponse;
 use Filament\Notifications\Notification;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Contracts\Auth\Authenticatable;
@@ -13,7 +14,6 @@ use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\MessageBag;
 use Illuminate\Support\Str;
-use Filament\Http\Responses\Auth\LoginResponse;
 use Laravel\Socialite\Contracts\User as ProviderUser;
 use Laravel\Socialite\Two\InvalidStateException;
 use Symfony\Component\HttpFoundation\RedirectResponse as SymfonyRedirectResponse;
@@ -31,13 +31,19 @@ use Wallo\FilamentCompanies\Socialite;
 class OAuthController extends Controller
 {
     protected string $registrationUrl;
+
     protected string $loginUrl;
+
     protected string $userPanel;
 
     protected StatefulGuard $guard;
+
     protected CreatesUserFromProvider $createsUser;
+
     protected CreatesConnectedAccounts $createsConnectedAccounts;
+
     protected UpdatesConnectedAccounts $updatesConnectedAccounts;
+
     protected HandlesInvalidState $invalidStateHandler;
 
     /**
@@ -103,11 +109,11 @@ class OAuthController extends Controller
             return $this->handleRegistration($providerAccount, $provider);
         }
 
-        if (!$account && !Socialite::hasCreateAccountOnFirstLoginFeature()) {
+        if (! $account && ! Socialite::hasCreateAccountOnFirstLoginFeature()) {
             return $this->handleSignInNotFound($provider);
         }
 
-        if (!$account && Socialite::hasCreateAccountOnFirstLoginFeature()) {
+        if (! $account && Socialite::hasCreateAccountOnFirstLoginFeature()) {
             return $this->handleCreateAccountOnFirstLogin($providerAccount, $provider);
         }
 
@@ -144,9 +150,9 @@ class OAuthController extends Controller
     /**
      * Determine if the user should be registered.
      */
-    protected function shouldRegister(ConnectedAccount|null $account, string $previousUrl): bool
+    protected function shouldRegister(?ConnectedAccount $account, string $previousUrl): bool
     {
-        return !$account && $this->registrationUrl &&
+        return ! $account && $this->registrationUrl &&
             (
                 $previousUrl === url($this->registrationUrl) ||
                 (Socialite::hasCreateAccountOnFirstLoginFeature() && $previousUrl === url($this->loginUrl))
@@ -206,7 +212,7 @@ class OAuthController extends Controller
     /**
      * Handle connection of accounts for an already authenticated user.
      */
-    protected function alreadyAuthenticated(Authenticatable $user, ConnectedAccount|null $account, string $provider, ProviderUser $providerAccount): RedirectResponse
+    protected function alreadyAuthenticated(Authenticatable $user, ?ConnectedAccount $account, string $provider, ProviderUser $providerAccount): RedirectResponse
     {
         if ($account && $account->user_id !== $user->getAuthIdentifier()) {
 
@@ -237,7 +243,7 @@ class OAuthController extends Controller
     /**
      * Handle when a user is already registered.
      */
-    protected function handleUserAlreadyRegistered(Authenticatable $user, ConnectedAccount|null $account, string $provider, ProviderUser $providerAccount): RedirectResponse|LoginResponse
+    protected function handleUserAlreadyRegistered(Authenticatable $user, ?ConnectedAccount $account, string $provider, ProviderUser $providerAccount): RedirectResponse|LoginResponse
     {
         if (Socialite::hasLoginOnRegistrationFeature()) {
             // The user exists, but they're not registered with the given provider.

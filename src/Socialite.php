@@ -85,7 +85,7 @@ class Socialite
         return $this;
     }
 
-    public function setProviders(array|null $providers = null): static
+    public function setProviders(array $providers = null): static
     {
         if (is_array($providers) && static::$hasSocialiteFeatures) {
             foreach ($providers as $provider) {
@@ -98,7 +98,7 @@ class Socialite
         return $this;
     }
 
-    public function setFeatures(array|null $features = null): static
+    public function setFeatures(array $features = null): static
     {
         if (is_array($features) && static::$hasSocialiteFeatures) {
             foreach ($features as $feature) {

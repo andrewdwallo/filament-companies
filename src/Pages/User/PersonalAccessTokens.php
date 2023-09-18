@@ -32,7 +32,7 @@ class PersonalAccessTokens extends Page implements Tables\Contracts\HasTable
     /**
      * The plain text token value.
      */
-    public string|null $plainTextToken;
+    public ?string $plainTextToken;
 
     /**
      * Indicates if the plain text token is being displayed to the user.
@@ -94,10 +94,10 @@ class PersonalAccessTokens extends Page implements Tables\Contracts\HasTable
                         ->formatStateUsing(static function ($state) {
                             return new HtmlString(
                                 '<div>'
-                                . __('filament-companies::default.descriptions.token_created_state', [
-                                    'time_ago' => '<span class="font-bold text-sm text-primary-600 dark:text-primary-400">' . __($state->diffForHumans()) . '</span>',
-                                    'user_name' => '<a target="_blank" href="' . url(Profile::getUrl()) . '" class="font-bold text-sm text-primary-600 dark:text-primary-400 hover:text-primary-500 dark:hover:text-primary-300" style="text-decoration: underline;">' . __(Auth::user()?->name) . '</a>',
-                                    ]) .
+                                .__('filament-companies::default.descriptions.token_created_state', [
+                                    'time_ago' => '<span class="font-bold text-sm text-primary-600 dark:text-primary-400">'.__($state->diffForHumans()).'</span>',
+                                    'user_name' => '<a target="_blank" href="'.url(Profile::getUrl()).'" class="font-bold text-sm text-primary-600 dark:text-primary-400 hover:text-primary-500 dark:hover:text-primary-300" style="text-decoration: underline;">'.__(Auth::user()?->name).'</a>',
+                                ]).
                                 '</div>');
                         })
                         ->fontFamily('serif')
@@ -121,7 +121,7 @@ class PersonalAccessTokens extends Page implements Tables\Contracts\HasTable
                         })
                         ->fontFamily('serif')
                         ->sortable(),
-                ])
+                ]),
             ])->collapsible(),
         ];
     }
@@ -272,14 +272,14 @@ class PersonalAccessTokens extends Page implements Tables\Contracts\HasTable
                         ->placeholder(__('filament-companies::default.fields.password'))
                         ->currentPassword()
                         ->required(),
-                ])
+                ]),
         ];
     }
 
     /**
      * Get the current user of the application.
      */
-    public function getUserProperty(): Authenticatable|null
+    public function getUserProperty(): ?Authenticatable
     {
         return Auth::user();
     }

@@ -2,7 +2,6 @@
 
 namespace Wallo\FilamentCompanies\Pages\Auth;
 
-use Filament\Facades\Filament;
 use Filament\Forms\Components\Checkbox;
 use Filament\Forms\Components\Component;
 use Filament\Forms\Form;
@@ -10,7 +9,6 @@ use Filament\Pages\Auth\Register as FilamentRegister;
 use Illuminate\Support\HtmlString;
 use Wallo\FilamentCompanies\Features;
 use Wallo\FilamentCompanies\FilamentCompanies;
-use Wallo\FilamentCompanies\Socialite;
 
 class Register extends FilamentRegister
 {

@@ -11,7 +11,7 @@ use JsonException;
 use JsonSerializable;
 use Wallo\FilamentCompanies\Contracts\Credentials as CredentialsContract;
 
-class Credentials implements CredentialsContract, Arrayable, Jsonable, JsonSerializable
+class Credentials implements Arrayable, CredentialsContract, Jsonable, JsonSerializable
 {
     /**
      * The credentials user ID.
@@ -26,17 +26,17 @@ class Credentials implements CredentialsContract, Arrayable, Jsonable, JsonSeria
     /**
      * The credentials token secret.
      */
-    protected string|null $tokenSecret = null;
+    protected ?string $tokenSecret = null;
 
     /**
      * The credentials refresh token.
      */
-    protected string|null $refreshToken = null;
+    protected ?string $refreshToken = null;
 
     /**
      * The credentials' expiry.
      */
-    protected DateTimeInterface|null $expiry = null;
+    protected ?DateTimeInterface $expiry = null;
 
     /**
      * Create a new credentials instance.
@@ -69,7 +69,7 @@ class Credentials implements CredentialsContract, Arrayable, Jsonable, JsonSeria
     /**
      * Get the token secret for the credentials.
      */
-    public function getTokenSecret(): string|null
+    public function getTokenSecret(): ?string
     {
         return $this->tokenSecret;
     }
@@ -77,7 +77,7 @@ class Credentials implements CredentialsContract, Arrayable, Jsonable, JsonSeria
     /**
      * Get the refresh token for the credentials.
      */
-    public function getRefreshToken(): string|null
+    public function getRefreshToken(): ?string
     {
         return $this->refreshToken;
     }
@@ -87,7 +87,7 @@ class Credentials implements CredentialsContract, Arrayable, Jsonable, JsonSeria
      *
      * @throws Exception
      */
-    public function getExpiry(): DateTimeInterface|null
+    public function getExpiry(): ?DateTimeInterface
     {
         if ($this->expiry === null) {
             return null;
@@ -117,7 +117,7 @@ class Credentials implements CredentialsContract, Arrayable, Jsonable, JsonSeria
     /**
      * Convert the object to its JSON representation.
      *
-     * @param int $options
+     * @param  int  $options
      *
      * @throws Exception
      */
@@ -142,7 +142,6 @@ class Credentials implements CredentialsContract, Arrayable, Jsonable, JsonSeria
      * Convert the object instance to a string.
      *
      * @throws JsonException
-     *
      * @throws Exception
      */
     public function __toString(): string

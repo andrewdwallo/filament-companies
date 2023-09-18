@@ -6,6 +6,7 @@ use Filament\Facades\Filament;
 use Filament\Pages\Tenancy\EditTenantProfile as BaseEditTenantProfile;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Database\Eloquent\Model;
+
 use function Filament\authorize;
 
 class CompanySettings extends BaseEditTenantProfile

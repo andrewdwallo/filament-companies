@@ -104,7 +104,7 @@ class UpdateProfileInformationForm extends Component
     /**
      * Get the current user of the application.
      */
-    public function getUserProperty(): Authenticatable|null
+    public function getUserProperty(): ?Authenticatable
     {
         return Auth::user();
     }

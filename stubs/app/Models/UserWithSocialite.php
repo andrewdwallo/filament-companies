@@ -18,13 +18,13 @@ use Wallo\FilamentCompanies\HasConnectedAccounts;
 use Wallo\FilamentCompanies\HasProfilePhoto;
 use Wallo\FilamentCompanies\SetsProfilePhotoFromUrl;
 
-class User extends Authenticatable implements FilamentUser, HasAvatar, HasTenants, HasDefaultTenant
+class User extends Authenticatable implements FilamentUser, HasAvatar, HasDefaultTenant, HasTenants
 {
     use HasApiTokens;
-    use HasFactory;
-    use HasProfilePhoto;
     use HasCompanies;
     use HasConnectedAccounts;
+    use HasFactory;
+    use HasProfilePhoto;
     use Notifiable;
     use SetsProfilePhotoFromUrl;
 

@@ -16,12 +16,12 @@ use Laravel\Sanctum\HasApiTokens;
 use Wallo\FilamentCompanies\HasCompanies;
 use Wallo\FilamentCompanies\HasProfilePhoto;
 
-class User extends Authenticatable implements FilamentUser, HasAvatar, HasTenants, HasDefaultTenant
+class User extends Authenticatable implements FilamentUser, HasAvatar, HasDefaultTenant, HasTenants
 {
     use HasApiTokens;
+    use HasCompanies;
     use HasFactory;
     use HasProfilePhoto;
-    use HasCompanies;
     use Notifiable;
 
     public function canAccessPanel(Panel $panel): bool

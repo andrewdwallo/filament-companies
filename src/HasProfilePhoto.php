@@ -33,7 +33,7 @@ trait HasProfilePhoto
      */
     public function deleteProfilePhoto(): void
     {
-        if (!Features::managesProfilePhotos() || $this->profile_photo_path === null) {
+        if (! Features::managesProfilePhotos() || $this->profile_photo_path === null) {
             return;
         }
 

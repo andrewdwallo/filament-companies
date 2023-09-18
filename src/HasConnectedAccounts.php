@@ -67,7 +67,7 @@ trait HasConnectedAccounts
     /**
      * Attempt to retrieve the token for a given provider.
      */
-    public function getTokenFor(string $provider, string|null $default = null): string|null
+    public function getTokenFor(string $provider, string $default = null): ?string
     {
         if ($this->hasTokenFor($provider)) {
             return $this->connectedAccounts
