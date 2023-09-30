@@ -40,7 +40,6 @@ class CompanyInvitationController extends Controller
 
         if ($user) {
             Filament::auth()->login($user);
-
             return redirect(url(filament()->getHomeUrl()))->with('notification.success.company_invitation_accepted', $notification);
         }
 

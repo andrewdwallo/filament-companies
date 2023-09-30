@@ -3,6 +3,7 @@
 namespace Wallo\FilamentCompanies\Mail;
 
 use App\Models\CompanyInvitation as CompanyInvitationModel;
+use Filament\Facades\Filament;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
@@ -34,7 +35,7 @@ class CompanyInvitation extends Mailable
     {
         $panelId = \Wallo\FilamentCompanies\Socialite::getPanelId();
 
-        $routeName = 'filament.'.$panelId.'.'.$panelId.'-invitations.accept';
+        $routeName = 'filament.' . $panelId . '.' . $panelId . '-invitations.accept';
 
         return $this->markdown('filament-companies::mail.company-invitation', ['acceptUrl' => URL::signedRoute($routeName, [
             'invitation' => $this->invitation,

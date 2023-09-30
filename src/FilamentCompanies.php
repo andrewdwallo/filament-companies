@@ -64,7 +64,7 @@ class FilamentCompanies implements Plugin
     /**
      * The user panel.
      */
-    public static ?string $userPanel = null;
+    public static string|null $userPanel = null;
 
     /**
      * The configuration for the modals.
@@ -232,7 +232,7 @@ class FilamentCompanies implements Plugin
     /**
      * Determine if the application supports socialite.
      */
-    public function socialite(bool|Closure|null $condition = true, array $providers = null, array $features = null): static
+    public function socialite(bool|Closure|null $condition = true, array|null $providers = null, array|null $features = null): static
     {
         $this->socialite
             ->enableSocialite($condition)
@@ -367,7 +367,7 @@ class FilamentCompanies implements Plugin
     /**
      * Find the role with the given key.
      */
-    public static function findRole(string $key): ?Role
+    public static function findRole(string $key): Role|null
     {
         return static::$roles[$key] ?? null;
     }
@@ -378,10 +378,10 @@ class FilamentCompanies implements Plugin
     public static function role(string $key, string $name, array $permissions): Role
     {
         static::$permissions = collect([...static::$permissions, ...$permissions])
-            ->unique()
-            ->sort()
-            ->values()
-            ->all();
+                                    ->unique()
+                                    ->sort()
+                                    ->values()
+                                    ->all();
 
         return tap(new Role($key, $name, $permissions), static function ($role) use ($key) {
             static::$roles[$key] = $role;
@@ -615,7 +615,7 @@ class FilamentCompanies implements Plugin
     /**
      * Find the path to a localized Markdown resource.
      */
-    public static function localizedMarkdownPath(string $name): ?string
+    public static function localizedMarkdownPath(string $name): string|null
     {
         $localName = preg_replace('#(\.md)$#i', '.'.app()->getLocale().'$1', $name);
 

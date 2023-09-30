@@ -24,7 +24,7 @@ class SwitchCurrentCompany
         $tenant = $event->getTenant();
         $user = $event->getUser();
 
-        if (Features::switchesCurrentCompany() === false || ! in_array(HasCompanies::class, class_uses_recursive($user), true)) {
+        if (Features::switchesCurrentCompany() === false || !in_array(HasCompanies::class, class_uses_recursive($user), true)) {
             return;
         }
 

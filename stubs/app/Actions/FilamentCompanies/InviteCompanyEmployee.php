@@ -24,7 +24,7 @@ class InviteCompanyEmployee implements InvitesCompanyEmployees
      *
      * @throws AuthorizationException
      */
-    public function invite(User $user, Company $company, string $email, string $role = null): void
+    public function invite(User $user, Company $company, string $email, string|null $role = null): void
     {
         Gate::forUser($user)->authorize('addCompanyEmployee', $company);
 

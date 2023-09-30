@@ -42,7 +42,7 @@ class CreateCompanyForm extends Component
     /**
      * Get the current user of the application.
      */
-    public function getUserProperty(): ?Authenticatable
+    public function getUserProperty(): Authenticatable|null
     {
         return Auth::user();
     }

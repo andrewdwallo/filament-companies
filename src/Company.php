@@ -32,9 +32,9 @@ abstract class Company extends Model
     public function users(): BelongsToMany
     {
         return $this->belongsToMany(FilamentCompanies::userModel(), FilamentCompanies::employeeshipModel())
-            ->withPivot('role')
-            ->withTimestamps()
-            ->as('employeeship');
+                        ->withPivot('role')
+                        ->withTimestamps()
+                        ->as('employeeship');
     }
 
     /**
@@ -91,10 +91,10 @@ abstract class Company extends Model
     public function purge(): void
     {
         $this->owner()->where('current_company_id', $this->id)
-            ->update(['current_company_id' => null]);
+                ->update(['current_company_id' => null]);
 
         $this->users()->where('current_company_id', $this->id)
-            ->update(['current_company_id' => null]);
+                ->update(['current_company_id' => null]);
 
         $this->users()->detach();
 

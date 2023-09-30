@@ -19,7 +19,7 @@ class Terms extends SimplePage
         $termsFile = FilamentCompanies::localizedMarkdownPath('terms.md');
 
         return [
-            'terms' => Str::markdown(file_get_contents($termsFile)),
+           'terms' => Str::markdown(file_get_contents($termsFile)),
         ];
     }
 
@@ -28,7 +28,7 @@ class Terms extends SimplePage
         return 'terms-of-service';
     }
 
-    public static function getRouteName(string $panel = null): string
+    public static function getRouteName(?string $panel = null): string
     {
         $panel ??= Filament::getCurrentPanel()?->getId();
 

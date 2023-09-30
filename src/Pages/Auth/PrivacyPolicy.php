@@ -28,7 +28,7 @@ class PrivacyPolicy extends SimplePage
         return 'privacy-policy';
     }
 
-    public static function getRouteName(string $panel = null): string
+    public static function getRouteName(?string $panel = null): string
     {
         $panel ??= Filament::getCurrentPanel()?->getId();
 

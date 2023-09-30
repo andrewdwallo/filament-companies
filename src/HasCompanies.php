@@ -71,9 +71,9 @@ trait HasCompanies
     public function companies(): BelongsToMany
     {
         return $this->belongsToMany(FilamentCompanies::companyModel(), FilamentCompanies::employeeshipModel())
-            ->withPivot('role')
-            ->withTimestamps()
-            ->as('employeeship');
+                        ->withPivot('role')
+                        ->withTimestamps()
+                        ->as('employeeship');
     }
 
     /**
@@ -113,7 +113,7 @@ trait HasCompanies
     /**
      * Get the role that the user has on the company.
      */
-    public function companyRole(mixed $company): ?Role
+    public function companyRole(mixed $company): Role|null
     {
         if ($this->ownsCompany($company)) {
             return new OwnerRole;
