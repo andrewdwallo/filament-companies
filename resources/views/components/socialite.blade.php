@@ -16,8 +16,9 @@
             Providers::linkedin() => ['method' => Providers::hasLinkedIn(), 'name' => 'LinkedIn'],
             Providers::linkedinOpenId() => ['method' => Providers::hasLinkedInOpenId(), 'name' => 'LinkedIn'],
             Providers::bitbucket() => ['method' => Providers::hasBitbucket(), 'name' => 'Bitbucket'],
-            Providers::twitter() => ['method' => Providers::hasTwitter(), 'name' => 'Twitter'],
-            Providers::twitterOAuth2() => ['method' => Providers::hasTwitterOAuth2(), 'name' => 'Twitter'],
+            Providers::slack() => ['method' => Providers::hasSlack(), 'name' => 'Slack'],
+            Providers::twitter() => ['method' => Providers::hasTwitter(), 'name' => 'X'],
+            Providers::twitterOAuth2() => ['method' => Providers::hasTwitterOAuth2(), 'name' => 'X'],
         ];
     @endphp
 
