@@ -31,7 +31,7 @@ abstract class ConnectedAccount extends Model
      */
     public function user(): BelongsTo
     {
-        return $this->belongsTo(FilamentCompanies::userModel(), 'user_id', (FilamentCompanies::newUserModel())->getAuthIdentifierName());
+        return $this->belongsTo(FilamentCompanies::userModel(), 'user_id', FilamentCompanies::newUserModel()->getAuthIdentifierName());
     }
 
     /**

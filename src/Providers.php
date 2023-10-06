@@ -53,6 +53,14 @@ class Providers
     }
 
     /**
+     * Determine if the application has support for the Slack provider.
+     */
+    public static function hasSlack(): bool
+    {
+        return Socialite::$supportedSocialiteProviders['slack'];
+    }
+
+    /**
      * Determine if the application has support for the Twitter OAuth 1.0 provider.
      */
     public static function hasTwitter(): bool
@@ -114,6 +122,14 @@ class Providers
     public static function linkedin(): string
     {
         return 'linkedin';
+    }
+
+    /**
+     * Enable the Slack provider.
+     */
+    public static function slack(): string
+    {
+        return 'slack';
     }
 
     /**

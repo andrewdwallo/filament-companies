@@ -37,6 +37,7 @@ class Socialite
         'facebook' => false,
         'linkedin' => false,
         'bitbucket' => false,
+        'slack' => false,
         'twitter' => false,
         'twitter-oauth-2' => false,
     ];
