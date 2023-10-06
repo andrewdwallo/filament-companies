@@ -43,13 +43,21 @@ class Providers
     {
         return Socialite::$supportedSocialiteProviders['google'];
     }
-
+    
     /**
      * Determine if the application has support for the LinkedIn provider.
      */
     public static function hasLinkedIn(): bool
     {
         return Socialite::$supportedSocialiteProviders['linkedin'];
+    }
+    
+    /**
+     * Determine if the application has support for the LinkedIn OpenID provider.
+     */
+    public static function hasLinkedInOpenId(): bool
+    {
+        return Socialite::$supportedSocialiteProviders['linkedin-openid'];
     }
 
     /**
@@ -59,7 +67,7 @@ class Providers
     {
         return Socialite::$supportedSocialiteProviders['slack'];
     }
-
+  
     /**
      * Determine if the application has support for the Twitter OAuth 1.0 provider.
      */
@@ -122,6 +130,14 @@ class Providers
     public static function linkedin(): string
     {
         return 'linkedin';
+    }
+  
+    /**
+     * Enable the LinkedIn OpenID provider.
+     */
+    public static function linkedinOpenId(): string
+    {
+        return 'linkedin-openid';
     }
 
     /**

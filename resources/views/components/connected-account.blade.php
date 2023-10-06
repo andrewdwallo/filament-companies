@@ -9,6 +9,7 @@
         Providers::google() => ['method' => Providers::hasGoogle(), 'name' => 'Google'],
         Providers::facebook() => ['method' => Providers::hasFacebook(), 'name' => 'Facebook'],
         Providers::linkedin() => ['method' => Providers::hasLinkedIn(), 'name' => 'LinkedIn'],
+        Providers::linkedinOpenId() => ['method' => Providers::hasLinkedInOpenId(), 'name' => 'LinkedIn'],
         Providers::bitbucket() => ['method' => Providers::hasBitbucket(), 'name' => 'Bitbucket'],
         Providers::slack() => ['method' => Providers::hasSlack(), 'name' => 'Slack'],
         Providers::twitter() => ['method' => Providers::hasTwitter(), 'name' => 'X'],

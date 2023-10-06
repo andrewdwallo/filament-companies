@@ -27,7 +27,7 @@
         "illuminate/console": "^10.0",
         "illuminate/contracts": "^10.0",
         "illuminate/support": "^10.0",
-        "laravel/socialite": "^5.6",
+        "laravel/socialite": "^5.9",
         "matomo/device-detector": "^6.1"
     },
     "require-dev": {
