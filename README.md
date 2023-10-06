@@ -565,6 +565,7 @@ class FilamentCompaniesServiceProvider extends PanelProvider
                             Providers::linkedin(),
                             Providers::linkedinOpenId(),
                             Providers::bitbucket(),
+                            Providers::slack(),
                             Providers::twitter(),
                             Providers::twitterOAuth2(),
                         ],
