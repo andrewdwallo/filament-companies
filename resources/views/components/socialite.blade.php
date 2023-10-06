@@ -14,6 +14,7 @@
             Providers::google() => ['method' => Providers::hasGoogle(), 'name' => 'Google'],
             Providers::facebook() => ['method' => Providers::hasFacebook(), 'name' => 'Facebook'],
             Providers::linkedin() => ['method' => Providers::hasLinkedIn(), 'name' => 'LinkedIn'],
+            Providers::linkedinOpenId() => ['method' => Providers::hasLinkedInOpenId(), 'name' => 'LinkedIn'],
             Providers::bitbucket() => ['method' => Providers::hasBitbucket(), 'name' => 'Bitbucket'],
             Providers::twitter() => ['method' => Providers::hasTwitter(), 'name' => 'Twitter'],
             Providers::twitterOAuth2() => ['method' => Providers::hasTwitterOAuth2(), 'name' => 'Twitter'],
@@ -23,7 +24,11 @@
     <div class="filament-companies-socialite-button-container mt-6 flex flex-wrap items-center justify-center gap-6">
         @foreach ($providers as $iconKey => $provider)
             @php
-                $icon = $iconKey === 'twitter-oauth-2' ? 'twitter' : $iconKey;
+                $icon = match($iconKey) {
+                    'twitter-oauth-2' => 'twitter',
+                    'linkedin-openid' => 'linkedin',
+                    default => $iconKey
+                };
             @endphp
             @if ($provider['method'])
                 <a href="{{ route('filament.company.oauth.redirect', ['provider' => $iconKey]) }}"
