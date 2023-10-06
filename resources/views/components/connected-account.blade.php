@@ -16,7 +16,11 @@
         Providers::twitterOAuth2() => ['method' => Providers::hasTwitterOAuth2(), 'name' => 'X'],
     ];
 
-    $icon = $provider === Providers::twitterOAuth2() ? Providers::twitter() : $provider;
+    $icon = match ($provider) {
+        Providers::twitterOAuth2() => Providers::twitter(),
+        Providers::linkedinOpenId() => Providers::linkedin(),
+        default => $provider,
+    };
     $name = $providers[$provider]['name'];
 @endphp
 
