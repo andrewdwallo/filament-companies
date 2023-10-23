@@ -2,9 +2,7 @@
 
 namespace Wallo\FilamentCompanies;
 
-use Illuminate\Contracts\Auth\StatefulGuard;
 use Illuminate\Support\ServiceProvider;
-use Illuminate\View\Compilers\BladeCompiler;
 use Livewire\Livewire;
 use Wallo\FilamentCompanies\Http\Livewire\CompanyEmployeeManager;
 use Wallo\FilamentCompanies\Http\Livewire\ConnectedAccountsForm;
@@ -23,28 +21,7 @@ class FilamentCompaniesServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        $this->app->afterResolving(BladeCompiler::class, static function () {
-            if (class_exists(Livewire::class)) {
-
-                $featureComponentMap = [
-                    'update-profile-information-form' => [Features::canUpdateProfileInformation(), UpdateProfileInformationForm::class],
-                    'update-password-form' => [Features::canUpdatePasswords(), UpdatePasswordForm::class],
-                    'delete-user-form' => [Features::hasAccountDeletionFeatures(), DeleteUserForm::class],
-                    'logout-other-browser-sessions-form' => [Features::canManageBrowserSessions(), LogoutOtherBrowserSessionsForm::class],
-                    'update-company-name-form' => [Features::hasCompanyFeatures(), UpdateCompanyNameForm::class],
-                    'company-employee-manager' => [Features::hasCompanyFeatures(), CompanyEmployeeManager::class],
-                    'delete-company-form' => [Features::hasCompanyFeatures(), DeleteCompanyForm::class],
-                    'set-password-form' => [Socialite::canSetPasswords(), SetPasswordForm::class],
-                    'connected-accounts-form' => [Socialite::canManageConnectedAccounts(), ConnectedAccountsForm::class],
-                ];
-
-                foreach ($featureComponentMap as $alias => [$enabled, $component]) {
-                    if ($enabled) {
-                        Livewire::component($alias, $component);
-                    }
-                }
-            }
-        });
+        //
     }
 
     /**
@@ -56,10 +33,37 @@ class FilamentCompaniesServiceProvider extends ServiceProvider
 
         $this->loadTranslationsFrom(__DIR__.'/../lang', 'filament-companies');
 
-        // $this->configureComponents();
+        $this->configureComponents();
         $this->configurePublishing();
         $this->configureRoutes();
         $this->configureCommands();
+    }
+
+    /**
+     * Configure the components offered by the application.
+     */
+    protected function configureComponents(): void
+    {
+        if (class_exists(Livewire::class)) {
+
+            $featureComponentMap = [
+                'update-profile-information-form' => [Features::canUpdateProfileInformation(), UpdateProfileInformationForm::class],
+                'update-password-form' => [Features::canUpdatePasswords(), UpdatePasswordForm::class],
+                'delete-user-form' => [Features::hasAccountDeletionFeatures(), DeleteUserForm::class],
+                'logout-other-browser-sessions-form' => [Features::canManageBrowserSessions(), LogoutOtherBrowserSessionsForm::class],
+                'update-company-name-form' => [Features::hasCompanyFeatures(), UpdateCompanyNameForm::class],
+                'company-employee-manager' => [Features::hasCompanyFeatures(), CompanyEmployeeManager::class],
+                'delete-company-form' => [Features::hasCompanyFeatures(), DeleteCompanyForm::class],
+                'set-password-form' => [Socialite::canSetPasswords(), SetPasswordForm::class],
+                'connected-accounts-form' => [Socialite::canManageConnectedAccounts(), ConnectedAccountsForm::class],
+            ];
+
+            foreach ($featureComponentMap as $alias => [$enabled, $component]) {
+                if ($enabled) {
+                    Livewire::component($alias, $component);
+                }
+            }
+        }
     }
 
     /**
