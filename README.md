@@ -46,11 +46,10 @@ Install the package
 composer require andrewdwallo/filament-companies
 ```
 
-Execute one of the following Artisan commands to scaffold the application. The options include the **Base package** or enabling **Socialite** support.
-```shell
-php artisan filament-companies:install filament --companies 
+Execute the following Artisan command to scaffold the application. You will be prompted to choose between installing the **Base package** or enabling **Socialite** support.
 
-php artisan filament-companies:install filament --companies --socialite 
+```shell
+php artisan filament-companies:install
 ```
 
 Run migrations:

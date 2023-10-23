@@ -5,9 +5,13 @@ namespace Wallo\FilamentCompanies\Console;
 use Exception;
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
 use Symfony\Component\Process\PhpExecutableFinder;
 use Symfony\Component\Process\Process;
+use function Laravel\Prompts\confirm;
+use function Laravel\Prompts\info;
+use function Laravel\Prompts\select;
 
 class InstallCommand extends Command
 {
@@ -16,28 +20,56 @@ class InstallCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'filament-companies:install {stack : The development stack that should be installed (filament)}
-                                              {--companies : Indicates if company support should be installed}
-                                              {--socialite : Indicates if socialite support should be installed}
-                                              {--composer=global : Absolute path to the Composer binary which should be used to install packages}';
+    protected $signature = 'filament-companies:install {--socialite : Install with Socialite support} {--force : Overwrite existing files}';
 
     /**
      * The console command description.
      *
-     * @var string
+     * @var string|null
      */
-    protected $description = 'Install the FilamentCompanies components and resources';
+    protected $description = 'Install the Filament Companies package';
+
+    private bool $withSocialite = false;
 
     /**
      * Execute the console command.
      */
-    public function handle(): ?int
+    public function handle(): int
     {
-        if ($this->argument('stack') !== 'filament') {
-            $this->components->error('Invalid stack. Supported stacks are [filament].');
+        $this->withSocialite = $this->option('socialite');
+        $force = $this->option('force');
 
-            return 1;
+        if (! $force && File::exists(app_path('Providers/FilamentCompaniesServiceProvider.php'))) {
+            $shouldProceed = confirm(
+                label: 'Filament Companies is already installed. Do you want to continue?',
+                default: false,
+                yes: 'Yes, I want to continue',
+                no: 'No, exit',
+                hint: 'By continuing, some files may be overwritten.',
+            );
+
+            if (! $shouldProceed) {
+                info('Filament Companies installation aborted.');
+                return static::FAILURE;
+            }
         }
+
+        if (! $this->withSocialite) {
+            $installationType = select(
+                label: 'Which installation type would you like to use?',
+                options: [
+                    'base' => 'Base Package',
+                    'socialite' => 'With Socialite Support',
+                ],
+                default: 'base',
+            );
+
+            if ($installationType === 'socialite') {
+                $this->withSocialite = true;
+            }
+        }
+
+        info('Installing Filament Companies...');
 
         // Publish...
         $this->callSilent('vendor:publish', ['--tag' => 'filament-companies-migrations', '--force' => true]);
@@ -45,24 +77,41 @@ class InstallCommand extends Command
         // Storage...
         $this->callSilent('storage:link');
 
-        if (file_exists(resource_path('views/welcome.blade.php'))) {
-            $this->replaceInFile("Route::has('login')", "filament()->getLoginUrl()", resource_path('views/welcome.blade.php'));
-            $this->replaceInFile("Route::has('register')", "filament()->getRegistrationUrl()", resource_path('views/welcome.blade.php'));
-            $this->replaceInFile('Home', "{{ ucfirst(filament()->getCurrentPanel()->getId()) }}", resource_path('views/welcome.blade.php'));
-            $this->replaceInFile("{{ url('/home') }}", "{{ url(filament()->getHomeUrl()) }}", resource_path('views/welcome.blade.php'));
-            $this->replaceInFile("{{ route('login') }}", "{{ url(filament()->getLoginUrl()) }}", resource_path('views/welcome.blade.php'));
-            $this->replaceInFile("{{ route('register') }}", "{{ url(filament()->getRegistrationUrl()) }}", resource_path('views/welcome.blade.php'));
-        }
+        // Update Welcome Page...
+        $this->updateWelcomePage();
 
         // Configure Session...
         $this->configureSession();
 
-        // Install Stack...
-        if ($this->argument('stack') === 'filament') {
-            $this->installFilamentStack();
-        }
+        // Install Filament Companies...
+        $this->prepareForInstallation();
 
-        return 0;
+        return static::SUCCESS;
+    }
+
+    /**
+     * Update the default welcome page.
+     */
+    protected function updateWelcomePage(): void
+    {
+        $filePath = resource_path('views/welcome.blade.php');
+
+        if (file_exists($filePath)) {
+            $fileContents = file_get_contents($filePath);
+
+            $alreadyExists = Str::contains($fileContents, 'filament()->getHomeUrl()');
+
+            if ($alreadyExists) {
+                return;
+            }
+
+            $this->replaceInFile("Route::has('login')", "filament()->getLoginUrl()", $filePath);
+            $this->replaceInFile("Route::has('register')", "filament()->getRegistrationUrl()", $filePath);
+            $this->replaceInFile('Home', "{{ ucfirst(filament()->getCurrentPanel()->getId()) }}", $filePath);
+            $this->replaceInFile("{{ url('/home') }}", "{{ url(filament()->getHomeUrl()) }}", $filePath);
+            $this->replaceInFile("{{ route('login') }}", "{{ url(filament()->getLoginUrl()) }}", $filePath);
+            $this->replaceInFile("{{ route('register') }}", "{{ url(filament()->getRegistrationUrl()) }}", $filePath);
+        }
     }
 
     /**
@@ -70,12 +119,10 @@ class InstallCommand extends Command
      */
     protected function configureSession(): void
     {
-        if (! class_exists('CreateSessionsTable')) {
-            try {
-                $this->call('session:table');
-            } catch (Exception $e) {
-                //
-            }
+        try {
+            $this->call('session:table');
+        } catch (Exception $e) {
+            //
         }
 
         $this->replaceInFile("'SESSION_DRIVER', 'file'", "'SESSION_DRIVER', 'database'", config_path('session.php'));
@@ -86,7 +133,7 @@ class InstallCommand extends Command
     /**
      * Install the Filament stack into the application.
      */
-    protected function installFilamentStack(): bool
+    protected function prepareForInstallation(): bool
     {
         // Sanctum...
         (new Process([$this->phpBinary(), 'artisan', 'vendor:publish', '--provider=Laravel\Sanctum\SanctumServiceProvider', '--force'], base_path()))
@@ -123,12 +170,7 @@ class InstallCommand extends Command
         $this->replaceInFile('auth:api', 'auth:sanctum', base_path('routes/api.php'));
 
         // Companies...
-        if ($this->option('companies')) {
-            $this->installFilamentCompanyStack();
-        }
-
-        $this->line('');
-        $this->components->info('Filament scaffolding installed successfully.');
+        $this->installFilamentCompanies();
 
         return true;
     }
@@ -136,22 +178,17 @@ class InstallCommand extends Command
     /**
      * Install the FilamentCompanies company stack into the application.
      */
-    protected function installFilamentCompanyStack(): void
+    protected function installFilamentCompanies(): void
     {
         $this->ensureApplicationIsCompanyCompatible();
 
         // Socialite...
-        if ($this->option('socialite')) {
-            $this->installFilamentSocialiteStack();
+        if ($this->withSocialite) {
+            $this->ensureApplicationIsSocialiteCompatible();
+            info('Filament Companies with Socialite support installed successfully.');
+        } else {
+            info('Filament Companies installed successfully.');
         }
-    }
-
-    /**
-     * Install the FilamentCompanies socialite stack into the application.
-     */
-    protected function installFilamentSocialiteStack(): void
-    {
-        $this->ensureApplicationIsSocialiteCompatible();
     }
 
     /**
@@ -237,46 +274,6 @@ class InstallCommand extends Command
                 $appConfig
             ));
         }
-    }
-
-    /**
-     * Removes the given Composer Packages as "dev" dependencies.
-     */
-    protected function removeComposerDevPackages(mixed $packages): bool
-    {
-        $composer = $this->option('composer');
-
-        if ($composer !== 'global') {
-            $command = [$this->phpBinary(), $composer, 'remove', '--dev'];
-        }
-
-        $command = [...$command ?? ['composer', 'remove', '--dev'], ...is_array($packages) ? $packages : func_get_args()];
-
-        return (new Process($command, base_path(), ['COMPOSER_MEMORY_LIMIT' => '-1']))
-                ->setTimeout(null)
-                ->run(function ($type, $output) {
-                    $this->output->write($output);
-                }) === 0;
-    }
-
-    /**
-     * Install the given Composer Packages as "dev" dependencies.
-     */
-    protected function requireComposerDevPackages(mixed $packages): bool
-    {
-        $composer = $this->option('composer');
-
-        if ($composer !== 'global') {
-            $command = [$this->phpBinary(), $composer, 'require', '--dev'];
-        }
-
-        $command = [...$command ?? ['composer', 'require', '--dev'], ...is_array($packages) ? $packages : func_get_args()];
-
-        return (new Process($command, base_path(), ['COMPOSER_MEMORY_LIMIT' => '-1']))
-                ->setTimeout(null)
-                ->run(function ($type, $output) {
-                    $this->output->write($output);
-                }) === 0;
     }
 
     /**
