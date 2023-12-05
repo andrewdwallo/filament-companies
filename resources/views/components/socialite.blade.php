@@ -6,6 +6,7 @@
     </div>
 
     @php
+        use Wallo\FilamentCompanies\FilamentCompanies;
         use Wallo\FilamentCompanies\Providers;
 
         $providers = [
@@ -32,7 +33,7 @@
                 };
             @endphp
             @if ($provider['method'])
-                <a href="{{ route('filament.company.oauth.redirect', ['provider' => $iconKey]) }}"
+                <a href="{{ route('filament.' . FilamentCompanies::getCompanyPanel() . '.oauth.redirect', ['provider' => $iconKey]) }}"
                    class="filament-companies-socialite-buttons inline-flex rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 dark:focus:border-primary-500 py-2 px-4 shadow-sm hover:bg-gray-50 dark:hover:bg-gray-600">
                     <span class="sr-only">{{ $provider['name'] }}</span>
                     <div class="h-6 w-6">

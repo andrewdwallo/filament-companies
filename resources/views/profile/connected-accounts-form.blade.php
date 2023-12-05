@@ -30,24 +30,27 @@
                     $account = $this->accounts->where('provider', $provider)->first();
                 @endphp
 
-                <x-filament-companies::connected-account provider="{{ $provider }}" created-at="{{ $account->created_at ?? null }}">
+                <x-filament-companies::connected-account provider="{{ $provider }}"
+                                                         created-at="{{ $account->created_at ?? null }}">
                     <x-slot name="action">
                         @if ($account !== null)
                             <div class="flex items-center justify-end gap-x-2">
                                 @if ($account->avatar_path !== null && Wallo\FilamentCompanies\Features::managesProfilePhotos() && Wallo\FilamentCompanies\Socialite::hasProviderAvatarsFeature())
-                                    <x-filament::button size="sm" wire:click="setAvatarAsProfilePhoto({{ $account->id }})">
+                                    <x-filament::button size="sm"
+                                                        wire:click="setAvatarAsProfilePhoto({{ $account->id }})">
                                         {{ __('filament-companies::default.buttons.use_avatar_as_profile_photo') }}
                                     </x-filament::button>
                                 @endif
 
                                 @if ($this->user->password !== null || $this->accounts->count() > 1)
-                                    <x-filament::button color="danger" size="sm" wire:click="confirmRemove({{ $account->id }})">
+                                    <x-filament::button color="danger" size="sm"
+                                                        wire:click="confirmRemove({{ $account->id }})">
                                         {{ __('filament-companies::default.buttons.remove') }}
                                     </x-filament::button>
                                 @endif
                             </div>
                         @else
-                            <x-filament::button tag="a" color="gray" size="sm" href="{{ route('filament.company.oauth.redirect', compact('provider')) }}">
+                            <x-filament::button tag="a" color="gray" size="sm" href="{{ route('filament.' . Wallo\FilamentCompanies\FilamentCompanies::getCompanyPanel() . '.oauth.redirect', compact('provider')) }}">
                                 {{ __('filament-companies::default.buttons.connect') }}
                             </x-filament::button>
                         @endif
@@ -56,7 +59,10 @@
             @endforeach
 
             <!-- Remove Connected Account Confirmation Modal -->
-            <x-filament::modal id="confirmingRemove" icon="heroicon-o-exclamation-triangle" icon-color="danger" alignment="{{ $modals['alignment'] }}" footer-actions-alignment="{{ $modals['formActionsAlignment'] }}" width="{{ $modals['width'] }}">
+            <x-filament::modal id="confirmingRemove" icon="heroicon-o-exclamation-triangle" icon-color="danger"
+                               alignment="{{ $modals['alignment'] }}"
+                               footer-actions-alignment="{{ $modals['formActionsAlignment'] }}"
+                               width="{{ $modals['width'] }}">
                 <x-slot name="heading">
                     {{ __('filament-companies::default.modal_titles.remove_connected_account') }}
                 </x-slot>
@@ -72,7 +78,8 @@
                         </x-filament::button>
                     @endif
 
-                    <x-filament::button color="danger" wire:click="removeConnectedAccount({{ $this->selectedAccountId }})">
+                    <x-filament::button color="danger"
+                                        wire:click="removeConnectedAccount({{ $this->selectedAccountId }})">
                         {{ __('filament-companies::default.buttons.remove_connected_account') }}
                     </x-filament::button>
                 </x-slot>
