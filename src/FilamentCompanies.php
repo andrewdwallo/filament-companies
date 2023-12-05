@@ -9,6 +9,7 @@ use App\Models\User;
 use Closure;
 use Filament\Contracts\Plugin;
 use Filament\Events\TenantSet;
+use Filament\Facades\Filament;
 use Filament\Panel;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Support\Arr;
@@ -142,6 +143,20 @@ class FilamentCompanies implements Plugin
         $this->features->switchCurrentCompany($condition);
 
         return $this;
+    }
+
+    /**
+     * Get the panel where the plugin is registered.
+     */
+    public static function getCompanyPanel(): string|null
+    {
+        foreach (Filament::getPanels() as $panel) {
+            if ($panel->hasPlugin('companies')) {
+                return $panel->getId();
+            }
+        }
+
+        return null;
     }
 
     /**
