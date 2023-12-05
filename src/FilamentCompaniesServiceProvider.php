@@ -33,10 +33,10 @@ class FilamentCompaniesServiceProvider extends ServiceProvider
 
         $this->loadTranslationsFrom(__DIR__.'/../lang', 'filament-companies');
 
-        $this->configureComponents();
         $this->configurePublishing();
         $this->configureRoutes();
         $this->configureCommands();
+        $this->configureComponents();
     }
 
     /**
