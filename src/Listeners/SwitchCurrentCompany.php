@@ -22,14 +22,16 @@ class SwitchCurrentCompany
     public function handle(TenantSet $event): void
     {
         $tenant = $event->getTenant();
+
+        /** @var HasCompanies $user */
         $user = $event->getUser();
 
         if (Features::switchesCurrentCompany() === false || !in_array(HasCompanies::class, class_uses_recursive($user), true)) {
             return;
         }
 
-        if (! $user->isCurrentCompany($tenant)) {
-            $user->switchCompany($tenant);
+        if (! $user->switchCompany($tenant)) {
+            $user->switchCompany($user->personalCompany());
         }
     }
 }
