@@ -20,7 +20,6 @@ Route::name('filament.')
 
             $panelId = $panel->getId();
             $domains = $panel->getDomains();
-            $hasTenancy = $panel->hasTenancy();
             $plugin = $panel->getPlugin('companies');
 
             foreach ((empty($domains) ? [null] : $domains) as $domain) {
@@ -28,7 +27,7 @@ Route::name('filament.')
                     ->middleware($panel->getMiddleware())
                     ->name("{$panelId}.")
                     ->prefix($panel->getPath())
-                    ->group(static function () use ($plugin, $hasTenancy) {
+                    ->group(static function () use ($plugin, $panel) {
                         $oauth_route = '/oauth/{provider}';
                         $oauth_callback_route = '/oauth/{provider}/callback';
 
@@ -42,13 +41,15 @@ Route::name('filament.')
                             Route::get(PrivacyPolicy::getSlug(), PrivacyPolicy::class)->name(PrivacyPolicy::getRouteName());
                         }
 
-                        $company_invitations_route = '/company-invitations/{invitation}';
+                        $panelId = $panel->getId();
+                        $company_invitations_route = '/' . $panelId . '-invitations/{invitation}';
+                        $company_invitations_route_name = $panelId . '-invitations.accept';
 
                         // Companies...
                         if (Features::hasCompanyFeatures() && $plugin->companies(invitations: true)) {
                             Route::get($company_invitations_route, [CompanyInvitationController::class, 'accept'])
                                 ->middleware(['signed'])
-                                ->name('company-invitations.accept');
+                                ->name($company_invitations_route_name);
                         }
                     });
             }
