@@ -241,11 +241,11 @@ class FilamentCompaniesServiceProvider extends PanelProvider
 
 ### Customizing Components
 
-If you would like to change the default components used for profile features, you may do so by passing the component class name to the corresponding method's `component` parameter:
+Personalize your application by replacing default components with your own custom components. This is done by passing your custom component's class name to the component parameter of the relevant method.
 
 **Important:** Your custom component must have a unique class name. This is crucial to prevent conflicts and ensure proper functioning, as Livewire differentiates components primarily by their class names. Even if your custom component is in a different namespace, having the same class name as a component in the package can lead to unexpected errors and behavior.
 
-For example, if you would like to use a custom component for updating profile information, you may do so by passing the component class name to the `updateProfileInformation()` method:
+Here's an example of how to use a custom component for updating profile information:
 
 ```php
 use App\Livewire\CustomComponent;
