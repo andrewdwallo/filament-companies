@@ -2,6 +2,7 @@
 
 namespace Wallo\FilamentCompanies;
 
+use Filament\Facades\Filament;
 use Illuminate\Support\ServiceProvider;
 use Livewire\Livewire;
 use Wallo\FilamentCompanies\Http\Livewire\CompanyEmployeeManager;
@@ -34,9 +35,12 @@ class FilamentCompaniesServiceProvider extends ServiceProvider
         $this->loadTranslationsFrom(__DIR__.'/../lang', 'filament-companies');
 
         $this->configurePublishing();
-        $this->configureRoutes();
         $this->configureCommands();
-        $this->configureComponents();
+
+        Filament::serving(function () {
+            $this->configureRoutes();
+            $this->configureComponents();
+        });
     }
 
     /**
