@@ -37,7 +37,7 @@ class FilamentCompaniesServiceProvider extends ServiceProvider
         $this->configurePublishing();
         $this->configureCommands();
 
-        Filament::serving(function () {
+        $this->app->booted(function () {
             $this->configureRoutes();
             $this->configureComponents();
         });
