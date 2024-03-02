@@ -24,18 +24,18 @@
         "php": "^8.1",
         "ext-json": "*",
         "filament/filament": "^3.0",
-        "illuminate/console": "^10.0",
-        "illuminate/contracts": "^10.0",
-        "illuminate/support": "^10.0",
+        "illuminate/console": "^10.0|^11.0",
+        "illuminate/contracts": "^10.0|^11.0",
+        "illuminate/support": "^10.0|^11.0",
         "laravel/socialite": "^5.9",
         "matomo/device-detector": "^6.1"
     },
     "require-dev": {
-        "laravel/sanctum": "^3.0",
+        "laravel/sanctum": "^3.0|dev-master",
         "livewire/livewire": "^3.0@beta",
         "mockery/mockery": "^1.0",
-        "orchestra/testbench": "^8.0",
-        "phpunit/phpunit": "^9.3"
+        "orchestra/testbench": "^8.0|^9.0",
+        "phpunit/phpunit": "^9.3|^10.5"
     },
     "autoload": {
         "psr-4": {
