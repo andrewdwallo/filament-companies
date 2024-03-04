@@ -18,7 +18,7 @@ class Terms extends SimplePage
         $termsFile = FilamentCompanies::localizedMarkdownPath('terms.md');
 
         return [
-           'terms' => Str::markdown(file_get_contents($termsFile)),
+            'terms' => Str::markdown(file_get_contents($termsFile)),
         ];
     }
 

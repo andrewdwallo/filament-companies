@@ -2,7 +2,6 @@
 
 namespace Wallo\FilamentCompanies;
 
-use Filament\Facades\Filament;
 use Illuminate\Support\ServiceProvider;
 use Livewire\Livewire;
 use Wallo\FilamentCompanies\Http\Livewire\CompanyEmployeeManager;
@@ -30,15 +29,15 @@ class FilamentCompaniesServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        $this->loadViewsFrom(__DIR__.'/../resources/views', 'filament-companies');
+        $this->loadViewsFrom(__DIR__ . '/../resources/views', 'filament-companies');
 
-        $this->loadTranslationsFrom(__DIR__.'/../lang', 'filament-companies');
+        $this->loadTranslationsFrom(__DIR__ . '/../lang', 'filament-companies');
 
         $this->configurePublishing();
         $this->configureCommands();
+        $this->configureRoutes();
 
         $this->app->booted(function () {
-            $this->configureRoutes();
             $this->configureComponents();
         });
     }
@@ -80,25 +79,25 @@ class FilamentCompaniesServiceProvider extends ServiceProvider
         }
 
         $this->publishes([
-            __DIR__.'/../resources/views' => resource_path('views/vendor/filament-companies'),
+            __DIR__ . '/../resources/views' => resource_path('views/vendor/filament-companies'),
         ], 'filament-companies-views');
 
         $this->publishes([
-            __DIR__.'/../lang' => lang_path('vendor/filament-companies'),
+            __DIR__ . '/../lang' => lang_path('vendor/filament-companies'),
         ], 'filament-companies-translations');
 
         $this->publishes([
-            __DIR__.'/../database/migrations/2014_10_12_000000_create_users_table.php' => database_path('migrations/2014_10_12_000000_create_users_table.php'),
+            __DIR__ . '/../database/migrations/2014_10_12_000000_create_users_table.php' => database_path('migrations/2014_10_12_000000_create_users_table.php'),
         ], 'filament-companies-migrations');
 
         $this->publishes([
-            __DIR__.'/../database/migrations/2020_05_21_100000_create_companies_table.php' => database_path('migrations/2020_05_21_100000_create_companies_table.php'),
-            __DIR__.'/../database/migrations/2020_05_21_200000_create_company_user_table.php' => database_path('migrations/2020_05_21_200000_create_company_user_table.php'),
-            __DIR__.'/../database/migrations/2020_05_21_300000_create_company_invitations_table.php' => database_path('migrations/2020_05_21_300000_create_company_invitations_table.php'),
+            __DIR__ . '/../database/migrations/2020_05_21_100000_create_companies_table.php' => database_path('migrations/2020_05_21_100000_create_companies_table.php'),
+            __DIR__ . '/../database/migrations/2020_05_21_200000_create_company_user_table.php' => database_path('migrations/2020_05_21_200000_create_company_user_table.php'),
+            __DIR__ . '/../database/migrations/2020_05_21_300000_create_company_invitations_table.php' => database_path('migrations/2020_05_21_300000_create_company_invitations_table.php'),
         ], 'filament-companies-company-migrations');
 
         $this->publishes([
-            __DIR__.'/../database/migrations/2020_12_22_000000_create_connected_accounts_table.php' => database_path('migrations/2020_12_22_000000_create_connected_accounts_table.php'),
+            __DIR__ . '/../database/migrations/2020_12_22_000000_create_connected_accounts_table.php' => database_path('migrations/2020_12_22_000000_create_connected_accounts_table.php'),
         ], 'filament-companies-socialite-migrations');
     }
 
@@ -108,7 +107,7 @@ class FilamentCompaniesServiceProvider extends ServiceProvider
     protected function configureRoutes(): void
     {
         if (FilamentCompanies::$registersRoutes) {
-            $this->loadRoutesFrom(__DIR__.'/../routes/web.php');
+            $this->loadRoutesFrom(__DIR__ . '/../routes/web.php');
         }
     }
 
