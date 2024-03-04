@@ -65,7 +65,7 @@ class FilamentCompanies implements Plugin
     /**
      * The user panel.
      */
-    public static string|null $userPanel = null;
+    public static ?string $userPanel = null;
 
     /**
      * The configuration for the modals.
@@ -148,7 +148,7 @@ class FilamentCompanies implements Plugin
     /**
      * Get the panel where the plugin is registered.
      */
-    public static function getCompanyPanel(): string|null
+    public static function getCompanyPanel(): ?string
     {
         foreach (Filament::getPanels() as $panel) {
             if ($panel->hasPlugin('companies')) {
@@ -183,7 +183,7 @@ class FilamentCompanies implements Plugin
     /**
      * Determine if the application supports updating profile information.
      */
-    public function updateProfileInformation(bool|Closure|null $condition = true, $component = UpdateProfileInformationForm::class, int $sort = 0): static
+    public function updateProfileInformation(bool | Closure | null $condition = true, $component = UpdateProfileInformationForm::class, int $sort = 0): static
     {
         $this->features->updateProfileInformation($condition, $component, $sort);
 
@@ -193,21 +193,21 @@ class FilamentCompanies implements Plugin
     /**
      * Determine if the application supports updating passwords.
      */
-    public function updatePasswords(bool|Closure|null $condition = true, $component = UpdatePasswordForm::class, int $sort = 1): static
+    public function updatePasswords(bool | Closure | null $condition = true, $component = UpdatePasswordForm::class, int $sort = 1): static
     {
         $this->features->updatePasswords($condition, $component, $sort);
 
         return $this;
     }
 
-    public function setPasswords(bool|Closure|null $condition = true, $component = SetPasswordForm::class, int $sort = 2): static
+    public function setPasswords(bool | Closure | null $condition = true, $component = SetPasswordForm::class, int $sort = 2): static
     {
         $this->socialite->setPasswords($condition, $component, $sort);
 
         return $this;
     }
 
-    public function connectedAccounts(bool|Closure|null $condition = true, $component = ConnectedAccountsForm::class, int $sort = 3): static
+    public function connectedAccounts(bool | Closure | null $condition = true, $component = ConnectedAccountsForm::class, int $sort = 3): static
     {
         $this->socialite->connectedAccounts($condition, $component, $sort);
 
@@ -217,7 +217,7 @@ class FilamentCompanies implements Plugin
     /**
      * Determine if the application supports managing browser sessions.
      */
-    public function manageBrowserSessions(bool|Closure|null $condition = true, $component = LogoutOtherBrowserSessionsForm::class, int $sort = 4): static
+    public function manageBrowserSessions(bool | Closure | null $condition = true, $component = LogoutOtherBrowserSessionsForm::class, int $sort = 4): static
     {
         $this->features->manageBrowserSessions($condition, $component, $sort);
 
@@ -227,7 +227,7 @@ class FilamentCompanies implements Plugin
     /**
      * Determine if the application supports the Account Deletion features.
      */
-    public function accountDeletion(bool|Closure|null $condition = true, $component = DeleteUserForm::class, int $sort = 5): static
+    public function accountDeletion(bool | Closure | null $condition = true, $component = DeleteUserForm::class, int $sort = 5): static
     {
         $this->features->accountDeletion($condition, $component, $sort);
 
@@ -247,7 +247,7 @@ class FilamentCompanies implements Plugin
     /**
      * Determine if the application supports socialite.
      */
-    public function socialite(bool|Closure|null $condition = true, array|null $providers = null, array|null $features = null): static
+    public function socialite(bool | Closure | null $condition = true, ?array $providers = null, ?array $features = null): static
     {
         $this->socialite
             ->enableSocialite($condition)
@@ -260,7 +260,7 @@ class FilamentCompanies implements Plugin
     /**
      * Determine if the application supports the profile photos feature.
      */
-    public function profilePhotos(bool|Closure|null $condition = true, string $disk = 'public', string $storagePath = 'profile-photos'): static
+    public function profilePhotos(bool | Closure | null $condition = true, string $disk = 'public', string $storagePath = 'profile-photos'): static
     {
         $this->features->profilePhotos($condition, $disk, $storagePath);
 
@@ -270,7 +270,7 @@ class FilamentCompanies implements Plugin
     /**
      * Determine if the application supports the api feature.
      */
-    public function api(bool|Closure|null $condition = true): static
+    public function api(bool | Closure | null $condition = true): static
     {
         $this->features->api($condition);
 
@@ -280,7 +280,7 @@ class FilamentCompanies implements Plugin
     /**
      * Determine if the application supports the companies features.
      */
-    public function companies(bool|Closure|null $condition = true, bool $invitations = false): static
+    public function companies(bool | Closure | null $condition = true, bool $invitations = false): static
     {
         $this->features->companies($condition, $invitations);
 
@@ -290,7 +290,7 @@ class FilamentCompanies implements Plugin
     /**
      * Determine if the application supports the Terms and Privacy Policy features.
      */
-    public function termsAndPrivacyPolicy(bool|Closure|null $condition = true): static
+    public function termsAndPrivacyPolicy(bool | Closure | null $condition = true): static
     {
         $this->features->termsAndPrivacyPolicy($condition);
 
@@ -300,7 +300,7 @@ class FilamentCompanies implements Plugin
     /**
      * Determine if the application supports notifications.
      */
-    public function notifications(bool|Closure|null $condition = true): static
+    public function notifications(bool | Closure | null $condition = true): static
     {
         $this->features->notifications($condition);
 
@@ -382,7 +382,7 @@ class FilamentCompanies implements Plugin
     /**
      * Find the role with the given key.
      */
-    public static function findRole(string $key): Role|null
+    public static function findRole(string $key): ?Role
     {
         return static::$roles[$key] ?? null;
     }
@@ -393,10 +393,10 @@ class FilamentCompanies implements Plugin
     public static function role(string $key, string $name, array $permissions): Role
     {
         static::$permissions = collect([...static::$permissions, ...$permissions])
-                                    ->unique()
-                                    ->sort()
-                                    ->values()
-                                    ->all();
+            ->unique()
+            ->sort()
+            ->values()
+            ->all();
 
         return tap(new Role($key, $name, $permissions), static function ($role) use ($key) {
             static::$roles[$key] = $role;
@@ -630,13 +630,13 @@ class FilamentCompanies implements Plugin
     /**
      * Find the path to a localized Markdown resource.
      */
-    public static function localizedMarkdownPath(string $name): string|null
+    public static function localizedMarkdownPath(string $name): ?string
     {
-        $localName = preg_replace('#(\.md)$#i', '.'.app()->getLocale().'$1', $name);
+        $localName = preg_replace('#(\.md)$#i', '.' . app()->getLocale() . '$1', $name);
 
         return Arr::first([
-            resource_path('markdown/'.$localName),
-            resource_path('markdown/'.$name),
+            resource_path('markdown/' . $localName),
+            resource_path('markdown/' . $name),
         ], static function ($path) {
             return file_exists($path);
         });
