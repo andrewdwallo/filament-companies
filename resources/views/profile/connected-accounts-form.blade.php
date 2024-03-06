@@ -37,14 +37,14 @@
                             <div class="flex items-center justify-end gap-x-2">
                                 @if ($account->avatar_path !== null && Wallo\FilamentCompanies\Features::managesProfilePhotos() && Wallo\FilamentCompanies\Socialite::hasProviderAvatarsFeature())
                                     <x-filament::button size="sm"
-                                                        wire:click="setAvatarAsProfilePhoto({{ $account->id }})">
+                                                        wire:click="setAvatarAsProfilePhoto('{{ $account->id }}')">
                                         {{ __('filament-companies::default.buttons.use_avatar_as_profile_photo') }}
                                     </x-filament::button>
                                 @endif
 
                                 @if ($this->user->password !== null || $this->accounts->count() > 1)
                                     <x-filament::button color="danger" size="sm"
-                                                        wire:click="confirmRemove({{ $account->id }})">
+                                                        wire:click="confirmRemove('{{ $account->id }}')">
                                         {{ __('filament-companies::default.buttons.remove') }}
                                     </x-filament::button>
                                 @endif
@@ -79,7 +79,7 @@
                     @endif
 
                     <x-filament::button color="danger"
-                                        wire:click="removeConnectedAccount({{ $this->selectedAccountId }})">
+                                        wire:click="removeConnectedAccount('{{ $this->selectedAccountId }}')">
                         {{ __('filament-companies::default.buttons.remove_connected_account') }}
                     </x-filament::button>
                 </x-slot>
