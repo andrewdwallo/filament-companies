@@ -43,7 +43,7 @@ class CompanyEmployeeManager extends Component
     /**
      * The ID of the company employee being removed.
      */
-    public int|null $companyEmployeeIdBeingRemoved = null;
+    public ?int $companyEmployeeIdBeingRemoved = null;
 
     /**
      * The "add company employee" form state.
@@ -170,7 +170,7 @@ class CompanyEmployeeManager extends Component
     /**
      * Remove the currently authenticated user from the company.
      */
-    public function leaveCompany(RemovesCompanyEmployees $remover): Response|Redirector|RedirectResponse
+    public function leaveCompany(RemovesCompanyEmployees $remover): Response | Redirector | RedirectResponse
     {
         $remover->remove(
             $this->user,
@@ -231,7 +231,7 @@ class CompanyEmployeeManager extends Component
     /**
      * Get the current user of the application.
      */
-    public function getUserProperty(): Authenticatable|null
+    public function getUserProperty(): ?Authenticatable
     {
         return Auth::user();
     }

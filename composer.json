@@ -1,15 +1,20 @@
 {
     "name": "andrewdwallo/filament-companies",
-    "description": "A Laravel Authentication System based on Companies built using Filament",
+    "description": "A comprehensive Laravel authentication and authorization system designed for Filament, focusing on multi-tenant company management.",
     "keywords": [
         "andrewdwallo",
-        "wallo",
+        "filament-companies",
+        "filament companies",
         "laravel",
-        "tailwind",
-        "auth",
-        "companies",
+        "socialite",
+        "authentication",
         "filament",
-        "erp"
+        "multi-tenant",
+        "company management",
+        "erp",
+        "saas",
+        "crm",
+        "business management"
     ],
     "homepage": "https://github.com/andrewdwallo/filament-companies",
     "license": "MIT",
@@ -21,21 +26,22 @@
         }
     ],
     "require": {
-        "php": "^8.1",
+        "php": "^8.2",
         "ext-json": "*",
-        "filament/filament": "^3.0",
-        "illuminate/console": "^10.0",
-        "illuminate/contracts": "^10.0",
-        "illuminate/support": "^10.0",
-        "laravel/socialite": "^5.9",
+        "filament/filament": "^3.2.29",
+        "illuminate/console": "^11.0",
+        "illuminate/contracts": "^11.0",
+        "illuminate/support": "^11.0",
+        "laravel/socialite": "^5.12",
         "matomo/device-detector": "^6.1"
     },
     "require-dev": {
-        "laravel/sanctum": "^3.0",
-        "livewire/livewire": "^3.0@beta",
-        "mockery/mockery": "^1.0",
-        "orchestra/testbench": "^8.0",
-        "phpunit/phpunit": "^9.3"
+        "laravel/pint": "^1.14",
+        "laravel/sanctum": "^4.0",
+        "livewire/livewire": "^3.4.9",
+        "mockery/mockery": "^1.6",
+        "orchestra/testbench": "^9.0",
+        "phpunit/phpunit": "^10.5"
     },
     "autoload": {
         "psr-4": {

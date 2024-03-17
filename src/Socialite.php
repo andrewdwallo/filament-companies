@@ -80,14 +80,14 @@ class Socialite
      */
     public static array $componentSortOrder = [];
 
-    public function enableSocialite(bool|Closure|null $condition = true): static
+    public function enableSocialite(bool | Closure | null $condition = true): static
     {
         static::$hasSocialiteFeatures = $condition instanceof Closure ? $condition() : $condition;
 
         return $this;
     }
 
-    public function setProviders(array|null $providers = null): static
+    public function setProviders(?array $providers = null): static
     {
         if (is_array($providers) && static::$hasSocialiteFeatures) {
             foreach ($providers as $provider) {
@@ -100,7 +100,7 @@ class Socialite
         return $this;
     }
 
-    public function setFeatures(array|null $features = null): static
+    public function setFeatures(?array $features = null): static
     {
         if (is_array($features) && static::$hasSocialiteFeatures) {
             foreach ($features as $feature) {
@@ -116,7 +116,7 @@ class Socialite
     /**
      * Determine if the application supports setting user passwords.
      */
-    public function setPasswords(bool|Closure|null $condition = true, $component = SetPasswordForm::class, int $sort = 2): static
+    public function setPasswords(bool | Closure | null $condition = true, $component = SetPasswordForm::class, int $sort = 2): static
     {
         static::$canSetPasswords = $condition instanceof Closure ? $condition() : $condition;
         static::$setPasswordForm = $component;
@@ -128,7 +128,7 @@ class Socialite
     /**
      * Determine if the application supports managing connected accounts.
      */
-    public function connectedAccounts(bool|Closure|null $condition = true, $component = ConnectedAccountsForm::class, int $sort = 3): static
+    public function connectedAccounts(bool | Closure | null $condition = true, $component = ConnectedAccountsForm::class, int $sort = 3): static
     {
         static::$canManageConnectedAccounts = $condition instanceof Closure ? $condition() : $condition;
         static::$connectedAccountsForm = $component;
@@ -385,7 +385,7 @@ class Socialite
     /**
      * Register a class / callback that should be used to set user passwords.
      */
-    public static function setUserPasswordsUsing(callable|string $callback): void
+    public static function setUserPasswordsUsing(callable | string $callback): void
     {
         app()->singleton(SetsUserPasswords::class, $callback);
     }
@@ -393,7 +393,7 @@ class Socialite
     /**
      * Register a class / callback that should be used to set user passwords.
      */
-    public static function handlesInvalidStateUsing(callable|string $callback): void
+    public static function handlesInvalidStateUsing(callable | string $callback): void
     {
         app()->singleton(HandlesInvalidState::class, $callback);
     }
@@ -401,7 +401,7 @@ class Socialite
     /**
      * Register a class / callback that should be used for generating provider redirects.
      */
-    public static function generatesProvidersRedirectsUsing(callable|string $callback): void
+    public static function generatesProvidersRedirectsUsing(callable | string $callback): void
     {
         app()->singleton(GeneratesProviderRedirect::class, $callback);
     }

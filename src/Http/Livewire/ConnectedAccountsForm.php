@@ -20,7 +20,7 @@ class ConnectedAccountsForm extends Component
     /**
      * The ID of the currently connected account.
      */
-    public string|int $selectedAccountId = '';
+    public string | int $selectedAccountId = '';
 
     /**
      * Return all socialite providers and whether the application supports them
@@ -33,7 +33,7 @@ class ConnectedAccountsForm extends Component
     /**
      * Get the current user of the application.
      */
-    public function getUserProperty(): Authenticatable|null
+    public function getUserProperty(): ?Authenticatable
     {
         return Auth::user();
     }
@@ -41,7 +41,7 @@ class ConnectedAccountsForm extends Component
     /**
      * Confirm that the user actually wants to remove the selected connected account.
      */
-    public function confirmRemove(string|int $accountId): void
+    public function confirmRemove(string | int $accountId): void
     {
         $this->selectedAccountId = $accountId;
 
@@ -51,7 +51,7 @@ class ConnectedAccountsForm extends Component
     /**
      * Set the providers avatar url as the users profile photo url.
      */
-    public function setAvatarAsProfilePhoto(string|int $accountId): RedirectResponse|Redirector
+    public function setAvatarAsProfilePhoto(string | int $accountId): RedirectResponse | Redirector
     {
         $account = Auth::user()->connectedAccounts
             ->where('user_id', ($user = Auth::user())->getAuthIdentifier())
@@ -68,7 +68,7 @@ class ConnectedAccountsForm extends Component
     /**
      * Remove an OAuth Provider.
      */
-    public function removeConnectedAccount(string|int $accountId): void
+    public function removeConnectedAccount(string | int $accountId): void
     {
         DB::table('connected_accounts')
             ->where('user_id', Auth::user()?->getAuthIdentifier())

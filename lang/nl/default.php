@@ -224,11 +224,11 @@ return [
     'grid_section_descriptions' => [
         'add_company_employee' => 'Voeg een nieuwe bedrijfsmedewerker toe aan jouw bedrijf, zodat deze met je kan samenwerken.',
         'browser_sessions' => 'Beheer en log jouw actieve sessies uit op andere browsers en apparaten.',
-        'company_name' => "De naam van het bedrijf en informatie over de eigenaar.",
+        'company_name' => 'De naam van het bedrijf en informatie over de eigenaar.',
         'create_token' => 'Met persoonlijke toegangstokens kunnen services van derden zich namens jou bij onze applicatie aanmelden.',
         'create_company' => 'Creëer een nieuw bedrijf om met anderen aan projecten samen te werken.',
         'delete_account' => 'Verwijder jouw account definitief.',
-        'profile_information' => "Wijzig jouw account profiel informatie en e-mail adres.",
+        'profile_information' => 'Wijzig jouw account profiel informatie en e-mail adres.',
         'set_password' => 'Zorg ervoor dat jouw account een lang, willekeurig wachtwoord gebruikt om veilig te blijven.',
         'two_factor_authentication' => 'Voeg extra beveiliging toe aan jouw account met behulp van tweefactor authenticatie.',
         'update_password' => 'Zorg ervoor dat jouw account een lang, willekeurig wachtwoord gebruikt om veilig te blijven.',
@@ -264,7 +264,7 @@ return [
     ],
 
     'modal_descriptions' => [
-        'copy_token' => "Kopieer jouw nieuwe persoonlijke toegangstoken. Voor jouw veiligheid wordt deze niet meer weergegeven.",
+        'copy_token' => 'Kopieer jouw nieuwe persoonlijke toegangstoken. Voor jouw veiligheid wordt deze niet meer weergegeven.',
         'confirm_password' => 'Bevestig voor jouw veiligheid je wachtwoord om door te gaan.',
         'delete_account' => 'Voer jouw wachtwoord in om te bevestigen dat je jouw account wilt verwijderen.',
         'delete_token' => 'Weet je het zeker dat je deze persoonlijke toegangstoken wilt verwijderen?',
@@ -287,7 +287,7 @@ return [
                 'emergency_recovery_code' => 'Bevestig de toegang tot je account door een van je noodherstelcodes in te voeren.',
             ],
             'verify_email' => [
-                'verification_link_not_sent' => "Kan je, voordat je verdergaat, jouw e-mailadres verifiëren door op de link te klikken die we zojuist naar je hebben gemaild? Mocht je de e-mail niet hebben ontvangen, dan sturen wij jou graag een nieuwe toe.",
+                'verification_link_not_sent' => 'Kan je, voordat je verdergaat, jouw e-mailadres verifiëren door op de link te klikken die we zojuist naar je hebben gemaild? Mocht je de e-mail niet hebben ontvangen, dan sturen wij jou graag een nieuwe toe.',
                 'verification_link_sent' => 'Er is een nieuwe verificatielink verzonden naar het e-mailadres dat je in jouw profiel instellingen heeft opgegeven.',
             ],
         ],
@@ -333,10 +333,10 @@ return [
 
         'profile' => [
             'two_factor_authentication' => [
-                'enabled' => "Tweefactor authenticatie is nu ingeschakeld. Scan de volgende QR-code met de authenticatie applicatie van je telefoon of voer de installatiesleutel in.",
-                'finish_enabling' => "Om het inschakelen van tweefactor authenticatie te voltooien, scan je de volgende QR-code met de authenticatie toepassing van je telefoon of voer de installatie sleutel in en geef je de gegenereerde OTP-code op.",
+                'enabled' => 'Tweefactor authenticatie is nu ingeschakeld. Scan de volgende QR-code met de authenticatie applicatie van je telefoon of voer de installatiesleutel in.',
+                'finish_enabling' => 'Om het inschakelen van tweefactor authenticatie te voltooien, scan je de volgende QR-code met de authenticatie toepassing van je telefoon of voer de installatie sleutel in en geef je de gegenereerde OTP-code op.',
                 'store_codes' => 'Bewaar deze herstelcodes in een veilige wachtwoord beheerder. Ze kunnen worden gebruikt om de toegang tot je account te herstellen als jouw apparaat voor tweefactor authenticatie verloren is gegaan.',
-                'summary' => "Wanneer tweefactor authenticatie is ingeschakeld, wordt je tijdens de authenticatie om een veilig, willekeurig token gevraagd. Je kan dit token ophalen via de Google Authenticator applicatie van jouw telefoon.",
+                'summary' => 'Wanneer tweefactor authenticatie is ingeschakeld, wordt je tijdens de authenticatie om een veilig, willekeurig token gevraagd. Je kan dit token ophalen via de Google Authenticator applicatie van jouw telefoon.',
             ],
 
             'connected_accounts' => 'Het staat je vrij om social accounts aan je profiel te koppelen en je kunt op elk gewenst moment alle gekoppelde accounts verwijderen. Als je denkt dat een van je verbonden accounts is gehackt, moet je deze onmiddellijk ontkoppelen en je wachtwoord wijzigen.',

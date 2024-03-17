@@ -260,7 +260,7 @@ return [
         'revoke_tokens' => 'Tokens widerrufen',
     ],
     'modal_descriptions' => [
-        'copy_token' => "Bitte kopieren Sie Ihren neuen persönlichen Zugangstoken. Aus Sicherheitsgründen wird er nicht noch einmal angezeigt.",
+        'copy_token' => 'Bitte kopieren Sie Ihren neuen persönlichen Zugangstoken. Aus Sicherheitsgründen wird er nicht noch einmal angezeigt.',
         'confirm_password' => 'Bitte bestätigen Sie aus Sicherheitsgründen Ihr Passwort, um fortzufahren.',
         'delete_account' => 'Bitte geben Sie Ihr Passwort ein, um die Löschung Ihres Kontos zu bestätigen.',
         'delete_token' => 'Sind Sie sicher, dass Sie diesen persönlichen Zugangstoken löschen möchten?',
@@ -283,7 +283,7 @@ return [
                 'emergency_recovery_code' => 'Bitte bestätigen Sie den Zugang zu Ihrem Konto, indem Sie einen Ihrer Notfall-Wiederherstellungscodes eingeben.',
             ],
             'verify_email' => [
-                'verification_link_not_sent' => "Bevor Sie fortfahren können, könnten Sie Ihre E-Mail-Adresse überprüfen, indem Sie auf den Link klicken, den wir Ihnen gerade per E-Mail geschickt haben? Wenn Sie die E-Mail nicht erhalten haben, senden wir Ihnen gerne eine neue.",
+                'verification_link_not_sent' => 'Bevor Sie fortfahren können, könnten Sie Ihre E-Mail-Adresse überprüfen, indem Sie auf den Link klicken, den wir Ihnen gerade per E-Mail geschickt haben? Wenn Sie die E-Mail nicht erhalten haben, senden wir Ihnen gerne eine neue.',
                 'verification_link_sent' => 'Ein neuer Bestätigungslink wurde an die in Ihren Profil-Einstellungen angegebene E-Mail-Adresse gesendet.',
             ],
         ],
@@ -329,10 +329,10 @@ return [
 
         'profile' => [
             'two_factor_authentication' => [
-                'enabled' => "Die Zwei-Faktor-Authentifizierung ist jetzt aktiviert. Scannen Sie den folgenden QR-Code mit der Authentifizierungs-App Ihres Telefons oder geben Sie den Einrichtungsschlüssel ein.",
-                'finish_enabling' => "Um die Aktivierung der Zwei-Faktor-Authentifizierung abzuschließen, scannen Sie den folgenden QR-Code mit der Authentifizierungs-App Ihres Telefons oder geben Sie den Einrichtungsschlüssel ein und stellen Sie den generierten OTP-Code bereit.",
+                'enabled' => 'Die Zwei-Faktor-Authentifizierung ist jetzt aktiviert. Scannen Sie den folgenden QR-Code mit der Authentifizierungs-App Ihres Telefons oder geben Sie den Einrichtungsschlüssel ein.',
+                'finish_enabling' => 'Um die Aktivierung der Zwei-Faktor-Authentifizierung abzuschließen, scannen Sie den folgenden QR-Code mit der Authentifizierungs-App Ihres Telefons oder geben Sie den Einrichtungsschlüssel ein und stellen Sie den generierten OTP-Code bereit.',
                 'store_codes' => 'Speichern Sie diese Wiederherstellungscodes in einem sicheren Passwort-Manager. Sie können verwendet werden, um den Zugang zu Ihrem Konto wiederherzustellen, falls Ihr Zwei-Faktor-Authentifizierungsgerät verloren geht.',
-                'summary' => "Wenn die Zwei-Faktor-Authentifizierung aktiviert ist, werden Sie während der Authentifizierung nach einem sicheren, zufälligen Token gefragt. Sie können dieses Token aus der Google Authenticator-App Ihres Telefons abrufen.",
+                'summary' => 'Wenn die Zwei-Faktor-Authentifizierung aktiviert ist, werden Sie während der Authentifizierung nach einem sicheren, zufälligen Token gefragt. Sie können dieses Token aus der Google Authenticator-App Ihres Telefons abrufen.',
             ],
 
             'connected_accounts' => 'Sie können beliebige soziale Konten mit Ihrem Profil verbinden und jederzeit verbundene Konten entfernen. Wenn Sie glauben, dass eines Ihrer verbundenen Konten kompromittiert wurde, sollten Sie es sofort trennen und Ihr Passwort ändern.',

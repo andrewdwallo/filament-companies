@@ -114,7 +114,7 @@ class Features
     /**
      * Determine if the application supports updating profile information.
      */
-    public function updateProfileInformation(bool|Closure|null $condition = true, $component = UpdateProfileInformationForm::class, int $sort = 0): static
+    public function updateProfileInformation(bool | Closure | null $condition = true, $component = UpdateProfileInformationForm::class, int $sort = 0): static
     {
         static::$canUpdateProfileInformation = $condition instanceof Closure ? $condition() : $condition;
         static::$updateProfileInformationForm = $component;
@@ -126,7 +126,7 @@ class Features
     /**
      * Determine if the application supports updating user passwords.
      */
-    public function updatePasswords(bool|Closure|null $condition = true, $component = UpdatePasswordForm::class, int $sort = 1): static
+    public function updatePasswords(bool | Closure | null $condition = true, $component = UpdatePasswordForm::class, int $sort = 1): static
     {
         static::$canUpdatePasswords = $condition instanceof Closure ? $condition() : $condition;
         static::$updatePasswordForm = $component;
@@ -138,7 +138,7 @@ class Features
     /**
      * Determine if the application supports managing browser sessions.
      */
-    public function manageBrowserSessions(bool|Closure|null $condition = true, $component = LogoutOtherBrowserSessionsForm::class, int $sort = 4): static
+    public function manageBrowserSessions(bool | Closure | null $condition = true, $component = LogoutOtherBrowserSessionsForm::class, int $sort = 4): static
     {
         static::$canManageBrowserSessions = $condition instanceof Closure ? $condition() : $condition;
         static::$logoutOtherBrowserSessionsForm = $component;
@@ -150,7 +150,7 @@ class Features
     /**
      * Determine if the application is using any account deletion features.
      */
-    public function accountDeletion(bool|Closure|null $condition = true, $component = DeleteUserForm::class, int $sort = 5): static
+    public function accountDeletion(bool | Closure | null $condition = true, $component = DeleteUserForm::class, int $sort = 5): static
     {
         static::$hasAccountDeletionFeatures = $condition instanceof Closure ? $condition() : $condition;
         static::$deleteUserForm = $component;
@@ -162,7 +162,7 @@ class Features
     /**
      * Determine if the company is managing profile photos.
      */
-    public function profilePhotos(bool|Closure|null $condition = true, string $disk = 'public', string $storagePath = 'profile-photos'): static
+    public function profilePhotos(bool | Closure | null $condition = true, string $disk = 'public', string $storagePath = 'profile-photos'): static
     {
         static::$managesProfilePhotos = $condition instanceof Closure ? $condition() : $condition;
         static::$profilePhotoDisk = $disk;
@@ -174,7 +174,7 @@ class Features
     /**
      * Determine if the company is supporting API features.
      */
-    public function api(bool|Closure|null $condition = true): static
+    public function api(bool | Closure | null $condition = true): static
     {
         static::$hasApiFeatures = $condition instanceof Closure ? $condition() : $condition;
 
@@ -184,7 +184,7 @@ class Features
     /**
      * Determine if the company is supporting company features.
      */
-    public function companies(bool|Closure|null $condition = true, bool $invitations = false): static
+    public function companies(bool | Closure | null $condition = true, bool $invitations = false): static
     {
         static::$hasCompanyFeatures = $condition instanceof Closure ? $condition() : $condition;
         static::$sendsCompanyInvitations = $invitations;
@@ -195,7 +195,7 @@ class Features
     /**
      * Determine if the application is using the terms confirmation feature.
      */
-    public function termsAndPrivacyPolicy(bool|Closure|null $condition = true): static
+    public function termsAndPrivacyPolicy(bool | Closure | null $condition = true): static
     {
         static::$hasTermsAndPrivacyPolicyFeature = $condition instanceof Closure ? $condition() : $condition;
 
@@ -205,7 +205,7 @@ class Features
     /**
      * Determine if the application is using notifications.
      */
-    public function notifications(bool|Closure|null $condition = true): static
+    public function notifications(bool | Closure | null $condition = true): static
     {
         static::$hasNotificationsFeature = $condition instanceof Closure ? $condition() : $condition;
 

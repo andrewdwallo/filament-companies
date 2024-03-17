@@ -13,20 +13,6 @@ class Company extends FilamentCompaniesCompany implements HasAvatar
 {
     use HasFactory;
 
-    public function getFilamentAvatarUrl(): string
-    {
-        return $this->owner->profile_photo_url;
-    }
-
-    /**
-     * The attributes that should be cast.
-     *
-     * @var array<string, string>
-     */
-    protected $casts = [
-        'personal_company' => 'boolean',
-    ];
-
     /**
      * The attributes that are mass assignable.
      *
@@ -47,4 +33,21 @@ class Company extends FilamentCompaniesCompany implements HasAvatar
         'updated' => CompanyUpdated::class,
         'deleted' => CompanyDeleted::class,
     ];
+
+    /**
+     * Get the attributes that should be cast.
+     *
+     * @return array<string, string>
+     */
+    protected function casts(): array
+    {
+        return [
+            'personal_company' => 'boolean',
+        ];
+    }
+
+    public function getFilamentAvatarUrl(): string
+    {
+        return $this->owner->profile_photo_url;
+    }
 }

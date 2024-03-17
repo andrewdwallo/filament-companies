@@ -18,40 +18,15 @@ use Wallo\FilamentCompanies\HasConnectedAccounts;
 use Wallo\FilamentCompanies\HasProfilePhoto;
 use Wallo\FilamentCompanies\SetsProfilePhotoFromUrl;
 
-class User extends Authenticatable implements FilamentUser, HasAvatar, HasTenants, HasDefaultTenant
+class User extends Authenticatable implements FilamentUser, HasAvatar, HasDefaultTenant, HasTenants
 {
     use HasApiTokens;
-    use HasFactory;
-    use HasProfilePhoto;
     use HasCompanies;
     use HasConnectedAccounts;
+    use HasFactory;
+    use HasProfilePhoto;
     use Notifiable;
     use SetsProfilePhotoFromUrl;
-
-    public function canAccessPanel(Panel $panel): bool
-    {
-        return true;
-    }
-
-    public function getTenants(Panel $panel): array|Collection
-    {
-        return $this->allCompanies();
-    }
-
-    public function canAccessTenant(Model $tenant): bool
-    {
-        return $this->belongsToCompany($tenant);
-    }
-
-    public function getDefaultTenant(Panel $panel): ?Model
-    {
-        return $this->currentCompany;
-    }
-
-    public function getFilamentAvatarUrl(): string
-    {
-        return $this->profile_photo_url;
-    }
 
     /**
      * The attributes that are mass assignable.
@@ -59,7 +34,9 @@ class User extends Authenticatable implements FilamentUser, HasAvatar, HasTenant
      * @var array<int, string>
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name',
+        'email',
+        'password',
     ];
 
     /**
@@ -73,15 +50,6 @@ class User extends Authenticatable implements FilamentUser, HasAvatar, HasTenant
     ];
 
     /**
-     * The attributes that should be cast.
-     *
-     * @var array<string, string>
-     */
-    protected $casts = [
-        'email_verified_at' => 'datetime',
-    ];
-
-    /**
      * The accessors to append to the model's array form.
      *
      * @var array<int, string>
@@ -89,4 +57,42 @@ class User extends Authenticatable implements FilamentUser, HasAvatar, HasTenant
     protected $appends = [
         'profile_photo_url',
     ];
+
+    /**
+     * Get the attributes that should be cast.
+     *
+     * @return array<string, string>
+     */
+    protected function casts(): array
+    {
+        return [
+            'email_verified_at' => 'datetime',
+            'password' => 'hashed',
+        ];
+    }
+
+    public function canAccessPanel(Panel $panel): bool
+    {
+        return true;
+    }
+
+    public function canAccessTenant(Model $tenant): bool
+    {
+        return $this->belongsToCompany($tenant);
+    }
+
+    public function getTenants(Panel $panel): array | Collection
+    {
+        return $this->allCompanies();
+    }
+
+    public function getDefaultTenant(Panel $panel): ?Model
+    {
+        return $this->currentCompany;
+    }
+
+    public function getFilamentAvatarUrl(): string
+    {
+        return $this->profile_photo_url;
+    }
 }

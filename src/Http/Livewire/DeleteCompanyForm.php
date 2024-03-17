@@ -38,7 +38,7 @@ class DeleteCompanyForm extends Component
      *
      * @throws AuthorizationException
      */
-    public function deleteCompany(ValidateCompanyDeletion $validator, DeletesCompanies $deleter): Response|Redirector|RedirectResponse
+    public function deleteCompany(ValidateCompanyDeletion $validator, DeletesCompanies $deleter): Response | Redirector | RedirectResponse
     {
         $validator->validate(Auth::user(), $this->company);
 

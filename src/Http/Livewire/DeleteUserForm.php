@@ -36,7 +36,7 @@ class DeleteUserForm extends Component
     /**
      * Delete the current user.
      */
-    public function deleteUser(DeletesUsers $deleter): RedirectResponse|Redirector
+    public function deleteUser(DeletesUsers $deleter): RedirectResponse | Redirector
     {
         $this->resetErrorBag();
 

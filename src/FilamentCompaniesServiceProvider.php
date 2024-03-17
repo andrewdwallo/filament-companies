@@ -87,16 +87,16 @@ class FilamentCompaniesServiceProvider extends ServiceProvider
         ], 'filament-companies-translations');
 
         $this->publishes([
-            __DIR__ . '/../database/migrations/2014_10_12_000000_create_users_table.php' => database_path('migrations/2014_10_12_000000_create_users_table.php'),
+            __DIR__ . '/../database/migrations/0001_01_01_000000_create_users_table.php' => database_path('migrations/0001_01_01_000000_create_users_table.php'),
         ], 'filament-companies-migrations');
 
-        $this->publishes([
+        $this->publishesMigrations([
             __DIR__ . '/../database/migrations/2020_05_21_100000_create_companies_table.php' => database_path('migrations/2020_05_21_100000_create_companies_table.php'),
             __DIR__ . '/../database/migrations/2020_05_21_200000_create_company_user_table.php' => database_path('migrations/2020_05_21_200000_create_company_user_table.php'),
             __DIR__ . '/../database/migrations/2020_05_21_300000_create_company_invitations_table.php' => database_path('migrations/2020_05_21_300000_create_company_invitations_table.php'),
         ], 'filament-companies-company-migrations');
 
-        $this->publishes([
+        $this->publishesMigrations([
             __DIR__ . '/../database/migrations/2020_12_22_000000_create_connected_accounts_table.php' => database_path('migrations/2020_12_22_000000_create_connected_accounts_table.php'),
         ], 'filament-companies-socialite-migrations');
     }
@@ -122,7 +122,6 @@ class FilamentCompaniesServiceProvider extends ServiceProvider
 
         $this->commands([
             Console\InstallCommand::class,
-            Console\MakeUserCommand::class,
         ]);
     }
 }

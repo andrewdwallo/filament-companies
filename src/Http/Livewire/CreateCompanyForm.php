@@ -26,7 +26,7 @@ class CreateCompanyForm extends Component
     /**
      * Create a new company.
      */
-    public function createCompany(CreatesCompanies $creator): Response|Redirector|RedirectResponse
+    public function createCompany(CreatesCompanies $creator): Response | Redirector | RedirectResponse
     {
         $this->resetErrorBag();
 
@@ -42,7 +42,7 @@ class CreateCompanyForm extends Component
     /**
      * Get the current user of the application.
      */
-    public function getUserProperty(): Authenticatable|null
+    public function getUserProperty(): ?Authenticatable
     {
         return Auth::user();
     }

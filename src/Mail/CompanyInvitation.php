@@ -11,7 +11,8 @@ use Illuminate\Support\Facades\URL;
 
 class CompanyInvitation extends Mailable
 {
-    use Queueable, SerializesModels;
+    use Queueable;
+    use SerializesModels;
 
     /**
      * The company invitation instance.

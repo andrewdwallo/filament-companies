@@ -60,7 +60,7 @@ class LogoutOtherBrowserSessionsForm extends Component
         $this->deleteOtherSessionRecords();
 
         session()->put([
-            'password_hash_'.Auth::getDefaultDriver() => Auth::user()?->getAuthPassword(),
+            'password_hash_' . Auth::getDefaultDriver() => Auth::user()?->getAuthPassword(),
         ]);
 
         $this->browserSessionsTerminated();

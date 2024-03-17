@@ -5,22 +5,18 @@ namespace App\Actions\FilamentCompanies;
 use App\Models\Company;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
+use Laravel\Sanctum\PersonalAccessToken;
 use Wallo\FilamentCompanies\Contracts\DeletesCompanies;
 use Wallo\FilamentCompanies\Contracts\DeletesUsers;
 
 class DeleteUser implements DeletesUsers
 {
     /**
-     * The company deleter implementation.
-     */
-    protected DeletesCompanies $deletesCompanies;
-
-    /**
      * Create a new action instance.
      */
-    public function __construct(DeletesCompanies $deletesCompanies)
+    public function __construct(protected DeletesCompanies $deletesCompanies)
     {
-        $this->deletesCompanies = $deletesCompanies;
+        //
     }
 
     /**
@@ -31,7 +27,7 @@ class DeleteUser implements DeletesUsers
         DB::transaction(function () use ($user) {
             $this->deleteCompanies($user);
             $user->deleteProfilePhoto();
-            $user->tokens->each(static fn ($token) => $token->delete());
+            $user->tokens->each(static fn (PersonalAccessToken $token) => $token->delete());
             $user->delete();
         });
     }

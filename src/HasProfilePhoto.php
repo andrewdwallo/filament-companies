@@ -18,7 +18,8 @@ trait HasProfilePhoto
         tap($this->profile_photo_path, function ($previous) use ($photo, $storagePath) {
             $this->forceFill([
                 'profile_photo_path' => $photo->storePublicly(
-                    $storagePath, ['disk' => $this->profilePhotoDisk()]
+                    $storagePath,
+                    ['disk' => $this->profilePhotoDisk()]
                 ),
             ])->save();
 
@@ -33,7 +34,7 @@ trait HasProfilePhoto
      */
     public function deleteProfilePhoto(): void
     {
-        if (!Features::managesProfilePhotos() || $this->profile_photo_path === null) {
+        if (! Features::managesProfilePhotos() || $this->profile_photo_path === null) {
             return;
         }
 
