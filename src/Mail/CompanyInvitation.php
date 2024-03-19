@@ -36,6 +36,6 @@ class CompanyInvitation extends Mailable
         $acceptUrl = FilamentCompanies::generateAcceptInvitationUrl($this->invitation);
 
         return $this->markdown('filament-companies::mail.company-invitation', compact('acceptUrl'))
-                ->subject(__('Company Invitation'));
+            ->subject(__('Company Invitation'));
     }
 }

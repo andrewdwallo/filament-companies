@@ -4,7 +4,7 @@
     $providerEnum = \Wallo\FilamentCompanies\Enums\Provider::tryFrom($provider);
 @endphp
 
-@if($providerEnum?->hasSupport())
+@if($providerEnum?->isEnabled())
     <div class="filament-companies-connected-account">
         <div class="filament-companies-connected-account-container flex items-center justify-between">
             <div class="filament-companies-connected-account-details flex items-center gap-x-2">

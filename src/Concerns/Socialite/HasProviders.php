@@ -29,10 +29,11 @@ trait HasProviders
     /**
      * Check if the given provider is enabled.
      */
-    public static function isProviderEnabled(Provider|string $provider): bool
+    public static function isProviderEnabled(Provider | string $provider): bool
     {
         try {
             $providerEnum = $provider instanceof Provider ? $provider : Provider::from($provider);
+
             return in_array($providerEnum, static::$enabledProviders, true);
         } catch (ValueError) {
             return false;

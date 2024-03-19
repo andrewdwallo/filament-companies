@@ -57,5 +57,4 @@ trait HasSocialiteProfileFeatures
     {
         return static::$canManageConnectedAccounts;
     }
-
 }

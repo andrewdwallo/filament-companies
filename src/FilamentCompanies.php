@@ -19,26 +19,26 @@ use Wallo\FilamentCompanies\Pages\Company\CreateCompany;
 
 class FilamentCompanies implements Plugin
 {
-    use Concerns\ManagesProfileComponents;
+    use Concerns\Base\HasAddedProfileComponents;
     use Concerns\Base\HasBaseActionBindings;
     use Concerns\Base\HasBaseModels;
-    use Concerns\Base\HasPermissions;
-    use Concerns\Base\HasPanels;
-    use Concerns\Base\HasRoutes;
     use Concerns\Base\HasBaseProfileComponents;
     use Concerns\Base\HasBaseProfileFeatures;
     use Concerns\Base\HasCompanyFeatures;
-    use Concerns\Base\HasNotifications;
-    use Concerns\Base\HasTermsAndPrivacyPolicy;
     use Concerns\Base\HasModals;
-    use Concerns\Base\HasAddedProfileComponents;
-    use Concerns\Socialite\HasProviders;
-    use Concerns\Socialite\HasProviderFeatures;
+    use Concerns\Base\HasNotifications;
+    use Concerns\Base\HasPanels;
+    use Concerns\Base\HasPermissions;
+    use Concerns\Base\HasRoutes;
+    use Concerns\Base\HasTermsAndPrivacyPolicy;
+    use Concerns\ManagesProfileComponents;
+    use Concerns\Socialite\CanEnableSocialite;
     use Concerns\Socialite\HasConnectedAccountModel;
+    use Concerns\Socialite\HasProviderFeatures;
+    use Concerns\Socialite\HasProviders;
+    use Concerns\Socialite\HasSocialiteActionBindings;
     use Concerns\Socialite\HasSocialiteComponents;
     use Concerns\Socialite\HasSocialiteProfileFeatures;
-    use Concerns\Socialite\HasSocialiteActionBindings;
-    use Concerns\Socialite\CanEnableSocialite;
 
     public function getId(): string
     {

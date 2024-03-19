@@ -33,7 +33,7 @@ enum Provider: string implements HasLabel
         };
     }
 
-    public function hasSupport(): bool
+    public function isEnabled(): bool
     {
         return FilamentCompanies::isProviderEnabled($this);
     }

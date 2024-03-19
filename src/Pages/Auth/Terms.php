@@ -24,12 +24,12 @@ class Terms extends SimplePage
         ];
     }
 
-    public function getHeading(): string|Htmlable
+    public function getHeading(): string | Htmlable
     {
         return '';
     }
 
-    public function getMaxWidth(): MaxWidth|string|null
+    public function getMaxWidth(): MaxWidth | string | null
     {
         return MaxWidth::TwoExtraLarge;
     }

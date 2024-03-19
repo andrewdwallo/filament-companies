@@ -56,7 +56,7 @@ trait HasRoutes
 
     public static function generateRouteName(string $name): string
     {
-        return "filament." . static::getCompanyPanel() . ".{$name}";
+        return 'filament.' . static::getCompanyPanel() . ".{$name}";
     }
 
     public static function generateOAuthRedirectUrl(string $provider): string

@@ -29,10 +29,11 @@ trait HasProviderFeatures
     /**
      * Check if the given feature is enabled.
      */
-    public static function isFeatureEnabled(Feature|string $feature): bool
+    public static function isFeatureEnabled(Feature | string $feature): bool
     {
         try {
             $featureEnum = $feature instanceof Feature ? $feature : Feature::from($feature);
+
             return in_array($featureEnum, static::$enabledFeatures, true);
         } catch (ValueError) {
             return false;
