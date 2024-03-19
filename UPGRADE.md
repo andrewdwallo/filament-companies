@@ -20,6 +20,14 @@ This major release introduces significant changes designed to streamline the usa
 
 ### Migration Steps
 
+#### Dependency Versions
+
+You should upgrade your `andrewdwallo/filament-companies` dependency to `^4.0` within your application's `composer.json` file. Then, run the `composer update` command:
+
+    composer update
+
+#### Socialite Providers
+
 For Socialite providers, replace the usage of the `Wallo\FilamentCompanies\Providers` class with the `Wallo\FilamentCompanies\Enums\Provider` enum.
 
 Before:
@@ -52,6 +60,8 @@ Provider::Github->isEnabled(),
 // And so on for the other providers...
 
 ```
+
+#### Socialite Features
 
 For Socialite features, replace the usage of the `Wallo\FilamentCompanies\Socialite` class with the `Wallo\FilamentCompanies\Enums\Feature` enum.
 
