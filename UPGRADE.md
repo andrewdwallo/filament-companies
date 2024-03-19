@@ -22,7 +22,7 @@ This major release introduces significant changes designed to streamline the usa
 
 #### Dependency Versions
 
-You should upgrade your `andrewdwallo/filament-companies` dependency to `^4.0` within your application's `composer.json` file. Then, run the `composer update` command:
+You should first make sure you follow the [Laravel 11 Upgrade Guide](https://laravel.com/docs/11.x/upgrade) and then upgrade your `andrewdwallo/filament-companies` dependency to `^4.0` within your application's `composer.json` file. Then, run the `composer update` command:
 
     composer update
 
