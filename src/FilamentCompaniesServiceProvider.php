@@ -35,7 +35,6 @@ class FilamentCompaniesServiceProvider extends ServiceProvider
 
         $this->configurePublishing();
         $this->configureCommands();
-        $this->configureRoutes();
 
         $this->app->booted(function () {
             $this->configureComponents();
@@ -47,24 +46,21 @@ class FilamentCompaniesServiceProvider extends ServiceProvider
      */
     protected function configureComponents(): void
     {
-        if (class_exists(Livewire::class)) {
+        $featureComponentMap = [
+            'update-profile-information-form' => [FilamentCompanies::canUpdateProfileInformation(), UpdateProfileInformationForm::class],
+            'update-password-form' => [FilamentCompanies::canUpdatePasswords(), UpdatePasswordForm::class],
+            'delete-user-form' => [FilamentCompanies::hasAccountDeletionFeatures(), DeleteUserForm::class],
+            'logout-other-browser-sessions-form' => [FilamentCompanies::canManageBrowserSessions(), LogoutOtherBrowserSessionsForm::class],
+            'update-company-name-form' => [FilamentCompanies::hasCompanyFeatures(), UpdateCompanyNameForm::class],
+            'company-employee-manager' => [FilamentCompanies::hasCompanyFeatures(), CompanyEmployeeManager::class],
+            'delete-company-form' => [FilamentCompanies::hasCompanyFeatures(), DeleteCompanyForm::class],
+            'set-password-form' => [FilamentCompanies::canSetPasswords(), SetPasswordForm::class],
+            'connected-accounts-form' => [FilamentCompanies::canManageConnectedAccounts(), ConnectedAccountsForm::class],
+        ];
 
-            $featureComponentMap = [
-                'update-profile-information-form' => [Features::canUpdateProfileInformation(), UpdateProfileInformationForm::class],
-                'update-password-form' => [Features::canUpdatePasswords(), UpdatePasswordForm::class],
-                'delete-user-form' => [Features::hasAccountDeletionFeatures(), DeleteUserForm::class],
-                'logout-other-browser-sessions-form' => [Features::canManageBrowserSessions(), LogoutOtherBrowserSessionsForm::class],
-                'update-company-name-form' => [Features::hasCompanyFeatures(), UpdateCompanyNameForm::class],
-                'company-employee-manager' => [Features::hasCompanyFeatures(), CompanyEmployeeManager::class],
-                'delete-company-form' => [Features::hasCompanyFeatures(), DeleteCompanyForm::class],
-                'set-password-form' => [Socialite::canSetPasswords(), SetPasswordForm::class],
-                'connected-accounts-form' => [Socialite::canManageConnectedAccounts(), ConnectedAccountsForm::class],
-            ];
-
-            foreach ($featureComponentMap as $alias => [$enabled, $component]) {
-                if ($enabled) {
-                    Livewire::component($alias, $component);
-                }
+        foreach ($featureComponentMap as $alias => [$enabled, $component]) {
+            if ($enabled) {
+                Livewire::component($alias, $component);
             }
         }
     }
@@ -99,16 +95,6 @@ class FilamentCompaniesServiceProvider extends ServiceProvider
         $this->publishesMigrations([
             __DIR__ . '/../database/migrations/2020_12_22_000000_create_connected_accounts_table.php' => database_path('migrations/2020_12_22_000000_create_connected_accounts_table.php'),
         ], 'filament-companies-socialite-migrations');
-    }
-
-    /**
-     * Configure the routes offered by the application.
-     */
-    protected function configureRoutes(): void
-    {
-        if (FilamentCompanies::$registersRoutes) {
-            $this->loadRoutesFrom(__DIR__ . '/../routes/web.php');
-        }
     }
 
     /**

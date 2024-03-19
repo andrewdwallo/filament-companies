@@ -27,7 +27,7 @@ trait HasConnectedAccounts
             );
         }
 
-        return $this->belongsTo(Socialite::connectedAccountModel(), 'current_connected_account_id');
+        return $this->belongsTo(FilamentCompanies::connectedAccountModel(), 'current_connected_account_id');
     }
 
     /**
@@ -96,6 +96,6 @@ trait HasConnectedAccounts
      */
     public function connectedAccounts(): HasMany
     {
-        return $this->hasMany(Socialite::connectedAccountModel(), 'user_id', $this->getAuthIdentifierName());
+        return $this->hasMany(FilamentCompanies::connectedAccountModel(), 'user_id', $this->getAuthIdentifierName());
     }
 }

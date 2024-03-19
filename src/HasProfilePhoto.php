@@ -13,7 +13,7 @@ trait HasProfilePhoto
      */
     public function updateProfilePhoto(UploadedFile $photo): void
     {
-        $storagePath = Features::profilePhotoStoragePath();
+        $storagePath = FilamentCompanies::profilePhotoStoragePath();
 
         tap($this->profile_photo_path, function ($previous) use ($photo, $storagePath) {
             $this->forceFill([
@@ -34,7 +34,7 @@ trait HasProfilePhoto
      */
     public function deleteProfilePhoto(): void
     {
-        if (! Features::managesProfilePhotos() || $this->profile_photo_path === null) {
+        if ($this->profile_photo_path === null || ! FilamentCompanies::managesProfilePhotos()) {
             return;
         }
 
@@ -74,6 +74,6 @@ trait HasProfilePhoto
      */
     protected function profilePhotoDisk(): string
     {
-        return isset($_ENV['VAPOR_ARTIFACT_NAME']) ? 's3' : Features::profilePhotoDisk();
+        return isset($_ENV['VAPOR_ARTIFACT_NAME']) ? 's3' : FilamentCompanies::profilePhotoDisk();
     }
 }

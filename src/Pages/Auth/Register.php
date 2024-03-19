@@ -6,8 +6,8 @@ use Filament\Forms\Components\Checkbox;
 use Filament\Forms\Components\Component;
 use Filament\Forms\Form;
 use Filament\Pages\Auth\Register as FilamentRegister;
+use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\HtmlString;
-use Wallo\FilamentCompanies\Features;
 use Wallo\FilamentCompanies\FilamentCompanies;
 
 class Register extends FilamentRegister
@@ -22,7 +22,7 @@ class Register extends FilamentRegister
                 $this->getEmailFormComponent(),
                 $this->getPasswordFormComponent(),
                 $this->getPasswordConfirmationFormComponent(),
-                ...Features::hasTermsAndPrivacyPolicyFeature() ? [$this->getTermsFormComponent()] : []])
+                ...FilamentCompanies::hasTermsAndPrivacyPolicyFeature() ? [$this->getTermsFormComponent()] : []])
             ->statePath('data')
             ->model(FilamentCompanies::userModel());
     }
@@ -31,10 +31,20 @@ class Register extends FilamentRegister
     {
         return Checkbox::make('terms')
             ->label(new HtmlString(__('filament-companies::default.subheadings.auth.register', [
-                'terms_of_service' => '<a target="_blank" href="' . route('filament.' . FilamentCompanies::getCompanyPanel() . '.' . Terms::getRouteName()) . '" class="font-medium outline-none hover:underline focus:underline text-primary-600 hover:text-primary-500 dark:text-primary-500 dark:hover:text-primary-400">' . __('filament-companies::default.links.terms_of_service') . '</a>',
-                'privacy_policy' => '<a target="_blank" href="' . route('filament.' . FilamentCompanies::getCompanyPanel() . '.' . PrivacyPolicy::getRouteName()) . '" class="font-medium outline-none hover:underline focus:underline text-primary-600 hover:text-primary-500 dark:text-primary-500 dark:hover:text-primary-400">' . __('filament-companies::default.links.privacy_policy') . '</a>',
+                'terms_of_service' => $this->generateFilamentLink(Terms::getRouteName(), __('filament-companies::default.links.terms_of_service')),
+                'privacy_policy' => $this->generateFilamentLink(PrivacyPolicy::getRouteName(), __('filament-companies::default.links.privacy_policy')),
             ])))
             ->validationAttribute('Terms of Service and Privacy Policy')
             ->accepted();
+    }
+
+    public function generateFilamentLink(string $routeName, string $label): string
+    {
+        return Blade::render('filament::components.link', [
+            'href' => FilamentCompanies::route($routeName),
+            'target' => '_blank',
+            'color' => 'primary',
+            'slot' => $label,
+        ]);
     }
 }

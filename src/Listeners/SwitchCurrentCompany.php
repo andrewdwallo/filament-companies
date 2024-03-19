@@ -3,7 +3,7 @@
 namespace Wallo\FilamentCompanies\Listeners;
 
 use Filament\Events\TenantSet;
-use Wallo\FilamentCompanies\Features;
+use Wallo\FilamentCompanies\FilamentCompanies;
 use Wallo\FilamentCompanies\HasCompanies;
 
 class SwitchCurrentCompany
@@ -26,7 +26,7 @@ class SwitchCurrentCompany
         /** @var HasCompanies $user */
         $user = $event->getUser();
 
-        if (Features::switchesCurrentCompany() === false || ! in_array(HasCompanies::class, class_uses_recursive($user), true)) {
+        if (FilamentCompanies::switchesCurrentCompany() === false || ! in_array(HasCompanies::class, class_uses_recursive($user), true)) {
             return;
         }
 

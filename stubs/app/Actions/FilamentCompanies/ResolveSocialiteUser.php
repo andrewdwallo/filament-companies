@@ -5,7 +5,7 @@ namespace App\Actions\FilamentCompanies;
 use Laravel\Socialite\Contracts\User;
 use Laravel\Socialite\Facades\Socialite;
 use Wallo\FilamentCompanies\Contracts\ResolvesSocialiteUsers;
-use Wallo\FilamentCompanies\Socialite as FilamentCompaniesSocialite;
+use Wallo\FilamentCompanies\Enums\Feature;
 
 class ResolveSocialiteUser implements ResolvesSocialiteUsers
 {
@@ -16,7 +16,7 @@ class ResolveSocialiteUser implements ResolvesSocialiteUsers
     {
         $user = Socialite::driver($provider)->user();
 
-        if (FilamentCompaniesSocialite::generatesMissingEmails()) {
+        if (Feature::GenerateMissingEmails->isEnabled()) {
             $user->email = $user->getEmail() ?? ("{$user->id}@{$provider}" . config('app.domain'));
         }
 

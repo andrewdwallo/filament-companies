@@ -8,7 +8,7 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 use Wallo\FilamentCompanies\Contracts\UpdatesUserPasswords;
-use Wallo\FilamentCompanies\Features;
+use Wallo\FilamentCompanies\FilamentCompanies;
 
 class UpdatePasswordForm extends Component
 {
@@ -44,7 +44,7 @@ class UpdatePasswordForm extends Component
             'password_confirmation' => '',
         ];
 
-        if (Features::hasNotificationsFeature()) {
+        if (FilamentCompanies::hasNotificationsFeature()) {
             if (method_exists($updater, 'passwordUpdated')) {
                 $updater->passwordUpdated(Auth::user(), $this->state);
             } else {

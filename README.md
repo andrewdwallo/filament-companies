@@ -546,8 +546,8 @@ You may add or remove any Provider in the company panel configuration:
 ```php
 use Filament\Panel;
 use Wallo\FilamentCompanies\FilamentCompanies;
-use Wallo\FilamentCompanies\Providers;
-use Wallo\FilamentCompanies\Socialite;
+use Wallo\FilamentCompanies\Enums\Feature;
+use Wallo\FilamentCompanies\Enums\Provider;
 
 class FilamentCompaniesServiceProvider extends PanelProvider
 {
@@ -559,23 +559,23 @@ class FilamentCompaniesServiceProvider extends PanelProvider
                 FilamentCompanies::make()
                     ->socialite(
                         providers: [
-                            Providers::github(),
-                            Providers::gitlab(),
-                            Providers::google(),
-                            Providers::facebook(),
-                            Providers::linkedin(),
-                            Providers::linkedinOpenId(),
-                            Providers::bitbucket(),
-                            Providers::slack(),
-                            Providers::twitter(),
-                            Providers::twitterOAuth2(),
+                            Provider::Github,
+                            Provider::Gitlab,
+                            Provider::Google,
+                            Provider::Facebook,
+                            Provider::Linkedin,
+                            Provider::LinkedinOpenId,
+                            Provider::Bitbucket,
+                            Provider::Slack,
+                            Provider::Twitter,
+                            Provider::TwitterOAuth2,
                         ],
                         features: [
-                            Socialite::rememberSession(),
-                            Socialite::providerAvatars(),
-                            Socialite::generateMissingEmails(),
-                            Socialite::loginOnRegistration(),
-                            Socialite::createAccountOnFirstLogin(),
+                            Feature::RememberSession,
+                            Feature::ProviderAvatars,
+                            Feature::GenerateMissingEmails,
+                            Feature::LoginOnRegistration,
+                            Feature::CreateAccountOnFirstLogin,
                         ]
                     )
             )

@@ -1,3 +1,7 @@
+@props([
+    'errorMessage' => null,
+])
+
 <div class="mt-6 filament-companies-socialite">
     <div class="filament-companies-socialite-divider flex flex-row items-center justify-between py-4 text-gray-900 dark:text-white">
         <hr class="w-full mr-2">
@@ -5,39 +9,18 @@
         <hr class="w-full ml-2">
     </div>
 
-    @php
-        use Wallo\FilamentCompanies\FilamentCompanies;
-        use Wallo\FilamentCompanies\Providers;
-
-        $providers = [
-            Providers::github() => ['method' => Providers::hasGithub(), 'name' => 'GitHub'],
-            Providers::gitlab() => ['method' => Providers::hasGitlab(), 'name' => 'GitLab'],
-            Providers::google() => ['method' => Providers::hasGoogle(), 'name' => 'Google'],
-            Providers::facebook() => ['method' => Providers::hasFacebook(), 'name' => 'Facebook'],
-            Providers::linkedin() => ['method' => Providers::hasLinkedIn(), 'name' => 'LinkedIn'],
-            Providers::linkedinOpenId() => ['method' => Providers::hasLinkedInOpenId(), 'name' => 'LinkedIn'],
-            Providers::bitbucket() => ['method' => Providers::hasBitbucket(), 'name' => 'Bitbucket'],
-            Providers::slack() => ['method' => Providers::hasSlack(), 'name' => 'Slack'],
-            Providers::twitter() => ['method' => Providers::hasTwitter(), 'name' => 'X'],
-            Providers::twitterOAuth2() => ['method' => Providers::hasTwitterOAuth2(), 'name' => 'X'],
-        ];
-    @endphp
+    @if ($errorMessage)
+        <div class="mt-6 text-center text-sm text-danger-600 dark:text-danger-500">{!! $errorMessage !!}</div>
+    @endif
 
     <div class="filament-companies-socialite-button-container mt-6 flex flex-wrap items-center justify-center gap-6">
-        @foreach ($providers as $iconKey => $provider)
-            @php
-                $icon = match($iconKey) {
-                    'twitter-oauth-2' => 'twitter',
-                    'linkedin-openid' => 'linkedin',
-                    default => $iconKey
-                };
-            @endphp
-            @if ($provider['method'])
-                <a href="{{ route('filament.' . FilamentCompanies::getCompanyPanel() . '.oauth.redirect', ['provider' => $iconKey]) }}"
+        @foreach (\Wallo\FilamentCompanies\Enums\Provider::cases() as $provider)
+            @if ($provider->hasSupport())
+                <a href="{{ \Wallo\FilamentCompanies\FilamentCompanies::generateOAuthRedirectUrl($provider->value) }}"
                    class="filament-companies-socialite-buttons inline-flex rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 dark:focus:border-primary-500 py-2 px-4 shadow-sm hover:bg-gray-50 dark:hover:bg-gray-600">
-                    <span class="sr-only">{{ $provider['name'] }}</span>
+                    <span class="sr-only">{{ $provider->getLabel() }}</span>
                     <div class="h-6 w-6">
-                        @component("filament-companies::components.socialite-icons.{$icon}")@endcomponent
+                        {{ $provider->getIconView() }}
                     </div>
                 </a>
             @endif

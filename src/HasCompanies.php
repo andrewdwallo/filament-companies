@@ -176,9 +176,9 @@ trait HasCompanies
             return false;
         }
 
-        if (in_array(HasApiTokens::class, class_uses_recursive($this), true) &&
+        if ($this->currentAccessToken() !== null &&
             ! $this->tokenCan($permission) &&
-            $this->currentAccessToken() !== null) {
+            in_array(HasApiTokens::class, class_uses_recursive($this), true)) {
             return false;
         }
 

@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 use Wallo\FilamentCompanies\Contracts\UpdatesUserProfileInformation;
-use Wallo\FilamentCompanies\Features;
+use Wallo\FilamentCompanies\FilamentCompanies;
 use Wallo\FilamentCompanies\Pages\User\Profile;
 
 class UpdateProfileInformationForm extends Component
@@ -59,7 +59,7 @@ class UpdateProfileInformationForm extends Component
             redirect(Profile::getUrl());
         }
 
-        if (Features::hasNotificationsFeature()) {
+        if (FilamentCompanies::hasNotificationsFeature()) {
             if (method_exists($updater, 'profileInformationUpdated')) {
                 $updater->profileInformationUpdated(Auth::user(), $this->state);
             } else {

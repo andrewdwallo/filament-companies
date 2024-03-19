@@ -9,7 +9,7 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 use Wallo\FilamentCompanies\Contracts\SetsUserPasswords;
-use Wallo\FilamentCompanies\Features;
+use Wallo\FilamentCompanies\FilamentCompanies;
 
 class SetPasswordForm extends Component
 {
@@ -37,7 +37,7 @@ class SetPasswordForm extends Component
             'password_confirmation' => '',
         ];
 
-        if (Features::hasNotificationsFeature()) {
+        if (FilamentCompanies::hasNotificationsFeature()) {
             if (method_exists($setter, 'passwordSet')) {
                 $setter->passwordSet(Auth::user(), $this->state);
             } else {

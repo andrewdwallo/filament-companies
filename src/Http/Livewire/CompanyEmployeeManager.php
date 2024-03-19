@@ -16,7 +16,6 @@ use Wallo\FilamentCompanies\Actions\UpdateCompanyEmployeeRole;
 use Wallo\FilamentCompanies\Contracts\AddsCompanyEmployees;
 use Wallo\FilamentCompanies\Contracts\InvitesCompanyEmployees;
 use Wallo\FilamentCompanies\Contracts\RemovesCompanyEmployees;
-use Wallo\FilamentCompanies\Features;
 use Wallo\FilamentCompanies\FilamentCompanies;
 use Wallo\FilamentCompanies\RedirectsActions;
 use Wallo\FilamentCompanies\Role;
@@ -70,7 +69,7 @@ class CompanyEmployeeManager extends Component
     {
         $this->resetErrorBag();
 
-        if (Features::sendsCompanyInvitations()) {
+        if (FilamentCompanies::sendsCompanyInvitations()) {
             $inviter->invite(
                 $this->user,
                 $this->company,
@@ -86,7 +85,7 @@ class CompanyEmployeeManager extends Component
             );
         }
 
-        if (Features::hasNotificationsFeature()) {
+        if (FilamentCompanies::hasNotificationsFeature()) {
             if (method_exists($inviter, 'employeeInvitationSent')) {
                 $inviter->employeeInvitationSent(
                     $this->user,

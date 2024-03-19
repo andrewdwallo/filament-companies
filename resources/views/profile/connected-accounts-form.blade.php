@@ -35,7 +35,7 @@
                     <x-slot name="action">
                         @if ($account !== null)
                             <div class="flex items-center justify-end gap-x-2">
-                                @if ($account->avatar_path !== null && Wallo\FilamentCompanies\Features::managesProfilePhotos() && Wallo\FilamentCompanies\Socialite::hasProviderAvatarsFeature())
+                                @if ($account->avatar_path !== null && Wallo\FilamentCompanies\FilamentCompanies::managesProfilePhotos() && \Wallo\FilamentCompanies\Enums\Feature::ProviderAvatars->isEnabled())
                                     <x-filament::button size="sm"
                                                         wire:click="setAvatarAsProfilePhoto('{{ $account->id }}')">
                                         {{ __('filament-companies::default.buttons.use_avatar_as_profile_photo') }}
@@ -50,7 +50,7 @@
                                 @endif
                             </div>
                         @else
-                            <x-filament::button tag="a" color="gray" size="sm" href="{{ route('filament.' . Wallo\FilamentCompanies\FilamentCompanies::getCompanyPanel() . '.oauth.redirect', compact('provider')) }}">
+                            <x-filament::button tag="a" color="gray" size="sm" href="{{ \Wallo\FilamentCompanies\FilamentCompanies::generateOAuthRedirectUrl($provider) }}">
                                 {{ __('filament-companies::default.buttons.connect') }}
                             </x-filament::button>
                         @endif

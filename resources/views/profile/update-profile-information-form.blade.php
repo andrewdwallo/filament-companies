@@ -10,7 +10,7 @@
     <x-filament::section>
         <x-filament-panels::form wire:submit="updateProfileInformation">
             <!-- Profile Photo -->
-            @if (Wallo\FilamentCompanies\Features::managesProfilePhotos())
+            @if (Wallo\FilamentCompanies\FilamentCompanies::managesProfilePhotos())
                 <div x-data="{ photoName: null, photoPreview: null }" class="space-y-2">
                     <!-- Profile Photo File Input -->
                     <input type="file" class="hidden"

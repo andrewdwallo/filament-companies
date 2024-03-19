@@ -22,9 +22,9 @@ use Wallo\FilamentCompanies\Contracts\GeneratesProviderRedirect;
 use Wallo\FilamentCompanies\Contracts\HandlesInvalidState;
 use Wallo\FilamentCompanies\Contracts\ResolvesSocialiteUsers;
 use Wallo\FilamentCompanies\Contracts\UpdatesConnectedAccounts;
+use Wallo\FilamentCompanies\Enums\Feature;
 use Wallo\FilamentCompanies\FilamentCompanies;
 use Wallo\FilamentCompanies\Pages\User\Profile;
-use Wallo\FilamentCompanies\Socialite;
 
 class OAuthController extends Controller
 {
@@ -78,7 +78,7 @@ class OAuthController extends Controller
             return $this->handleError($request);
         }
 
-        $account = Socialite::findConnectedAccountForProviderAndId($provider, $providerAccount->getId());
+        $account = FilamentCompanies::findConnectedAccountForProviderAndId($provider, $providerAccount->getId());
         $user = $this->guard->user();
 
         return $this->handleNewOrReturningUser($providerAccount, $provider, $account, $user);
@@ -113,7 +113,7 @@ class OAuthController extends Controller
 
     protected function handleAccountAbsence(ProviderUser $providerAccount, string $provider): RedirectResponse | LoginResponse
     {
-        if (Socialite::hasCreateAccountOnFirstLoginFeature()) {
+        if (Feature::CreateAccountOnFirstLogin->isEnabled()) {
             return $this->handleCreateAccountOnFirstLogin($providerAccount, $provider);
         }
 
@@ -158,7 +158,7 @@ class OAuthController extends Controller
         }
 
         $isOnRegistrationPage = $previousUrl === url($this->registrationUrl);
-        $isOnLoginPageWithFirstLoginFeature = Socialite::hasCreateAccountOnFirstLoginFeature() && $previousUrl === url($this->loginUrl);
+        $isOnLoginPageWithFirstLoginFeature = Feature::CreateAccountOnFirstLogin->isEnabled() && $previousUrl === url($this->loginUrl);
 
         return $isOnRegistrationPage || $isOnLoginPageWithFirstLoginFeature;
     }
@@ -170,7 +170,7 @@ class OAuthController extends Controller
     {
         $user = FilamentCompanies::newUserModel()->where('email', $providerAccount->getEmail())->first();
 
-        $account = Socialite::findConnectedAccountForProviderAndId($provider, $providerAccount->getId());
+        $account = FilamentCompanies::findConnectedAccountForProviderAndId($provider, $providerAccount->getId());
 
         if ($user) {
             return $this->handleUserAlreadyRegistered($user, $account, $provider, $providerAccount);
@@ -238,7 +238,7 @@ class OAuthController extends Controller
      */
     protected function handleUserAlreadyRegistered(Authenticatable $user, ?ConnectedAccount $account, string $provider, ProviderUser $providerAccount): RedirectResponse | LoginResponse
     {
-        if (Socialite::hasLoginOnRegistrationFeature()) {
+        if (Feature::LoginOnRegistration->isEnabled()) {
             if ($account === null) {
                 $this->createsConnectedAccounts->create($user, $provider, $providerAccount);
             }
@@ -284,7 +284,7 @@ class OAuthController extends Controller
     {
         event(new Registered($user));
 
-        $this->guard->login($user, Socialite::hasRememberSessionFeature());
+        $this->guard->login($user, Feature::RememberSession->isEnabled());
 
         session()->regenerate();
 

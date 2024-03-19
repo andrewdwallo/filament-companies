@@ -12,8 +12,9 @@ use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 use Livewire\Features\SupportRedirects\Redirector;
 use Wallo\FilamentCompanies\ConnectedAccount;
+use Wallo\FilamentCompanies\Enums\Feature;
+use Wallo\FilamentCompanies\FilamentCompanies;
 use Wallo\FilamentCompanies\Pages\User\Profile;
-use Wallo\FilamentCompanies\Socialite;
 
 class ConnectedAccountsForm extends Component
 {
@@ -23,11 +24,13 @@ class ConnectedAccountsForm extends Component
     public string | int $selectedAccountId = '';
 
     /**
-     * Return all socialite providers and whether the application supports them
+     * Return an array of the enabled Provider enum case values.
+     *
+     * @return string[]
      */
     public function getProvidersProperty(): array
     {
-        return Socialite::providers();
+        return FilamentCompanies::enabledProviders();
     }
 
     /**
@@ -58,7 +61,7 @@ class ConnectedAccountsForm extends Component
             ->where('id', $accountId)
             ->first();
 
-        if (is_callable([$user, 'setProfilePhotoFromUrl']) && $account->avatar_path !== null && Socialite::hasProviderAvatarsFeature()) {
+        if (is_callable([$user, 'setProfilePhotoFromUrl']) && $account->avatar_path !== null && Feature::ProviderAvatars->isEnabled()) {
             $user->setProfilePhotoFromUrl($account->avatar_path);
         }
 

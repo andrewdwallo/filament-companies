@@ -1,40 +1,20 @@
 @props(['provider', 'createdAt' => null])
 
 @php
-    use Wallo\FilamentCompanies\Providers;
-
-    $providers = [
-        Providers::github() => ['method' => Providers::hasGithub(), 'name' => 'GitHub'],
-        Providers::gitlab() => ['method' => Providers::hasGitlab(), 'name' => 'GitLab'],
-        Providers::google() => ['method' => Providers::hasGoogle(), 'name' => 'Google'],
-        Providers::facebook() => ['method' => Providers::hasFacebook(), 'name' => 'Facebook'],
-        Providers::linkedin() => ['method' => Providers::hasLinkedIn(), 'name' => 'LinkedIn'],
-        Providers::linkedinOpenId() => ['method' => Providers::hasLinkedInOpenId(), 'name' => 'LinkedIn'],
-        Providers::bitbucket() => ['method' => Providers::hasBitbucket(), 'name' => 'Bitbucket'],
-        Providers::slack() => ['method' => Providers::hasSlack(), 'name' => 'Slack'],
-        Providers::twitter() => ['method' => Providers::hasTwitter(), 'name' => 'X'],
-        Providers::twitterOAuth2() => ['method' => Providers::hasTwitterOAuth2(), 'name' => 'X'],
-    ];
-
-    $icon = match ($provider) {
-        Providers::twitterOAuth2() => Providers::twitter(),
-        Providers::linkedinOpenId() => Providers::linkedin(),
-        default => $provider,
-    };
-    $name = $providers[$provider]['name'];
+    $providerEnum = \Wallo\FilamentCompanies\Enums\Provider::tryFrom($provider);
 @endphp
 
-@if($providers[$provider]['method'])
+@if($providerEnum?->hasSupport())
     <div class="filament-companies-connected-account">
         <div class="filament-companies-connected-account-container flex items-center justify-between">
             <div class="filament-companies-connected-account-details flex items-center gap-x-2">
                 <div class="filament-companies-connected-account-icon h-8 w-8">
-                    @component("filament-companies::components.socialite-icons.{$icon}") @endcomponent
+                    {{ $providerEnum->getIconView() }}
                 </div>
 
                 <div class="filament-companies-connected-account-info font-semibold">
                     <div class="filament-companies-connected-account-name text-sm text-gray-800 dark:text-gray-200">
-                        {{ __($name) }}
+                        {{ $providerEnum->getLabel() }}
                     </div>
 
                     @if (!empty($createdAt))

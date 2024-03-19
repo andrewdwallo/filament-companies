@@ -36,14 +36,14 @@ use Illuminate\Session\Middleware\StartSession;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 use Wallo\FilamentCompanies\Actions\GenerateRedirectForProvider;
+use Wallo\FilamentCompanies\Enums\Feature;
+use Wallo\FilamentCompanies\Enums\Provider;
 use Wallo\FilamentCompanies\FilamentCompanies;
 use Wallo\FilamentCompanies\Pages\Auth\Login;
 use Wallo\FilamentCompanies\Pages\Auth\Register;
 use Wallo\FilamentCompanies\Pages\Company\CompanySettings;
 use Wallo\FilamentCompanies\Pages\Company\CreateCompany;
 use Wallo\FilamentCompanies\Pages\User\Profile;
-use Wallo\FilamentCompanies\Providers;
-use Wallo\FilamentCompanies\Socialite;
 
 class FilamentCompaniesServiceProvider extends PanelProvider
 {
@@ -73,8 +73,8 @@ class FilamentCompaniesServiceProvider extends PanelProvider
                     ->notifications()
                     ->modals()
                     ->socialite(
-                        providers: [Providers::github()],
-                        features: [Socialite::rememberSession(), Socialite::providerAvatars()]
+                        providers: [Provider::Github],
+                        features: [Feature::RememberSession, Feature::ProviderAvatars],
                     ),
             )
             ->registration(Register::class)
@@ -136,13 +136,13 @@ class FilamentCompaniesServiceProvider extends PanelProvider
         FilamentCompanies::deleteCompaniesUsing(DeleteCompany::class);
         FilamentCompanies::deleteUsersUsing(DeleteUser::class);
 
-        Socialite::resolvesSocialiteUsersUsing(ResolveSocialiteUser::class);
-        Socialite::createUsersFromProviderUsing(CreateUserFromProvider::class);
-        Socialite::createConnectedAccountsUsing(CreateConnectedAccount::class);
-        Socialite::updateConnectedAccountsUsing(UpdateConnectedAccount::class);
-        Socialite::setUserPasswordsUsing(SetUserPassword::class);
-        Socialite::handlesInvalidStateUsing(HandleInvalidState::class);
-        Socialite::generatesProvidersRedirectsUsing(GenerateRedirectForProvider::class);
+        FilamentCompanies::resolvesSocialiteUsersUsing(ResolveSocialiteUser::class);
+        FilamentCompanies::createUsersFromProviderUsing(CreateUserFromProvider::class);
+        FilamentCompanies::createConnectedAccountsUsing(CreateConnectedAccount::class);
+        FilamentCompanies::updateConnectedAccountsUsing(UpdateConnectedAccount::class);
+        FilamentCompanies::setUserPasswordsUsing(SetUserPassword::class);
+        FilamentCompanies::handlesInvalidStateUsing(HandleInvalidState::class);
+        FilamentCompanies::generatesProvidersRedirectsUsing(GenerateRedirectForProvider::class);
     }
 
     /**
