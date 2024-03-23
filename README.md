@@ -182,12 +182,6 @@ php artisan vendor:publish --tag=filament-companies-views
 
 # Usage & Configuration
 
-If you would like, you may create a new account using:
-```shell
-php artisan make:filament-companies-user
-```
-> 📘 You may also create a new account by registering through the application.
-
 ### Switching the Current Company
 
 Filament has a built-in event that is fired when the application needs to set the tenant for the current request. This event is `Filament\Events\TenantSet`. If you would like to either enable or disable the ability to switch the current company, you may do so by using the `switchCurrentCompany()` method in your `FilamentCompaniesServiceProvider` class.
