@@ -3,6 +3,99 @@
 @endphp
 
 <div>
+        <x-filament-tenants::section-border />
+
+        <!-- Manage Tenant Employees -->
+        <x-filament-tenants::grid-section md="2">
+            <x-slot name="title">
+                {{ __('filament-tenants::default.action_section_titles.tenant_employees') }}
+            </x-slot>
+
+            <x-slot name="description">
+                {{ __('filament-tenants::default.action_section_descriptions.tenant_employees') }}
+            </x-slot>
+
+            <!-- Tenant Employee List -->
+            <div class="col-span-2 mt-5 space-y-2 overflow-x-auto bg-white shadow rounded-xl dark:border-gray-600 dark:bg-gray-800 sm:col-span-1 md:col-start-2 md:mt-0">
+                <table class="w-full divide-y divide-gray-200 dark:divide-gray-700">
+                    <thead class="bg-white dark:bg-gray-800">
+                    <tr>
+                        <th scope="col" colspan="3" class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-600 uppercase dark:text-gray-400">
+                            {{ __('filament-tenants::default.fields.name') }}
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
+                        <tr>
+                            <td colspan="2" class="px-6 py-4 text-left whitespace-nowrap">
+                                <div class="flex items-center gap-2 text-sm">
+                                    <div class="flex-shrink-0">
+                                        <x-filament-panels::avatar.user :user="$tenant->owner" size="lg" />
+                                    </div>
+                                    <div class="ml-4">
+                                        <div class="font-medium text-gray-900 dark:text-gray-200">{{ $tenant->owner->name }}</div>
+                                        <div class="hidden text-gray-600 dark:text-gray-400 sm:block">{{ $tenant->owner->email }}</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td colspan="1" class="px-6 py-4 whitespace-nowrap">
+                                <div class="space-x-2 text-right">
+                                        <x-filament::button size="sm" outlined="true" disabled="true" outlined="true" color="gray">
+                                            {{ __('filament-tenants::default.labels.tenant_owner') }}
+                                        </x-filament::button>
+                                </div>
+                            </td>
+                        </tr>
+                    @if ($tenant->users->isNotEmpty())
+                    @foreach ($tenant->users->sortBy('name') as $user)
+                        <tr>
+                            <td colspan="2" class="px-6 py-4 text-left whitespace-nowrap">
+                                <div class="flex items-center gap-2 text-sm">
+                                    <div class="flex-shrink-0">
+                                        <x-filament-panels::avatar.user :user="$user" size="lg" />
+                                    </div>
+                                    <div class="ml-4">
+                                        <div class="font-medium text-gray-900 dark:text-gray-200">{{ $user->name }}</div>
+                                        <div class="hidden text-gray-600 dark:text-gray-400 sm:block">{{ $user->email }}</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td colspan="1" class="px-6 py-4 whitespace-nowrap">
+                                <div class="space-x-2 text-right">
+                                    <!-- Manage Tenant Employee Role -->
+                                    @if (Gate::check('updateTenantEmployee', $tenant) && Wallo\FilamentTenants\FilamentTenants::hasRoles())
+                                        <x-filament::button size="sm" outlined="true" color="primary" wire:click="manageRole('{{ $user->id }}')">
+                                            {{ Wallo\FilamentTenants\FilamentTenants::findRole($user->employeeship->role)->name }}
+                                        </x-filament::button>
+                                    @elseif (Wallo\FilamentTenants\FilamentTenants::hasRoles())
+                                        <x-filament::button size="sm" disabled="true" outlined="true" color="gray">
+                                            {{ Wallo\FilamentTenants\FilamentTenants::findRole($user->employeeship->role)->name }}
+                                        </x-filament::button>
+                                    @endif
+
+                                    <!-- Leave Tenant -->
+                                    @if ($this->user->id === $user->id)
+                                        <x-filament::button size="sm" color="danger" wire:click="confirmLeavingTenant">
+                                            {{ __('filament-tenants::default.buttons.leave') }}
+                                        </x-filament::button>
+
+                                        <!-- Remove Tenant Employee -->
+                                    @elseif (Gate::check('removeTenantEmployee', $tenant))
+                                        <x-filament::button size="sm" color="danger" wire:click="confirmTenantEmployeeRemoval('{{ $user->id }}')">
+                                            {{ __('filament-tenants::default.buttons.remove') }}
+                                        </x-filament::button>
+                                    @endif
+                                </div>
+                            </td>
+                        </tr>
+                    @endforeach
+                    @endif
+                    </tbody>
+                </table>
+            </div>
+        </x-filament-tenants::grid-section>
+
+
     @if (Gate::check('addTenantEmployee', $tenant))
         <x-filament-tenants::section-border />
 
@@ -113,78 +206,6 @@
                                     @if (Gate::check('removeTenantEmployee', $tenant))
                                         <x-filament::button size="sm" color="danger" outlined="true" wire:click="cancelTenantInvitation({{ $invitation->id }})">
                                             {{ __('filament-tenants::default.buttons.cancel') }}
-                                        </x-filament::button>
-                                    @endif
-                                </div>
-                            </td>
-                        </tr>
-                    @endforeach
-                    </tbody>
-                </table>
-            </div>
-        </x-filament-tenants::grid-section>
-    @endif
-
-    @if ($tenant->users->isNotEmpty())
-        <x-filament-tenants::section-border />
-
-        <!-- Manage Tenant Employees -->
-        <x-filament-tenants::grid-section md="2">
-            <x-slot name="title">
-                {{ __('filament-tenants::default.action_section_titles.tenant_employees') }}
-            </x-slot>
-
-            <x-slot name="description">
-                {{ __('filament-tenants::default.action_section_descriptions.tenant_employees') }}
-            </x-slot>
-
-            <!-- Tenant Employee List -->
-            <div class="overflow-x-auto space-y-2 bg-white rounded-xl shadow dark:border-gray-600 dark:bg-gray-800 col-span-2 mt-5 sm:col-span-1 md:col-start-2 md:mt-0">
-                <table class="w-full divide-y divide-gray-200 dark:divide-gray-700">
-                    <thead class="bg-white dark:bg-gray-800">
-                    <tr>
-                        <th scope="col" colspan="3" class="px-6 py-3 text-left text-xs font-medium text-gray-600 dark:text-gray-400 uppercase tracking-wider">
-                            {{ __('filament-tenants::default.fields.name') }}
-                        </th>
-                    </tr>
-                    </thead>
-                    <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
-                    @foreach ($tenant->users->sortBy('name') as $user)
-                        <tr>
-                            <td colspan="2" class="px-6 py-4 text-left whitespace-nowrap">
-                                <div class="flex items-center text-sm">
-                                    <div class="flex-shrink-0">
-                                        <x-filament-panels::avatar.user :user="$user" size="lg" />
-                                    </div>
-                                    <div class="ml-4">
-                                        <div class="font-medium text-gray-900 dark:text-gray-200">{{ $user->name }}</div>
-                                        <div class="text-gray-600 dark:text-gray-400 hidden sm:block">{{ $user->email }}</div>
-                                    </div>
-                                </div>
-                            </td>
-                            <td colspan="1" class="px-6 py-4 whitespace-nowrap">
-                                <div class="space-x-2 text-right">
-                                    <!-- Manage Tenant Employee Role -->
-                                    @if (Gate::check('updateTenantEmployee', $tenant) && Wallo\FilamentTenants\FilamentTenants::hasRoles())
-                                        <x-filament::button size="sm" outlined="true" color="primary" wire:click="manageRole('{{ $user->id }}')">
-                                            {{ Wallo\FilamentTenants\FilamentTenants::findRole($user->employeeship->role)->name }}
-                                        </x-filament::button>
-                                    @elseif (Wallo\FilamentTenants\FilamentTenants::hasRoles())
-                                        <x-filament::button size="sm" disabled="true" outlined="true" color="gray">
-                                            {{ Wallo\FilamentTenants\FilamentTenants::findRole($user->employeeship->role)->name }}
-                                        </x-filament::button>
-                                    @endif
-
-                                    <!-- Leave Tenant -->
-                                    @if ($this->user->id === $user->id)
-                                        <x-filament::button size="sm" color="danger" wire:click="confirmLeavingTenant">
-                                            {{ __('filament-tenants::default.buttons.leave') }}
-                                        </x-filament::button>
-
-                                        <!-- Remove Tenant Employee -->
-                                    @elseif (Gate::check('removeTenantEmployee', $tenant))
-                                        <x-filament::button size="sm" color="danger" wire:click="confirmTenantEmployeeRemoval('{{ $user->id }}')">
-                                            {{ __('filament-tenants::default.buttons.remove') }}
                                         </x-filament::button>
                                     @endif
                                 </div>
