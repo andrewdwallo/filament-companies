@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Filament\Forms\Components\Builder;
 use Filament\Models\Contracts\HasAvatar;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Wallo\FilamentTenants\Tenant as FilamentTenantsTenant;
@@ -49,5 +50,24 @@ class Tenant extends FilamentTenantsTenant implements HasAvatar
     public function getFilamentAvatarUrl(): string
     {
         return $this->owner->profile_photo_url;
+    }
+
+
+    protected static function booted(): void
+    {
+        // 
+        static::addGlobalScope('userTenants', function (Builder $builder) {
+            if (auth()->check()) {
+                $user = auth()->user();
+                
+                if (!$user->isSuperAdmin()) {
+                    $builder->whereBelongsTo($user, 'owner')->orWhereHas('users', function ($query) use ($user) {
+                        $query->where('user_id', $user->id);
+                    })->orWhereHas('tenantInvitations', function ($query) use ($user) {
+                        $query->where('email', $user->email);
+                    });
+                }
+            }
+        });
     }
 }

@@ -3,9 +3,12 @@
 namespace Wallo\FilamentTenants\Pages\Tenant;
 
 use Filament\Facades\Filament;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Form;
 use Filament\Pages\Tenancy\EditTenantProfile as BaseEditTenantProfile;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Database\Eloquent\Model;
+use Wallo\FilamentTenants\FilamentTenants;
 
 use function Filament\authorize;
 
@@ -25,6 +28,20 @@ class TenantSettings extends BaseEditTenantProfile
         } catch (AuthorizationException $exception) {
             return $exception->toResponse()->allowed();
         }
+    }
+
+    public function form(Form $form): Form
+    {
+        return $form
+            ->schema([
+                TextInput::make('name')
+                    ->label(__('filament-tenants::default.labels.tenant_name'))
+                    ->autofocus()
+                    ->maxLength(255)
+                    ->required(),
+            ])
+            ->model(FilamentTenants::tenantModel())
+            ->statePath('data');
     }
 
     protected function getViewData(): array

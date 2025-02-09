@@ -33,6 +33,7 @@ class User extends Authenticatable implements FilamentUser, HasAvatar, HasDefaul
         'name',
         'email',
         'password',
+        'role_id'
     ];
 
     /**
@@ -90,5 +91,10 @@ class User extends Authenticatable implements FilamentUser, HasAvatar, HasDefaul
     public function getFilamentAvatarUrl(): string
     {
         return $this->profile_photo_url;
+    }
+
+    public function isSuperAdmin(): bool
+    {
+        return $this->role_id === 0;
     }
 }
