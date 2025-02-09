@@ -5,7 +5,7 @@ namespace App\Models;
 use Filament\Models\Contracts\FilamentUser;
 use Filament\Models\Contracts\HasAvatar;
 use Filament\Models\Contracts\HasDefaultTenant;
-use Filament\Models\Contracts\HasTenants;
+use Filament\Models\Contracts\HasTenants as HasTenantsContract;
 use Filament\Panel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -16,7 +16,7 @@ use Laravel\Sanctum\HasApiTokens;
 use Wallo\FilamentTenants\HasTenants;
 use Wallo\FilamentTenants\HasProfilePhoto;
 
-class User extends Authenticatable implements FilamentUser, HasAvatar, HasDefaultTenant, HasTenants
+class User extends Authenticatable implements FilamentUser, HasAvatar, HasDefaultTenant, HasTenantsContract
 {
     use HasApiTokens;
     use HasTenants;
