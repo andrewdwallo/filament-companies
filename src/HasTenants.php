@@ -112,6 +112,10 @@ trait HasTenants
             return false;
         }
 
+        if (method_exists($this, 'isSuperAdmin') && $this->isSuperAdmin()) {
+            return true;
+        }
+
         return $this->id === $tenant->{$this->getForeignKey()};
     }
 
