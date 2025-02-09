@@ -1,20 +1,20 @@
 @php
-    $modals = \Wallo\FilamentCompanies\FilamentCompanies::getModals();
+    $modals = \Wallo\FilamentTenants\FilamentTenants::getModals();
 @endphp
 
-<x-filament-companies::grid-section md="2">
+<x-filament-tenants::grid-section md="2">
     <x-slot name="title">
-        {{ __('filament-companies::default.grid_section_titles.browser_sessions') }}
+        {{ __('filament-tenants::default.grid_section_titles.browser_sessions') }}
     </x-slot>
 
     <x-slot name="description">
-        {{ __('filament-companies::default.grid_section_descriptions.browser_sessions') }}
+        {{ __('filament-tenants::default.grid_section_descriptions.browser_sessions') }}
     </x-slot>
 
     <x-filament::section>
         <div class="grid gap-y-6">
             <p class="text-sm text-gray-600 dark:text-gray-400">
-                {{ __('filament-companies::default.subheadings.profile.logout_other_browser_sessions') }}
+                {{ __('filament-tenants::default.subheadings.profile.logout_other_browser_sessions') }}
             </p>
 
             <!-- Browser Sessions -->
@@ -33,18 +33,18 @@
 
                         <div class="font-semibold">
                             <div class="text-sm text-gray-800 dark:text-gray-200">
-                                {{ $session->os_name ? $session->os_name . ($session->os_version ? ' ' . $session->os_version : '') : 'filament-companies::default.labels.unknown' }}
+                                {{ $session->os_name ? $session->os_name . ($session->os_version ? ' ' . $session->os_version : '') : 'filament-tenants::default.labels.unknown' }}
                                 -
-                                {{ $session->client_name ?: 'filament-companies::default.labels.unknown' }}
+                                {{ $session->client_name ?: 'filament-tenants::default.labels.unknown' }}
                             </div>
 
                             <div class="text-xs text-gray-600 dark:text-gray-300">
                                 {{ $session->ip_address }},
 
                                 @if ($session->is_current_device)
-                                    <span class="text-primary-700 dark:text-primary-500">{{ __('filament-companies::default.labels.this_device') }}</span>
+                                    <span class="text-primary-700 dark:text-primary-500">{{ __('filament-tenants::default.labels.this_device') }}</span>
                                 @else
-                                    <span class="text-gray-400">{{ __('filament-companies::default.labels.last_active') }}: {{ $session->last_active }}</span>
+                                    <span class="text-gray-400">{{ __('filament-tenants::default.labels.last_active') }}: {{ $session->last_active }}</span>
                                 @endif
                             </div>
                         </div>
@@ -57,37 +57,37 @@
                 <x-slot name="trigger">
                     <div class="text-left">
                         <x-filament::button wire:click="confirmLogout">
-                            {{ __('filament-companies::default.buttons.logout_browser_sessions') }}
+                            {{ __('filament-tenants::default.buttons.logout_browser_sessions') }}
                         </x-filament::button>
                     </div>
                 </x-slot>
 
                 <x-slot name="heading">
-                    {{ __('filament-companies::default.modal_titles.logout_browser_sessions') }}
+                    {{ __('filament-tenants::default.modal_titles.logout_browser_sessions') }}
                 </x-slot>
 
                 <x-slot name="description">
-                    {{ __('filament-companies::default.modal_descriptions.logout_browser_sessions') }}
+                    {{ __('filament-tenants::default.modal_descriptions.logout_browser_sessions') }}
                 </x-slot>
 
                 <x-filament-forms::field-wrapper id="password" statePath="password" x-on:confirming-logout-other-browser-sessions.window="setTimeout(() => $refs.password.focus(), 250)">
                     <x-filament::input.wrapper>
-                        <x-filament::input type="password" placeholder="{{ __('filament-companies::default.fields.password') }}" x-ref="password" wire:model="password" wire:keydown.enter="logoutOtherBrowserSessions" />
+                        <x-filament::input type="password" placeholder="{{ __('filament-tenants::default.fields.password') }}" x-ref="password" wire:model="password" wire:keydown.enter="logoutOtherBrowserSessions" />
                     </x-filament::input.wrapper>
                 </x-filament-forms::field-wrapper>
 
                 <x-slot name="footerActions">
                     @if($modals['cancelButtonAction'])
                         <x-filament::button color="gray" wire:click="cancelLogoutOtherBrowserSessions">
-                            {{ __('filament-companies::default.buttons.cancel') }}
+                            {{ __('filament-tenants::default.buttons.cancel') }}
                         </x-filament::button>
                     @endif
 
                     <x-filament::button wire:click="logoutOtherBrowserSessions">
-                        {{ __('filament-companies::default.buttons.logout_browser_sessions') }}
+                        {{ __('filament-tenants::default.buttons.logout_browser_sessions') }}
                     </x-filament::button>
                 </x-slot>
             </x-filament::modal>
         </div>
     </x-filament::section>
-</x-filament-companies::grid-section>
+</x-filament-tenants::grid-section>

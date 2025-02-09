@@ -1,8 +1,8 @@
 <?php
 
-namespace Wallo\FilamentCompanies\Concerns\Base;
+namespace Wallo\FilamentTenants\Concerns\Base;
 
-use Wallo\FilamentCompanies\Role;
+use Wallo\FilamentTenants\Role;
 
 trait HasPermissions
 {
@@ -22,7 +22,7 @@ trait HasPermissions
     public static array $defaultPermissions = [];
 
     /**
-     * Determine if Company has registered roles.
+     * Determine if Tenant has registered roles.
      */
     public static function hasRoles(): bool
     {
@@ -54,7 +54,7 @@ trait HasPermissions
     }
 
     /**
-     * Determine if any permissions have been registered with Company.
+     * Determine if any permissions have been registered with Tenant.
      */
     public static function hasPermissions(): bool
     {

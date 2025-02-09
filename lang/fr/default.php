@@ -20,7 +20,7 @@ return [
         'create_token' => 'Créer un jeton',
         'delete' => 'Supprimer',
         'delete_account' => 'Supprimer le compte',
-        'delete_company' => 'Supprimer l\'entreprise',
+        'delete_tenant' => 'Supprimer l\'entreprise',
         'disable' => 'Désactiver',
         'done' => 'Terminé.',
         'edit' => 'Modifier',
@@ -49,8 +49,8 @@ return [
     ],
 
     'labels' => [
-        'company_name' => 'Nom de l\'entreprise',
-        'company_owner' => 'Propriétaire de l\'entreprise',
+        'tenant_name' => 'Nom de l\'entreprise',
+        'tenant_owner' => 'Propriétaire de l\'entreprise',
         'connected' => 'Connecté',
         'created_at' => 'Créé le',
         'last_active' => 'Dernière activité',
@@ -79,11 +79,11 @@ return [
     ],
 
     'errors' => [
-        'cannot_leave_company' => 'Vous ne pouvez pas quitter une entreprise que vous avez créée.',
-        'company_deletion' => 'Vous ne pouvez pas supprimer votre entreprise personnelle.',
+        'cannot_leave_tenant' => 'Vous ne pouvez pas quitter une entreprise que vous avez créée.',
+        'tenant_deletion' => 'Vous ne pouvez pas supprimer votre entreprise personnelle.',
         'email_already_associated' => 'Un compte avec cette adresse email existe déjà. Veuillez vous connecter pour associer votre compte :Provider.',
         'email_not_found' => 'Nous n\'avons pas pu trouver d\'utilisateur enregistré avec cette adresse email.',
-        'employee_already_belongs_to_company' => 'Cet employé appartient déjà à l\'entreprise.',
+        'employee_already_belongs_to_tenant' => 'Cet employé appartient déjà à l\'entreprise.',
         'employee_already_invited' => 'Cet employé a déjà été invité à l\'entreprise.',
         'invalid_password' => 'Le mot de passe que vous avez entré est invalide.',
         'no_email_with_account' => 'Aucune adresse email n\'est associée à ce compte :Provider. Veuillez essayer un autre compte.',
@@ -91,7 +91,7 @@ return [
         'already_associated_account' => 'Un compte avec cette connexion :Provider existe déjà, veuillez vous connecter.',
         'already_connected' => 'Un compte avec cette adresse email existe déjà. Veuillez vous connecter pour associer votre compte :Provider.',
         'signin_not_found' => 'Un compte avec cette connexion :Provider n\'a pas été trouvé. Veuillez vous inscrire ou essayer une autre méthode de connexion.',
-        'user_belongs_to_company' => 'Cet utilisateur appartient déjà à l\'entreprise.',
+        'user_belongs_to_tenant' => 'Cet utilisateur appartient déjà à l\'entreprise.',
         'valid_role' => 'Le :attribute doit être un rôle valide.',
     ],
 
@@ -103,7 +103,7 @@ return [
     ],
 
     'banner' => [
-        'company_invitation_accepted' => 'Super ! Vous avez accepté l\'invitation à rejoindre **:company**.',
+        'tenant_invitation_accepted' => 'Super ! Vous avez accepté l\'invitation à rejoindre **:tenant**.',
     ],
 
     'notifications' => [
@@ -122,22 +122,22 @@ return [
             'body' => 'Votre compte a été déconnecté des autres sessions navigateur pour des raisons de sécurité.',
         ],
 
-        'company_created' => [
+        'tenant_created' => [
             'title' => 'Entreprise créée',
             'body' => 'Une nouvelle entreprise a été créée avec le nom **:name**.',
         ],
 
-        'company_deleted' => [
+        'tenant_deleted' => [
             'title' => 'Entreprise supprimée',
             'body' => 'L\'entreprise **:name** a été supprimée.',
         ],
 
-        'company_invitation_sent' => [
+        'tenant_invitation_sent' => [
             'title' => 'Invitation envoyée',
             'body' => 'Une invitation a été envoyée à **:email** pour rejoindre votre entreprise.',
         ],
 
-        'company_name_updated' => [
+        'tenant_name_updated' => [
             'title' => 'Entreprise mise à jour',
             'body' => 'Le nom de votre entreprise a été mis à jour en **:name**.',
         ],
@@ -185,32 +185,32 @@ return [
 
     'navigation' => [
         'headers' => [
-            'manage_company' => 'Gérer l\'entreprise',
-            'switch_companies' => 'Changer d\'entreprise',
+            'manage_tenant' => 'Gérer l\'entreprise',
+            'switch_tenants' => 'Changer d\'entreprise',
         ],
 
         'links' => [
             'tokens' => 'Jeton d\'accès personnel',
-            'company_settings' => 'Paramètres de l\'entreprise',
-            'create_company' => 'Créer une entreprise',
+            'tenant_settings' => 'Paramètres de l\'entreprise',
+            'create_tenant' => 'Créer une entreprise',
         ],
     ],
 
     'pages' => [
         'titles' => [
             'tokens' => 'Jeton d\'accès personnel',
-            'create_company' => 'Créer une entreprise',
-            'company_settings' => 'Paramètres de l\'entreprise',
+            'create_tenant' => 'Créer une entreprise',
+            'tenant_settings' => 'Paramètres de l\'entreprise',
             'profile' => 'Profil',
         ],
     ],
 
     'grid_section_titles' => [
-        'add_company_employee' => 'Ajouter un employé de l\'entreprise',
+        'add_tenant_employee' => 'Ajouter un employé de l\'entreprise',
         'browser_sessions' => 'Sessions Navigateur',
-        'company_name' => 'Nom de l\'entreprise',
+        'tenant_name' => 'Nom de l\'entreprise',
         'create_token' => 'Créer un jeton d\'accès personnel',
-        'create_company' => 'Créer une entreprise',
+        'create_tenant' => 'Créer une entreprise',
         'delete_account' => 'Supprimer le compte',
         'profile_information' => 'Informations du profil',
         'set_password' => 'Définir un mot de passe',
@@ -219,11 +219,11 @@ return [
     ],
 
     'grid_section_descriptions' => [
-        'add_company_employee' => 'Ajoutez un nouvel employé à votre entreprise pour collaborer avec vous.',
+        'add_tenant_employee' => 'Ajoutez un nouvel employé à votre entreprise pour collaborer avec vous.',
         'browser_sessions' => 'Gérez et déconnectez vos sessions actives sur d\'autres navigateurs et appareils.',
-        'company_name' => 'Le nom de l\'entreprise et les informations du propriétaire.',
+        'tenant_name' => 'Le nom de l\'entreprise et les informations du propriétaire.',
         'create_token' => 'Les jetons d\'accès personnel permettent à des services tiers de s\'authentifier auprès de notre application en votre nom.',
-        'create_company' => 'Créez une nouvelle entreprise pour collaborer avec d\'autres sur des projets.',
+        'create_tenant' => 'Créez une nouvelle entreprise pour collaborer avec d\'autres sur des projets.',
         'delete_account' => 'Supprimez définitivement votre compte.',
         'profile_information' => 'Mettez à jour les informations de profil et l\'adresse email de votre compte.',
         'set_password' => 'Assurez-vous que votre compte utilise un mot de passe long et aléatoire pour rester sécurisé.',
@@ -232,17 +232,17 @@ return [
     ],
 
     'action_section_titles' => [
-        'company_employees' => 'Employés de l\'entreprise',
+        'tenant_employees' => 'Employés de l\'entreprise',
         'connected_accounts' => 'Comptes connectés',
-        'delete_company' => 'Supprimer l\'entreprise',
-        'pending_company_invitations' => 'Invitations d\'entreprise en attente',
+        'delete_tenant' => 'Supprimer l\'entreprise',
+        'pending_tenant_invitations' => 'Invitations d\'entreprise en attente',
     ],
 
     'action_section_descriptions' => [
-        'company_employees' => 'Toutes les personnes qui font partie de cette entreprise.',
+        'tenant_employees' => 'Toutes les personnes qui font partie de cette entreprise.',
         'connected_accounts' => 'Gérez et supprimez vos comptes connectés.',
-        'delete_company' => 'Supprimez définitivement cette entreprise.',
-        'pending_company_invitations' => 'Ces personnes ont été invitées dans votre entreprise et ont reçu une invitation par email. Ils peuvent rejoindre l\'entreprise en acceptant l\'invitation par email.',
+        'delete_tenant' => 'Supprimez définitivement cette entreprise.',
+        'pending_tenant_invitations' => 'Ces personnes ont été invitées dans votre entreprise et ont reçu une invitation par email. Ils peuvent rejoindre l\'entreprise en acceptant l\'invitation par email.',
     ],
 
     'modal_titles' => [
@@ -251,11 +251,11 @@ return [
         'confirm_password' => 'Confirmer le mot de passe',
         'delete_token' => 'Supprimer le jeton d\'accès personnel',
         'delete_account' => 'Supprimer le compte',
-        'delete_company' => 'Supprimer l\'entreprise',
-        'leave_company' => 'Quitter l\'entreprise',
+        'delete_tenant' => 'Supprimer l\'entreprise',
+        'leave_tenant' => 'Quitter l\'entreprise',
         'logout_browser_sessions' => 'Déconnecter les autres sessions navigateur',
         'manage_role' => 'Gérer le rôle',
-        'remove_company_employee' => 'Supprimer un employé de l\'entreprise',
+        'remove_tenant_employee' => 'Supprimer un employé de l\'entreprise',
         'remove_connected_account' => 'Supprimer le compte connecté',
         'revoke_tokens' => 'Révoquer les jetons',
     ],
@@ -265,10 +265,10 @@ return [
         'confirm_password' => 'Pour des raisons de sécurité, veuillez confirmer votre mot de passe pour continuer.',
         'delete_account' => 'Veuillez entrer votre mot de passe pour confirmer la suppression de votre compte.',
         'delete_token' => 'Êtes-vous sûr de vouloir supprimer ce jeton d\'accès personnel ?',
-        'delete_company' => 'Êtes-vous sûr de vouloir supprimer cette entreprise ?',
-        'leave_company' => 'Êtes-vous sûr de vouloir quitter cette entreprise ?',
+        'delete_tenant' => 'Êtes-vous sûr de vouloir supprimer cette entreprise ?',
+        'leave_tenant' => 'Êtes-vous sûr de vouloir quitter cette entreprise ?',
         'logout_browser_sessions' => 'Veuillez entrer votre mot de passe pour confirmer que vous souhaitez vous déconnecter de vos autres sessions de navigateur.',
-        'remove_company_employee' => 'Êtes-vous sûr de vouloir supprimer cette personne de l\'entreprise ?',
+        'remove_tenant_employee' => 'Êtes-vous sûr de vouloir supprimer cette personne de l\'entreprise ?',
         'remove_connected_account' => 'Veuillez confirmer la suppression de ce compte - cette action ne peut pas être annulée.',
         'revoke_tokens' => 'Veuillez entrer votre mot de passe pour confirmer.',
     ],
@@ -313,8 +313,8 @@ return [
             ],
         ],
 
-        'companies' => [
-            'company_employee_manager' => [
+        'tenants' => [
+            'tenant_employee_manager' => [
                 'manage_employees' => 'Gérer les employés',
                 'pending_invitations' => 'Invitations en attente',
             ],
@@ -341,9 +341,9 @@ return [
             'logout_other_browser_sessions' => 'Si nécessaire, vous pouvez vous déconnecter de toutes vos autres sessions de navigateur sur tous vos appareils. Certaines de vos sessions récentes sont répertoriées ci-dessous ; cependant, cette liste peut ne pas être exhaustive. Si vous pensez que votre compte a été compromis, vous devriez également mettre à jour votre mot de passe.',
         ],
 
-        'companies' => [
-            'company_employee_manager' => 'Veuillez fournir l\'adresse e-mail de la personne que vous souhaitez ajouter à cette entreprise.',
-            'delete_company' => 'Une fois une entreprise supprimée, toutes ses ressources et données seront définitivement supprimées. Avant de supprimer cette entreprise, veuillez télécharger toutes les données ou informations concernant cette entreprise que vous souhaitez conserver.',
+        'tenants' => [
+            'tenant_employee_manager' => 'Veuillez fournir l\'adresse e-mail de la personne que vous souhaitez ajouter à cette entreprise.',
+            'delete_tenant' => 'Une fois une entreprise supprimée, toutes ses ressources et données seront définitivement supprimées. Avant de supprimer cette entreprise, veuillez télécharger toutes les données ou informations concernant cette entreprise que vous souhaitez conserver.',
         ],
     ],
 ];

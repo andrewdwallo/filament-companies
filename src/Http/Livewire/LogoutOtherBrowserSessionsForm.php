@@ -1,6 +1,6 @@
 <?php
 
-namespace Wallo\FilamentCompanies\Http\Livewire;
+namespace Wallo\FilamentTenants\Http\Livewire;
 
 use DeviceDetector\DeviceDetector;
 use Filament\Facades\Filament;
@@ -51,7 +51,7 @@ class LogoutOtherBrowserSessionsForm extends Component
 
         if (! Hash::check($this->password, Auth::user()->password)) {
             throw ValidationException::withMessages([
-                'password' => [__('filament-companies::default.errors.invalid_password')],
+                'password' => [__('filament-tenants::default.errors.invalid_password')],
             ]);
         }
 
@@ -136,15 +136,15 @@ class LogoutOtherBrowserSessionsForm extends Component
      */
     public function render(): View
     {
-        return view('filament-companies::profile.logout-other-browser-sessions-form');
+        return view('filament-tenants::profile.logout-other-browser-sessions-form');
     }
 
     public function browserSessionsTerminated(): void
     {
         Notification::make()
-            ->title(__('filament-companies::default.notifications.browser_sessions_terminated.title'))
+            ->title(__('filament-tenants::default.notifications.browser_sessions_terminated.title'))
             ->success()
-            ->body(__('filament-companies::default.notifications.browser_sessions_terminated.body'))
+            ->body(__('filament-tenants::default.notifications.browser_sessions_terminated.body'))
             ->send();
     }
 }

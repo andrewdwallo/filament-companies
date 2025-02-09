@@ -1,6 +1,6 @@
 <?php
 
-namespace Wallo\FilamentCompanies\Concerns\Base;
+namespace Wallo\FilamentTenants\Concerns\Base;
 
 use Filament\Facades\Filament;
 
@@ -38,12 +38,12 @@ trait HasPanels
     }
 
     /**
-     * Get the panel where the plugin is registered (The company panel).
+     * Get the panel where the plugin is registered (The tenant panel).
      */
-    public static function getCompanyPanel(): ?string
+    public static function getTenantPanel(): ?string
     {
         foreach (Filament::getPanels() as $panel) {
-            if ($panel->hasPlugin('companies')) {
+            if ($panel->hasPlugin('tenants')) {
                 return $panel->getId();
             }
         }

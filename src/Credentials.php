@@ -1,6 +1,6 @@
 <?php
 
-namespace Wallo\FilamentCompanies;
+namespace Wallo\FilamentTenants;
 
 use DateTime;
 use DateTimeInterface;
@@ -9,7 +9,7 @@ use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Contracts\Support\Jsonable;
 use JsonException;
 use JsonSerializable;
-use Wallo\FilamentCompanies\Contracts\Credentials as CredentialsContract;
+use Wallo\FilamentTenants\Contracts\Credentials as CredentialsContract;
 
 class Credentials implements Arrayable, CredentialsContract, Jsonable, JsonSerializable
 {

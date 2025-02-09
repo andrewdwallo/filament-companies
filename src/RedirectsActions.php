@@ -1,6 +1,6 @@
 <?php
 
-namespace Wallo\FilamentCompanies;
+namespace Wallo\FilamentTenants;
 
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Response;

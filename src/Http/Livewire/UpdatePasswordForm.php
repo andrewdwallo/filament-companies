@@ -1,14 +1,14 @@
 <?php
 
-namespace Wallo\FilamentCompanies\Http\Livewire;
+namespace Wallo\FilamentTenants\Http\Livewire;
 
 use Filament\Notifications\Notification;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
-use Wallo\FilamentCompanies\Contracts\UpdatesUserPasswords;
-use Wallo\FilamentCompanies\FilamentCompanies;
+use Wallo\FilamentTenants\Contracts\UpdatesUserPasswords;
+use Wallo\FilamentTenants\FilamentTenants;
 
 class UpdatePasswordForm extends Component
 {
@@ -44,7 +44,7 @@ class UpdatePasswordForm extends Component
             'password_confirmation' => '',
         ];
 
-        if (FilamentCompanies::hasNotificationsFeature()) {
+        if (FilamentTenants::hasNotificationsFeature()) {
             if (method_exists($updater, 'passwordUpdated')) {
                 $updater->passwordUpdated($this->user, $this->state);
             } else {
@@ -66,15 +66,15 @@ class UpdatePasswordForm extends Component
      */
     public function render(): View
     {
-        return view('filament-companies::profile.update-password-form');
+        return view('filament-tenants::profile.update-password-form');
     }
 
     public function passwordUpdated(): void
     {
         Notification::make()
-            ->title(__('filament-companies::default.notifications.password_updated.title'))
+            ->title(__('filament-tenants::default.notifications.password_updated.title'))
             ->success()
-            ->body(__('filament-companies::default.notifications.password_updated.body'))
+            ->body(__('filament-tenants::default.notifications.password_updated.body'))
             ->send();
     }
 }

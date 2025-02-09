@@ -1,10 +1,10 @@
 <?php
 
-namespace Wallo\FilamentCompanies\Concerns\Socialite;
+namespace Wallo\FilamentTenants\Concerns\Socialite;
 
 use Closure;
-use Wallo\FilamentCompanies\Http\Livewire\ConnectedAccountsForm;
-use Wallo\FilamentCompanies\Http\Livewire\SetPasswordForm;
+use Wallo\FilamentTenants\Http\Livewire\ConnectedAccountsForm;
+use Wallo\FilamentTenants\Http\Livewire\SetPasswordForm;
 
 trait HasSocialiteProfileFeatures
 {

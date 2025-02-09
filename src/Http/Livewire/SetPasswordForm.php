@@ -1,6 +1,6 @@
 <?php
 
-namespace Wallo\FilamentCompanies\Http\Livewire;
+namespace Wallo\FilamentTenants\Http\Livewire;
 
 use Filament\Notifications\Notification;
 use Filament\Support\Colors\Color;
@@ -8,8 +8,8 @@ use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
-use Wallo\FilamentCompanies\Contracts\SetsUserPasswords;
-use Wallo\FilamentCompanies\FilamentCompanies;
+use Wallo\FilamentTenants\Contracts\SetsUserPasswords;
+use Wallo\FilamentTenants\FilamentTenants;
 
 class SetPasswordForm extends Component
 {
@@ -37,7 +37,7 @@ class SetPasswordForm extends Component
             'password_confirmation' => '',
         ];
 
-        if (FilamentCompanies::hasNotificationsFeature()) {
+        if (FilamentTenants::hasNotificationsFeature()) {
             if (method_exists($setter, 'passwordSet')) {
                 $setter->passwordSet($this->user, $this->state);
             } else {
@@ -59,16 +59,16 @@ class SetPasswordForm extends Component
      */
     public function render(): View
     {
-        return view('filament-companies::profile.set-password-form');
+        return view('filament-tenants::profile.set-password-form');
     }
 
     public function passwordSet(): void
     {
         Notification::make()
-            ->title(__('filament-companies::default.notifications.password_set.title'))
+            ->title(__('filament-tenants::default.notifications.password_set.title'))
             ->success()
             ->color(Color::Green)
-            ->body(__('filament-companies::default.notifications.password_set.body'))
+            ->body(__('filament-tenants::default.notifications.password_set.body'))
             ->duration(3000)
             ->send();
     }

@@ -1,6 +1,6 @@
 <?php
 
-namespace Wallo\FilamentCompanies\Http\Livewire;
+namespace Wallo\FilamentTenants\Http\Livewire;
 
 use Filament\Notifications\Notification;
 use Illuminate\Contracts\Auth\Authenticatable;
@@ -8,9 +8,9 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 use Livewire\WithFileUploads;
-use Wallo\FilamentCompanies\Contracts\UpdatesUserProfileInformation;
-use Wallo\FilamentCompanies\FilamentCompanies;
-use Wallo\FilamentCompanies\Pages\User\Profile;
+use Wallo\FilamentTenants\Contracts\UpdatesUserProfileInformation;
+use Wallo\FilamentTenants\FilamentTenants;
+use Wallo\FilamentTenants\Pages\User\Profile;
 
 class UpdateProfileInformationForm extends Component
 {
@@ -59,7 +59,7 @@ class UpdateProfileInformationForm extends Component
             redirect(Profile::getUrl());
         }
 
-        if (FilamentCompanies::hasNotificationsFeature()) {
+        if (FilamentTenants::hasNotificationsFeature()) {
             if (method_exists($updater, 'profileInformationUpdated')) {
                 $updater->profileInformationUpdated($this->user, $this->state);
             } else {
@@ -71,9 +71,9 @@ class UpdateProfileInformationForm extends Component
     protected function profileInformationUpdated(): void
     {
         Notification::make()
-            ->title(__('filament-companies::default.notifications.profile_information_updated.title'))
+            ->title(__('filament-tenants::default.notifications.profile_information_updated.title'))
             ->success()
-            ->body(__('filament-companies::default.notifications.profile_information_updated.body'))
+            ->body(__('filament-tenants::default.notifications.profile_information_updated.body'))
             ->send();
     }
 
@@ -95,9 +95,9 @@ class UpdateProfileInformationForm extends Component
         $this->verificationLinkSent = true;
 
         Notification::make()
-            ->title(__('filament-companies::default.notifications.verification_link_sent.title'))
+            ->title(__('filament-tenants::default.notifications.verification_link_sent.title'))
             ->success()
-            ->body(__('filament-companies::default.notifications.verification_link_sent.body'))
+            ->body(__('filament-tenants::default.notifications.verification_link_sent.body'))
             ->send();
     }
 
@@ -114,6 +114,6 @@ class UpdateProfileInformationForm extends Component
      */
     public function render(): View
     {
-        return view('filament-companies::profile.update-profile-information-form');
+        return view('filament-tenants::profile.update-profile-information-form');
     }
 }

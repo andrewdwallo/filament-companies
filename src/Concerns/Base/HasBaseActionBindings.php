@@ -1,17 +1,17 @@
 <?php
 
-namespace Wallo\FilamentCompanies\Concerns\Base;
+namespace Wallo\FilamentTenants\Concerns\Base;
 
-use Wallo\FilamentCompanies\Contracts\AddsCompanyEmployees;
-use Wallo\FilamentCompanies\Contracts\CreatesCompanies;
-use Wallo\FilamentCompanies\Contracts\CreatesNewUsers;
-use Wallo\FilamentCompanies\Contracts\DeletesCompanies;
-use Wallo\FilamentCompanies\Contracts\DeletesUsers;
-use Wallo\FilamentCompanies\Contracts\InvitesCompanyEmployees;
-use Wallo\FilamentCompanies\Contracts\RemovesCompanyEmployees;
-use Wallo\FilamentCompanies\Contracts\UpdatesCompanyNames;
-use Wallo\FilamentCompanies\Contracts\UpdatesUserPasswords;
-use Wallo\FilamentCompanies\Contracts\UpdatesUserProfileInformation;
+use Wallo\FilamentTenants\Contracts\AddsTenantEmployees;
+use Wallo\FilamentTenants\Contracts\CreatesTenants;
+use Wallo\FilamentTenants\Contracts\CreatesNewUsers;
+use Wallo\FilamentTenants\Contracts\DeletesTenants;
+use Wallo\FilamentTenants\Contracts\DeletesUsers;
+use Wallo\FilamentTenants\Contracts\InvitesTenantEmployees;
+use Wallo\FilamentTenants\Contracts\RemovesTenantEmployees;
+use Wallo\FilamentTenants\Contracts\UpdatesTenantNames;
+use Wallo\FilamentTenants\Contracts\UpdatesUserPasswords;
+use Wallo\FilamentTenants\Contracts\UpdatesUserProfileInformation;
 
 trait HasBaseActionBindings
 {
@@ -40,51 +40,51 @@ trait HasBaseActionBindings
     }
 
     /**
-     * Register a class / callback that should be used to create companies.
+     * Register a class / callback that should be used to create tenants.
      */
-    public static function createCompaniesUsing(string $class): void
+    public static function createTenantsUsing(string $class): void
     {
-        app()->singleton(CreatesCompanies::class, $class);
+        app()->singleton(CreatesTenants::class, $class);
     }
 
     /**
-     * Register a class / callback that should be used to update company names.
+     * Register a class / callback that should be used to update tenant names.
      */
-    public static function updateCompanyNamesUsing(string $class): void
+    public static function updateTenantNamesUsing(string $class): void
     {
-        app()->singleton(UpdatesCompanyNames::class, $class);
+        app()->singleton(UpdatesTenantNames::class, $class);
     }
 
     /**
-     * Register a class / callback that should be used to add company employees.
+     * Register a class / callback that should be used to add tenant employees.
      */
-    public static function addCompanyEmployeesUsing(string $class): void
+    public static function addTenantEmployeesUsing(string $class): void
     {
-        app()->singleton(AddsCompanyEmployees::class, $class);
+        app()->singleton(AddsTenantEmployees::class, $class);
     }
 
     /**
-     * Register a class / callback that should be used to add company employees.
+     * Register a class / callback that should be used to add tenant employees.
      */
-    public static function inviteCompanyEmployeesUsing(string $class): void
+    public static function inviteTenantEmployeesUsing(string $class): void
     {
-        app()->singleton(InvitesCompanyEmployees::class, $class);
+        app()->singleton(InvitesTenantEmployees::class, $class);
     }
 
     /**
-     * Register a class / callback that should be used to remove company employees.
+     * Register a class / callback that should be used to remove tenant employees.
      */
-    public static function removeCompanyEmployeesUsing(string $class): void
+    public static function removeTenantEmployeesUsing(string $class): void
     {
-        app()->singleton(RemovesCompanyEmployees::class, $class);
+        app()->singleton(RemovesTenantEmployees::class, $class);
     }
 
     /**
-     * Register a class / callback that should be used to delete companies.
+     * Register a class / callback that should be used to delete tenants.
      */
-    public static function deleteCompaniesUsing(string $class): void
+    public static function deleteTenantsUsing(string $class): void
     {
-        app()->singleton(DeletesCompanies::class, $class);
+        app()->singleton(DeletesTenants::class, $class);
     }
 
     /**

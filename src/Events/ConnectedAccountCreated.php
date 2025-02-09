@@ -1,6 +1,6 @@
 <?php
 
-namespace Wallo\FilamentCompanies\Events;
+namespace Wallo\FilamentTenants\Events;
 
 class ConnectedAccountCreated extends ConnectedAccountEvent
 {

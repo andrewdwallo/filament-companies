@@ -1,23 +1,23 @@
 <?php
 
-namespace Wallo\FilamentCompanies\Pages\Auth;
+namespace Wallo\FilamentTenants\Pages\Auth;
 
 use Filament\Pages\Concerns\HasRoutes;
 use Filament\Pages\SimplePage;
 use Filament\Support\Enums\MaxWidth;
 use Illuminate\Contracts\Support\Htmlable;
 use Illuminate\Support\Str;
-use Wallo\FilamentCompanies\FilamentCompanies;
+use Wallo\FilamentTenants\FilamentTenants;
 
 class PrivacyPolicy extends SimplePage
 {
     use HasRoutes;
 
-    protected static string $view = 'filament-companies::auth.policy';
+    protected static string $view = 'filament-tenants::auth.policy';
 
     protected function getViewData(): array
     {
-        $policyFile = FilamentCompanies::localizedMarkdownPath('policy.md');
+        $policyFile = FilamentTenants::localizedMarkdownPath('policy.md');
 
         return [
             'policy' => Str::markdown(file_get_contents($policyFile)),

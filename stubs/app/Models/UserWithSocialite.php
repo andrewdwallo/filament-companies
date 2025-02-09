@@ -13,15 +13,15 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Collection;
 use Laravel\Sanctum\HasApiTokens;
-use Wallo\FilamentCompanies\HasCompanies;
-use Wallo\FilamentCompanies\HasConnectedAccounts;
-use Wallo\FilamentCompanies\HasProfilePhoto;
-use Wallo\FilamentCompanies\SetsProfilePhotoFromUrl;
+use Wallo\FilamentTenants\HasTenants;
+use Wallo\FilamentTenants\HasConnectedAccounts;
+use Wallo\FilamentTenants\HasProfilePhoto;
+use Wallo\FilamentTenants\SetsProfilePhotoFromUrl;
 
 class User extends Authenticatable implements FilamentUser, HasAvatar, HasDefaultTenant, HasTenants
 {
     use HasApiTokens;
-    use HasCompanies;
+    use HasTenants;
     use HasConnectedAccounts;
     use HasFactory;
     use HasProfilePhoto;
@@ -78,17 +78,17 @@ class User extends Authenticatable implements FilamentUser, HasAvatar, HasDefaul
 
     public function canAccessTenant(Model $tenant): bool
     {
-        return $this->belongsToCompany($tenant);
+        return $this->belongsToTenant($tenant);
     }
 
     public function getTenants(Panel $panel): array | Collection
     {
-        return $this->allCompanies();
+        return $this->allTenants();
     }
 
     public function getDefaultTenant(Panel $panel): ?Model
     {
-        return $this->currentCompany;
+        return $this->currentTenant;
     }
 
     public function getFilamentAvatarUrl(): string

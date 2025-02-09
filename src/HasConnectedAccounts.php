@@ -1,6 +1,6 @@
 <?php
 
-namespace Wallo\FilamentCompanies;
+namespace Wallo\FilamentTenants;
 
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -27,7 +27,7 @@ trait HasConnectedAccounts
             );
         }
 
-        return $this->belongsTo(FilamentCompanies::connectedAccountModel(), 'current_connected_account_id');
+        return $this->belongsTo(FilamentTenants::connectedAccountModel(), 'current_connected_account_id');
     }
 
     /**
@@ -96,6 +96,6 @@ trait HasConnectedAccounts
      */
     public function connectedAccounts(): HasMany
     {
-        return $this->hasMany(FilamentCompanies::connectedAccountModel(), 'user_id', $this->getAuthIdentifierName());
+        return $this->hasMany(FilamentTenants::connectedAccountModel(), 'user_id', $this->getAuthIdentifierName());
     }
 }

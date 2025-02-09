@@ -3,19 +3,19 @@
     <a href="https://filamentphp.com/docs/3.x/panels/installation">
         <img alt="FILAMENT 3.x" src="https://img.shields.io/badge/FILAMENT-3.x-EBB304?style=for-the-badge">
     </a>
-    <a href="https://packagist.org/packages/andrewdwallo/filament-companies">
-        <img alt="Packagist" src="https://img.shields.io/packagist/v/andrewdwallo/filament-companies.svg?style=for-the-badge&logo=packagist">
+    <a href="https://packagist.org/packages/andrewdwallo/filament-tenants">
+        <img alt="Packagist" src="https://img.shields.io/packagist/v/andrewdwallo/filament-tenants.svg?style=for-the-badge&logo=packagist">
     </a>
-    <a href="https://packagist.org/packages/andrewdwallo/filament-companies/stats">
-        <img alt="Downloads" src="https://img.shields.io/packagist/dt/andrewdwallo/filament-companies?style=for-the-badge&logo=packagist&logoColor=red&color=red">
+    <a href="https://packagist.org/packages/andrewdwallo/filament-tenants/stats">
+        <img alt="Downloads" src="https://img.shields.io/packagist/dt/andrewdwallo/filament-tenants?style=for-the-badge&logo=packagist&logoColor=red&color=red">
     </a>
 </p>
 
 <hr style="background-color: #ebb304">
 
-# Filament Companies
+# Filament Tenants
 
-A comprehensive multi-tenant authentication and authorization solution designed for Filament, with a focus on company-based tenancy.
+A comprehensive multi-tenant authentication and authorization solution designed for Filament, with a focus on tenant-based tenancy.
 
 - 🔥 **Socialite**
 - 🔥 **Terms & Privacy Policy**
@@ -23,7 +23,7 @@ A comprehensive multi-tenant authentication and authorization solution designed 
 - 🔥 **Personal Profile Management**
 - 🔥 **Browser Session Management**
 - 🔥 **Sanctum**
-- 🔥 **Company Management**
+- 🔥 **Tenant Management**
 - 🔥 **Employee Invitations via Email**
 - 🔥 **Roles & Permissions**
 
@@ -43,13 +43,13 @@ php artisan filament:install --panels
 
 Install the package
 ```shell
-composer require andrewdwallo/filament-companies
+composer require andrewdwallo/filament-tenants
 ```
 
 Execute the following Artisan command to scaffold the application. You will be prompted to choose between installing the **Base package** or enabling **Socialite** support.
 
 ```shell
-php artisan filament-companies:install
+php artisan filament-tenants:install
 ```
 
 Run migrations:
@@ -61,34 +61,34 @@ php artisan migrate:fresh
 
 ### Demo
 
-If you encounter any issues while setting up your application with this package, you can refer to an example implementation here: [Filament Companies Example App](https://github.com/andrewdwallo/filament-companies-example-app).
+If you encounter any issues while setting up your application with this package, you can refer to an example implementation here: [Filament Tenants Example App](https://github.com/andrewdwallo/filament-tenants-example-app).
 
 ### Creating a Theme
 
-After installation, there will be a company panel registered for your application. It is located within the `FilamentCompaniesServiceProvider.php` file.
+After installation, there will be a tenant panel registered for your application. It is located within the `FilamentTenantsServiceProvider.php` file.
 
-In order for Tailwind to process the CSS used within this package and for the company panel, a user must [create a custom theme](https://filamentphp.com/docs/3.x/panels/themes#creating-a-custom-theme). 
+In order for Tailwind to process the CSS used within this package and for the tenant panel, a user must [create a custom theme](https://filamentphp.com/docs/3.x/panels/themes#creating-a-custom-theme). 
 
-To create a custom theme for the company panel, you can use the following command:
+To create a custom theme for the tenant panel, you can use the following command:
 ```shell
-php artisan make:filament-theme company
+php artisan make:filament-theme tenant
 ```
 > 🛠️ Please follow the instructions in the console to complete the setup process
 
 Here is a reference to the instructions that should show after running the command:
 ```shell
-⇂ First, add a new item to the `input` array of `vite.config.js`: `resources/css/filament/company/theme.css`  
-⇂ Next, register the theme in the company panel provider using `->viteTheme('resources/css/filament/company/theme.css')`  
+⇂ First, add a new item to the `input` array of `vite.config.js`: `resources/css/filament/tenant/theme.css`  
+⇂ Next, register the theme in the tenant panel provider using `->viteTheme('resources/css/filament/tenant/theme.css')`  
 ⇂ Finally, run `npm run build` to compile the theme
 ```
 
-After completing the process for creating a custom theme for the company panel, add this package's vendor directory into the content array of the `tailwind.config.js` file that should be located in the `resources/css/filament/company/` directory of your application:
+After completing the process for creating a custom theme for the tenant panel, add this package's vendor directory into the content array of the `tailwind.config.js` file that should be located in the `resources/css/filament/tenant/` directory of your application:
 ```js
 export default {
     content: [
         './resources/**/*.blade.php',
         './vendor/filament/**/*.blade.php',
-        './vendor/andrewdwallo/filament-companies/resources/views/**/*.blade.php', // The package's vendor directory
+        './vendor/andrewdwallo/filament-tenants/resources/views/**/*.blade.php', // The package's vendor directory
     ],
     // ...
 }
@@ -96,14 +96,14 @@ export default {
 
 ### The User Panel
 
-As you may have noticed, after installation, there will be a company panel registered for your application. In order for this package to work you must also have a "User" panel to contain the Profile page and Personal Access Tokens page.
+As you may have noticed, after installation, there will be a tenant panel registered for your application. In order for this package to work you must also have a "User" panel to contain the Profile page and Personal Access Tokens page.
 
 For this example, I will use the default panel that Filament provides when installing the panel builder, the "Admin" panel.
 
 In your "Admin" panel, make sure to register the following pages:
 ```php
-use Wallo\FilamentCompanies\Pages\User\PersonalAccessTokens;
-use Wallo\FilamentCompanies\Pages\User\Profile;
+use Wallo\FilamentTenants\Pages\User\PersonalAccessTokens;
+use Wallo\FilamentTenants\Pages\User\Profile;
 
 public function panel(Panel $panel): Panel
 {
@@ -119,15 +119,15 @@ public function panel(Panel $panel): Panel
 
 You must provide a way for your users to navigate to the Profile and Personal Access Tokens pages.
 
-It would also be wise to allow your users to navigate back to the Company Panel. 
+It would also be wise to allow your users to navigate back to the Tenant Panel. 
 
 You may use the following as a guide:
 ```php
 use Filament\Navigation\MenuItem;
 use Filament\Navigation\NavigationItem;
 use Illuminate\Support\Facades\Auth;
-use Wallo\FilamentCompanies\Pages\User\PersonalAccessTokens;
-use Wallo\FilamentCompanies\Pages\User\Profile;
+use Wallo\FilamentTenants\Pages\User\PersonalAccessTokens;
+use Wallo\FilamentTenants\Pages\User\Profile;
 
 public function panel(Panel $panel): Panel
 {
@@ -139,13 +139,13 @@ public function panel(Panel $panel): Panel
                 ->icon('heroicon-o-user-circle')
                 ->url(static fn () => url(Profile::getUrl())),
             MenuItem::make()
-                ->label('Company')
+                ->label('Tenant')
                 ->icon('heroicon-o-building-office')
-                ->url(static fn () => url(Pages\Dashboard::getUrl(panel: 'company', tenant: Auth::user()->personalCompany()))),
+                ->url(static fn () => url(Pages\Dashboard::getUrl(panel: 'tenant', tenant: Auth::user()->personalTenant()))),
         ])
         ->navigationItems([
             NavigationItem::make('Personal Access Tokens')
-                ->label(static fn (): string => __('filament-companies::default.navigation.links.tokens'))
+                ->label(static fn (): string => __('filament-tenants::default.navigation.links.tokens'))
                 ->icon('heroicon-o-key')
                 ->url(static fn () => url(PersonalAccessTokens::getUrl())),
         ])
@@ -155,16 +155,16 @@ public function panel(Panel $panel): Panel
 You may change the value used for the User Panel using the `id` of the panel:
 ```php
 use Filament\Panel;
-use Wallo\FilamentCompanies\FilamentCompanies;
+use Wallo\FilamentTenants\FilamentTenants;
 
-class FilamentCompaniesServiceProvider extends PanelProvider
+class FilamentTenantsServiceProvider extends PanelProvider
 {
     public function panel(Panel $panel): Panel
     {
         return $panel
             // ...
             ->plugin(
-                FilamentCompanies::make()
+                FilamentTenants::make()
                     ->userPanel('user')
             )
     }
@@ -174,44 +174,44 @@ class FilamentCompaniesServiceProvider extends PanelProvider
 
 ### The Default Panel
 
-If you want users to directly access the Company panel's Register or Login page from the Laravel Welcome page, ensure the Company panel is set as the default in Filament. This involves two key steps:
+If you want users to directly access the Tenant panel's Register or Login page from the Laravel Welcome page, ensure the Tenant panel is set as the default in Filament. This involves two key steps:
 
 1. Remove Default from User Panel: Ensure the User panel or any previously default panel does not use the `->default()` method. 
-2. Set Company Panel as Default: Apply the `->default()` method to your Company panel configuration to make it the default entry point.
+2. Set Tenant Panel as Default: Apply the `->default()` method to your Tenant panel configuration to make it the default entry point.
 
-By making the Company panel the default, links to Register or Login on the Laravel Welcome page will lead directly to the Company panel's authentication pages.
+By making the Tenant panel the default, links to Register or Login on the Laravel Welcome page will lead directly to the Tenant panel's authentication pages.
 
 ### Translations and Views
 
 If you wish to translate the package, you may publish the language files using:
 ```shell
-php artisan vendor:publish --tag=filament-companies-translations
+php artisan vendor:publish --tag=filament-tenants-translations
 ```
 
 If you wish to customize the views, you may publish them using:
 ```shell
-php artisan vendor:publish --tag=filament-companies-views
+php artisan vendor:publish --tag=filament-tenants-views
 ```
 
 # Usage & Configuration
 
-### Switching the Current Company
+### Switching the Current Tenant
 
-Filament has a built-in event that is fired when the application needs to set the tenant for the current request. This event is `Filament\Events\TenantSet`. If you would like to either enable or disable the ability to switch the current company, you may do so by using the `switchCurrentCompany()` method in your `FilamentCompaniesServiceProvider` class.
+Filament has a built-in event that is fired when the application needs to set the tenant for the current request. This event is `Filament\Events\TenantSet`. If you would like to either enable or disable the ability to switch the current tenant, you may do so by using the `switchCurrentTenant()` method in your `FilamentTenantsServiceProvider` class.
 
 ```php
 use Filament\Panel;
-use Wallo\FilamentCompanies\FilamentCompanies;
+use Wallo\FilamentTenants\FilamentTenants;
 
-class FilamentCompaniesServiceProvider extends PanelProvider
+class FilamentTenantsServiceProvider extends PanelProvider
 {
     public function panel(Panel $panel): Panel
     {
         return $panel
             // ...
             ->plugin(
-                FilamentCompanies::make()
-                    ->switchCurrentCompany()
+                FilamentTenants::make()
+                    ->switchCurrentTenant()
             );
     }
 }
@@ -221,20 +221,20 @@ class FilamentCompaniesServiceProvider extends PanelProvider
 
 You can selectively enable or disable certain profile features. If you choose to omit a feature, it will be considered as disabled (`false`) by default.
 
-To do so, modify your `FilamentCompaniesServiceProvider` class as shown below:
+To do so, modify your `FilamentTenantsServiceProvider` class as shown below:
 
 ```php
 use Filament\Panel;
-use Wallo\FilamentCompanies\FilamentCompanies;
+use Wallo\FilamentTenants\FilamentTenants;
 
-class FilamentCompaniesServiceProvider extends PanelProvider
+class FilamentTenantsServiceProvider extends PanelProvider
 {
     public function panel(Panel $panel): Panel
     {
         return $panel
             // ...
             ->plugin(
-                FilamentCompanies::make()
+                FilamentTenants::make()
                     ->updateProfileInformation()  // Enables updating profile information
                     ->updatePasswords()           // Enables password updates
                     ->setPasswords()              // Enables setting passwords only if Socialite is enabled
@@ -257,7 +257,7 @@ Here's an example of how to use a custom component for updating profile informat
 ```php
 use App\Livewire\CustomComponent;
 
-FilamentCompanies::make()
+FilamentTenants::make()
     ->updateProfileInformation(component: CustomComponent::class);
 ```
 
@@ -268,7 +268,7 @@ If you would like to change the order of the profile features, you may do so by 
 The default sort order is as follows:
 
 ```php
-FilamentCompanies::make()
+FilamentTenants::make()
     ->updateProfileInformation(sort: 0)
     ->updatePasswords(sort: 1)
     ->setPasswords(sort: 2)
@@ -284,7 +284,7 @@ If you would like to add custom profile components, you may do so by passing the
 ```php
 use App\Livewire\CustomComponent;
 
-FilamentCompanies::make()
+FilamentTenants::make()
     ->addProfileComponents([
         7 => CustomComponent::class,
     ]);
@@ -293,7 +293,7 @@ FilamentCompanies::make()
 Within your component's view, you may use the grid section component to match the style of other components:
 
 ```blade
-<x-filament-companies::grid-section md="2">
+<x-filament-tenants::grid-section md="2">
     <x-slot name="title">
         {{ __('My Custom Component') }}
     </x-slot>
@@ -313,24 +313,24 @@ Within your component's view, you may use the grid section component to match th
             </div>
         </x-filament-panels::form>
     </x-filament::section>
-</x-filament-companies::grid-section>
+</x-filament-tenants::grid-section>
 ```
 
 ## Profile Photos
 
-To allow users to upload custom profile photos, you can enable this feature by including the `profilePhotos()` method in your `FilamentCompaniesServiceProvider`.
+To allow users to upload custom profile photos, you can enable this feature by including the `profilePhotos()` method in your `FilamentTenantsServiceProvider`.
 ```php
 use Filament\Panel;
-use Wallo\FilamentCompanies\FilamentCompanies;
+use Wallo\FilamentTenants\FilamentTenants;
 
-class FilamentCompaniesServiceProvider extends PanelProvider
+class FilamentTenantsServiceProvider extends PanelProvider
 {
     public function panel(Panel $panel): Panel
     {
         return $panel
             // ...
             ->plugin(
-                FilamentCompanies::make()
+                FilamentTenants::make()
                     ->profilePhotos()
             )
     }
@@ -341,7 +341,7 @@ class FilamentCompaniesServiceProvider extends PanelProvider
 
 By default, the package uses Laravel's `public` disk for storing images. However, you can specify a different disk by passing the `disk` parameter.
 ```php
-FilamentCompanies::make()
+FilamentTenants::make()
     ->profilePhotos(disk: 's3')
 ```
 
@@ -349,7 +349,7 @@ FilamentCompanies::make()
 
 If you want to store profile photos in a specific directory, you can set the `storagePath` parameter.
 ```php
-FilamentCompanies::make()
+FilamentTenants::make()
     ->profilePhotos(storagePath: 'profile-avatars')
 ```
 
@@ -358,16 +358,16 @@ FilamentCompanies::make()
 To adjust the layout and behavior of modals, use the `modals()` method. Below are the package's default settings:
 ```php
 use Filament\Panel;
-use Wallo\FilamentCompanies\FilamentCompanies;
+use Wallo\FilamentTenants\FilamentTenants;
 
-class FilamentCompaniesServiceProvider extends PanelProvider
+class FilamentTenantsServiceProvider extends PanelProvider
 {
     public function panel(Panel $panel): Panel
     {
         return $panel
             // ...
             ->plugin(
-                FilamentCompanies::make()
+                FilamentTenants::make()
                     ->modals(
                         width: '2xl', 
                         alignment: 'center', 
@@ -387,16 +387,16 @@ Unless specified otherwise, the package will send notifications. In order to dis
 
 ```php
 use Filament\Panel;
-use Wallo\FilamentCompanies\FilamentCompanies;
+use Wallo\FilamentTenants\FilamentTenants;
 
-class FilamentCompaniesServiceProvider extends PanelProvider
+class FilamentTenantsServiceProvider extends PanelProvider
 {
     public function panel(Panel $panel): Panel
     {
         return $panel
             // ...
             ->plugin(
-                FilamentCompanies::make()
+                FilamentTenants::make()
                     ->notifications(condition: false)
             );
     }
@@ -412,7 +412,7 @@ The parameters passed to each method are optional and may be omitted if not need
 #### Update User Profile Information
 
 ```php
-\App\Actions\FilamentCompanies\UpdateUserProfileInformation::class
+\App\Actions\FilamentTenants\UpdateUserProfileInformation::class
 
 /** @method void profileInformationUpdated(\Illuminate\Foundation\Auth\User|null $user = null, array|null $input = null) */
 ```
@@ -420,7 +420,7 @@ The parameters passed to each method are optional and may be omitted if not need
 #### Update User Password
 
 ```php
-\App\Actions\FilamentCompanies\UpdateUserPassword::class
+\App\Actions\FilamentTenants\UpdateUserPassword::class
 
 /** @method void passwordUpdated(\Illuminate\Foundation\Auth\User|null $user = null, array|null $input = null) */
 ```
@@ -428,33 +428,33 @@ The parameters passed to each method are optional and may be omitted if not need
 #### Set User Password
 
 ```php
-\App\Actions\FilamentCompanies\SetUserPassword::class
+\App\Actions\FilamentTenants\SetUserPassword::class
 
 /** @method void passwordSet(\Illuminate\Foundation\Auth\User|null $user, array|null $input = null) */
 ```
 
-#### Update Company Name
+#### Update Tenant Name
 
 ```php
-\App\Actions\FilamentCompanies\UpdateCompanyName::class
+\App\Actions\FilamentTenants\UpdateTenantName::class
 
-/** @method void companyNameUpdated(\Illuminate\Foundation\Auth\User|null $user = null, \Illuminate\Database\Eloquent\Model|null $company = null, array|null $input = null) */
+/** @method void tenantNameUpdated(\Illuminate\Foundation\Auth\User|null $user = null, \Illuminate\Database\Eloquent\Model|null $tenant = null, array|null $input = null) */
 ```
 
-#### Invite Company Employee
+#### Invite Tenant Employee
 
 ```php
-\App\Actions\FilamentCompanies\InviteCompanyEmployee::class
+\App\Actions\FilamentTenants\InviteTenantEmployee::class
 
-/** @method void employeeInvitationSent(\Illuminate\Foundation\Auth\User|null $user = null, \Illuminate\Database\Eloquent\Model|null $company = null, string|null $email = null, string|null $role = null) */
+/** @method void employeeInvitationSent(\Illuminate\Foundation\Auth\User|null $user = null, \Illuminate\Database\Eloquent\Model|null $tenant = null, string|null $email = null, string|null $role = null) */
 ```
 
-#### Delete Company
+#### Delete Tenant
 
 ```php
-\App\Actions\FilamentCompanies\DeleteCompany::class
+\App\Actions\FilamentTenants\DeleteTenant::class
 
-/** @method void companyDeleted(\Illuminate\Database\Eloquent\Model|null $company = null) */
+/** @method void tenantDeleted(\Illuminate\Database\Eloquent\Model|null $tenant = null) */
 ```
 
 #### Example
@@ -463,11 +463,11 @@ If you would like to override the notification that is sent when a user updates 
 ```php
 <?php
 
-namespace App\Actions\FilamentCompanies;
+namespace App\Actions\FilamentTenants;
 
 use App\Models\User;
 use Filament\Notifications\Notification;
-use Wallo\FilamentCompanies\Contracts\UpdatesUserPasswords;
+use Wallo\FilamentTenants\Contracts\UpdatesUserPasswords;
 
 class UpdateUserPassword implements UpdatesUserPasswords
 {
@@ -493,14 +493,14 @@ class UpdateUserPassword implements UpdatesUserPasswords
 }
 ```
 
-## Company Invitations
+## Tenant Invitations
 
 ### AutoAcceptInvitiation
 
-If `->autoAcceptInvitations()` is set, users will join Companies automatically on registration, as long as a invitation with their emailadress exists. If not set, they will be asked to create a personal Company first.
+If `->autoAcceptInvitations()` is set, users will join Tenants automatically on registration, as long as a invitation with their emailadress exists. If not set, they will be asked to create a personal Tenant first.
 ```php
-    FilamentCompanies::make()
-        ->companies(invitations: true)
+    FilamentTenants::make()
+        ->tenants(invitations: true)
         ->autoAcceptInvitations()
 ```
 
@@ -523,29 +523,29 @@ MAIL_PORT=587
 MAIL_USERNAME=yourgmailusername@gmail.com
 MAIL_PASSWORD=of9f9279g924792g49t          
 MAIL_ENCRYPTION=tls                         
-MAIL_FROM_ADDRESS="filament@company.com"
+MAIL_FROM_ADDRESS="filament@tenant.com"
 MAIL_FROM_NAME="${APP_NAME}"
 ```
 
 ## Roles & Permissions
 
-You may change the roles & permissions in `app/Providers/FilamentCompaniesServiceProvider.php`
+You may change the roles & permissions in `app/Providers/FilamentTenantsServiceProvider.php`
 ```php
 /**
  * Configure the roles and permissions that are available within the application.
  */
 protected function configurePermissions(): void
 {
-    FilamentCompanies::defaultApiTokenPermissions(['read']);
+    FilamentTenants::defaultApiTokenPermissions(['read']);
 
-    FilamentCompanies::role('admin', 'Administrator', [
+    FilamentTenants::role('admin', 'Administrator', [
         'create',
         'read',
         'update',
         'delete',
     ])->description('Administrator users can perform any action.');
 
-    FilamentCompanies::role('editor', 'Editor', [
+    FilamentTenants::role('editor', 'Editor', [
         'read',
         'create',
         'update',
@@ -559,21 +559,21 @@ By Default, the GitHub Provider will be enabled.
 
 You may use any Provider that [Laravel Socialite](https://laravel.com/docs/10.x/socialite/) supports.
 
-You may add or remove any Provider in the company panel configuration:
+You may add or remove any Provider in the tenant panel configuration:
 ```php
 use Filament\Panel;
-use Wallo\FilamentCompanies\FilamentCompanies;
-use Wallo\FilamentCompanies\Enums\Feature;
-use Wallo\FilamentCompanies\Enums\Provider;
+use Wallo\FilamentTenants\FilamentTenants;
+use Wallo\FilamentTenants\Enums\Feature;
+use Wallo\FilamentTenants\Enums\Provider;
 
-class FilamentCompaniesServiceProvider extends PanelProvider
+class FilamentTenantsServiceProvider extends PanelProvider
 {
     public function panel(Panel $panel): Panel
     {
         return $panel
             // ...
             ->plugin(
-                FilamentCompanies::make()
+                FilamentTenants::make()
                     ->socialite(
                         providers: [
                             Provider::Github,
@@ -618,10 +618,10 @@ Pass your Provider's credentials in the provider's array in `config/services.php
     'github' => [
         'client_id' => env('GITHUB_CLIENT_ID'),
         'client_secret' => env('GITHUB_CLIENT_SECRET'),
-        'redirect' => 'https://filament.test/company/oauth/github/callback',
+        'redirect' => 'https://filament.test/tenant/oauth/github/callback',
     ],
 ```
-> ‼️ The Provider's Redirect URI must look similar to the above (e.g. 'APP_URL/company/oauth/provider/callback')
+> ‼️ The Provider's Redirect URI must look similar to the above (e.g. 'APP_URL/tenant/oauth/provider/callback')
 
 ### Example - GitHub
 
@@ -634,12 +634,12 @@ Filament
 
 3. Homepage URL
 ```
-http://filament.test/company
+http://filament.test/tenant
 ```
 
 4. Authorization callback URL
 ```
-http://filament.test/company/oauth/github/callback
+http://filament.test/tenant/oauth/github/callback
 ```
 
 5. ☑ Enable Device Flow
@@ -658,43 +658,43 @@ GITHUB_CLIENT_SECRET=hefliueoioffbo8338yhf2p9f4g2gg33
 
 - The following examples are a visual representation of the features this package supports that were provided by the methods implemented in Laravel Jetstream.
 - You may find all of the features as provided by the package [in the documentation](https://jetstream.laravel.com/3.x/features/teams.html).
-- Information about a User's companies may be accessed via the methods provided by the `Wallo\FilamentCompanies\HasCompanies` trait.
+- Information about a User's tenants may be accessed via the methods provided by the `Wallo\FilamentTenants\HasTenants` trait.
 - This trait is automatically applied to your application's `App\Models\User` model during installation.
-- This trait provides a variety of helpful methods that allow you to inspect a User's companies or company:
+- This trait provides a variety of helpful methods that allow you to inspect a User's tenants or tenant:
 
 ```php
-// Access a user's currently selected company...
-$user->currentCompany : Wallo\FilamentCompanies\Company
+// Access a user's currently selected tenant...
+$user->currentTenant : Wallo\FilamentTenants\Tenant
 
-// Access all of the companies (including owned companies) that a user belongs to...
-$user->allCompanies() : Illuminate\Support\Collection
+// Access all of the tenants (including owned tenants) that a user belongs to...
+$user->allTenants() : Illuminate\Support\Collection
 
-// Access all of a user's owned companies...
-$user->ownedCompanies : Illuminate\Database\Eloquent\Collection
+// Access all of a user's owned tenants...
+$user->ownedTenants : Illuminate\Database\Eloquent\Collection
 
-// Access all of the companies that a user belongs to but does not own...
-$user->companies : Illuminate\Database\Eloquent\Collection
+// Access all of the tenants that a user belongs to but does not own...
+$user->tenants : Illuminate\Database\Eloquent\Collection
 
-// Access a user's "personal" company...
-$user->personalCompany() : Wallo\FilamentCompanies\Company
+// Access a user's "personal" tenant...
+$user->personalTenant() : Wallo\FilamentTenants\Tenant
 
-// Determine if a user owns a given company...
-$user->ownsCompany($company) : bool
+// Determine if a user owns a given tenant...
+$user->ownsTenant($tenant) : bool
 
-// Determine if a user belongs to a given company...
-$user->belongsToCompany($company) : bool
+// Determine if a user belongs to a given tenant...
+$user->belongsToTenant($tenant) : bool
 
-// Get the role that the user is assigned on the company...
-$user->companyRole($company) : \Wallo\FilamentCompanies\Role
+// Get the role that the user is assigned on the tenant...
+$user->tenantRole($tenant) : \Wallo\FilamentTenants\Role
 
-// Determine if the user has the given role on the given company...
-$user->hasCompanyRole($company, 'admin') : bool
+// Determine if the user has the given role on the given tenant...
+$user->hasTenantRole($tenant, 'admin') : bool
 
-// Access an array of all permissions a user has for a given company...
-$user->companyPermissions($company) : array
+// Access an array of all permissions a user has for a given tenant...
+$user->tenantPermissions($tenant) : array
 
-// Determine if a user has a given company permission...
-$user->hasCompanyPermission($company, 'server:create') : bool
+// Determine if a user has a given tenant permission...
+$user->hasTenantPermission($tenant, 'server:create') : bool
 ```
 > 📘 $user represents the current user of the application. Interchangeable with `Auth::user()`
 
@@ -712,19 +712,19 @@ $user->hasCompanyPermission($company, 'server:create') : bool
 * Fork this repository to your GitHub account.
 * Create a fresh Laravel & Filament Project.
 * Clone your fork in your App's root directory.
-* In the `/filament-companies` directory, create a branch for your fix, e.g. `fix/error-message`.
+* In the `/filament-tenants` directory, create a branch for your fix, e.g. `fix/error-message`.
 
 Install the package in your application's `composer.json` file, using the `dev` prefix followed by your branch's name:
 ```json
 {
     ...
     "require": {
-        "andrewdwallo/filament-companies": "dev-fix/error-message",
+        "andrewdwallo/filament-tenants": "dev-fix/error-message",
     },
     "repositories": [
         {
             "type": "path",
-            "url": "filament-companies/"
+            "url": "filament-tenants/"
         }
     ],
     ...

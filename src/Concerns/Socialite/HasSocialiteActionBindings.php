@@ -1,14 +1,14 @@
 <?php
 
-namespace Wallo\FilamentCompanies\Concerns\Socialite;
+namespace Wallo\FilamentTenants\Concerns\Socialite;
 
-use Wallo\FilamentCompanies\Contracts\CreatesConnectedAccounts;
-use Wallo\FilamentCompanies\Contracts\CreatesUserFromProvider;
-use Wallo\FilamentCompanies\Contracts\GeneratesProviderRedirect;
-use Wallo\FilamentCompanies\Contracts\HandlesInvalidState;
-use Wallo\FilamentCompanies\Contracts\ResolvesSocialiteUsers;
-use Wallo\FilamentCompanies\Contracts\SetsUserPasswords;
-use Wallo\FilamentCompanies\Contracts\UpdatesConnectedAccounts;
+use Wallo\FilamentTenants\Contracts\CreatesConnectedAccounts;
+use Wallo\FilamentTenants\Contracts\CreatesUserFromProvider;
+use Wallo\FilamentTenants\Contracts\GeneratesProviderRedirect;
+use Wallo\FilamentTenants\Contracts\HandlesInvalidState;
+use Wallo\FilamentTenants\Contracts\ResolvesSocialiteUsers;
+use Wallo\FilamentTenants\Contracts\SetsUserPasswords;
+use Wallo\FilamentTenants\Contracts\UpdatesConnectedAccounts;
 
 trait HasSocialiteActionBindings
 {

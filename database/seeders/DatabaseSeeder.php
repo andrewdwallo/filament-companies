@@ -13,9 +13,9 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->withPersonalCompany()->create();
+        // User::factory(10)->withPersonalTenant()->create();
 
-        User::factory()->withPersonalCompany()->create([
+        User::factory()->withPersonalTenant()->create([
             'name' => 'Test User',
             'email' => 'test@example.com',
         ]);

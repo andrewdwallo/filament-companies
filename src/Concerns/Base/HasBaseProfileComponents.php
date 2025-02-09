@@ -1,12 +1,12 @@
 <?php
 
-namespace Wallo\FilamentCompanies\Concerns\Base;
+namespace Wallo\FilamentTenants\Concerns\Base;
 
 use Filament\Facades\Filament;
-use Wallo\FilamentCompanies\Http\Livewire\DeleteUserForm;
-use Wallo\FilamentCompanies\Http\Livewire\LogoutOtherBrowserSessionsForm;
-use Wallo\FilamentCompanies\Http\Livewire\UpdatePasswordForm;
-use Wallo\FilamentCompanies\Http\Livewire\UpdateProfileInformationForm;
+use Wallo\FilamentTenants\Http\Livewire\DeleteUserForm;
+use Wallo\FilamentTenants\Http\Livewire\LogoutOtherBrowserSessionsForm;
+use Wallo\FilamentTenants\Http\Livewire\UpdatePasswordForm;
+use Wallo\FilamentTenants\Http\Livewire\UpdateProfileInformationForm;
 
 trait HasBaseProfileComponents
 {

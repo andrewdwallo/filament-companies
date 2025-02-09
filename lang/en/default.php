@@ -20,7 +20,7 @@ return [
         'create_token' => 'Create Token',
         'delete' => 'Delete',
         'delete_account' => 'Delete Account',
-        'delete_company' => 'Delete Company',
+        'delete_tenant' => 'Delete Tenant',
         'disable' => 'Disable',
         'done' => 'Done.',
         'edit' => 'Edit',
@@ -49,8 +49,8 @@ return [
     ],
 
     'labels' => [
-        'company_name' => 'Company Name',
-        'company_owner' => 'Company Owner',
+        'tenant_name' => 'Company Name',
+        'tenant_owner' => 'Company Owner',
         'connected' => 'Connected',
         'created_at' => 'Created at',
         'last_active' => 'Last active',
@@ -79,11 +79,11 @@ return [
     ],
 
     'errors' => [
-        'cannot_leave_company' => 'You may not leave a company that you created.',
-        'company_deletion' => 'You may not delete your personal company.',
+        'cannot_leave_tenant' => 'You may not leave a company that you created.',
+        'tenant_deletion' => 'You may not delete your personal company.',
         'email_already_associated' => 'An account with that email address already exists. Please login to connect your :Provider account.',
         'email_not_found' => 'We were unable to find a registered user with this email address.',
-        'employee_already_belongs_to_company' => 'This employee already belongs to the company.',
+        'employee_already_belongs_to_tenant' => 'This employee already belongs to the company.',
         'employee_already_invited' => 'This employee has already been invited to the company.',
         'generic_error' => 'An error occurred while processing your request.',
         'invalid_password' => 'The password you entered is invalid.',
@@ -92,7 +92,7 @@ return [
         'already_associated_account' => 'An account with that :Provider sign in already exists, please login.',
         'already_connected' => 'An account with that email address already exists. Please login to connect your :Provider account.',
         'signin_not_found' => 'An account with this :Provider sign in was not found. Please register or try a different sign in method.',
-        'user_belongs_to_company' => 'This user already belongs to the company.',
+        'user_belongs_to_tenant' => 'This user already belongs to the company.',
         'valid_role' => 'The :attribute must be a valid role.',
         'terms' => 'Terms of Service and Privacy Policy',
     ],
@@ -105,7 +105,7 @@ return [
     ],
 
     'banner' => [
-        'company_invitation_accepted' => 'Great! You have accepted the invitation to join **:company**.',
+        'tenant_invitation_accepted' => 'Great! You have accepted the invitation to join **:tenant**.',
     ],
 
     'notifications' => [
@@ -124,22 +124,22 @@ return [
             'body' => 'Your account has been logged out of other browser sessions for security purposes.',
         ],
 
-        'company_created' => [
+        'tenant_created' => [
             'title' => 'Company created',
             'body' => 'A new company has been created with the name **:name**.',
         ],
 
-        'company_deleted' => [
+        'tenant_deleted' => [
             'title' => 'Company deleted',
             'body' => 'The company **:name** has been deleted.',
         ],
 
-        'company_invitation_sent' => [
+        'tenant_invitation_sent' => [
             'title' => 'Invitation sent',
             'body' => 'An invitation has been sent to **:email** to join your company.',
         ],
 
-        'company_name_updated' => [
+        'tenant_name_updated' => [
             'title' => 'Company updated',
             'body' => 'Your company name has been updated to **:name**.',
         ],
@@ -187,32 +187,32 @@ return [
 
     'navigation' => [
         'headers' => [
-            'manage_company' => 'Manage Company',
-            'switch_companies' => 'Switch Companies',
+            'manage_tenant' => 'Manage Company',
+            'switch_tenants' => 'Switch Companies',
         ],
 
         'links' => [
             'tokens' => 'Personal Access Tokens',
-            'company_settings' => 'Company Settings',
-            'create_company' => 'Create Company',
+            'tenant_settings' => 'Company Settings',
+            'create_tenant' => 'Create Company',
         ],
     ],
 
     'pages' => [
         'titles' => [
             'tokens' => 'Personal Access Tokens',
-            'create_company' => 'Create Company',
-            'company_settings' => 'Company Settings',
+            'create_tenant' => 'Create Company',
+            'tenant_settings' => 'Company Settings',
             'profile' => 'Profile',
         ],
     ],
 
     'grid_section_titles' => [
-        'add_company_employee' => 'Add Company Employee',
+        'add_tenant_employee' => 'Add Company Employee',
         'browser_sessions' => 'Browser Sessions',
-        'company_name' => 'Company Name',
+        'tenant_name' => 'Company Name',
         'create_token' => 'Create Personal Access Token',
-        'create_company' => 'Create Company',
+        'create_tenant' => 'Create Company',
         'delete_account' => 'Delete Account',
         'profile_information' => 'Profile Information',
         'set_password' => 'Set Password',
@@ -221,11 +221,11 @@ return [
     ],
 
     'grid_section_descriptions' => [
-        'add_company_employee' => 'Add a new company employee to your company, allowing them to collaborate with you.',
+        'add_tenant_employee' => 'Add a new company employee to your company, allowing them to collaborate with you.',
         'browser_sessions' => 'Manage and log out your active sessions on other browsers and devices.',
-        'company_name' => "The company's name and owner information.",
+        'tenant_name' => "The company's name and owner information.",
         'create_token' => 'Personal Access Tokens allow third-party services to authenticate with our application on your behalf.',
-        'create_company' => 'Create a new company to collaborate with others on projects.',
+        'create_tenant' => 'Create a new company to collaborate with others on projects.',
         'delete_account' => 'Permanently delete your account.',
         'profile_information' => "Update your account's profile information and email address.",
         'set_password' => 'Ensure your account is using a long, random password to stay secure.',
@@ -234,17 +234,17 @@ return [
     ],
 
     'action_section_titles' => [
-        'company_employees' => 'Company Employees',
+        'tenant_employees' => 'Company Employees',
         'connected_accounts' => 'Connected Accounts',
-        'delete_company' => 'Delete Company',
-        'pending_company_invitations' => 'Pending Company Invitations',
+        'delete_tenant' => 'Delete Company',
+        'pending_tenant_invitations' => 'Pending Company Invitations',
     ],
 
     'action_section_descriptions' => [
-        'company_employees' => 'All of the people that are part of this company.',
+        'tenant_employees' => 'All of the people that are part of this company.',
         'connected_accounts' => 'Manage and remove your connected accounts.',
-        'delete_company' => 'Permanently delete this company.',
-        'pending_company_invitations' => 'These people have been invited to your company and have been sent an invitation email. They may join the company by accepting the email invitation.',
+        'delete_tenant' => 'Permanently delete this company.',
+        'pending_tenant_invitations' => 'These people have been invited to your company and have been sent an invitation email. They may join the company by accepting the email invitation.',
     ],
 
     'modal_titles' => [
@@ -253,11 +253,11 @@ return [
         'confirm_password' => 'Confirm Password',
         'delete_token' => 'Delete Personal Access Token',
         'delete_account' => 'Delete Account',
-        'delete_company' => 'Delete Company',
-        'leave_company' => 'Leave Company',
+        'delete_tenant' => 'Delete Company',
+        'leave_tenant' => 'Leave Company',
         'logout_browser_sessions' => 'Log Out Other Browser Sessions',
         'manage_role' => 'Manage Role',
-        'remove_company_employee' => 'Remove Company Employee',
+        'remove_tenant_employee' => 'Remove Company Employee',
         'remove_connected_account' => 'Remove Connected Account',
         'revoke_tokens' => 'Revoke Tokens',
     ],
@@ -267,10 +267,10 @@ return [
         'confirm_password' => 'For your security, please confirm your password to continue.',
         'delete_account' => 'Please enter your password to confirm you would like to delete your account.',
         'delete_token' => 'Are you sure you would like to delete this Personal Access Token?',
-        'delete_company' => 'Are you sure you want to delete this company?',
-        'leave_company' => 'Are you sure you would like to leave this company?',
+        'delete_tenant' => 'Are you sure you want to delete this company?',
+        'leave_tenant' => 'Are you sure you would like to leave this company?',
         'logout_browser_sessions' => 'Please enter your password to confirm you would like to log out of your other browser sessions.',
-        'remove_company_employee' => 'Are you sure you would like to remove this person from the company?',
+        'remove_tenant_employee' => 'Are you sure you would like to remove this person from the company?',
         'remove_connected_account' => 'Please confirm your removal of this account - this action cannot be undone.',
         'revoke_tokens' => 'Please enter your password to confirm.',
     ],
@@ -315,8 +315,8 @@ return [
             ],
         ],
 
-        'companies' => [
-            'company_employee_manager' => [
+        'tenants' => [
+            'tenant_employee_manager' => [
                 'manage_employees' => 'Manage Employees',
                 'pending_invitations' => 'Pending Invitations',
             ],
@@ -343,9 +343,9 @@ return [
             'logout_other_browser_sessions' => 'If necessary, you may log out of all of your other browser sessions across all of your devices. Some of your recent sessions are listed below; however, this list may not be exhaustive. If you feel your account has been compromised, you should also update your password.',
         ],
 
-        'companies' => [
-            'company_employee_manager' => 'Please provide the email address of the person you would like to add to this company.',
-            'delete_company' => 'Once a company is deleted, all of its resources and data will be permanently deleted. Before deleting this company, please download any data or information regarding this company that you wish to retain.',
+        'tenants' => [
+            'tenant_employee_manager' => 'Please provide the email address of the person you would like to add to this company.',
+            'delete_tenant' => 'Once a company is deleted, all of its resources and data will be permanently deleted. Before deleting this company, please download any data or information regarding this company that you wish to retain.',
         ],
     ],
 ];

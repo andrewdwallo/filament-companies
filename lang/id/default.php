@@ -20,7 +20,7 @@ return [
         'create_token' => 'Buat Token',
         'delete' => 'Hapus',
         'delete_account' => 'Hapus Akun',
-        'delete_company' => 'Hapus Perusahaan',
+        'delete_tenant' => 'Hapus Perusahaan',
         'disable' => 'Nonaktifkan',
         'done' => 'Selesai.',
         'edit' => 'Edit',
@@ -48,8 +48,8 @@ return [
         'use_recovery_code' => 'Gunakan kode pemulihan',
     ],
     'labels' => [
-        'company_name' => 'Nama Perusahaan',
-        'company_owner' => 'Pemilik Perusahaan',
+        'tenant_name' => 'Nama Perusahaan',
+        'tenant_owner' => 'Pemilik Perusahaan',
         'connected' => 'Terkoneksi',
         'created_at' => 'Dibuat pada',
         'last_active' => 'Terakhir aktif',
@@ -76,11 +76,11 @@ return [
         'terms_of_service' => 'Syarat Layanan',
     ],
     'errors' => [
-        'cannot_leave_company' => 'Anda tidak dapat meninggalkan perusahaan yang Anda buat.',
-        'company_deletion' => 'Anda tidak dapat menghapus perusahaan pribadi Anda.',
+        'cannot_leave_tenant' => 'Anda tidak dapat meninggalkan perusahaan yang Anda buat.',
+        'tenant_deletion' => 'Anda tidak dapat menghapus perusahaan pribadi Anda.',
         'email_already_associated' => 'Akun dengan alamat email tersebut sudah ada. Silakan masuk untuk menghubungkan akun :Provider Anda.',
         'email_not_found' => 'Kami tidak dapat menemukan pengguna terdaftar dengan alamat email ini.',
-        'employee_already_belongs_to_company' => 'Pegawai ini sudah termasuk dalam perusahaan.',
+        'employee_already_belongs_to_tenant' => 'Pegawai ini sudah termasuk dalam perusahaan.',
         'employee_already_invited' => 'Pegawai ini sudah diundang ke perusahaan.',
         'invalid_password' => 'Kata sandi yang Anda masukkan tidak valid.',
         'no_email_with_account' => 'Tidak ada alamat email yang terkait dengan akun :Provider ini. Silakan coba akun lain.',
@@ -88,7 +88,7 @@ return [
         'already_associated_account' => 'Akun dengan masuk :Provider tersebut sudah ada, silakan masuk.',
         'already_connected' => 'Akun dengan alamat email tersebut sudah ada. Silakan masuk untuk menghubungkan akun :Provider Anda.',
         'signin_not_found' => 'Akun dengan masuk :Provider ini tidak ditemukan. Silakan daftar atau coba metode masuk lain.',
-        'user_belongs_to_company' => 'Pengguna ini sudah termasuk dalam perusahaan.',
+        'user_belongs_to_tenant' => 'Pengguna ini sudah termasuk dalam perusahaan.',
         'valid_role' => ':attribute harus merupakan peran yang valid.',
     ],
     'descriptions' => [
@@ -99,7 +99,7 @@ return [
     ],
 
     'banner' => [
-        'company_invitation_accepted' => 'Bagus! Anda telah menerima undangan untuk bergabung dengan **:company**.',
+        'tenant_invitation_accepted' => 'Bagus! Anda telah menerima undangan untuk bergabung dengan **:tenant**.',
     ],
     'notifications' => [
         'token_created' => [
@@ -117,22 +117,22 @@ return [
             'body' => 'Akun Anda telah keluar dari sesi browser lain untuk tujuan keamanan.',
         ],
 
-        'company_created' => [
+        'tenant_created' => [
             'title' => 'Perusahaan dibuat',
             'body' => 'Perusahaan baru telah dibuat dengan nama **:name**.',
         ],
 
-        'company_deleted' => [
+        'tenant_deleted' => [
             'title' => 'Perusahaan dihapus',
             'body' => 'Perusahaan **:name** telah dihapus.',
         ],
 
-        'company_invitation_sent' => [
+        'tenant_invitation_sent' => [
             'title' => 'Undangan dikirim',
             'body' => 'Sebuah undangan telah dikirim ke **:email** untuk bergabung dengan perusahaan Anda.',
         ],
 
-        'company_name_updated' => [
+        'tenant_name_updated' => [
             'title' => 'Perusahaan diperbarui',
             'body' => 'Nama perusahaan Anda telah diperbarui menjadi **:name**.',
         ],
@@ -180,32 +180,32 @@ return [
 
     'navigation' => [
         'headers' => [
-            'manage_company' => 'Kelola Perusahaan',
-            'switch_companies' => 'Ganti Perusahaan',
+            'manage_tenant' => 'Kelola Perusahaan',
+            'switch_tenants' => 'Ganti Perusahaan',
         ],
 
         'links' => [
             'tokens' => 'Token Akses Pribadi',
-            'company_settings' => 'Pengaturan Perusahaan',
-            'create_company' => 'Buat Perusahaan',
+            'tenant_settings' => 'Pengaturan Perusahaan',
+            'create_tenant' => 'Buat Perusahaan',
         ],
     ],
 
     'pages' => [
         'titles' => [
             'tokens' => 'Token Akses Pribadi',
-            'create_company' => 'Buat Perusahaan',
-            'company_settings' => 'Pengaturan Perusahaan',
+            'create_tenant' => 'Buat Perusahaan',
+            'tenant_settings' => 'Pengaturan Perusahaan',
             'profile' => 'Profil',
         ],
     ],
 
     'grid_section_titles' => [
-        'add_company_employee' => 'Tambahkan Pegawai Perusahaan',
+        'add_tenant_employee' => 'Tambahkan Pegawai Perusahaan',
         'browser_sessions' => 'Sesi Browser',
-        'company_name' => 'Nama Perusahaan',
+        'tenant_name' => 'Nama Perusahaan',
         'create_token' => 'Buat Token Akses Pribadi',
-        'create_company' => 'Buat Perusahaan',
+        'create_tenant' => 'Buat Perusahaan',
         'delete_account' => 'Hapus Akun',
         'profile_information' => 'Informasi Profil',
         'set_password' => 'Tetapkan Kata Sandi',
@@ -214,11 +214,11 @@ return [
     ],
 
     'grid_section_descriptions' => [
-        'add_company_employee' => 'Tambahkan pegawai baru ke perusahaan Anda, memungkinkan mereka untuk berkolaborasi dengan Anda.',
+        'add_tenant_employee' => 'Tambahkan pegawai baru ke perusahaan Anda, memungkinkan mereka untuk berkolaborasi dengan Anda.',
         'browser_sessions' => 'Kelola dan keluar dari sesi aktif Anda di browser dan perangkat lain.',
-        'company_name' => 'Nama perusahaan dan informasi pemilik.',
+        'tenant_name' => 'Nama perusahaan dan informasi pemilik.',
         'create_token' => 'Token Akses Pribadi memungkinkan layanan pihak ketiga untuk mengautentikasi dengan aplikasi kami atas nama Anda.',
-        'create_company' => 'Buat perusahaan baru untuk berkolaborasi dengan orang lain dalam proyek.',
+        'create_tenant' => 'Buat perusahaan baru untuk berkolaborasi dengan orang lain dalam proyek.',
         'delete_account' => 'Hapus akun Anda secara permanen.',
         'profile_information' => 'Perbarui informasi profil dan alamat email akun Anda.',
         'set_password' => 'Pastikan akun Anda menggunakan kata sandi yang panjang dan acak untuk tetap aman.',
@@ -227,17 +227,17 @@ return [
     ],
 
     'action_section_titles' => [
-        'company_employees' => 'Pegawai Perusahaan',
+        'tenant_employees' => 'Pegawai Perusahaan',
         'connected_accounts' => 'Akun Terhubung',
-        'delete_company' => 'Hapus Perusahaan',
-        'pending_company_invitations' => 'Undangan Perusahaan yang Tertunda',
+        'delete_tenant' => 'Hapus Perusahaan',
+        'pending_tenant_invitations' => 'Undangan Perusahaan yang Tertunda',
     ],
 
     'action_section_descriptions' => [
-        'company_employees' => 'Semua orang yang merupakan bagian dari perusahaan ini.',
+        'tenant_employees' => 'Semua orang yang merupakan bagian dari perusahaan ini.',
         'connected_accounts' => 'Kelola dan hapus akun terhubung Anda.',
-        'delete_company' => 'Hapus perusahaan ini secara permanen.',
-        'pending_company_invitations' => 'Orang-orang ini telah diundang ke perusahaan Anda dan telah dikirimkan email undangan. Mereka dapat bergabung dengan perusahaan dengan menerima undangan email tersebut.',
+        'delete_tenant' => 'Hapus perusahaan ini secara permanen.',
+        'pending_tenant_invitations' => 'Orang-orang ini telah diundang ke perusahaan Anda dan telah dikirimkan email undangan. Mereka dapat bergabung dengan perusahaan dengan menerima undangan email tersebut.',
     ],
 
     'modal_titles' => [
@@ -246,11 +246,11 @@ return [
         'confirm_password' => 'Konfirmasi Kata Sandi',
         'delete_token' => 'Hapus Token Akses Pribadi',
         'delete_account' => 'Hapus Akun',
-        'delete_company' => 'Hapus Perusahaan',
-        'leave_company' => 'Tinggalkan Perusahaan',
+        'delete_tenant' => 'Hapus Perusahaan',
+        'leave_tenant' => 'Tinggalkan Perusahaan',
         'logout_browser_sessions' => 'Keluar dari Sesi Browser Lain',
         'manage_role' => 'Kelola Peran',
-        'remove_company_employee' => 'Hapus Pegawai Perusahaan',
+        'remove_tenant_employee' => 'Hapus Pegawai Perusahaan',
         'remove_connected_account' => 'Hapus Akun Terhubung',
         'revoke_tokens' => 'Cabut Token',
     ],
@@ -260,10 +260,10 @@ return [
         'confirm_password' => 'Untuk keamanan Anda, silakan konfirmasi kata sandi Anda untuk melanjutkan.',
         'delete_account' => 'Silakan masukkan kata sandi Anda untuk mengonfirmasi bahwa Anda ingin menghapus akun Anda.',
         'delete_token' => 'Apakah Anda yakin ingin menghapus Token Akses Pribadi ini?',
-        'delete_company' => 'Apakah Anda yakin ingin menghapus perusahaan ini?',
-        'leave_company' => 'Apakah Anda yakin ingin meninggalkan perusahaan ini?',
+        'delete_tenant' => 'Apakah Anda yakin ingin menghapus perusahaan ini?',
+        'leave_tenant' => 'Apakah Anda yakin ingin meninggalkan perusahaan ini?',
         'logout_browser_sessions' => 'Silakan masukkan kata sandi Anda untuk mengonfirmasi bahwa Anda ingin keluar dari sesi browser lain Anda.',
-        'remove_company_employee' => 'Apakah Anda yakin ingin menghapus orang ini dari perusahaan?',
+        'remove_tenant_employee' => 'Apakah Anda yakin ingin menghapus orang ini dari perusahaan?',
         'remove_connected_account' => 'Silakan konfirmasi penghapusan akun ini - tindakan ini tidak dapat dibatalkan.',
         'revoke_tokens' => 'Silakan masukkan kata sandi Anda untuk konfirmasi.',
     ],
@@ -308,8 +308,8 @@ return [
             ],
         ],
 
-        'companies' => [
-            'company_employee_manager' => [
+        'tenants' => [
+            'tenant_employee_manager' => [
                 'manage_employees' => 'Kelola Pegawai',
                 'pending_invitations' => 'Undangan yang Tertunda',
             ],
@@ -336,9 +336,9 @@ return [
             'logout_other_browser_sessions' => 'Jika perlu, Anda dapat keluar dari semua sesi browser lain di semua perangkat Anda. Beberapa sesi terbaru Anda tercantum di bawah ini; namun, daftar ini mungkin tidak lengkap. Jika Anda merasa akun Anda telah dikompromikan, Anda juga harus memperbarui kata sandi Anda.',
         ],
 
-        'companies' => [
-            'company_employee_manager' => 'Silakan berikan alamat email orang yang ingin Anda tambahkan ke perusahaan ini.',
-            'delete_company' => 'Setelah perusahaan dihapus, semua sumber daya dan data akan dihapus secara permanen. Sebelum menghapus perusahaan ini, silakan unduh data atau informasi mengenai perusahaan ini yang ingin Anda simpan.',
+        'tenants' => [
+            'tenant_employee_manager' => 'Silakan berikan alamat email orang yang ingin Anda tambahkan ke perusahaan ini.',
+            'delete_tenant' => 'Setelah perusahaan dihapus, semua sumber daya dan data akan dihapus secara permanen. Sebelum menghapus perusahaan ini, silakan unduh data atau informasi mengenai perusahaan ini yang ingin Anda simpan.',
         ],
     ],
 ];

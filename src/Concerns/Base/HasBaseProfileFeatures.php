@@ -1,12 +1,12 @@
 <?php
 
-namespace Wallo\FilamentCompanies\Concerns\Base;
+namespace Wallo\FilamentTenants\Concerns\Base;
 
 use Closure;
-use Wallo\FilamentCompanies\Http\Livewire\DeleteUserForm;
-use Wallo\FilamentCompanies\Http\Livewire\LogoutOtherBrowserSessionsForm;
-use Wallo\FilamentCompanies\Http\Livewire\UpdatePasswordForm;
-use Wallo\FilamentCompanies\Http\Livewire\UpdateProfileInformationForm;
+use Wallo\FilamentTenants\Http\Livewire\DeleteUserForm;
+use Wallo\FilamentTenants\Http\Livewire\LogoutOtherBrowserSessionsForm;
+use Wallo\FilamentTenants\Http\Livewire\UpdatePasswordForm;
+use Wallo\FilamentTenants\Http\Livewire\UpdateProfileInformationForm;
 
 trait HasBaseProfileFeatures
 {
@@ -21,22 +21,22 @@ trait HasBaseProfileFeatures
     public static bool $canUpdatePasswords = false;
 
     /**
-     * Determine if the company is managing profile photos.
+     * Determine if the tenant is managing profile photos.
      */
     public static bool $managesProfilePhotos = false;
 
     /**
-     * Determine if the company has a profile photo disk.
+     * Determine if the tenant has a profile photo disk.
      */
     public static string $profilePhotoDisk = 'public';
 
     /**
-     * Determine if the company has a profile photo storage path.
+     * Determine if the tenant has a profile photo storage path.
      */
     public static string $profilePhotoStoragePath = 'profile-photos';
 
     /**
-     * Determine if the company is supporting API features.
+     * Determine if the tenant is supporting API features.
      */
     public static bool $hasApiFeatures = false;
 
@@ -99,7 +99,7 @@ trait HasBaseProfileFeatures
     }
 
     /**
-     * Determine if the company is managing profile photos.
+     * Determine if the tenant is managing profile photos.
      */
     public function profilePhotos(bool | Closure | null $condition = true, string $disk = 'public', string $storagePath = 'profile-photos'): static
     {
@@ -111,7 +111,7 @@ trait HasBaseProfileFeatures
     }
 
     /**
-     * Determine if the company is supporting API features.
+     * Determine if the tenant is supporting API features.
      */
     public function api(bool | Closure | null $condition = true): static
     {
@@ -153,7 +153,7 @@ trait HasBaseProfileFeatures
     }
 
     /**
-     * Determine if Company is managing profile photos.
+     * Determine if Tenant is managing profile photos.
      */
     public static function managesProfilePhotos(): bool
     {
@@ -177,7 +177,7 @@ trait HasBaseProfileFeatures
     }
 
     /**
-     * Determine if Company is supporting API features.
+     * Determine if Tenant is supporting API features.
      */
     public static function hasApiFeatures(): bool
     {

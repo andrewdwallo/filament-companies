@@ -1,6 +1,6 @@
 <?php
 
-namespace Wallo\FilamentCompanies\Contracts;
+namespace Wallo\FilamentTenants\Contracts;
 
 /**
  * @method void update(\Illuminate\Foundation\Auth\User $user, array $input)

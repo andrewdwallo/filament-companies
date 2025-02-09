@@ -1,6 +1,6 @@
 <?php
 
-namespace Wallo\FilamentCompanies\Pages\User;
+namespace Wallo\FilamentTenants\Pages\User;
 
 use Exception;
 use Filament\Facades\Filament;
@@ -23,7 +23,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\HtmlString;
 use Illuminate\Support\Str;
 use Laravel\Sanctum\PersonalAccessToken;
-use Wallo\FilamentCompanies\FilamentCompanies;
+use Wallo\FilamentTenants\FilamentTenants;
 
 class PersonalAccessTokens extends Page implements Tables\Contracts\HasTable
 {
@@ -39,13 +39,13 @@ class PersonalAccessTokens extends Page implements Tables\Contracts\HasTable
      */
     public bool $displayingToken = false;
 
-    protected static string $view = 'filament-companies::filament.pages.user.personal-access-tokens';
+    protected static string $view = 'filament-tenants::filament.pages.user.personal-access-tokens';
 
     protected static bool $shouldRegisterNavigation = false;
 
     public function getTitle(): string
     {
-        return __('filament-companies::default.pages.titles.tokens');
+        return __('filament-tenants::default.pages.titles.tokens');
     }
 
     public static function getSlug(): string
@@ -58,7 +58,7 @@ class PersonalAccessTokens extends Page implements Tables\Contracts\HasTable
         $auth = Filament::auth();
 
         return PersonalAccessToken::whereTokenableId($auth->user()?->getAuthIdentifier())
-            ->whereTokenableType(FilamentCompanies::userModel());
+            ->whereTokenableType(FilamentTenants::userModel());
     }
 
     public function table(Table $table): Table
@@ -67,8 +67,8 @@ class PersonalAccessTokens extends Page implements Tables\Contracts\HasTable
             ->query($this->getTableQuery())
             ->columns($this->getTableColumns())
             ->defaultSort('id', 'desc')
-            ->heading(__('filament-companies::default.grid_section_titles.create_token'))
-            ->description(__('filament-companies::default.grid_section_descriptions.create_token'))
+            ->heading(__('filament-tenants::default.grid_section_titles.create_token'))
+            ->description(__('filament-tenants::default.grid_section_descriptions.create_token'))
             ->actions($this->getTableActions())
             ->headerActions($this->getTableHeaderActions())
             ->bulkActions($this->getTableBulkActions());
@@ -79,22 +79,22 @@ class PersonalAccessTokens extends Page implements Tables\Contracts\HasTable
         return [
             Split::make([
                 TextColumn::make('name')
-                    ->label(__('filament-companies::default.labels.token_name'))
+                    ->label(__('filament-tenants::default.labels.token_name'))
                     ->sortable()
                     ->searchable(),
                 TextColumn::make('abilities')
                     ->badge()
-                    ->label(__('filament-companies::default.labels.permissions')),
+                    ->label(__('filament-tenants::default.labels.permissions')),
             ]),
             Panel::make([
                 Stack::make([
                     TextColumn::make('created_at')
-                        ->label(__('filament-companies::default.labels.created_at'))
+                        ->label(__('filament-tenants::default.labels.created_at'))
                         ->icon('heroicon-o-calendar-days')
                         ->formatStateUsing(static function ($state) {
                             return new HtmlString(
                                 '<div>'
-                                . __('filament-companies::default.descriptions.token_created_state', [
+                                . __('filament-tenants::default.descriptions.token_created_state', [
                                     'time_ago' => '<span class="font-bold text-sm text-primary-600 dark:text-primary-400">' . __($state->diffForHumans()) . '</span>',
                                     'user_name' => '<a target="_blank" href="' . url(Profile::getUrl()) . '" class="font-bold text-sm text-primary-600 dark:text-primary-400 hover:text-primary-500 dark:hover:text-primary-300" style="text-decoration: underline;">' . __(Auth::user()?->name) . '</a>',
                                 ]) .
@@ -104,21 +104,21 @@ class PersonalAccessTokens extends Page implements Tables\Contracts\HasTable
                         ->fontFamily('serif')
                         ->sortable(),
                     TextColumn::make('updated_at')
-                        ->label(__('filament-companies::default.labels.updated_at'))
+                        ->label(__('filament-tenants::default.labels.updated_at'))
                         ->icon('heroicon-o-clock')
                         ->formatStateUsing(static function ($state) {
-                            return __('filament-companies::default.descriptions.token_updated_state', ['time_ago' => $state->diffForHumans()]);
+                            return __('filament-tenants::default.descriptions.token_updated_state', ['time_ago' => $state->diffForHumans()]);
                         })
                         ->fontFamily('serif')
                         ->sortable(),
                     TextColumn::make('last_used_at')
-                        ->label(__('filament-companies::default.labels.last_used_at'))
+                        ->label(__('filament-tenants::default.labels.last_used_at'))
                         ->formatStateUsing(static function ($state) {
                             if ($state) {
-                                return __('filament-companies::default.descriptions.token_last_used_state', ['time_ago' => $state->diffForHumans()]);
+                                return __('filament-tenants::default.descriptions.token_last_used_state', ['time_ago' => $state->diffForHumans()]);
                             }
 
-                            return __('filament-companies::default.descriptions.token_never_used');
+                            return __('filament-tenants::default.descriptions.token_never_used');
                         })
                         ->fontFamily('serif')
                         ->sortable(),
@@ -132,32 +132,32 @@ class PersonalAccessTokens extends Page implements Tables\Contracts\HasTable
      */
     protected function getTableHeaderActions(): array
     {
-        $permissions = FilamentCompanies::$permissions;
-        $defaultPermissions = FilamentCompanies::$defaultPermissions;
+        $permissions = FilamentTenants::$permissions;
+        $defaultPermissions = FilamentTenants::$defaultPermissions;
 
         return [
             Tables\Actions\Action::make('create')
-                ->label(__('filament-companies::default.buttons.create_token'))
-                ->modalWidth(FilamentCompanies::getModals()['width'])
+                ->label(__('filament-tenants::default.buttons.create_token'))
+                ->modalWidth(FilamentTenants::getModals()['width'])
                 ->action(function (array $data) use ($permissions) {
                     $name = $data['name'];
                     $abilities = array_values($data['abilities']);
                     $selected = array_intersect_key($permissions, array_flip($abilities));
-                    $this->displayTokenValue(Auth::user()?->createToken($name, FilamentCompanies::validPermissions($selected)));
+                    $this->displayTokenValue(Auth::user()?->createToken($name, FilamentTenants::validPermissions($selected)));
                     $this->tokenCreatedNotification($name);
                 })
                 ->mountUsing(static function (Form $form) use ($permissions) {
-                    $selected = array_intersect($permissions, FilamentCompanies::$defaultPermissions);
+                    $selected = array_intersect($permissions, FilamentTenants::$defaultPermissions);
                     $form->fill([
                         'abilities' => array_keys($selected),
                     ]);
                 })
                 ->form([
                     TextInput::make('name')
-                        ->label(__('filament-companies::default.labels.token_name'))
+                        ->label(__('filament-tenants::default.labels.token_name'))
                         ->required(),
                     CheckboxList::make('abilities')
-                        ->label(__('filament-companies::default.labels.permissions'))
+                        ->label(__('filament-tenants::default.labels.permissions'))
                         ->required()
                         ->options($permissions)
                         ->columns()
@@ -184,9 +184,9 @@ class PersonalAccessTokens extends Page implements Tables\Contracts\HasTable
     protected function tokenCreatedNotification($name): void
     {
         Notification::make()
-            ->title(__('filament-companies::default.notifications.token_created.title'))
+            ->title(__('filament-tenants::default.notifications.token_created.title'))
             ->success()
-            ->body(Str::inlineMarkdown(__('filament-companies::default.notifications.token_created.body', compact('name'))))
+            ->body(Str::inlineMarkdown(__('filament-tenants::default.notifications.token_created.body', compact('name'))))
             ->send();
     }
 
@@ -195,13 +195,13 @@ class PersonalAccessTokens extends Page implements Tables\Contracts\HasTable
      */
     protected function getTableActions(): array
     {
-        $permissions = FilamentCompanies::$permissions;
+        $permissions = FilamentTenants::$permissions;
 
         return [
             Tables\Actions\Action::make('edit')
-                ->label(__('filament-companies::default.buttons.edit'))
+                ->label(__('filament-tenants::default.buttons.edit'))
                 ->icon('heroicon-o-pencil')
-                ->modalWidth(FilamentCompanies::getModals()['width'])
+                ->modalWidth(FilamentTenants::getModals()['width'])
                 ->mountUsing(static function ($form, $record) use ($permissions) {
                     $selected = array_intersect($permissions, $record->abilities);
 
@@ -222,10 +222,10 @@ class PersonalAccessTokens extends Page implements Tables\Contracts\HasTable
                 })
                 ->form([
                     TextInput::make('name')
-                        ->label(__('filament-companies::default.labels.token_name'))
+                        ->label(__('filament-tenants::default.labels.token_name'))
                         ->required(),
                     CheckboxList::make('abilities')
-                        ->label(__('filament-companies::default.labels.permissions'))
+                        ->label(__('filament-tenants::default.labels.permissions'))
                         ->required()
                         ->options($permissions)
                         ->columns(),
@@ -239,9 +239,9 @@ class PersonalAccessTokens extends Page implements Tables\Contracts\HasTable
     protected function tokenUpdated(): void
     {
         Notification::make()
-            ->title(__('filament-companies::default.notifications.token_updated.title'))
+            ->title(__('filament-tenants::default.notifications.token_updated.title'))
             ->success()
-            ->body(__('filament-companies::default.notifications.token_updated.body'))
+            ->body(__('filament-tenants::default.notifications.token_updated.body'))
             ->send();
     }
 
@@ -254,15 +254,15 @@ class PersonalAccessTokens extends Page implements Tables\Contracts\HasTable
     {
         return [
             BulkAction::make('revoke')
-                ->label(__('filament-companies::default.buttons.revoke'))
+                ->label(__('filament-tenants::default.buttons.revoke'))
                 ->action(static function (Collection $records): void {
                     $records->each(static fn ($record) => $record->delete());
                 })
                 ->requiresConfirmation()
-                ->modalWidth(FilamentCompanies::getModals()['width'])
-                ->modalHeading(__('filament-companies::default.modal_titles.revoke_tokens'))
-                ->modalDescription(__('filament-companies::default.modal_descriptions.revoke_tokens'))
-                ->modalSubmitActionLabel(__('filament-companies::default.buttons.revoke'))
+                ->modalWidth(FilamentTenants::getModals()['width'])
+                ->modalHeading(__('filament-tenants::default.modal_titles.revoke_tokens'))
+                ->modalDescription(__('filament-tenants::default.modal_descriptions.revoke_tokens'))
+                ->modalSubmitActionLabel(__('filament-tenants::default.buttons.revoke'))
                 ->deselectRecordsAfterCompletion()
                 ->color('danger')
                 ->icon('heroicon-o-trash')
@@ -270,7 +270,7 @@ class PersonalAccessTokens extends Page implements Tables\Contracts\HasTable
                     TextInput::make('password')
                         ->hiddenLabel()
                         ->password()
-                        ->placeholder(__('filament-companies::default.fields.password'))
+                        ->placeholder(__('filament-tenants::default.fields.password'))
                         ->currentPassword()
                         ->required(),
                 ]),

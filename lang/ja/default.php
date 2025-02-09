@@ -20,7 +20,7 @@ return [
         'create_token' => 'トークン発行',
         'delete' => '削除',
         'delete_account' => 'アカウント削除',
-        'delete_company' => '会社を削除',
+        'delete_tenant' => '会社を削除',
         'disable' => '無効にする',
         'done' => '完了',
         'edit' => '編集',
@@ -49,8 +49,8 @@ return [
     ],
 
     'labels' => [
-        'company_name' => '会社名',
-        'company_owner' => '会社オーナー',
+        'tenant_name' => '会社名',
+        'tenant_owner' => '会社オーナー',
         'connected' => '接続済み',
         'created_at' => '登録日',
         'last_active' => '最新活動日',
@@ -79,11 +79,11 @@ return [
     ],
 
     'errors' => [
-        'cannot_leave_company' => 'あなた自身が登録した会社からの退社はできません。',
-        'company_deletion' => 'デフォルトの会社は削除できません。',
+        'cannot_leave_tenant' => 'あなた自身が登録した会社からの退社はできません。',
+        'tenant_deletion' => 'デフォルトの会社は削除できません。',
         'email_already_associated' => 'ご指定のメールアドレスはすでに登録されています。 :Providerアカウントにログインしてください。',
         'email_not_found' => 'ご指定のメールアドレスで登録されているユーザーは見つかりませんでした。',
-        'employee_already_belongs_to_company' => 'このユーザーは社員として登録済みです。',
+        'employee_already_belongs_to_tenant' => 'このユーザーは社員として登録済みです。',
         'employee_already_invited' => 'このユーザーは社員として招待済みです。',
         'invalid_password' => 'パスワードが無効です。',
         'no_email_with_account' => ':Providerに該当するメールアドレスは見つかりませんでした。別のアカウントをお試しください。',
@@ -91,7 +91,7 @@ return [
         'already_associated_account' => 'アカウント:Providerはすでに存在しています。ログインしてください。',
         'already_connected' => 'ご指定のメールアドレスに該当するアカウントはすでに存在しています。:Providerにログインしてください。',
         'signin_not_found' => 'アカウント:Providerは見つかりませんでした。アカウント登録、もしくは別のログイン方法をお試しください。',
-        'user_belongs_to_company' => 'ご指定のユーザーはすでに社員として登録されています。',
+        'user_belongs_to_tenant' => 'ご指定のユーザーはすでに社員として登録されています。',
         'valid_role' => ':attributeが有効な役割である必要があります。',
     ],
 
@@ -103,7 +103,7 @@ return [
     ],
 
     'banner' => [
-        'company_invitation_accepted' => 'おめでとうございます！ **:company**の招待を受理しました！',
+        'tenant_invitation_accepted' => 'おめでとうございます！ **:tenant**の招待を受理しました！',
     ],
 
     'notifications' => [
@@ -122,22 +122,22 @@ return [
             'body' => 'セキュリティーのため、その他ブラウザからログアウトしました。',
         ],
 
-        'company_created' => [
+        'tenant_created' => [
             'title' => '会社登録完了',
             'body' => '新規会社「**:name**」を登録しました。',
         ],
 
-        'company_deleted' => [
+        'tenant_deleted' => [
             'title' => '会社削除完了',
             'body' => '「**:name**」を削除しました。',
         ],
 
-        'company_invitation_sent' => [
+        'tenant_invitation_sent' => [
             'title' => '招待リンク送信完了',
             'body' => '**:email**に招待リンクが送信されました。',
         ],
 
-        'company_name_updated' => [
+        'tenant_name_updated' => [
             'title' => '会社名更新完了',
             'body' => '会社名を**:name**に変更しました。',
         ],
@@ -185,32 +185,32 @@ return [
 
     'navigation' => [
         'headers' => [
-            'manage_company' => '会社設定',
-            'switch_companies' => '会社を切り替える',
+            'manage_tenant' => '会社設定',
+            'switch_tenants' => '会社を切り替える',
         ],
 
         'links' => [
             'tokens' => 'APIトークン一覧',
-            'company_settings' => '会社設定',
-            'create_company' => '新規会社登録',
+            'tenant_settings' => '会社設定',
+            'create_tenant' => '新規会社登録',
         ],
     ],
 
     'pages' => [
         'titles' => [
             'tokens' => 'APIトークン一覧',
-            'create_company' => '新規会社登録',
-            'company_settings' => '会社設定',
+            'create_tenant' => '新規会社登録',
+            'tenant_settings' => '会社設定',
             'profile' => 'プロフィール',
         ],
     ],
 
     'grid_section_titles' => [
-        'add_company_employee' => '社員追加',
+        'add_tenant_employee' => '社員追加',
         'browser_sessions' => 'ブラウザセッション',
-        'company_name' => '社名',
+        'tenant_name' => '社名',
         'create_token' => 'APIトークン発行',
-        'create_company' => '会社を登録',
+        'create_tenant' => '会社を登録',
         'delete_account' => 'アカウント削除',
         'profile_information' => 'プロフィール情報',
         'set_password' => 'パスワード設定',
@@ -219,11 +219,11 @@ return [
     ],
 
     'grid_section_descriptions' => [
-        'add_company_employee' => '会社に社員を追加し、共同でプロジェクトを行えるようにします。',
+        'add_tenant_employee' => '会社に社員を追加し、共同でプロジェクトを行えるようにします。',
         'browser_sessions' => 'その他デバイスやブラウザにおけるアカウントのセッションを管理します。',
-        'company_name' => '会社の名前とオーナー情報',
+        'tenant_name' => '会社の名前とオーナー情報',
         'create_token' => 'APIトークンは第三者にあなたを代表して情報アクセス権限を付与します。',
-        'create_company' => '新規会社を登録し、共同でプロジェクトを進めるために社員を招待します。',
+        'create_tenant' => '新規会社を登録し、共同でプロジェクトを進めるために社員を招待します。',
         'delete_account' => 'アカウントを完全消去します。',
         'profile_information' => '会社情報やメールアドレスを更新します。',
         'set_password' => 'パスワードはセキュリティのため出来るだけ長くし、ランダム性を重視してください。',
@@ -232,17 +232,17 @@ return [
     ],
 
     'action_section_titles' => [
-        'company_employees' => '社員一覧',
+        'tenant_employees' => '社員一覧',
         'connected_accounts' => '連携中アカウント一覧',
-        'delete_company' => '会社削除',
-        'pending_company_invitations' => '未受諾の招待',
+        'delete_tenant' => '会社削除',
+        'pending_tenant_invitations' => '未受諾の招待',
     ],
 
     'action_section_descriptions' => [
-        'company_employees' => '社員一覧',
+        'tenant_employees' => '社員一覧',
         'connected_accounts' => '連携アカウントを管理する',
-        'delete_company' => '会社登録情報を完全に削除する',
-        'pending_company_invitations' => 'あなたの会社への招待をまだ受諾していないアカウント一覧です。該当のユーザーは受信したメールからあなたの会社へ参加することができます。',
+        'delete_tenant' => '会社登録情報を完全に削除する',
+        'pending_tenant_invitations' => 'あなたの会社への招待をまだ受諾していないアカウント一覧です。該当のユーザーは受信したメールからあなたの会社へ参加することができます。',
     ],
 
     'modal_titles' => [
@@ -251,11 +251,11 @@ return [
         'confirm_password' => 'パスワード認証',
         'delete_token' => 'APIトークン削除',
         'delete_account' => 'アカウント削除',
-        'delete_company' => '会社削除',
-        'leave_company' => '退社する',
+        'delete_tenant' => '会社削除',
+        'leave_tenant' => '退社する',
         'logout_browser_sessions' => 'その他のブラウザからログアウトする',
         'manage_role' => '役割設定',
-        'remove_company_employee' => '社員削除',
+        'remove_tenant_employee' => '社員削除',
         'remove_connected_account' => 'アカウント連携解除',
         'revoke_tokens' => 'トークンの無効化',
     ],
@@ -265,10 +265,10 @@ return [
         'confirm_password' => '安全のため、パスワード認証を行ってください。',
         'delete_account' => 'アカウントを削除するにはパスワード認証が必要です。',
         'delete_token' => '本当にAPIトークンを削除してもよろしいですか？',
-        'delete_company' => '本当に会社を削除してもよろしいですか？',
-        'leave_company' => '本当にこの会社から退社してもよろしいですか？',
+        'delete_tenant' => '本当に会社を削除してもよろしいですか？',
+        'leave_tenant' => '本当にこの会社から退社してもよろしいですか？',
         'logout_browser_sessions' => 'その他のブラウザにおけるセッションを無効にするためにパスワード認証を行ってください。',
-        'remove_company_employee' => 'このユーザーを社員リストから削除してもよろしいですか？',
+        'remove_tenant_employee' => 'このユーザーを社員リストから削除してもよろしいですか？',
         'remove_connected_account' => '本当にアカウントを削除しますか？復元は出来ません。',
         'revoke_tokens' => 'パスワード認証が必要です。',
     ],
@@ -313,8 +313,8 @@ return [
             ],
         ],
 
-        'companies' => [
-            'company_employee_manager' => [
+        'tenants' => [
+            'tenant_employee_manager' => [
                 'manage_employees' => '社員を管理',
                 'pending_invitations' => '受諾待ちの招待',
             ],
@@ -341,9 +341,9 @@ return [
             'logout_other_browser_sessions' => '必要に応じて、すべてのデバイスから一時的にログアウトすることができます。最近のセッションは一覧に表示されますが情報が完全でない可能性があります。アカウント情報が漏洩していると思われる場合、パスワードを変更するようお勧めします。',
         ],
 
-        'companies' => [
-            'company_employee_manager' => '招待したいユーザーのメールアドレスを入力してください。',
-            'delete_company' => '会社を削除したら、すべての関連データは抹消されます。実行する前に必要なバックアップを行ってください。',
+        'tenants' => [
+            'tenant_employee_manager' => '招待したいユーザーのメールアドレスを入力してください。',
+            'delete_tenant' => '会社を削除したら、すべての関連データは抹消されます。実行する前に必要なバックアップを行ってください。',
         ],
     ],
 ];

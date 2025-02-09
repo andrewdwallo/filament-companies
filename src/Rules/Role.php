@@ -1,9 +1,9 @@
 <?php
 
-namespace Wallo\FilamentCompanies\Rules;
+namespace Wallo\FilamentTenants\Rules;
 
 use Illuminate\Contracts\Validation\Rule;
-use Wallo\FilamentCompanies\FilamentCompanies;
+use Wallo\FilamentTenants\FilamentTenants;
 
 class Role implements Rule
 {
@@ -15,7 +15,7 @@ class Role implements Rule
      */
     public function passes($attribute, $value): bool
     {
-        return array_key_exists($value, FilamentCompanies::$roles);
+        return array_key_exists($value, FilamentTenants::$roles);
     }
 
     /**
@@ -23,6 +23,6 @@ class Role implements Rule
      */
     public function message(): string
     {
-        return __('filament-companies::default.errors.valid_role');
+        return __('filament-tenants::default.errors.valid_role');
     }
 }

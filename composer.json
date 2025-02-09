@@ -1,22 +1,22 @@
 {
-    "name": "andrewdwallo/filament-companies",
-    "description": "A comprehensive Laravel authentication and authorization system designed for Filament, focusing on multi-tenant company management.",
+    "name": "andrewdwallo/filament-tenants",
+    "description": "A comprehensive Laravel authentication and authorization system designed for Filament, focusing on multi-tenant tenant management.",
     "keywords": [
         "andrewdwallo",
-        "filament-companies",
-        "filament companies",
+        "filament-tenants",
+        "filament tenants",
         "laravel",
         "socialite",
         "authentication",
         "filament",
         "multi-tenant",
-        "company management",
+        "tenant management",
         "erp",
         "saas",
         "crm",
         "business management"
     ],
-    "homepage": "https://github.com/andrewdwallo/filament-companies",
+    "homepage": "https://github.com/andrewdwallo/filament-tenants",
     "license": "MIT",
     "authors": [
         {
@@ -45,7 +45,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Wallo\\FilamentCompanies\\": "src/"
+            "Wallo\\FilamentTenants\\": "src/"
         }
     },
     "autoload-dev": {
@@ -57,7 +57,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Wallo\\FilamentCompanies\\FilamentCompaniesServiceProvider"
+                "Wallo\\FilamentTenants\\FilamentTenantsServiceProvider"
             ]
         }
     },

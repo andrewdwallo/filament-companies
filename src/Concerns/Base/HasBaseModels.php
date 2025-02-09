@@ -1,33 +1,33 @@
 <?php
 
-namespace Wallo\FilamentCompanies\Concerns\Base;
+namespace Wallo\FilamentTenants\Concerns\Base;
 
-use App\Models\Company;
-use App\Models\CompanyInvitation;
+use App\Models\Tenant;
+use App\Models\TenantInvitation;
 use App\Models\Employeeship;
 use App\Models\User;
 
 trait HasBaseModels
 {
     /**
-     * The user model that should be used by Company.
+     * The user model that should be used by Tenant.
      */
     public static string $userModel = User::class;
 
     /**
-     * The company model that should be used by Company.
+     * The tenant model that should be used by Tenant.
      */
-    public static string $companyModel = Company::class;
+    public static string $tenantModel = Tenant::class;
 
     /**
-     * The employeeship model that should be used by Company.
+     * The employeeship model that should be used by Tenant.
      */
     public static string $employeeshipModel = Employeeship::class;
 
     /**
-     * The company invitation model that should be used by Company.
+     * The tenant invitation model that should be used by Tenant.
      */
-    public static string $companyInvitationModel = CompanyInvitation::class;
+    public static string $tenantInvitationModel = TenantInvitation::class;
 
     /**
      * Get the name of the user model used by the application.
@@ -38,11 +38,11 @@ trait HasBaseModels
     }
 
     /**
-     * Get the name of the company model used by the application.
+     * Get the name of the tenant model used by the application.
      */
-    public static function companyModel(): string
+    public static function tenantModel(): string
     {
-        return static::$companyModel;
+        return static::$tenantModel;
     }
 
     /**
@@ -54,11 +54,11 @@ trait HasBaseModels
     }
 
     /**
-     * Get the name of the company invitation model used by the application.
+     * Get the name of the tenant invitation model used by the application.
      */
-    public static function companyInvitationModel(): string
+    public static function tenantInvitationModel(): string
     {
-        return static::$companyInvitationModel;
+        return static::$tenantInvitationModel;
     }
 
     /**
@@ -72,17 +72,17 @@ trait HasBaseModels
     }
 
     /**
-     * Get a new instance of the company model.
+     * Get a new instance of the tenant model.
      */
-    public static function newCompanyModel(): mixed
+    public static function newTenantModel(): mixed
     {
-        $model = static::companyModel();
+        $model = static::tenantModel();
 
         return new $model;
     }
 
     /**
-     * Specify the user model that should be used by Company.
+     * Specify the user model that should be used by Tenant.
      */
     public static function useUserModel(string $model): static
     {
@@ -92,17 +92,17 @@ trait HasBaseModels
     }
 
     /**
-     * Specify the company model that should be used by Company.
+     * Specify the tenant model that should be used by Tenant.
      */
-    public static function useCompanyModel(string $model): static
+    public static function useTenantModel(string $model): static
     {
-        static::$companyModel = $model;
+        static::$tenantModel = $model;
 
         return new static;
     }
 
     /**
-     * Specify the employeeship model that should be used by Company.
+     * Specify the employeeship model that should be used by Tenant.
      */
     public static function useEmployeeshipModel(string $model): static
     {
@@ -112,11 +112,11 @@ trait HasBaseModels
     }
 
     /**
-     * Specify the company invitation model that should be used by Company.
+     * Specify the tenant invitation model that should be used by Tenant.
      */
-    public static function useCompanyInvitationModel(string $model): static
+    public static function useTenantInvitationModel(string $model): static
     {
-        static::$companyInvitationModel = $model;
+        static::$tenantInvitationModel = $model;
 
         return new static;
     }

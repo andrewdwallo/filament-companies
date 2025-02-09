@@ -1,6 +1,6 @@
 <?php
 
-namespace Wallo\FilamentCompanies\Http\Livewire;
+namespace Wallo\FilamentTenants\Http\Livewire;
 
 use Filament\Facades\Filament;
 use Illuminate\Contracts\View\View;
@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
 use Livewire\Component;
 use Livewire\Features\SupportRedirects\Redirector;
-use Wallo\FilamentCompanies\Contracts\DeletesUsers;
+use Wallo\FilamentTenants\Contracts\DeletesUsers;
 
 class DeleteUserForm extends Component
 {
@@ -44,7 +44,7 @@ class DeleteUserForm extends Component
 
         if (! Hash::check($this->password, Auth::user()->password)) {
             throw ValidationException::withMessages([
-                'password' => [__('filament-companies::default.errors.invalid_password')],
+                'password' => [__('filament-tenants::default.errors.invalid_password')],
             ]);
         }
 
@@ -73,6 +73,6 @@ class DeleteUserForm extends Component
      */
     public function render(): View
     {
-        return view('filament-companies::profile.delete-user-form');
+        return view('filament-tenants::profile.delete-user-form');
     }
 }

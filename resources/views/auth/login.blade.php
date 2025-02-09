@@ -16,7 +16,7 @@
         />
     </x-filament-panels::form>
 
-    @if (Wallo\FilamentCompanies\FilamentCompanies::hasSocialiteFeatures())
-        <x-filament-companies::socialite :error-message="$errors->first('filament-companies')" />
+    @if (Wallo\FilamentTenants\FilamentTenants::hasSocialiteFeatures())
+        <x-filament-tenants::socialite :error-message="$errors->first('filament-tenants')" />
     @endif
 </x-filament-panels::page.simple>

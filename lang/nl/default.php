@@ -1,6 +1,6 @@
 <?php
 
-// Repository: filament-companies
+// Repository: filament-tenants
 // Dutch language file
 
 return [
@@ -23,7 +23,7 @@ return [
         'create_token' => 'Maak Token aan',
         'delete' => 'Verwijder',
         'delete_account' => 'Verwijder account',
-        'delete_company' => 'Verwijder bedrijf',
+        'delete_tenant' => 'Verwijder bedrijf',
         'disable' => 'Deactiveren',
         'done' => 'Klaar.',
         'edit' => 'Bewerk',
@@ -52,8 +52,8 @@ return [
     ],
 
     'labels' => [
-        'company_name' => 'Bedrijfsnaam',
-        'company_owner' => 'Bedrijf eigenaar',
+        'tenant_name' => 'Bedrijfsnaam',
+        'tenant_owner' => 'Bedrijf eigenaar',
         'connected' => 'Verbonden',
         'created_at' => 'Aangemaakt op',
         'last_active' => 'Laatst actief',
@@ -82,11 +82,11 @@ return [
     ],
 
     'errors' => [
-        'cannot_leave_company' => 'Je kan het bedrijf niet verlaten, welke jij hebt aangemaakt.',
-        'company_deletion' => 'Je kan je eigen persoonlijke bedrijf niet verwijderen.',
+        'cannot_leave_tenant' => 'Je kan het bedrijf niet verlaten, welke jij hebt aangemaakt.',
+        'tenant_deletion' => 'Je kan je eigen persoonlijke bedrijf niet verwijderen.',
         'email_already_associated' => 'Er bestaat al een account met dat e-mailadres. Log in om uw :Provider account te koppelen.',
         'email_not_found' => 'We konden geen geregistreerde gebruiker met dit e-mailadres vinden.',
-        'employee_already_belongs_to_company' => 'Deze werknemer behoort al tot het bedrijf.',
+        'employee_already_belongs_to_tenant' => 'Deze werknemer behoort al tot het bedrijf.',
         'employee_already_invited' => 'Deze medewerker is al uitgenodigd voor het bedrijf.',
         'invalid_password' => 'Het door jou ingevoerde wachtwoord is ongeldig.',
         'no_email_with_account' => 'Er is geen e-mailadres gekoppeld aan dit :Provider account. Probeer een ander account.',
@@ -94,7 +94,7 @@ return [
         'already_associated_account' => 'Er bestaat al een account waarbij :Provider aanmelding bestaat, log alsjeblieft in.',
         'already_connected' => 'Er bestaat al een account met dat e-mailadres. Log in om jouw :Provider account te koppelen.',
         'signin_not_found' => 'Er is geen account gevonden met deze :Provider aanmelding. Registreer je of probeer een andere inlogmethode.',
-        'user_belongs_to_company' => 'Deze gebruiker behoort al tot het bedrijf.',
+        'user_belongs_to_tenant' => 'Deze gebruiker behoort al tot het bedrijf.',
         'valid_role' => 'Het :attribute moet een geldige rol zijn.',
     ],
 
@@ -106,7 +106,7 @@ return [
     ],
 
     'banner' => [
-        'company_invitation_accepted' => 'Top! Je bent uitgenodigd om je aan te sluiten bij **:company**.',
+        'tenant_invitation_accepted' => 'Top! Je bent uitgenodigd om je aan te sluiten bij **:tenant**.',
     ],
 
     'notifications' => [
@@ -125,22 +125,22 @@ return [
             'body' => 'Jouw account is uitgelogd bij andere Browser sessies wegens beveiligingsredenen.',
         ],
 
-        'company_created' => [
+        'tenant_created' => [
             'title' => 'Bedrijf aangemaakt',
             'body' => 'Er is een nieuw bedrijf aangemaakt met de naam **:name**.',
         ],
 
-        'company_deleted' => [
+        'tenant_deleted' => [
             'title' => 'Bedrijf verwijderd',
             'body' => 'Het bedrijf **:name** is verwijderd.',
         ],
 
-        'company_invitation_sent' => [
+        'tenant_invitation_sent' => [
             'title' => 'Uitnodiging verzonden',
             'body' => 'Een uitnodiging is verzonden aan **:email** om zich aan te sluiten bij jouw bedrijf.',
         ],
 
-        'company_name_updated' => [
+        'tenant_name_updated' => [
             'title' => 'Bedrijf gewijzigd',
             'body' => 'Jouw bedrijfsnaam is gewijzigd naar **:name**.',
         ],
@@ -188,32 +188,32 @@ return [
 
     'navigation' => [
         'headers' => [
-            'manage_company' => 'Beheer bedrijf',
-            'switch_companies' => 'Wissel van bedrijf',
+            'manage_tenant' => 'Beheer bedrijf',
+            'switch_tenants' => 'Wissel van bedrijf',
         ],
 
         'links' => [
             'tokens' => 'Persoonlijke Toegangstokens',
-            'company_settings' => 'Bedrijfsinstellingen',
-            'create_company' => 'Bedrijf aanmaken',
+            'tenant_settings' => 'Bedrijfsinstellingen',
+            'create_tenant' => 'Bedrijf aanmaken',
         ],
     ],
 
     'pages' => [
         'titles' => [
             'tokens' => 'Persoonlijke toegangstokens',
-            'create_company' => 'Bedrijf aanmaken',
-            'company_settings' => 'Bedrijfsinstellingen',
+            'create_tenant' => 'Bedrijf aanmaken',
+            'tenant_settings' => 'Bedrijfsinstellingen',
             'profile' => 'Profiel',
         ],
     ],
 
     'grid_section_titles' => [
-        'add_company_employee' => 'Medewerker toevoegen',
+        'add_tenant_employee' => 'Medewerker toevoegen',
         'browser_sessions' => 'Browser Sessies',
-        'company_name' => 'Bedrijfsnaam',
+        'tenant_name' => 'Bedrijfsnaam',
         'create_token' => 'Persoonlijke toegangstoken aanmaken',
-        'create_company' => 'Bedrijf aanmaken',
+        'create_tenant' => 'Bedrijf aanmaken',
         'delete_account' => 'Account verwijderen',
         'profile_information' => 'Profiel informatie',
         'set_password' => 'Wachtwoord instellen',
@@ -222,11 +222,11 @@ return [
     ],
 
     'grid_section_descriptions' => [
-        'add_company_employee' => 'Voeg een nieuwe bedrijfsmedewerker toe aan jouw bedrijf, zodat deze met je kan samenwerken.',
+        'add_tenant_employee' => 'Voeg een nieuwe bedrijfsmedewerker toe aan jouw bedrijf, zodat deze met je kan samenwerken.',
         'browser_sessions' => 'Beheer en log jouw actieve sessies uit op andere browsers en apparaten.',
-        'company_name' => 'De naam van het bedrijf en informatie over de eigenaar.',
+        'tenant_name' => 'De naam van het bedrijf en informatie over de eigenaar.',
         'create_token' => 'Met persoonlijke toegangstokens kunnen services van derden zich namens jou bij onze applicatie aanmelden.',
-        'create_company' => 'Creëer een nieuw bedrijf om met anderen aan projecten samen te werken.',
+        'create_tenant' => 'Creëer een nieuw bedrijf om met anderen aan projecten samen te werken.',
         'delete_account' => 'Verwijder jouw account definitief.',
         'profile_information' => 'Wijzig jouw account profiel informatie en e-mail adres.',
         'set_password' => 'Zorg ervoor dat jouw account een lang, willekeurig wachtwoord gebruikt om veilig te blijven.',
@@ -235,17 +235,17 @@ return [
     ],
 
     'action_section_titles' => [
-        'company_employees' => 'Bedrijf werknemers',
+        'tenant_employees' => 'Bedrijf werknemers',
         'connected_accounts' => 'Verbonden accounts',
-        'delete_company' => 'Verwijder bedrijf',
-        'pending_company_invitations' => 'Bedrijfsuitnodiging(en) in behandeling',
+        'delete_tenant' => 'Verwijder bedrijf',
+        'pending_tenant_invitations' => 'Bedrijfsuitnodiging(en) in behandeling',
     ],
 
     'action_section_descriptions' => [
-        'company_employees' => 'Al deze personen maken onderdeel uit van dit bedrijf.',
+        'tenant_employees' => 'Al deze personen maken onderdeel uit van dit bedrijf.',
         'connected_accounts' => 'Beheer en verwijder jouw verbonden accounts.',
-        'delete_company' => 'Verwijder dit bedrijf definitief.',
-        'pending_company_invitations' => 'Deze mensen zijn uitgenodigd voor jouw bedrijf en hebben een uitnodigingsmail ontvangen. Ze kunnen zich bij het bedrijf aansluiten door de e-mailuitnodiging te accepteren.',
+        'delete_tenant' => 'Verwijder dit bedrijf definitief.',
+        'pending_tenant_invitations' => 'Deze mensen zijn uitgenodigd voor jouw bedrijf en hebben een uitnodigingsmail ontvangen. Ze kunnen zich bij het bedrijf aansluiten door de e-mailuitnodiging te accepteren.',
     ],
 
     'modal_titles' => [
@@ -254,11 +254,11 @@ return [
         'confirm_password' => 'Bevestig wachtwoord',
         'delete_token' => 'Verwijder persoonlijke toegangstoken',
         'delete_account' => 'Verwijder account',
-        'delete_company' => 'Verwijder bedrijf',
-        'leave_company' => 'Verlaat bedrijf',
+        'delete_tenant' => 'Verwijder bedrijf',
+        'leave_tenant' => 'Verlaat bedrijf',
         'logout_browser_sessions' => 'Uitloggen op andere Browser sessies',
         'manage_role' => 'Beheer rol',
-        'remove_company_employee' => 'Verwijder bedrijfswerknemers',
+        'remove_tenant_employee' => 'Verwijder bedrijfswerknemers',
         'remove_connected_account' => 'Verwijder verbonden account',
         'revoke_tokens' => 'Tokens intrekken',
     ],
@@ -268,10 +268,10 @@ return [
         'confirm_password' => 'Bevestig voor jouw veiligheid je wachtwoord om door te gaan.',
         'delete_account' => 'Voer jouw wachtwoord in om te bevestigen dat je jouw account wilt verwijderen.',
         'delete_token' => 'Weet je het zeker dat je deze persoonlijke toegangstoken wilt verwijderen?',
-        'delete_company' => 'Weet je zeker dat je dit bedrijf wilt verwijderen?',
-        'leave_company' => 'Weet je zeker dat je dit bedrijf wilt verlaten?',
+        'delete_tenant' => 'Weet je zeker dat je dit bedrijf wilt verwijderen?',
+        'leave_tenant' => 'Weet je zeker dat je dit bedrijf wilt verlaten?',
         'logout_browser_sessions' => 'Geef je wachtwoord in om te bevestigen dat jezelf wilt afmelden bij jouw andere browsersessies.',
-        'remove_company_employee' => 'Weet je het zeker dat je deze persoon wilt verwijderen uit het bedrijf?',
+        'remove_tenant_employee' => 'Weet je het zeker dat je deze persoon wilt verwijderen uit het bedrijf?',
         'remove_connected_account' => 'Bevestig de verwijdering van dit account. Deze actie kan niet ongedaan gemaakt worden.',
         'revoke_tokens' => 'Voer jouw wachtwoord in om te bevestigen.',
     ],
@@ -316,8 +316,8 @@ return [
             ],
         ],
 
-        'companies' => [
-            'company_employee_manager' => [
+        'tenants' => [
+            'tenant_employee_manager' => [
                 'manage_employees' => 'Beheer medewerkers',
                 'pending_invitations' => 'Openstaande uitnodigingen',
             ],
@@ -344,9 +344,9 @@ return [
             'logout_other_browser_sessions' => 'Indien nodig kan je jezelf afmelden bij al jouw andere browsersessies op al jouw apparaten. Enkele van jouw recente sessies vindt je hieronder; Deze lijst is echter mogelijk niet volledig. Als je denkt dat jouw account is gehackt, moet je ook jouw wachtwoord bijwerken.',
         ],
 
-        'companies' => [
-            'company_employee_manager' => 'Vul het e-mailadres in van de persoon die je aan dit bedrijf wil toevoegen.',
-            'delete_company' => 'Zodra een bedrijf wordt verwijderd, worden alle bronnen en gegevens permanent verwijderd. Voordat je dit bedrijf verwijdert, downloadt dan alle gegevens of informatie over dit bedrijf die je wilt behouden.',
+        'tenants' => [
+            'tenant_employee_manager' => 'Vul het e-mailadres in van de persoon die je aan dit bedrijf wil toevoegen.',
+            'delete_tenant' => 'Zodra een bedrijf wordt verwijderd, worden alle bronnen en gegevens permanent verwijderd. Voordat je dit bedrijf verwijdert, downloadt dan alle gegevens of informatie over dit bedrijf die je wilt behouden.',
         ],
     ],
 ];

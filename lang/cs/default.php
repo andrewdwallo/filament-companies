@@ -20,7 +20,7 @@ return [
         'create_token' => 'Vytvořit token',
         'delete' => 'Smazat',
         'delete_account' => 'Smazat účet',
-        'delete_company' => 'Smazat společnost',
+        'delete_tenant' => 'Smazat společnost',
         'disable' => 'Deaktivovat',
         'done' => 'Hotovo.',
         'edit' => 'Upravit',
@@ -49,9 +49,9 @@ return [
     ],
 
     'labels' => [
-        'company_name' => 'Název společnosti',
-        'company_email' => 'E-mail společnosti',
-        'company_owner' => 'Vlastník společnosti',
+        'tenant_name' => 'Název společnosti',
+        'tenant_email' => 'E-mail společnosti',
+        'tenant_owner' => 'Vlastník společnosti',
         'entity_type' => 'Typ entity',
         'country' => 'Země',
         'language' => 'Jazyk',
@@ -84,11 +84,11 @@ return [
     ],
 
     'errors' => [
-        'cannot_leave_company' => 'Nemůžete opustit společnost, kterou jste vytvořili.',
-        'company_deletion' => 'Nemůžete smazat svou osobní společnost.',
+        'cannot_leave_tenant' => 'Nemůžete opustit společnost, kterou jste vytvořili.',
+        'tenant_deletion' => 'Nemůžete smazat svou osobní společnost.',
         'email_already_associated' => 'Účet s touto e-mailovou adresou již existuje. Přihlaste se prosím pro připojení vašeho :Provider účtu.',
         'email_not_found' => 'Nepodařilo se nám najít registrovaného uživatele s touto e-mailovou adresou.',
-        'employee_already_belongs_to_company' => 'Tento zaměstnanec již patří do společnosti.',
+        'employee_already_belongs_to_tenant' => 'Tento zaměstnanec již patří do společnosti.',
         'employee_already_invited' => 'Tento zaměstnanec již byl pozván do společnosti.',
         'invalid_password' => 'Zadané heslo je neplatné.',
         'no_email_with_account' => 'S tímto :Provider účtem není spojena žádná e-mailová adresa. Zkuste prosím jiný účet.',
@@ -96,7 +96,7 @@ return [
         'already_associated_account' => 'Účet s tímto :Provider přihlášením již existuje, přihlaste se prosím.',
         'already_connected' => 'Účet s touto e-mailovou adresou již existuje. Přihlaste se prosím pro připojení vašeho :Provider účtu.',
         'signin_not_found' => 'Účet s tímto :Provider přihlášením nebyl nalezen. Registrovat nebo zkuste jiné přihlášení.',
-        'user_belongs_to_company' => 'Tento uživatel již patří do společnosti.',
+        'user_belongs_to_tenant' => 'Tento uživatel již patří do společnosti.',
         'valid_role' => ':attribute musí být platná role.',
         'terms' => 'Podmínky služby a Zásady ochrany osobních údajů',
     ],
@@ -109,7 +109,7 @@ return [
     ],
 
     'banner' => [
-        'company_invitation_accepted' => 'Skvělé! Přijali jste pozvání k připojení do **:company**.',
+        'tenant_invitation_accepted' => 'Skvělé! Přijali jste pozvání k připojení do **:tenant**.',
     ],
 
     'notifications' => [
@@ -128,22 +128,22 @@ return [
             'body' => 'Váš účet byl z bezpečnostních důvodů odhlášen z jiných relací prohlížeče.',
         ],
 
-        'company_created' => [
+        'tenant_created' => [
             'title' => 'Společnost vytvořena',
             'body' => 'Nová společnost byla vytvořena s názvem **:name**.',
         ],
 
-        'company_deleted' => [
+        'tenant_deleted' => [
             'title' => 'Společnost smazána',
             'body' => 'Společnost **:name** byla smazána.',
         ],
 
-        'company_invitation_sent' => [
+        'tenant_invitation_sent' => [
             'title' => 'Pozvánka odeslána',
             'body' => 'Pozvánka byla odeslána na **:email** pro připojení k vaší společnosti.',
         ],
 
-        'company_name_updated' => [
+        'tenant_name_updated' => [
             'title' => 'Společnost aktualizována',
             'body' => 'Název vaší společnosti byl aktualizován na **:name**.',
         ],
@@ -191,32 +191,32 @@ return [
 
     'navigation' => [
         'headers' => [
-            'manage_company' => 'Správa společnost',
-            'switch_companies' => 'Přepnout společnost',
+            'manage_tenant' => 'Správa společnost',
+            'switch_tenants' => 'Přepnout společnost',
         ],
 
         'links' => [
             'tokens' => 'Osobní přístupové tokeny',
-            'company_settings' => 'Nastavení společnosti',
-            'create_company' => 'Vytvořit společnost',
+            'tenant_settings' => 'Nastavení společnosti',
+            'create_tenant' => 'Vytvořit společnost',
         ],
     ],
 
     'pages' => [
         'titles' => [
             'tokens' => 'Osobní přístupové tokeny',
-            'create_company' => 'Vytvořit společnost',
-            'company_settings' => 'Nastavení společnosti',
+            'create_tenant' => 'Vytvořit společnost',
+            'tenant_settings' => 'Nastavení společnosti',
             'profile' => 'Profil',
         ],
     ],
 
     'grid_section_titles' => [
-        'add_company_employee' => 'Přidat zaměstnance společnosti',
+        'add_tenant_employee' => 'Přidat zaměstnance společnosti',
         'browser_sessions' => 'Relace prohlížeče',
-        'company_name' => 'Název společnosti',
+        'tenant_name' => 'Název společnosti',
         'create_token' => 'Vytvořit osobní přístupový token',
-        'create_company' => 'Vytvořit společnost',
+        'create_tenant' => 'Vytvořit společnost',
         'delete_account' => 'Smazat účet',
         'profile_information' => 'Profilové informace',
         'set_password' => 'Nastavit heslo',
@@ -225,11 +225,11 @@ return [
     ],
 
     'grid_section_descriptions' => [
-        'add_company_employee' => 'Přidejte nového zaměstnance společnosti, který bude s vámi spolupracovat.',
+        'add_tenant_employee' => 'Přidejte nového zaměstnance společnosti, který bude s vámi spolupracovat.',
         'browser_sessions' => 'Spravujte a odhlašujte své aktivní relace na jiných prohlížečích a zařízeních.',
-        'company_name' => "Název společnosti a informace o vlastníkovi.",
+        'tenant_name' => "Název společnosti a informace o vlastníkovi.",
         'create_token' => 'Osobní přístupové tokeny umožňují ověření třetích stran s naší aplikací vaším jménem.',
-        'create_company' => 'Vytvořte novou společnost pro spolupráci s ostatními na projektech.',
+        'create_tenant' => 'Vytvořte novou společnost pro spolupráci s ostatními na projektech.',
         'delete_account' => 'Trvale smazat váš účet.',
         'profile_information' => "Aktualizujte profilové informace a e-mailovou adresu vašeho účtu.",
         'set_password' => 'Zajistěte, aby váš účet používal dlouhé, náhodné heslo pro zajištění bezpečnosti.',
@@ -238,17 +238,17 @@ return [
     ],
 
     'action_section_titles' => [
-        'company_employees' => 'Zaměstnanci společnosti',
+        'tenant_employees' => 'Zaměstnanci společnosti',
         'connected_accounts' => 'Připojené účty',
-        'delete_company' => 'Smazat společnost',
-        'pending_company_invitations' => 'Čekající pozvánky do společnosti',
+        'delete_tenant' => 'Smazat společnost',
+        'pending_tenant_invitations' => 'Čekající pozvánky do společnosti',
     ],
 
     'action_section_descriptions' => [
-        'company_employees' => 'Všichni lidé, kteří jsou součástí této společnosti.',
+        'tenant_employees' => 'Všichni lidé, kteří jsou součástí této společnosti.',
         'connected_accounts' => 'Spravujte a odstraňujte své připojené účty.',
-        'delete_company' => 'Trvale smazat tuto společnost.',
-        'pending_company_invitations' => 'Tito lidé byli pozváni do vaší společnosti a byli jim zaslány pozvánkové e-maily. Mohou se připojit k společnosti přijetím pozvánky z e-mailu.',
+        'delete_tenant' => 'Trvale smazat tuto společnost.',
+        'pending_tenant_invitations' => 'Tito lidé byli pozváni do vaší společnosti a byli jim zaslány pozvánkové e-maily. Mohou se připojit k společnosti přijetím pozvánky z e-mailu.',
     ],
 
     'modal_titles' => [
@@ -257,11 +257,11 @@ return [
         'confirm_password' => 'Potvrzení hesla',
         'delete_token' => 'Smazat osobní přístupový token',
         'delete_account' => 'Smazat účet',
-        'delete_company' => 'Smazat společnost',
-        'leave_company' => 'Opustit společnost',
+        'delete_tenant' => 'Smazat společnost',
+        'leave_tenant' => 'Opustit společnost',
         'logout_browser_sessions' => 'Odhlásit se z ostatních relací prohlížeče',
         'manage_role' => 'Spravovat roli',
-        'remove_company_employee' => 'Odstranit zaměstnance společnosti',
+        'remove_tenant_employee' => 'Odstranit zaměstnance společnosti',
         'remove_connected_account' => 'Odstranit připojený účet',
         'revoke_tokens' => 'Zrušit tokeny',
     ],
@@ -271,10 +271,10 @@ return [
         'confirm_password' => 'Pro vaši bezpečnost prosím potvrďte své heslo pro pokračování.',
         'delete_account' => 'Prosím, zadejte své heslo pro potvrzení, že chcete smazat svůj účet.',
         'delete_token' => 'Opravdu chcete smazat tento osobní přístupový token?',
-        'delete_company' => 'Opravdu chcete smazat tuto společnost?',
-        'leave_company' => 'Opravdu chcete opustit tuto společnost?',
+        'delete_tenant' => 'Opravdu chcete smazat tuto společnost?',
+        'leave_tenant' => 'Opravdu chcete opustit tuto společnost?',
         'logout_browser_sessions' => 'Prosím, zadejte své heslo pro potvrzení, že chcete odhlásit své ostatní relace v prohlížeči.',
-        'remove_company_employee' => 'Opravdu chcete odstranit tuto osobu ze společnosti?',
+        'remove_tenant_employee' => 'Opravdu chcete odstranit tuto osobu ze společnosti?',
         'remove_connected_account' => 'Prosím, potvrďte odstranění tohoto účtu - tato akce nemůže být vrácena.',
         'revoke_tokens' => 'Prosím, zadejte své heslo pro potvrzení.',
     ],
@@ -319,8 +319,8 @@ return [
             ],
         ],
 
-        'companies' => [
-            'company_employee_manager' => [
+        'tenants' => [
+            'tenant_employee_manager' => [
                 'manage_employees' => 'Spravovat zaměstnance',
                 'pending_invitations' => 'Čekající pozvánky',
             ],
@@ -347,9 +347,9 @@ return [
             'logout_other_browser_sessions' => 'Pokud je to nutné, můžete se odhlásit ze všech ostatních relací prohlížeče na všech vašich zařízeních. Některé z vašich posledních relací jsou uvedeny níže; tento seznam však nemusí být úplný. Pokud máte pocit, že byl váš účet kompromitován, měli byste také aktualizovat své heslo.',
         ],
 
-        'companies' => [
-            'company_employee_manager' => 'Prosím, uveďte e-mailovou adresu osoby, kterou byste chtěli přidat do této společnosti.',
-            'delete_company' => 'Jakmile je společnost smazána, všechny její zdroje a data budou trvale smazány. Před smazáním této společnosti si prosím stáhněte všechna data nebo informace o této společnosti, které chcete zachovat.',
+        'tenants' => [
+            'tenant_employee_manager' => 'Prosím, uveďte e-mailovou adresu osoby, kterou byste chtěli přidat do této společnosti.',
+            'delete_tenant' => 'Jakmile je společnost smazána, všechny její zdroje a data budou trvale smazány. Před smazáním této společnosti si prosím stáhněte všechna data nebo informace o této společnosti, které chcete zachovat.',
         ],
     ],
 ];

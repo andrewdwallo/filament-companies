@@ -20,7 +20,7 @@ return [
         'create_token' => 'Criar Token',
         'delete' => 'Eliminar',
         'delete_account' => 'Eliminar Conta',
-        'delete_company' => 'Eliminar Empresa',
+        'delete_tenant' => 'Eliminar Empresa',
         'disable' => 'Desativar',
         'done' => 'Concluído.',
         'edit' => 'Editar',
@@ -49,8 +49,8 @@ return [
     ],
 
     'labels' => [
-        'company_name' => 'Nome da Empresa',
-        'company_owner' => 'Proprietário da Empresa',
+        'tenant_name' => 'Nome da Empresa',
+        'tenant_owner' => 'Proprietário da Empresa',
         'connected' => 'Conectado',
         'created_at' => 'Criado em',
         'last_active' => 'Última Atividade',
@@ -79,11 +79,11 @@ return [
     ],
 
     'errors' => [
-        'cannot_leave_company' => 'Não pode sair de uma empresa que criou.',
-        'company_deletion' => 'Não pode eliminar a sua empresa pessoal.',
+        'cannot_leave_tenant' => 'Não pode sair de uma empresa que criou.',
+        'tenant_deletion' => 'Não pode eliminar a sua empresa pessoal.',
         'email_already_associated' => 'Uma conta com este endereço de email já existe. Por favor, faça login para conectar a sua conta :Provider.',
         'email_not_found' => 'Não conseguimos encontrar um utilizador registado com este endereço de email.',
-        'employee_already_belongs_to_company' => 'Este funcionário já pertence à empresa.',
+        'employee_already_belongs_to_tenant' => 'Este funcionário já pertence à empresa.',
         'employee_already_invited' => 'Este funcionário já foi convidado para a empresa.',
         'generic_error' => 'Ocorreu um erro ao processar o seu pedido.',
         'invalid_password' => 'A palavra-passe que introduziu é inválida.',
@@ -92,7 +92,7 @@ return [
         'already_associated_account' => 'Uma conta com esse login :Provider já existe, por favor faça login.',
         'already_connected' => 'Uma conta com este endereço de email já existe. Por favor, faça login para conectar a sua conta :Provider.',
         'signin_not_found' => 'Uma conta com este login :Provider não foi encontrada. Por favor, registe-se ou tente um método de login diferente.',
-        'user_belongs_to_company' => 'Este utilizador já pertence à empresa.',
+        'user_belongs_to_tenant' => 'Este utilizador já pertence à empresa.',
         'valid_role' => 'O :attribute deve ser uma função válida.',
         'terms' => 'Termos de Serviço e Política de Privacidade',
     ],
@@ -105,7 +105,7 @@ return [
     ],
 
     'banner' => [
-        'company_invitation_accepted' => 'Ótimo! Aceitou o convite para juntar-se à **:company**.',
+        'tenant_invitation_accepted' => 'Ótimo! Aceitou o convite para juntar-se à **:tenant**.',
     ],
 
     'notifications' => [
@@ -124,22 +124,22 @@ return [
             'body' => 'A sua conta foi encerrada em outras sessões do navegador por motivos de segurança.',
         ],
 
-        'company_created' => [
+        'tenant_created' => [
             'title' => 'Empresa criada',
             'body' => 'Uma nova empresa foi criada com o nome **:name**.',
         ],
 
-        'company_deleted' => [
+        'tenant_deleted' => [
             'title' => 'Empresa eliminada',
             'body' => 'A empresa **:name** foi eliminada.',
         ],
 
-        'company_invitation_sent' => [
+        'tenant_invitation_sent' => [
             'title' => 'Convite enviado',
             'body' => 'Um convite foi enviado para **:email** para se juntar à sua empresa.',
         ],
 
-        'company_name_updated' => [
+        'tenant_name_updated' => [
             'title' => 'Empresa atualizada',
             'body' => 'O nome da sua empresa foi atualizado para **:name**.',
         ],
@@ -187,32 +187,32 @@ return [
 
     'navigation' => [
         'headers' => [
-            'manage_company' => 'Gerir Empresa',
-            'switch_companies' => 'Mudar Empresas',
+            'manage_tenant' => 'Gerir Empresa',
+            'switch_tenants' => 'Mudar Empresas',
         ],
 
         'links' => [
             'tokens' => 'Tokens de Acesso Pessoal',
-            'company_settings' => 'Configurações da Empresa',
-            'create_company' => 'Criar Empresa',
+            'tenant_settings' => 'Configurações da Empresa',
+            'create_tenant' => 'Criar Empresa',
         ],
     ],
 
     'pages' => [
         'titles' => [
             'tokens' => 'Tokens de Acesso Pessoal',
-            'create_company' => 'Criar Empresa',
-            'company_settings' => 'Configurações da Empresa',
+            'create_tenant' => 'Criar Empresa',
+            'tenant_settings' => 'Configurações da Empresa',
             'profile' => 'Perfil',
         ],
     ],
 
     'grid_section_titles' => [
-        'add_company_employee' => 'Adicionar Funcionário da Empresa',
+        'add_tenant_employee' => 'Adicionar Funcionário da Empresa',
         'browser_sessions' => 'Sessões do Navegador',
-        'company_name' => 'Nome da Empresa',
+        'tenant_name' => 'Nome da Empresa',
         'create_token' => 'Criar Token de Acesso Pessoal',
-        'create_company' => 'Criar Empresa',
+        'create_tenant' => 'Criar Empresa',
         'delete_account' => 'Eliminar Conta',
         'profile_information' => 'Informações do Perfil',
         'set_password' => 'Definir Palavra-Passe',
@@ -221,11 +221,11 @@ return [
     ],
 
     'grid_section_descriptions' => [
-        'add_company_employee' => 'Adicione um novo funcionário da empresa à sua empresa, permitindo que ele colabore consigo.',
+        'add_tenant_employee' => 'Adicione um novo funcionário da empresa à sua empresa, permitindo que ele colabore consigo.',
         'browser_sessions' => 'Gerir e desligar as suas sessões ativas em outros navegadores e dispositivos.',
-        'company_name' => 'Nome da empresa e informações do proprietário.',
+        'tenant_name' => 'Nome da empresa e informações do proprietário.',
         'create_token' => 'Tokens de Acesso Pessoal permitem que serviços de terceiros autentiquem com a nossa aplicação em seu nome.',
-        'create_company' => 'Crie uma nova empresa para colaborar com outras em projetos.',
+        'create_tenant' => 'Crie uma nova empresa para colaborar com outras em projetos.',
         'delete_account' => 'Eliminar a sua conta permanentemente.',
         'profile_information' => 'Atualizar as informações do perfil e o endereço de email da sua conta.',
         'set_password' => 'Assegure-se de que a sua conta está a usar uma palavra-passe longa e aleatória para permanecer segura.',
@@ -234,17 +234,17 @@ return [
     ],
 
     'action_section_titles' => [
-        'company_employees' => 'Funcionários da Empresa',
+        'tenant_employees' => 'Funcionários da Empresa',
         'connected_accounts' => 'Contas Conectadas',
-        'delete_company' => 'Eliminar Empresa',
-        'pending_company_invitations' => 'Convites Pendentes para a Empresa',
+        'delete_tenant' => 'Eliminar Empresa',
+        'pending_tenant_invitations' => 'Convites Pendentes para a Empresa',
     ],
 
     'action_section_descriptions' => [
-        'company_employees' => 'Todas as pessoas que fazem parte desta empresa.',
+        'tenant_employees' => 'Todas as pessoas que fazem parte desta empresa.',
         'connected_accounts' => 'Gerir e remover as suas contas conectadas.',
-        'delete_company' => 'Eliminar permanentemente esta empresa.',
-        'pending_company_invitations' => 'Estas pessoas foram convidadas para a sua empresa e receberam um email de convite. Podem juntar-se à empresa aceitando o convite do email.',
+        'delete_tenant' => 'Eliminar permanentemente esta empresa.',
+        'pending_tenant_invitations' => 'Estas pessoas foram convidadas para a sua empresa e receberam um email de convite. Podem juntar-se à empresa aceitando o convite do email.',
     ],
 
     'modal_titles' => [
@@ -253,11 +253,11 @@ return [
         'confirm_password' => 'Confirmar Palavra-Passe',
         'delete_token' => 'Eliminar Token de Acesso Pessoal',
         'delete_account' => 'Eliminar Conta',
-        'delete_company' => 'Eliminar Empresa',
-        'leave_company' => 'Sair da Empresa',
+        'delete_tenant' => 'Eliminar Empresa',
+        'leave_tenant' => 'Sair da Empresa',
         'logout_browser_sessions' => 'Sair de Outras Sessões do Navegador',
         'manage_role' => 'Gerir Função',
-        'remove_company_employee' => 'Remover Funcionário da Empresa',
+        'remove_tenant_employee' => 'Remover Funcionário da Empresa',
         'remove_connected_account' => 'Remover Conta Conectada',
         'revoke_tokens' => 'Revogar Tokens',
     ],
@@ -267,10 +267,10 @@ return [
         'confirm_password' => 'Para sua segurança, por favor confirme a sua palavra-passe para continuar.',
         'delete_account' => 'Por favor, insira a sua palavra-passe para confirmar que deseja eliminar a sua conta.',
         'delete_token' => 'Tem a certeza de que deseja eliminar este Token de Acesso Pessoal?',
-        'delete_company' => 'Tem a certeza de que deseja eliminar esta empresa?',
-        'leave_company' => 'Tem a certeza de que deseja sair desta empresa?',
+        'delete_tenant' => 'Tem a certeza de que deseja eliminar esta empresa?',
+        'leave_tenant' => 'Tem a certeza de que deseja sair desta empresa?',
         'logout_browser_sessions' => 'Por favor, insira a sua palavra-passe para confirmar que deseja sair das suas outras sessões do navegador.',
-        'remove_company_employee' => 'Tem a certeza de que deseja remover esta pessoa da empresa?',
+        'remove_tenant_employee' => 'Tem a certeza de que deseja remover esta pessoa da empresa?',
         'remove_connected_account' => 'Por favor, confirme a remoção desta conta - esta ação não pode ser desfeita.',
         'revoke_tokens' => 'Por favor, insira a sua palavra-passe para confirmar.',
     ],
@@ -315,8 +315,8 @@ return [
             ],
         ],
 
-        'companies' => [
-            'company_employee_manager' => [
+        'tenants' => [
+            'tenant_employee_manager' => [
                 'manage_employees' => 'Gerir Funcionários',
                 'pending_invitations' => 'Convites Pendentes',
             ],
@@ -343,9 +343,9 @@ return [
             'logout_other_browser_sessions' => 'Se necessário, pode sair de todas as suas outras sessões do navegador em todos os seus dispositivos. Algumas das suas sessões recentes estão listadas abaixo, no entanto, esta lista pode não ser exaustiva. Se pensar que a sua conta foi comprometida, deve também atualizar a sua palavra-passe.',
         ],
 
-        'companies' => [
-            'company_employee_manager' => 'Por favor, forneça o endereço de email da pessoa que gostaria de adicionar a esta empresa.',
-            'delete_company' => 'Uma vez que uma empresa é eliminada, todos os seus recursos e dados serão permanentemente apagados. Antes de eliminar esta empresa, por favor, faça o download de qualquer dado ou informação sobre esta empresa que queira manter.',
+        'tenants' => [
+            'tenant_employee_manager' => 'Por favor, forneça o endereço de email da pessoa que gostaria de adicionar a esta empresa.',
+            'delete_tenant' => 'Uma vez que uma empresa é eliminada, todos os seus recursos e dados serão permanentemente apagados. Antes de eliminar esta empresa, por favor, faça o download de qualquer dado ou informação sobre esta empresa que queira manter.',
         ],
     ],
 ];

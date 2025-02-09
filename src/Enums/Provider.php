@@ -1,10 +1,10 @@
 <?php
 
-namespace Wallo\FilamentCompanies\Enums;
+namespace Wallo\FilamentTenants\Enums;
 
 use Filament\Support\Contracts\HasLabel;
 use Illuminate\Contracts\View\View;
-use Wallo\FilamentCompanies\FilamentCompanies;
+use Wallo\FilamentTenants\FilamentTenants;
 
 enum Provider: string implements HasLabel
 {
@@ -35,20 +35,20 @@ enum Provider: string implements HasLabel
 
     public function isEnabled(): bool
     {
-        return FilamentCompanies::isProviderEnabled($this);
+        return FilamentTenants::isProviderEnabled($this);
     }
 
     public function getIconView(): View
     {
         $viewName = match ($this) {
-            self::Bitbucket => 'filament-companies::components.socialite-icons.bitbucket',
-            self::Facebook => 'filament-companies::components.socialite-icons.facebook',
-            self::Gitlab => 'filament-companies::components.socialite-icons.gitlab',
-            self::Github => 'filament-companies::components.socialite-icons.github',
-            self::Google => 'filament-companies::components.socialite-icons.google',
-            self::LinkedIn, self::LinkedInOpenId => 'filament-companies::components.socialite-icons.linkedin',
-            self::Slack => 'filament-companies::components.socialite-icons.slack',
-            self::Twitter, self::TwitterOAuth2 => 'filament-companies::components.socialite-icons.twitter',
+            self::Bitbucket => 'filament-tenants::components.socialite-icons.bitbucket',
+            self::Facebook => 'filament-tenants::components.socialite-icons.facebook',
+            self::Gitlab => 'filament-tenants::components.socialite-icons.gitlab',
+            self::Github => 'filament-tenants::components.socialite-icons.github',
+            self::Google => 'filament-tenants::components.socialite-icons.google',
+            self::LinkedIn, self::LinkedInOpenId => 'filament-tenants::components.socialite-icons.linkedin',
+            self::Slack => 'filament-tenants::components.socialite-icons.slack',
+            self::Twitter, self::TwitterOAuth2 => 'filament-tenants::components.socialite-icons.twitter',
         };
 
         return view($viewName);

@@ -2,9 +2,9 @@
 
 namespace App\Models;
 
-use Wallo\FilamentCompanies\Employeeship as FilamentCompaniesEmployeeship;
+use Wallo\FilamentTenants\Employeeship as FilamentTenantsEmployeeship;
 
-class Employeeship extends FilamentCompaniesEmployeeship
+class Employeeship extends FilamentTenantsEmployeeship
 {
     /**
      * Indicates if the IDs are auto-incrementing.

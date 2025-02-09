@@ -1,6 +1,6 @@
 <?php
 
-namespace Wallo\FilamentCompanies\Console;
+namespace Wallo\FilamentTenants\Console;
 
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
@@ -21,14 +21,14 @@ class InstallCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'filament-companies:install {--socialite : Install with Socialite support} {--force : Overwrite existing files}';
+    protected $signature = 'filament-tenants:install {--socialite : Install with Socialite support} {--force : Overwrite existing files}';
 
     /**
      * The console command description.
      *
      * @var string|null
      */
-    protected $description = 'Install the Filament Companies package';
+    protected $description = 'Install the Filament Tenants package';
 
     private bool $withSocialite = false;
 
@@ -43,16 +43,16 @@ class InstallCommand extends Command
 
         $this->determineInstallationType();
 
-        info('Installing Filament Companies...');
+        info('Installing Filament Tenants...');
 
-        // Install Filament Companies...
+        // Install Filament Tenants...
         try {
             $this->commonInstallation();
-            $this->installFilamentCompanies();
+            $this->installFilamentTenants();
         } catch (\Exception $e) {
-            Log::error('Installation error while installing Filament Companies: ' . $e->getMessage());
+            Log::error('Installation error while installing Filament Tenants: ' . $e->getMessage());
 
-            error('An error occurred while installing Filament Companies. Please check the log for more information.');
+            error('An error occurred while installing Filament Tenants. Please check the log for more information.');
 
             return static::FAILURE;
         }
@@ -64,9 +64,9 @@ class InstallCommand extends Command
     {
         $force = $this->option('force');
 
-        if ($force === false && File::exists(app_path('Providers/FilamentCompaniesServiceProvider.php'))) {
+        if ($force === false && File::exists(app_path('Providers/FilamentTenantsServiceProvider.php'))) {
             $shouldProceed = confirm(
-                label: 'Filament Companies is already installed. Would you like to proceed with the installation?',
+                label: 'Filament Tenants is already installed. Would you like to proceed with the installation?',
                 default: false,
                 yes: 'Yes, proceed with the installation',
                 no: 'No, abort the installation',
@@ -74,7 +74,7 @@ class InstallCommand extends Command
             );
 
             if ($shouldProceed === false) {
-                info('Filament Companies installation aborted.');
+                info('Filament Tenants installation aborted.');
 
                 return static::FAILURE;
             }
@@ -114,12 +114,12 @@ class InstallCommand extends Command
 
         // Publish...
         $this->callSilent('vendor:publish', [
-            '--tag' => 'filament-companies-migrations',
+            '--tag' => 'filament-tenants-migrations',
             '--force' => true,
         ]);
 
         $this->callSilent('vendor:publish', [
-            '--tag' => 'filament-companies-company-migrations',
+            '--tag' => 'filament-tenants-tenant-migrations',
             '--force' => true,
         ]);
 
@@ -129,7 +129,7 @@ class InstallCommand extends Command
         ]);
 
         // Directories...
-        (new Filesystem)->ensureDirectoryExists(app_path('Actions/FilamentCompanies'));
+        (new Filesystem)->ensureDirectoryExists(app_path('Actions/FilamentTenants'));
         (new Filesystem)->ensureDirectoryExists(app_path('Policies'));
         (new Filesystem)->ensureDirectoryExists(resource_path('markdown'));
 
@@ -141,29 +141,29 @@ class InstallCommand extends Command
 
         // Factories...
         copy(__DIR__ . '/../../database/factories/UserFactory.php', base_path('database/factories/UserFactory.php'));
-        copy(__DIR__ . '/../../database/factories/CompanyFactory.php', base_path('database/factories/CompanyFactory.php'));
+        copy(__DIR__ . '/../../database/factories/TenantFactory.php', base_path('database/factories/TenantFactory.php'));
 
         // Actions...
-        $this->copyStubFiles('app/Actions/FilamentCompanies', app_path('Actions/FilamentCompanies'), [
-            'AddCompanyEmployee.php',
-            'CreateCompany.php',
+        $this->copyStubFiles('app/Actions/FilamentTenants', app_path('Actions/FilamentTenants'), [
+            'AddTenantEmployee.php',
+            'CreateTenant.php',
             'CreateNewUser.php',
-            'DeleteCompany.php',
-            'InviteCompanyEmployee.php',
-            'RemoveCompanyEmployee.php',
-            'UpdateCompanyName.php',
+            'DeleteTenant.php',
+            'InviteTenantEmployee.php',
+            'RemoveTenantEmployee.php',
+            'UpdateTenantName.php',
             'UpdateUserPassword.php',
             'UpdateUserProfileInformation.php',
         ]);
 
         // Policies...
-        $this->copyStubFiles('app/Policies', app_path('Policies'), ['CompanyPolicy.php']);
+        $this->copyStubFiles('app/Policies', app_path('Policies'), ['TenantPolicy.php']);
 
         // Seeders...
         copy(__DIR__ . '/../../database/seeders/DatabaseSeeder.php', base_path('database/seeders/DatabaseSeeder.php'));
 
         // Models...
-        $this->copyStubFiles('app/Models', app_path('Models'), ['Company.php', 'CompanyInvitation.php', 'Employeeship.php']);
+        $this->copyStubFiles('app/Models', app_path('Models'), ['Tenant.php', 'TenantInvitation.php', 'Employeeship.php']);
     }
 
     /**
@@ -192,7 +192,7 @@ class InstallCommand extends Command
     }
 
     /**
-     * Configure the session driver for Company.
+     * Configure the session driver for Tenant.
      */
     protected function configureSession(): void
     {
@@ -201,43 +201,43 @@ class InstallCommand extends Command
     }
 
     /**
-     * Install the FilamentCompanies company stack into the application.
+     * Install the FilamentTenants tenant stack into the application.
      */
-    protected function installFilamentCompanies(): void
+    protected function installFilamentTenants(): void
     {
         if ($this->withSocialite) {
             $this->ensureApplicationIsSocialiteCompatible();
-            info('Filament Companies with Socialite support installed successfully.');
+            info('Filament Tenants with Socialite support installed successfully.');
         } else {
-            $this->ensureApplicationIsOnlyCompanyCompatible();
-            info('Filament Companies installed successfully.');
+            $this->ensureApplicationIsOnlyTenantCompatible();
+            info('Filament Tenants installed successfully.');
         }
     }
 
     /**
-     * Ensure the installed user model is ready for company usage.
+     * Ensure the installed user model is ready for tenant usage.
      */
-    protected function ensureApplicationIsOnlyCompanyCompatible(): void
+    protected function ensureApplicationIsOnlyTenantCompatible(): void
     {
         // Service Providers...
-        $this->copyStubFiles('app/Providers', app_path('Providers'), ['FilamentCompaniesServiceProvider.php']);
-        ServiceProvider::addProviderToBootstrapFile('App\Providers\FilamentCompaniesServiceProvider');
+        $this->copyStubFiles('app/Providers', app_path('Providers'), ['FilamentTenantsServiceProvider.php']);
+        ServiceProvider::addProviderToBootstrapFile('App\Providers\FilamentTenantsServiceProvider');
 
         // Models...
         $this->copyStubFiles('app/Models', app_path('Models'), ['User.php']);
 
-        // FilamentCompanies Actions...
-        $this->copyStubFiles('app/Actions/FilamentCompanies', app_path('Actions/FilamentCompanies'), ['DeleteUser.php']);
+        // FilamentTenants Actions...
+        $this->copyStubFiles('app/Actions/FilamentTenants', app_path('Actions/FilamentTenants'), ['DeleteUser.php']);
     }
 
     protected function ensureApplicationIsSocialiteCompatible(): void
     {
-        // Publish FilamentCompanies Socialite Migrations...
-        $this->callSilent('vendor:publish', ['--tag' => 'filament-companies-socialite-migrations', '--force' => true]);
+        // Publish FilamentTenants Socialite Migrations...
+        $this->callSilent('vendor:publish', ['--tag' => 'filament-tenants-socialite-migrations', '--force' => true]);
 
         // Service Providers...
-        copy(__DIR__ . '/../../stubs/app/Providers/FilamentCompaniesWithSocialiteServiceProvider.php', app_path('Providers/FilamentCompaniesServiceProvider.php'));
-        ServiceProvider::addProviderToBootstrapFile('App\Providers\FilamentCompaniesServiceProvider');
+        copy(__DIR__ . '/../../stubs/app/Providers/FilamentTenantsWithSocialiteServiceProvider.php', app_path('Providers/FilamentTenantsServiceProvider.php'));
+        ServiceProvider::addProviderToBootstrapFile('App\Providers\FilamentTenantsServiceProvider');
 
         // Models...
         copy(__DIR__ . '/../../stubs/app/Models/UserWithSocialite.php', app_path('Models/User.php'));
@@ -245,9 +245,9 @@ class InstallCommand extends Command
         $this->copyStubFiles('app/Models', app_path('Models'), ['ConnectedAccount.php']);
 
         // Actions...
-        copy(__DIR__ . '/../../stubs/app/Actions/FilamentCompanies/DeleteUserWithSocialite.php', app_path('Actions/FilamentCompanies/DeleteUser.php'));
+        copy(__DIR__ . '/../../stubs/app/Actions/FilamentTenants/DeleteUserWithSocialite.php', app_path('Actions/FilamentTenants/DeleteUser.php'));
 
-        $this->copyStubFiles('app/Actions/FilamentCompanies', app_path('Actions/FilamentCompanies'), [
+        $this->copyStubFiles('app/Actions/FilamentTenants', app_path('Actions/FilamentTenants'), [
             'CreateConnectedAccount.php',
             'CreateUserFromProvider.php',
             'HandleInvalidState.php',

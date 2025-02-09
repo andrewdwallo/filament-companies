@@ -1,6 +1,6 @@
 <?php
 
-namespace Wallo\FilamentCompanies;
+namespace Wallo\FilamentTenants;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -31,7 +31,7 @@ abstract class ConnectedAccount extends Model
      */
     public function user(): BelongsTo
     {
-        return $this->belongsTo(FilamentCompanies::userModel(), 'user_id', FilamentCompanies::newUserModel()->getAuthIdentifierName());
+        return $this->belongsTo(FilamentTenants::userModel(), 'user_id', FilamentTenants::newUserModel()->getAuthIdentifierName());
     }
 
     /**

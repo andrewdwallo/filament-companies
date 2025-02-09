@@ -1,6 +1,6 @@
 <?php
 
-namespace Wallo\FilamentCompanies;
+namespace Wallo\FilamentTenants;
 
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Http\UploadedFile;
@@ -13,7 +13,7 @@ trait HasProfilePhoto
      */
     public function updateProfilePhoto(UploadedFile $photo): void
     {
-        $storagePath = FilamentCompanies::profilePhotoStoragePath();
+        $storagePath = FilamentTenants::profilePhotoStoragePath();
 
         tap($this->profile_photo_path, function ($previous) use ($photo, $storagePath) {
             $this->forceFill([
@@ -34,7 +34,7 @@ trait HasProfilePhoto
      */
     public function deleteProfilePhoto(): void
     {
-        if ($this->profile_photo_path === null || ! FilamentCompanies::managesProfilePhotos()) {
+        if ($this->profile_photo_path === null || ! FilamentTenants::managesProfilePhotos()) {
             return;
         }
 
@@ -74,6 +74,6 @@ trait HasProfilePhoto
      */
     protected function profilePhotoDisk(): string
     {
-        return isset($_ENV['VAPOR_ARTIFACT_NAME']) ? 's3' : FilamentCompanies::profilePhotoDisk();
+        return isset($_ENV['VAPOR_ARTIFACT_NAME']) ? 's3' : FilamentTenants::profilePhotoDisk();
     }
 }

@@ -38,13 +38,13 @@ return [
         'add' => 'Agregar',
         'leave' => 'Salir',
         'remove' => 'Eliminar',
-        'delete_company' => 'Eliminar empresa',
+        'delete_tenant' => 'Eliminar empresa',
         'remember_me' => 'Recuérdame',
     ],
 
     'labels' => [
-        'company_name' => 'Nombre de la empresa',
-        'company_owner' => 'Propietario de la empresa',
+        'tenant_name' => 'Nombre de la empresa',
+        'tenant_owner' => 'Propietario de la empresa',
         'setup_key' => 'Clave de configuración',
         'role' => 'Rol',
         'photo' => 'Foto',
@@ -69,21 +69,21 @@ return [
 
     'navigation' => [
         'headers' => [
-            'manage_company' => 'Administrar empresa',
-            'switch_companies' => 'Cambiar de empresa',
+            'manage_tenant' => 'Administrar empresa',
+            'switch_tenants' => 'Cambiar de empresa',
         ],
 
         'links' => [
-            'company_settings' => 'Configuración de empresa',
-            'new_company' => 'Nueva Empresa',
+            'tenant_settings' => 'Configuración de empresa',
+            'new_tenant' => 'Nueva Empresa',
             'tokens' => 'Personal Access Tokens',
         ],
     ],
 
     'pages' => [
         'titles' => [
-            'create_company' => 'Crear Empresa',
-            'company_settings' => 'Configuración de la empresa',
+            'create_tenant' => 'Crear Empresa',
+            'tenant_settings' => 'Configuración de la empresa',
             'tokens' => 'Personal Access Tokens',
             'profile' => 'Perfil',
         ],
@@ -96,9 +96,9 @@ return [
         'browser_sessions' => 'Sesiones del Navegador',
         'delete_account' => 'Eliminar cuenta',
         'create_token' => 'Crear Personal Access Token',
-        'company_name' => 'Nombre de la empresa',
-        'create_company' => 'Crear Empresa',
-        'add_company_employee' => 'Agregar empleado de la empresa',
+        'tenant_name' => 'Nombre de la empresa',
+        'create_tenant' => 'Crear Empresa',
+        'add_tenant_employee' => 'Agregar empleado de la empresa',
     ],
 
     'grid_section_descriptions' => [
@@ -108,21 +108,21 @@ return [
         'browser_sessions' => 'Administra y cierra sesión en tus sesiones activas en otros navegadores y dispositivos.',
         'delete_account' => 'Eliminar permanentemente su cuenta.',
         'create_token' => 'Los tokens del API permiten que los servicios de terceros se autentiquen con nuestra aplicación en su nombre.',
-        'company_name' => 'El nombre de la empresa y la información del propietario.',
-        'create_company' => 'Crea una nueva empresa para colaborar con otros en sus proyectos.',
-        'add_company_employee' => 'Agregar un nuevo empleado a la empresa para que pueda colaborar con usted.',
+        'tenant_name' => 'El nombre de la empresa y la información del propietario.',
+        'create_tenant' => 'Crea una nueva empresa para colaborar con otros en sus proyectos.',
+        'add_tenant_employee' => 'Agregar un nuevo empleado a la empresa para que pueda colaborar con usted.',
     ],
 
     'action_section_titles' => [
-        'pending_company_invitations' => 'Invitaciones de empresa pendientes',
-        'company_employees' => 'Empleados de la empresa',
-        'delete_company' => 'Eliminar empresa',
+        'pending_tenant_invitations' => 'Invitaciones de empresa pendientes',
+        'tenant_employees' => 'Empleados de la empresa',
+        'delete_tenant' => 'Eliminar empresa',
     ],
 
     'action_section_descriptions' => [
-        'pending_company_invitations' => 'Estas personas han sido invitadas a su empresa y se les ha enviado un correo electrónico de invitación. Pueden unirse a la empresa si aceptan la invitación por correo electrónico.',
-        'company_employees' => 'Todas las personas que forman parte de esta empresa.',
-        'delete_company' => 'Eliminar esta empresa de forma permanente.',
+        'pending_tenant_invitations' => 'Estas personas han sido invitadas a su empresa y se les ha enviado un correo electrónico de invitación. Pueden unirse a la empresa si aceptan la invitación por correo electrónico.',
+        'tenant_employees' => 'Todas las personas que forman parte de esta empresa.',
+        'delete_tenant' => 'Eliminar esta empresa de forma permanente.',
     ],
 
     'modal_titles' => [
@@ -130,21 +130,21 @@ return [
         'token_permissions' => 'Persimos Personal Access Token',
         'delete_token' => 'Borrar Personal Access Token',
         'manage_role' => 'Gestionar Rol',
-        'leave_company' => 'Salir de la empresa',
-        'remove_company_employee' => 'Eliminar empleado de la empresa',
+        'leave_tenant' => 'Salir de la empresa',
+        'remove_tenant_employee' => 'Eliminar empleado de la empresa',
         'logout_browser_sessions' => 'Cerrar sesión de otras sesiones del navegador',
         'delete_account' => 'Eliminar cuenta',
-        'delete_company' => 'Eliminar empresa',
+        'delete_tenant' => 'Eliminar empresa',
     ],
 
     'modal_descriptions' => [
         'copy_token' => 'Guarde su nuevo token API. Por su seguridad, no se volverá a mostrar',
         'delete_token' => '¿Está seguro de que desea eliminar este token de API?',
-        'leave_company' => '¿Está seguro de que desea dejar esta empresa?',
-        'remove_company_employee' => '¿Está seguro de que desea eliminar a esta persona de la empresa?',
+        'leave_tenant' => '¿Está seguro de que desea dejar esta empresa?',
+        'remove_tenant_employee' => '¿Está seguro de que desea eliminar a esta persona de la empresa?',
         'logout_browser_sessions' => 'Ingrese su contraseña para confirmar que desea cerrar sesión en sus otras sesiones de navegador en todos sus dispositivos.',
         'delete_account' => '¿Está seguro de que desea eliminar su cuenta? Una vez que se elimine su cuenta, todos sus recursos y datos se eliminarán de forma permanente. Ingrese su contraseña para confirmar que desea eliminar su cuenta de forma permanente.',
-        'delete_company' => '¿Está seguro de que desea eliminar esta empresa? Una vez que se elimine una empresa, todos sus recursos y datos se eliminarán de forma permanente.',
+        'delete_tenant' => '¿Está seguro de que desea eliminar esta empresa? Una vez que se elimine una empresa, todos sus recursos y datos se eliminarán de forma permanente.',
     ],
 
     'headings' => [
@@ -182,8 +182,8 @@ return [
             ],
         ],
 
-        'companies' => [
-            'company_employee_manager' => [
+        'tenants' => [
+            'tenant_employee_manager' => [
                 'pending_invitations' => 'Invitaciones pendientes',
                 'manage_employees' => 'Gestionar empleados',
             ],
@@ -209,9 +209,9 @@ return [
             'delete_user' => 'Una vez que se elimine su cuenta, todos sus recursos y datos se eliminarán de forma permanente. Antes de eliminar su cuenta, descargue cualquier dato o información que desee conservar.',
         ],
 
-        'companies' => [
-            'company_employee_manager' => 'Proporcione la dirección de correo electrónico de la persona que desea agregar a esta empresa.',
-            'delete_company' => 'Una vez que se elimine una empresa, todos sus recursos y datos se eliminarán de forma permanente. Antes de eliminar esta empresa, descargue cualquier dato o información sobre esta empresa que desee conservar.',
+        'tenants' => [
+            'tenant_employee_manager' => 'Proporcione la dirección de correo electrónico de la persona que desea agregar a esta empresa.',
+            'delete_tenant' => 'Una vez que se elimine una empresa, todos sus recursos y datos se eliminarán de forma permanente. Antes de eliminar esta empresa, descargue cualquier dato o información sobre esta empresa que desee conservar.',
         ],
     ],
 ];

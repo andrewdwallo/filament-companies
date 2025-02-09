@@ -1,6 +1,6 @@
 <?php
 
-namespace Wallo\FilamentCompanies\Http\Livewire;
+namespace Wallo\FilamentTenants\Http\Livewire;
 
 use Filament\Notifications\Notification;
 use Illuminate\Contracts\Auth\Authenticatable;
@@ -11,10 +11,10 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 use Livewire\Features\SupportRedirects\Redirector;
-use Wallo\FilamentCompanies\ConnectedAccount;
-use Wallo\FilamentCompanies\Enums\Feature;
-use Wallo\FilamentCompanies\FilamentCompanies;
-use Wallo\FilamentCompanies\Pages\User\Profile;
+use Wallo\FilamentTenants\ConnectedAccount;
+use Wallo\FilamentTenants\Enums\Feature;
+use Wallo\FilamentTenants\FilamentTenants;
+use Wallo\FilamentTenants\Pages\User\Profile;
 
 class ConnectedAccountsForm extends Component
 {
@@ -30,7 +30,7 @@ class ConnectedAccountsForm extends Component
      */
     public function getProvidersProperty(): array
     {
-        return FilamentCompanies::enabledProviders();
+        return FilamentTenants::enabledProviders();
     }
 
     /**
@@ -113,7 +113,7 @@ class ConnectedAccountsForm extends Component
      */
     public function render(): View
     {
-        return view('filament-companies::profile.connected-accounts-form');
+        return view('filament-tenants::profile.connected-accounts-form');
     }
 
     /**
@@ -122,9 +122,9 @@ class ConnectedAccountsForm extends Component
     protected function connectedAccountRemoved(): void
     {
         Notification::make()
-            ->title(__('filament-companies::default.notifications.connected_account_removed.title'))
+            ->title(__('filament-tenants::default.notifications.connected_account_removed.title'))
             ->success()
-            ->body(__('filament-companies::default.notifications.connected_account_removed.body'))
+            ->body(__('filament-tenants::default.notifications.connected_account_removed.body'))
             ->send();
     }
 }

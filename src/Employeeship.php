@@ -1,6 +1,6 @@
 <?php
 
-namespace Wallo\FilamentCompanies;
+namespace Wallo\FilamentTenants;
 
 use Illuminate\Database\Eloquent\Relations\Pivot;
 
@@ -11,5 +11,5 @@ abstract class Employeeship extends Pivot
      *
      * @var string
      */
-    protected $table = 'company_user';
+    protected $table = 'tenant_user';
 }

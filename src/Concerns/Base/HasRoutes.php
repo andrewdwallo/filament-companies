@@ -1,24 +1,24 @@
 <?php
 
-namespace Wallo\FilamentCompanies\Concerns\Base;
+namespace Wallo\FilamentTenants\Concerns\Base;
 
-use App\Models\CompanyInvitation;
+use App\Models\TenantInvitation;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\URL;
-use Wallo\FilamentCompanies\Http\Controllers\CompanyInvitationController;
-use Wallo\FilamentCompanies\Http\Controllers\OAuthController;
-use Wallo\FilamentCompanies\Pages\Auth\PrivacyPolicy;
-use Wallo\FilamentCompanies\Pages\Auth\Terms;
+use Wallo\FilamentTenants\Http\Controllers\TenantInvitationController;
+use Wallo\FilamentTenants\Http\Controllers\OAuthController;
+use Wallo\FilamentTenants\Pages\Auth\PrivacyPolicy;
+use Wallo\FilamentTenants\Pages\Auth\Terms;
 
 trait HasRoutes
 {
     /**
-     * Indicates if Company routes will be registered.
+     * Indicates if Tenant routes will be registered.
      */
     public static bool $registersRoutes = true;
 
     /**
-     * Configure Company to not register its routes.
+     * Configure Tenant to not register its routes.
      */
     public function ignoreRoutes(): static
     {
@@ -42,8 +42,8 @@ trait HasRoutes
 
     protected function registerAuthenticatedRoutes(): void
     {
-        if (static::sendsCompanyInvitations()) {
-            Route::get('/invitations/{invitation}', [CompanyInvitationController::class, 'accept'])
+        if (static::sendsTenantInvitations()) {
+            Route::get('/invitations/{invitation}', [TenantInvitationController::class, 'accept'])
                 ->middleware(['signed'])
                 ->name('invitations.accept');
         }
@@ -56,7 +56,7 @@ trait HasRoutes
 
     public static function generateRouteName(string $name): string
     {
-        return 'filament.' . static::getCompanyPanel() . ".{$name}";
+        return 'filament.' . static::getTenantPanel() . ".{$name}";
     }
 
     public static function generateOAuthRedirectUrl(string $provider): string
@@ -64,7 +64,7 @@ trait HasRoutes
         return static::route('oauth.redirect', compact('provider'));
     }
 
-    public static function generateAcceptInvitationUrl(CompanyInvitation $invitation): string
+    public static function generateAcceptInvitationUrl(TenantInvitation $invitation): string
     {
         return URL::signedRoute(static::generateRouteName('invitations.accept'), compact('invitation'));
     }

@@ -1,6 +1,6 @@
 <?php
 
-namespace Wallo\FilamentCompanies\Http\Controllers;
+namespace Wallo\FilamentTenants\Http\Controllers;
 
 use Filament\Facades\Filament;
 use Filament\Http\Responses\Auth\LoginResponse;
@@ -15,16 +15,16 @@ use Illuminate\Support\Str;
 use Laravel\Socialite\Contracts\User as ProviderUser;
 use Laravel\Socialite\Two\InvalidStateException;
 use Symfony\Component\HttpFoundation\RedirectResponse as SymfonyRedirectResponse;
-use Wallo\FilamentCompanies\ConnectedAccount;
-use Wallo\FilamentCompanies\Contracts\CreatesConnectedAccounts;
-use Wallo\FilamentCompanies\Contracts\CreatesUserFromProvider;
-use Wallo\FilamentCompanies\Contracts\GeneratesProviderRedirect;
-use Wallo\FilamentCompanies\Contracts\HandlesInvalidState;
-use Wallo\FilamentCompanies\Contracts\ResolvesSocialiteUsers;
-use Wallo\FilamentCompanies\Contracts\UpdatesConnectedAccounts;
-use Wallo\FilamentCompanies\Enums\Feature;
-use Wallo\FilamentCompanies\FilamentCompanies;
-use Wallo\FilamentCompanies\Pages\User\Profile;
+use Wallo\FilamentTenants\ConnectedAccount;
+use Wallo\FilamentTenants\Contracts\CreatesConnectedAccounts;
+use Wallo\FilamentTenants\Contracts\CreatesUserFromProvider;
+use Wallo\FilamentTenants\Contracts\GeneratesProviderRedirect;
+use Wallo\FilamentTenants\Contracts\HandlesInvalidState;
+use Wallo\FilamentTenants\Contracts\ResolvesSocialiteUsers;
+use Wallo\FilamentTenants\Contracts\UpdatesConnectedAccounts;
+use Wallo\FilamentTenants\Enums\Feature;
+use Wallo\FilamentTenants\FilamentTenants;
+use Wallo\FilamentTenants\Pages\User\Profile;
 
 class OAuthController extends Controller
 {
@@ -48,7 +48,7 @@ class OAuthController extends Controller
         $this->guard = Filament::auth();
         $this->registrationUrl = Filament::getRegistrationUrl();
         $this->loginUrl = Filament::getLoginUrl();
-        $this->userPanel = FilamentCompanies::getUserPanel();
+        $this->userPanel = FilamentTenants::getUserPanel();
     }
 
     /**
@@ -56,7 +56,7 @@ class OAuthController extends Controller
      */
     public function redirectToProvider(string $provider, GeneratesProviderRedirect $generator): SymfonyRedirectResponse
     {
-        session()->put('filament-companies.previous_url', url()->previous());
+        session()->put('filament-tenants.previous_url', url()->previous());
 
         return $generator->generate($provider);
     }
@@ -78,7 +78,7 @@ class OAuthController extends Controller
             return $this->handleError($request);
         }
 
-        $account = FilamentCompanies::findConnectedAccountForProviderAndId($provider, $providerAccount->getId());
+        $account = FilamentTenants::findConnectedAccountForProviderAndId($provider, $providerAccount->getId());
         $user = $this->guard->user();
 
         return $this->handleNewOrReturningUser($providerAccount, $provider, $account, $user);
@@ -86,7 +86,7 @@ class OAuthController extends Controller
 
     protected function handleNewOrReturningUser(ProviderUser $providerAccount, string $provider, ?ConnectedAccount $account, ?Authenticatable $user)
     {
-        $previousUrl = session('filament-companies.previous_url');
+        $previousUrl = session('filament-tenants.previous_url');
 
         if ($user) {
             return $this->alreadyAuthenticated($user, $account, $provider, $providerAccount);
@@ -140,7 +140,7 @@ class OAuthController extends Controller
         $error_description = $request->input('error_description');
 
         if ($error_description === null) {
-            $error_description = __('filament-companies::default.errors.generic_error');
+            $error_description = __('filament-tenants::default.errors.generic_error');
         }
 
         $targetUrl = $this->guard->check() ? filament()->getHomeUrl() : null;
@@ -172,9 +172,9 @@ class OAuthController extends Controller
      */
     protected function handleRegistration(ProviderUser $providerAccount, string $provider): RedirectResponse | LoginResponse
     {
-        $user = FilamentCompanies::newUserModel()->where('email', $providerAccount->getEmail())->first();
+        $user = FilamentTenants::newUserModel()->where('email', $providerAccount->getEmail())->first();
 
-        $account = FilamentCompanies::findConnectedAccountForProviderAndId($provider, $providerAccount->getId());
+        $account = FilamentTenants::findConnectedAccountForProviderAndId($provider, $providerAccount->getId());
 
         if ($user) {
             return $this->handleUserAlreadyRegistered($user, $account, $provider, $providerAccount);
@@ -189,7 +189,7 @@ class OAuthController extends Controller
     protected function handleSignInNotFound(string $provider): RedirectResponse
     {
         return $this->redirectToWithError(
-            __('filament-companies::default.errors.signin_not_found', compact('provider')),
+            __('filament-tenants::default.errors.signin_not_found', compact('provider')),
             $this->loginUrl,
         );
     }
@@ -199,8 +199,8 @@ class OAuthController extends Controller
      */
     protected function handleCreateAccountOnFirstLogin(ProviderUser $providerAccount, string $provider): RedirectResponse | LoginResponse
     {
-        if (FilamentCompanies::newUserModel()->where('email', $providerAccount->getEmail())->exists()) {
-            return $this->redirectToWithError(__('filament-companies::default.errors.already_connected', compact('provider')), $this->loginUrl);
+        if (FilamentTenants::newUserModel()->where('email', $providerAccount->getEmail())->exists()) {
+            return $this->redirectToWithError(__('filament-tenants::default.errors.already_connected', compact('provider')), $this->loginUrl);
         }
 
         $user = $this->createsUser->create($provider, $providerAccount);
@@ -230,8 +230,8 @@ class OAuthController extends Controller
 
     protected function redirectToProfileWithNotification(string $translationKey, string $notificationType, array $translationParameters, string $redirectTo): RedirectResponse
     {
-        $title = __("filament-companies::default.notifications.{$translationKey}.title");
-        $body = __("filament-companies::default.notifications.{$translationKey}.body", $translationParameters);
+        $title = __("filament-tenants::default.notifications.{$translationKey}.title");
+        $body = __("filament-tenants::default.notifications.{$translationKey}.body", $translationParameters);
         $notification = Notification::make()->title($title)->{$notificationType}()->body(Str::inlineMarkdown($body))->send();
 
         return redirect($redirectTo)->with("notification.{$notificationType}.{$translationKey}", $notification);
@@ -251,7 +251,7 @@ class OAuthController extends Controller
         }
 
         return $this->redirectToWithError(
-            __('filament-companies::default.errors.already_associated_account', compact('provider')),
+            __('filament-tenants::default.errors.already_associated_account', compact('provider')),
             $this->registrationUrl,
         );
     }
@@ -264,11 +264,11 @@ class OAuthController extends Controller
         $email = $providerAccount->getEmail();
 
         if ($email === null) {
-            return $this->redirectToWithError(__('filament-companies::default.errors.no_email_with_account', compact('provider')), $this->registrationUrl);
+            return $this->redirectToWithError(__('filament-tenants::default.errors.no_email_with_account', compact('provider')), $this->registrationUrl);
         }
 
-        if (FilamentCompanies::newUserModel()->where('email', $email)->exists()) {
-            return $this->redirectToWithError(__('filament-companies::default.errors.email_already_associated', compact('provider')), $this->registrationUrl);
+        if (FilamentTenants::newUserModel()->where('email', $email)->exists()) {
+            return $this->redirectToWithError(__('filament-tenants::default.errors.email_already_associated', compact('provider')), $this->registrationUrl);
         }
 
         $user = $this->createsUser->create($provider, $providerAccount);
@@ -278,7 +278,7 @@ class OAuthController extends Controller
 
     protected function redirectToWithError(string $message, string $url): RedirectResponse
     {
-        return redirect($url)->withErrors(['filament-companies' => $message]);
+        return redirect($url)->withErrors(['filament-tenants' => $message]);
     }
 
     /**

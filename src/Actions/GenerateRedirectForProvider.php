@@ -1,10 +1,10 @@
 <?php
 
-namespace Wallo\FilamentCompanies\Actions;
+namespace Wallo\FilamentTenants\Actions;
 
 use Laravel\Socialite\Facades\Socialite;
 use Symfony\Component\HttpFoundation\RedirectResponse;
-use Wallo\FilamentCompanies\Contracts\GeneratesProviderRedirect;
+use Wallo\FilamentTenants\Contracts\GeneratesProviderRedirect;
 
 class GenerateRedirectForProvider implements GeneratesProviderRedirect
 {

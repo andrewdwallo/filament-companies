@@ -1,9 +1,9 @@
 <?php
 
-namespace Wallo\FilamentCompanies\Enums;
+namespace Wallo\FilamentTenants\Enums;
 
 use Filament\Support\Contracts\HasLabel;
-use Wallo\FilamentCompanies\FilamentCompanies;
+use Wallo\FilamentTenants\FilamentTenants;
 
 enum Feature: string implements HasLabel
 {
@@ -28,7 +28,7 @@ enum Feature: string implements HasLabel
 
     public function isEnabled(): bool
     {
-        return FilamentCompanies::isFeatureEnabled($this);
+        return FilamentTenants::isFeatureEnabled($this);
     }
 
     public function isDisabled(): bool

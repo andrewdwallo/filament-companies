@@ -1,6 +1,6 @@
 <?php
 
-namespace Wallo\FilamentCompanies\Concerns;
+namespace Wallo\FilamentTenants\Concerns;
 
 trait ManagesProfileComponents
 {

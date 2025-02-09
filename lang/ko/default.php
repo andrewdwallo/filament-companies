@@ -20,7 +20,7 @@ return [
         'create_token' => '토큰 생성',
         'delete' => '삭제',
         'delete_account' => '계정 삭제',
-        'delete_company' => '회사 삭제',
+        'delete_tenant' => '회사 삭제',
         'disable' => '비활성화',
         'done' => '완료',
         'edit' => '편집',
@@ -49,8 +49,8 @@ return [
     ],
 
     'labels' => [
-        'company_name' => '회사명',
-        'company_owner' => '회사 소유자',
+        'tenant_name' => '회사명',
+        'tenant_owner' => '회사 소유자',
         'connected' => '연결됨',
         'created_at' => '생성일',
         'last_active' => '최근 활동',
@@ -79,11 +79,11 @@ return [
     ],
 
     'errors' => [
-        'cannot_leave_company' => '생성한 회사를 떠날 수 없습니다.',
-        'company_deletion' => '개인 회사를 삭제할 수 없습니다.',
+        'cannot_leave_tenant' => '생성한 회사를 떠날 수 없습니다.',
+        'tenant_deletion' => '개인 회사를 삭제할 수 없습니다.',
         'email_already_associated' => '해당 이메일 주소로 이미 계정이 존재합니다. :Provider 계정을 연결하려면 로그인하십시오.',
         'email_not_found' => '등록된 사용자 이메일 주소를 찾을 수 없습니다.',
-        'employee_already_belongs_to_company' => '이 직원은 이미 회사에 속해 있습니다.',
+        'employee_already_belongs_to_tenant' => '이 직원은 이미 회사에 속해 있습니다.',
         'employee_already_invited' => '이 직원은 이미 회사로 초대되었습니다.',
         'invalid_password' => '제공된 비밀번호가 잘못되었습니다.',
         'no_email_with_account' => '해당 :Provider 계정에 연결된 이메일 주소가 없습니다. 다른 계정을 시도하십시오.',
@@ -91,7 +91,7 @@ return [
         'already_associated_account' => '해당 :Provider 로그인으로 이미 계정이 연결되어 있습니다. 로그인하십시오.',
         'already_connected' => '해당 이메일 주소로 이미 계정이 존재합니다. :Provider 계정을 연결하려면 로그인하십시오.',
         'signin_not_found' => '해당 :Provider 로그인과 관련된 계정을 찾을 수 없습니다. 등록하거나 다른 로그인 방법을 시도하십시오.',
-        'user_belongs_to_company' => '이 사용자는 이미 회사에 속해 있습니다.',
+        'user_belongs_to_tenant' => '이 사용자는 이미 회사에 속해 있습니다.',
         'valid_role' => ':attribute 는 유효한 역할이어야 합니다.',
     ],
 
@@ -103,7 +103,7 @@ return [
     ],
 
     'banner' => [
-        'company_invitation_accepted' => '**:company** 에 대한 초대를 수락했습니다.',
+        'tenant_invitation_accepted' => '**:tenant** 에 대한 초대를 수락했습니다.',
     ],
 
     'notifications' => [
@@ -122,22 +122,22 @@ return [
             'body' => '보안을 위해 다른 브라우저 세션에서 계정이 로그아웃되었습니다.',
         ],
 
-        'company_created' => [
+        'tenant_created' => [
             'title' => '회사가 생성됨',
             'body' => '**:name** 이라는 새로운 회사가 생성되었습니다.',
         ],
 
-        'company_deleted' => [
+        'tenant_deleted' => [
             'title' => '회사가 삭제됨',
             'body' => '**:name** 이라는 회사가 삭제되었습니다.',
         ],
 
-        'company_invitation_sent' => [
+        'tenant_invitation_sent' => [
             'title' => '초대가 전송됨',
             'body' => '**:email** 님에게 회사에 가입할 수 있는 초대가 전송되었습니다.',
         ],
 
-        'company_name_updated' => [
+        'tenant_name_updated' => [
             'title' => '회사가 업데이트됨',
             'body' => '회사 이름이 **:name** 으로 업데이트되었습니다.',
         ],
@@ -185,32 +185,32 @@ return [
 
     'navigation' => [
         'headers' => [
-            'manage_company' => '회사 관리',
-            'switch_companies' => '회사 전환',
+            'manage_tenant' => '회사 관리',
+            'switch_tenants' => '회사 전환',
         ],
 
         'links' => [
             'tokens' => '개인 액세스 토큰',
-            'company_settings' => '회사 설정',
-            'create_company' => '회사 생성',
+            'tenant_settings' => '회사 설정',
+            'create_tenant' => '회사 생성',
         ],
     ],
 
     'pages' => [
         'titles' => [
             'tokens' => '개인 액세스 토큰',
-            'create_company' => '회사 생성',
-            'company_settings' => '회사 설정',
+            'create_tenant' => '회사 생성',
+            'tenant_settings' => '회사 설정',
             'profile' => '프로필',
         ],
     ],
 
     'grid_section_titles' => [
-        'add_company_employee' => '회사 직원 추가',
+        'add_tenant_employee' => '회사 직원 추가',
         'browser_sessions' => '브라우저 세션',
-        'company_name' => '회사 이름',
+        'tenant_name' => '회사 이름',
         'create_token' => '개인 액세스 토큰 생성',
-        'create_company' => '회사 생성',
+        'create_tenant' => '회사 생성',
         'delete_account' => '계정 삭제',
         'profile_information' => '프로필 정보',
         'set_password' => '비밀번호 설정',
@@ -219,11 +219,11 @@ return [
     ],
 
     'grid_section_descriptions' => [
-        'add_company_employee' => '회사에 새 직원을 추가하여 협업을 할 수 있습니다.',
+        'add_tenant_employee' => '회사에 새 직원을 추가하여 협업을 할 수 있습니다.',
         'browser_sessions' => '다른 브라우저 및 장치에서 활성 세션을 관리하고 로그아웃합니다.',
-        'company_name' => "회사 이름 및 소유자 정보입니다.",
+        'tenant_name' => "회사 이름 및 소유자 정보입니다.",
         'create_token' => '개인 액세스 토큰을 사용하여 타사 서비스가 응용 프로그램에 대해 사용자를 인증할 수 있습니다.',
-        'create_company' => '다른 사용자와 프로젝트를 협업하기 위해 새로운 회사를 생성합니다.',
+        'create_tenant' => '다른 사용자와 프로젝트를 협업하기 위해 새로운 회사를 생성합니다.',
         'delete_account' => '계정을 영구적으로 삭제합니다.',
         'profile_information' => '계정 프로필 정보 및 이메일 주소를 업데이트합니다.',
         'set_password' => '보안을 유지하기 위해 계정에 긴 무작위 비밀번호를 사용합니다.',
@@ -232,17 +232,17 @@ return [
     ],
 
     'action_section_titles' => [
-        'company_employees' => '회사 직원',
+        'tenant_employees' => '회사 직원',
         'connected_accounts' => '연결된 계정',
-        'delete_company' => '회사 삭제',
-        'pending_company_invitations' => '대기 중인 회사 초대',
+        'delete_tenant' => '회사 삭제',
+        'pending_tenant_invitations' => '대기 중인 회사 초대',
     ],
 
     'action_section_descriptions' => [
-        'company_employees' => '이 회사에 속한 모든 사람들입니다.',
+        'tenant_employees' => '이 회사에 속한 모든 사람들입니다.',
         'connected_accounts' => '연결된 계정을 관리하고 제거합니다.',
-        'delete_company' => '이 회사를 영구적으로 삭제합니다.',
-        'pending_company_invitations' => '이 사람들은 회사로 초대되었으며 초대 이메일이 전송되었습니다. 이메일 초대를 수락하여 회사에 가입할 수 있습니다.',
+        'delete_tenant' => '이 회사를 영구적으로 삭제합니다.',
+        'pending_tenant_invitations' => '이 사람들은 회사로 초대되었으며 초대 이메일이 전송되었습니다. 이메일 초대를 수락하여 회사에 가입할 수 있습니다.',
     ],
 
     'modal_titles' => [
@@ -251,11 +251,11 @@ return [
         'confirm_password' => '비밀번호 확인',
         'delete_token' => '개인 액세스 토큰 삭제',
         'delete_account' => '계정 삭제',
-        'delete_company' => '회사 삭제',
-        'leave_company' => '회사 나가기',
+        'delete_tenant' => '회사 삭제',
+        'leave_tenant' => '회사 나가기',
         'logout_browser_sessions' => '다른 브라우저 세션 로그아웃',
         'manage_role' => '역할 관리',
-        'remove_company_employee' => '회사 직원 제거',
+        'remove_tenant_employee' => '회사 직원 제거',
         'remove_connected_account' => '연결된 계정 제거',
         'revoke_tokens' => '토큰 폐지',
     ],
@@ -265,10 +265,10 @@ return [
         'confirm_password' => '보안을 위해 계속하기 전에 비밀번호를 확인하십시오.',
         'delete_account' => '계정을 삭제하려면 비밀번호를 입력하십시오.',
         'delete_token' => '이 개인 액세스 토큰을 삭제하시겠습니까?',
-        'delete_company' => '이 회사를 삭제하시겠습니까?',
-        'leave_company' => '이 회사를 나가시겠습니까?',
+        'delete_tenant' => '이 회사를 삭제하시겠습니까?',
+        'leave_tenant' => '이 회사를 나가시겠습니까?',
         'logout_browser_sessions' => '다른 브라우저 세션에서 로그아웃하려면 비밀번호를 입력하십시오.',
-        'remove_company_employee' => '이 사람을 회사에서 제거하시겠습니까?',
+        'remove_tenant_employee' => '이 사람을 회사에서 제거하시겠습니까?',
         'remove_connected_account' => '이 계정을 제거하시겠습니까? 이 작업은 되돌릴 수 없습니다.',
         'revoke_tokens' => '확인하려면 비밀번호를 입력하십시오.',
     ],
@@ -313,8 +313,8 @@ return [
             ],
         ],
 
-        'companies' => [
-            'company_employee_manager' => [
+        'tenants' => [
+            'tenant_employee_manager' => [
                 'manage_employees' => '직원 관리',
                 'pending_invitations' => '대기 중인 초대',
             ],
@@ -341,9 +341,9 @@ return [
             'logout_other_browser_sessions' => '필요한 경우 모든 기기의 모든 브라우저 세션에서 로그아웃할 수 있습니다. 최근 세션 목록이 아래에 나와 있지만 이 목록이 완전하지 않을 수 있습니다. 계정이 침해당했다고 생각되면 비밀번호를 변경해야 합니다.',
         ],
 
-        'companies' => [
-            'company_employee_manager' => '이 회사에 추가하려는 사람의 이메일 주소를 제공하십시오.',
-            'delete_company' => '회사를 삭제하면 모든 리소스와 데이터가 영구적으로 삭제됩니다. 이 회사를 삭제하기 전에 보존할 데이터나 정보를 다운로드하세요.',
+        'tenants' => [
+            'tenant_employee_manager' => '이 회사에 추가하려는 사람의 이메일 주소를 제공하십시오.',
+            'delete_tenant' => '회사를 삭제하면 모든 리소스와 데이터가 영구적으로 삭제됩니다. 이 회사를 삭제하기 전에 보존할 데이터나 정보를 다운로드하세요.',
         ],
     ],
 ];

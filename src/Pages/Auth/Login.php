@@ -1,14 +1,14 @@
 <?php
 
-namespace Wallo\FilamentCompanies\Pages\Auth;
+namespace Wallo\FilamentTenants\Pages\Auth;
 
 use Filament\Forms\Form;
 use Filament\Pages\Auth\Login as FilamentLogin;
-use Wallo\FilamentCompanies\FilamentCompanies;
+use Wallo\FilamentTenants\FilamentTenants;
 
 class Login extends FilamentLogin
 {
-    public static string $view = 'filament-companies::auth.login';
+    public static string $view = 'filament-tenants::auth.login';
 
     public function form(Form $form): Form
     {
@@ -19,6 +19,6 @@ class Login extends FilamentLogin
                 $this->getRememberFormComponent(),
             ])
             ->statePath('data')
-            ->model(FilamentCompanies::userModel());
+            ->model(FilamentTenants::userModel());
     }
 }

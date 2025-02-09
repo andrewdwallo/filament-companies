@@ -2,12 +2,12 @@
 
 namespace Database\Factories;
 
-use App\Models\Company;
+use App\Models\Tenant;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
-use Wallo\FilamentCompanies\FilamentCompanies;
+use Wallo\FilamentTenants\FilamentTenants;
 
 class UserFactory extends Factory
 {
@@ -37,7 +37,7 @@ class UserFactory extends Factory
             'password' => static::$password ??= Hash::make('password'),
             'remember_token' => Str::random(10),
             'profile_photo_path' => null,
-            'current_company_id' => null,
+            'current_tenant_id' => null,
         ];
     }
 
@@ -52,23 +52,23 @@ class UserFactory extends Factory
     }
 
     /**
-     * Indicate that the user should have a personal company.
+     * Indicate that the user should have a personal tenant.
      */
-    public function withPersonalCompany(?callable $callback = null): static
+    public function withPersonalTenant(?callable $callback = null): static
     {
-        if (! FilamentCompanies::hasCompanyFeatures()) {
+        if (! FilamentTenants::hasTenantFeatures()) {
             return $this->state([]);
         }
 
         return $this->has(
-            Company::factory()
+            Tenant::factory()
                 ->state(fn (array $attributes, User $user) => [
-                    'name' => $user->name . '\'s Company',
+                    'name' => $user->name . '\'s Tenant',
                     'user_id' => $user->id,
-                    'personal_company' => true,
+                    'personal_tenant' => true,
                 ])
                 ->when(is_callable($callback), $callback),
-            'ownedCompanies'
+            'ownedTenants'
         );
     }
 }

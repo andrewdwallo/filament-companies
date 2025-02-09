@@ -1,16 +1,16 @@
-<x-filament-companies::grid-section md="2">
+<x-filament-tenants::grid-section md="2">
     <x-slot name="title">
-        {{ __('filament-companies::default.grid_section_titles.profile_information') }}
+        {{ __('filament-tenants::default.grid_section_titles.profile_information') }}
     </x-slot>
 
     <x-slot name="description">
-        {{ __('filament-companies::default.grid_section_descriptions.profile_information') }}
+        {{ __('filament-tenants::default.grid_section_descriptions.profile_information') }}
     </x-slot>
 
     <x-filament::section>
         <x-filament-panels::form wire:submit="updateProfileInformation">
             <!-- Profile Photo -->
-            @if (Wallo\FilamentCompanies\FilamentCompanies::managesProfilePhotos())
+            @if (Wallo\FilamentTenants\FilamentTenants::managesProfilePhotos())
                 <div x-data="{ photoName: null, photoPreview: null }" class="space-y-2">
                     <!-- Profile Photo File Input -->
                     <input type="file" class="hidden"
@@ -26,7 +26,7 @@
                     " />
 
                     <x-filament-forms::field-wrapper.label for="photo">
-                        {{ __('filament-companies::default.labels.photo') }}
+                        {{ __('filament-tenants::default.labels.photo') }}
                     </x-filament-forms::field-wrapper.label>
 
                     <!-- Current Profile Photo -->
@@ -40,28 +40,28 @@
                     </template>
 
                     <x-filament::button size="sm" x-on:click.prevent="$refs.photo.click()">
-                        {{ __('filament-companies::default.buttons.new_photo') }}
+                        {{ __('filament-tenants::default.buttons.new_photo') }}
                     </x-filament::button>
 
                     @if ($this->user->profile_photo_path)
                         <x-filament::button size="sm" color="danger" wire:click="deleteProfilePhoto">
-                            {{ __('filament-companies::default.buttons.remove_photo') }}
+                            {{ __('filament-tenants::default.buttons.remove_photo') }}
                         </x-filament::button>
                     @endif
 
-                    <x-filament-companies::input-error for="photo" />
+                    <x-filament-tenants::input-error for="photo" />
                 </div>
             @endif
 
             <!-- Name -->
-            <x-filament-forms::field-wrapper id="name" statePath="name" required="required" label="{{ __('filament-companies::default.fields.name') }}">
+            <x-filament-forms::field-wrapper id="name" statePath="name" required="required" label="{{ __('filament-tenants::default.fields.name') }}">
                 <x-filament::input.wrapper class="overflow-hidden">
                     <x-filament::input id="name" type="text" maxLength="255" required="required" wire:model="state.name" autocomplete="name" />
                 </x-filament::input.wrapper>
             </x-filament-forms::field-wrapper>
 
             <!-- Email -->
-            <x-filament-forms::field-wrapper id="email" statePath="email" required="required" label="{{ __('filament-companies::default.fields.email') }}">
+            <x-filament-forms::field-wrapper id="email" statePath="email" required="required" label="{{ __('filament-tenants::default.fields.email') }}">
                 <x-filament::input.wrapper class="overflow-hidden">
                     <x-filament::input id="email" type="email" wire:model="state.email" maxLength="255" required="required" autocomplete="username" />
                 </x-filament::input.wrapper>
@@ -69,9 +69,9 @@
 
             <div class="text-left">
                 <x-filament::button type="submit" wire:target="photo">
-                    {{ __('filament-companies::default.buttons.save') }}
+                    {{ __('filament-tenants::default.buttons.save') }}
                 </x-filament::button>
             </div>
         </x-filament-panels::form>
     </x-filament::section>
-</x-filament-companies::grid-section>
+</x-filament-tenants::grid-section>

@@ -1,10 +1,10 @@
 <?php
 
-namespace Wallo\FilamentCompanies\Contracts;
+namespace Wallo\FilamentTenants\Contracts;
 
 use Illuminate\Contracts\Auth\Authenticatable;
 use Laravel\Socialite\Contracts\User;
-use Wallo\FilamentCompanies\ConnectedAccount;
+use Wallo\FilamentTenants\ConnectedAccount;
 
 interface UpdatesConnectedAccounts
 {

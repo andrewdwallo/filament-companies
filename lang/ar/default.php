@@ -38,7 +38,7 @@ return [
         'add' => 'إضافة',
         'leave' => 'المغادرة',
         'remove' => 'إزالة',
-        'delete_company' => 'حذف الشركة',
+        'delete_tenant' => 'حذف الشركة',
         'remember_me' => 'تذكرني',
         'use_avatar_as_profile_photo' => 'استخدام الصورة الرمزية كصورة الملف الشخصي',
         'connect' => 'الاتصال',
@@ -49,8 +49,8 @@ return [
     ],
 
     'labels' => [
-        'company_name' => 'اسم الشركة',
-        'company_owner' => 'مالك الشركة',
+        'tenant_name' => 'اسم الشركة',
+        'tenant_owner' => 'مالك الشركة',
         'setup_key' => 'مفتاح الإعداد',
         'role' => 'الدور',
         'photo' => 'الصورة',
@@ -78,7 +78,7 @@ return [
     ],
 
     'errors' => [
-        'company_deletion' => 'لا يمكنك حذف شركتك الشخصية.',
+        'tenant_deletion' => 'لا يمكنك حذف شركتك الشخصية.',
         'valid_role' => 'يجب أن يكون :attribute دور صالح.',
         'signin_not_found' => 'لم يتم العثور على حساب بهذا التسجيل في :Provider. يرجى التسجيل أو محاولة طريقة تسجيل دخول مختلفة.',
         'already_connected' => 'حساب بعنوان البريد الإلكتروني هذا موجود بالفعل. يرجى تسجيل الدخول للاتصال حسابك على :Provider.',
@@ -89,10 +89,10 @@ return [
         'email_already_associated' => 'حساب بعنوان البريد الإلكتروني هذا موجود بالفعل. يرجى تسجيل الدخول للاتصال حسابك على :Provider.',
         'invalid_password' => 'كلمة المرور التي أدخلتها غير صالحة.',
         'email_not_found' => 'لم نتمكن من العثور على مستخدم مسجل بهذا البريد الإلكتروني.',
-        'user_belongs_to_company' => 'هذا المستخدم ينتمي بالفعل إلى الشركة.',
+        'user_belongs_to_tenant' => 'هذا المستخدم ينتمي بالفعل إلى الشركة.',
         'employee_already_invited' => 'تم دعوة هذا الموظف بالفعل إلى الشركة.',
-        'employee_already_belongs_to_company' => 'ينتمي هذا الموظف بالفعل إلى الشركة.',
-        'cannot_leave_company' => 'لا يمكنك مغادرة الشركة التي أنشأتها.',
+        'employee_already_belongs_to_tenant' => 'ينتمي هذا الموظف بالفعل إلى الشركة.',
+        'cannot_leave_tenant' => 'لا يمكنك مغادرة الشركة التي أنشأتها.',
         'password_does_not_match' => 'كلمة المرور التي تم تقديمها لا تتطابق مع كلمة المرور الحالية الخاصة بك.',
     ],
 
@@ -103,26 +103,26 @@ return [
         'token_never_used' => 'لم يتم استخدامه أبدًا',
     ],
     'banner' => [
-        'company_invitation_accepted' => 'عظيم! لقد قبلت الدعوة للانضمام إلى :company',
+        'tenant_invitation_accepted' => 'عظيم! لقد قبلت الدعوة للانضمام إلى :tenant',
         'connected_account_removed' => 'تمت إزالة :Provider من حسابك.',
     ],
 
     'notifications' => [
-        'company_name_updated' => [
+        'tenant_name_updated' => [
             'title' => 'تم تحديث اسم الشركة',
             'body' => 'تم تحديث اسم شركتك إلى :name.',
         ],
-        'company_invitation_sent' => [
+        'tenant_invitation_sent' => [
             'title' => 'تم إرسال الدعوة',
             'body' => 'تم إرسال دعوة لـ **:email** للانضمام إلى شركتك.',
         ],
 
-        'company_created' => [
+        'tenant_created' => [
             'title' => 'تم إنشاء الشركة',
             'body' => 'تم إنشاء شركة جديدة بالاسم **:name.**',
         ],
 
-        'company_deleted' => [
+        'tenant_deleted' => [
             'title' => 'تم حذف الشركة',
             'body' => 'تم حذف الشركة **:name**.',
         ],
@@ -159,21 +159,21 @@ return [
 
     'navigation' => [
         'headers' => [
-            'manage_company' => 'إدارة الشركة',
-            'switch_companies' => 'تغيير الشركات',
+            'manage_tenant' => 'إدارة الشركة',
+            'switch_tenants' => 'تغيير الشركات',
         ],
 
         'links' => [
-            'company_settings' => 'إعدادات الشركة',
-            'new_company' => 'شركة جديدة',
+            'tenant_settings' => 'إعدادات الشركة',
+            'new_tenant' => 'شركة جديدة',
             'tokens' => 'رموز API',
         ],
     ],
 
     'pages' => [
         'titles' => [
-            'create_company' => 'إنشاء شركة',
-            'company_settings' => 'إعدادات الشركة',
+            'create_tenant' => 'إنشاء شركة',
+            'tenant_settings' => 'إعدادات الشركة',
             'tokens' => 'رموز API',
             'profile' => 'الملف الشخصي',
         ],
@@ -186,9 +186,9 @@ return [
         'browser_sessions' => 'جلسات المتصفح',
         'delete_account' => 'حذف الحساب',
         'create_token' => 'إنشاء رمز API',
-        'company_name' => 'اسم الشركة',
-        'create_company' => 'إنشاء شركة جديدة',
-        'add_company_employee' => 'إضافة موظف للشركة',
+        'tenant_name' => 'اسم الشركة',
+        'create_tenant' => 'إنشاء شركة جديدة',
+        'add_tenant_employee' => 'إضافة موظف للشركة',
         'set_password' => 'تعيين كلمة مرور',
     ],
 
@@ -199,21 +199,21 @@ return [
         'browser_sessions' => 'إدارة وتسجيل الخروج من جلساتك النشطة في متصفحات وأجهزة أخرى.',
         'delete_account' => 'حذف حسابك بشكل دائم.',
         'create_token' => 'تسمح رموز API للخدمات الأخرى بالمصادقة مع تطبيقنا نيابة عنك.',
-        'company_name' => 'اسم الشركة ومعلومات المالك.',
-        'create_company' => 'إنشاء شركة جديدة للتعاون مع الآخرين في المشاريع.',
-        'add_company_employee' => 'إضافة موظف جديد إلى شركتك للسماح لهم بالتعاون معك.',
+        'tenant_name' => 'اسم الشركة ومعلومات المالك.',
+        'create_tenant' => 'إنشاء شركة جديدة للتعاون مع الآخرين في المشاريع.',
+        'add_tenant_employee' => 'إضافة موظف جديد إلى شركتك للسماح لهم بالتعاون معك.',
         'set_password' => 'تأكد من استخدام حسابك لكلمة مرور عشوائية وطويلة للبقاء آمنًا.',
     ],
     'action_section_titles' => [
-        'pending_company_invitations' => 'دعوات الشركة المعلقة',
-        'company_employees' => 'موظفي الشركة',
-        'delete_company' => 'حذف الشركة',
+        'pending_tenant_invitations' => 'دعوات الشركة المعلقة',
+        'tenant_employees' => 'موظفي الشركة',
+        'delete_tenant' => 'حذف الشركة',
         'connected_accounts' => 'الحسابات المتصلة',
     ],
     'action_section_descriptions' => [
-        'pending_company_invitations' => 'تمت دعوة هؤلاء الأشخاص لشركتك وتم إرسال رسالة دعوة لهم. يمكنهم الانضمام للشركة عن طريق قبول دعوة البريد الإلكتروني.',
-        'company_employees' => 'جميع الأشخاص الذين يعملون في هذه الشركة.',
-        'delete_company' => 'حذف هذه الشركة بشكل دائم.',
+        'pending_tenant_invitations' => 'تمت دعوة هؤلاء الأشخاص لشركتك وتم إرسال رسالة دعوة لهم. يمكنهم الانضمام للشركة عن طريق قبول دعوة البريد الإلكتروني.',
+        'tenant_employees' => 'جميع الأشخاص الذين يعملون في هذه الشركة.',
+        'delete_tenant' => 'حذف هذه الشركة بشكل دائم.',
         'connected_accounts' => 'إدارة وإزالة الحسابات المتصلة.',
     ],
 
@@ -222,11 +222,11 @@ return [
         'token_permissions' => 'أذونات رمز API',
         'delete_token' => 'حذف رمز API',
         'manage_role' => 'إدارة الدور',
-        'leave_company' => 'مغادرة الشركة',
-        'remove_company_employee' => 'إزالة موظف الشركة',
+        'leave_tenant' => 'مغادرة الشركة',
+        'remove_tenant_employee' => 'إزالة موظف الشركة',
         'logout_browser_sessions' => 'تسجيل الخروج من جلسات المتصفح الأخرى',
         'delete_account' => 'حذف الحساب',
-        'delete_company' => 'حذف الشركة',
+        'delete_tenant' => 'حذف الشركة',
         'remove_connected_account' => 'إزالة الحساب المتصل',
         'revoke_tokens' => 'إلغاء الرموز الممنوحة',
     ],
@@ -234,11 +234,11 @@ return [
     'modal_descriptions' => [
         'copy_token' => 'يرجى نسخ رمز API الجديد الخاص بك. لأمانك ، لن يتم عرضه مرة أخرى.',
         'delete_token' => 'هل أنت متأكد أنك تريد حذف رمز API هذا؟',
-        'leave_company' => 'هل أنت متأكد أنك تريد مغادرة هذه الشركة؟',
-        'remove_company_employee' => 'هل أنت متأكد أنك تريد إزالة هذا الشخص من الشركة؟',
+        'leave_tenant' => 'هل أنت متأكد أنك تريد مغادرة هذه الشركة؟',
+        'remove_tenant_employee' => 'هل أنت متأكد أنك تريد إزالة هذا الشخص من الشركة؟',
         'logout_browser_sessions' => 'يرجى إدخال كلمة المرور الخاصة بك لتأكيد أنك تريد تسجيل الخروج من جلسات المتصفح الأخرى عبر جميع أجهزتك.',
         'delete_account' => 'هل أنت متأكد أنك تريد حذف حسابك؟ بمجرد حذف حسابك ، سيتم حذف جميع الموارد والبيانات الخاصة به بشكل دائم. يرجى إدخال كلمة المرور الخاصة بك لتأكيد رغبتك في حذف حسابك بشكل دائم.',
-        'delete_company' => 'هل أنت متأكد أنك تريد حذف هذه الشركة؟ بمجرد حذف الشركة ، سيتم حذف جميع الموارد والبيانات الخاصة بها بشكل دائم.',
+        'delete_tenant' => 'هل أنت متأكد أنك تريد حذف هذه الشركة؟ بمجرد حذف الشركة ، سيتم حذف جميع الموارد والبيانات الخاصة بها بشكل دائم.',
         'remove_connected_account' => 'يرجى تأكيد إزالة حسابك - لا يمكن التراجع عن هذا الإجراء.',
         'revoke_tokens' => 'يرجى إدخال كلمة المرور الخاصة بك لتأكيد الإجراء.',
     ],
@@ -283,8 +283,8 @@ return [
             ],
         ],
 
-        'companies' => [
-            'company_employee_manager' => [
+        'tenants' => [
+            'tenant_employee_manager' => [
                 'pending_invitations' => 'الدعوات المعلقة',
                 'manage_employees' => 'إدارة الموظفين',
             ],
@@ -310,9 +310,9 @@ return [
             'delete_user' => 'بمجرد حذف حسابك ، سيتم حذف جميع الموارد والبيانات الخاصة به نهائيًا. قبل حذف حسابك ، يرجى تنزيل أي بيانات أو معلومات ترغب في الاحتفاظ بها.',
             'connected_accounts' => 'أنت حر في ربط أي حسابات اجتماعية بملفك الشخصي ويمكنك إزالة أي حسابات مرتبطة في أي وقت. إذا كنت تشعر بأن أي من حساباتك المتصلة قد تم اختراقها ، فيجب عليك فصلها على الفور وتغيير كلمة المرور الخاصة بك.'],
 
-        'companies' => [
-            'company_employee_manager' => 'يرجى تقديم عنوان البريد الإلكتروني للشخص الذي ترغب في إضافته إلى هذه الشركة.',
-            'delete_company' => 'بمجرد حذف الشركة، سيتم حذف جميع الموارد والبيانات الخاصة بها بشكل دائم. قبل حذف هذه الشركة، يرجى تنزيل أي بيانات أو معلومات ترغب في الاحتفاظ بها.',
+        'tenants' => [
+            'tenant_employee_manager' => 'يرجى تقديم عنوان البريد الإلكتروني للشخص الذي ترغب في إضافته إلى هذه الشركة.',
+            'delete_tenant' => 'بمجرد حذف الشركة، سيتم حذف جميع الموارد والبيانات الخاصة بها بشكل دائم. قبل حذف هذه الشركة، يرجى تنزيل أي بيانات أو معلومات ترغب في الاحتفاظ بها.',
         ],
     ],
 ];

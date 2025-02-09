@@ -1,23 +1,23 @@
 <?php
 
-namespace Wallo\FilamentCompanies\Pages\Auth;
+namespace Wallo\FilamentTenants\Pages\Auth;
 
 use Filament\Pages\Concerns\HasRoutes;
 use Filament\Pages\SimplePage;
 use Filament\Support\Enums\MaxWidth;
 use Illuminate\Contracts\Support\Htmlable;
 use Illuminate\Support\Str;
-use Wallo\FilamentCompanies\FilamentCompanies;
+use Wallo\FilamentTenants\FilamentTenants;
 
 class Terms extends SimplePage
 {
     use HasRoutes;
 
-    protected static string $view = 'filament-companies::auth.terms';
+    protected static string $view = 'filament-tenants::auth.terms';
 
     protected function getViewData(): array
     {
-        $termsFile = FilamentCompanies::localizedMarkdownPath('terms.md');
+        $termsFile = FilamentTenants::localizedMarkdownPath('terms.md');
 
         return [
             'terms' => Str::markdown(file_get_contents($termsFile)),

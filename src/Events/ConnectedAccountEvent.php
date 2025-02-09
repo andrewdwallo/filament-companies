@@ -1,6 +1,6 @@
 <?php
 
-namespace Wallo\FilamentCompanies\Events;
+namespace Wallo\FilamentTenants\Events;
 
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Foundation\Events\Dispatchable;

@@ -1,6 +1,6 @@
 <?php
 
-namespace Wallo\FilamentCompanies\Concerns\Socialite;
+namespace Wallo\FilamentTenants\Concerns\Socialite;
 
 use Closure;
 
