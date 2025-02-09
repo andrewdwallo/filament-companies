@@ -22,16 +22,21 @@ class CreateTenant extends FilamentRegisterTenant
         return __('filament-tenants::default.pages.titles.create_tenant');
     }
 
-    public function form(Form $form): Form
+    public static function formSchema(): array
     {
-        return $form
-            ->schema([
+        return [
                 TextInput::make('name')
                     ->label(__('filament-tenants::default.labels.tenant_name'))
                     ->autofocus()
                     ->maxLength(255)
                     ->required(),
-            ])
+        ];
+    }
+
+    public function form(Form $form): Form
+    {
+        return $form
+            ->schema($this->formSchema())
             ->model(FilamentTenants::tenantModel())
             ->statePath('data');
     }
