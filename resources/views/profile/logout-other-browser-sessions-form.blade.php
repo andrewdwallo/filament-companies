@@ -3,7 +3,6 @@
 @endphp
 
 <x-filament-tenants::grid-section md="2">
-    @if (count($this->sessions) > 0)
     <x-slot name="title">
         {{ __('filament-tenants::default.grid_section_titles.browser_sessions') }}
     </x-slot>
@@ -19,77 +18,80 @@
             </p>
 
             <!-- Browser Sessions -->
-            @foreach ($this->sessions as $session)
-                <div class="flex items-center">
-                    <div class="pe-3">
-                        @if ($session->device === 'desktop')
-                            <x-heroicon-o-computer-desktop class="h-8 w-8 text-gray-500" />
-                        @elseif ($session->device === 'tablet')
-                            <x-heroicon-o-device-tablet class="h-8 w-8 text-gray-500" />
-                        @else
-                            <x-heroicon-o-device-phone-mobile class="h-8 w-8 text-gray-500" />
-                        @endif
-                    </div>
-
-                    <div class="font-semibold">
-                        <div class="text-sm text-gray-800 dark:text-gray-200">
-                            {{ $session->os_name ? $session->os_name . ($session->os_version ? ' ' . $session->os_version : '') : 'filament-tenants::default.labels.unknown' }}
-                            -
-                            {{ $session->client_name ?: 'filament-tenants::default.labels.unknown' }}
-                        </div>
-
-                        <div class="text-xs text-gray-600 dark:text-gray-300">
-                            {{ $session->ip_address }},
-
-                            @if ($session->is_current_device)
-                                <span class="text-primary-700 dark:text-primary-500">{{ __('filament-tenants::default.labels.this_device') }}</span>
+            @if (count($this->sessions) > 0)
+                @foreach ($this->sessions as $session)
+                    <div class="flex items-center">
+                        <div class="pe-3">
+                            @if ($session->device === 'desktop')
+                                <x-heroicon-o-computer-desktop class="w-8 h-8 text-gray-500" />
+                            @elseif ($session->device === 'tablet')
+                                <x-heroicon-o-device-tablet class="w-8 h-8 text-gray-500" />
                             @else
-                                <span class="text-gray-400">{{ __('filament-tenants::default.labels.last_active') }}: {{ $session->last_active }}</span>
+                                <x-heroicon-o-device-phone-mobile class="w-8 h-8 text-gray-500" />
                             @endif
                         </div>
-                    </div>
-                </div>
-            @endforeach
 
-            <!-- Log Out Other Devices Confirmation Modal -->
-            <x-filament::modal id="confirmingLogout" icon="heroicon-o-information-circle" icon-color="primary" alignment="{{ $modals['alignment'] }}" footer-actions-alignment="{{ $modals['formActionsAlignment'] }}" width="{{ $modals['width'] }}">
-                <x-slot name="trigger">
-                    <div class="text-left">
-                        <x-filament::button wire:click="confirmLogout">
+                        <div class="font-semibold">
+                            <div class="text-sm text-gray-800 dark:text-gray-200">
+                                {{ $session->os_name ? $session->os_name . ($session->os_version ? ' ' . $session->os_version : '') : 'filament-tenants::default.labels.unknown' }}
+                                -
+                                {{ $session->client_name ?: 'filament-tenants::default.labels.unknown' }}
+                            </div>
+
+                            <div class="text-xs text-gray-600 dark:text-gray-300">
+                                {{ $session->ip_address }},
+
+                                @if ($session->is_current_device)
+                                    <span class="text-primary-700 dark:text-primary-500">{{ __('filament-tenants::default.labels.this_device') }}</span>
+                                @else
+                                    <span class="text-gray-400">{{ __('filament-tenants::default.labels.last_active') }}: {{ $session->last_active }}</span>
+                                @endif
+                            </div>
+                        </div>
+                    </div>
+                @endforeach
+
+                <!-- Log Out Other Devices Confirmation Modal -->
+                <x-filament::modal id="confirmingLogout" icon="heroicon-o-information-circle" icon-color="primary" alignment="{{ $modals['alignment'] }}" footer-actions-alignment="{{ $modals['formActionsAlignment'] }}" width="{{ $modals['width'] }}">
+                    <x-slot name="trigger">
+                        <div class="text-left">
+                            <x-filament::button wire:click="confirmLogout">
+                                {{ __('filament-tenants::default.buttons.logout_browser_sessions') }}
+                            </x-filament::button>
+                        </div>
+                    </x-slot>
+
+                    <x-slot name="heading">
+                        {{ __('filament-tenants::default.modal_titles.logout_browser_sessions') }}
+                    </x-slot>
+
+                    <x-slot name="description">
+                        {{ __('filament-tenants::default.modal_descriptions.logout_browser_sessions') }}
+                    </x-slot>
+
+                    <x-filament-forms::field-wrapper id="password" statePath="password" x-on:confirming-logout-other-browser-sessions.window="setTimeout(() => $refs.password.focus(), 250)">
+                        <x-filament::input.wrapper>
+                            <x-filament::input type="password" placeholder="{{ __('filament-tenants::default.fields.password') }}" x-ref="password" wire:model="password" wire:keydown.enter="logoutOtherBrowserSessions" />
+                        </x-filament::input.wrapper>
+                    </x-filament-forms::field-wrapper>
+
+                    <x-slot name="footerActions">
+                        @if($modals['cancelButtonAction'])
+                            <x-filament::button color="gray" wire:click="cancelLogoutOtherBrowserSessions">
+                                {{ __('filament-tenants::default.buttons.cancel') }}
+                            </x-filament::button>
+                        @endif
+
+                        <x-filament::button wire:click="logoutOtherBrowserSessions">
                             {{ __('filament-tenants::default.buttons.logout_browser_sessions') }}
                         </x-filament::button>
-                    </div>
-                </x-slot>
-
-                <x-slot name="heading">
-                    {{ __('filament-tenants::default.modal_titles.logout_browser_sessions') }}
-                </x-slot>
-
-                <x-slot name="description">
-                    {{ __('filament-tenants::default.modal_descriptions.logout_browser_sessions') }}
-                </x-slot>
-
-                <x-filament-forms::field-wrapper id="password" statePath="password" x-on:confirming-logout-other-browser-sessions.window="setTimeout(() => $refs.password.focus(), 250)">
-                    <x-filament::input.wrapper>
-                        <x-filament::input type="password" placeholder="{{ __('filament-tenants::default.fields.password') }}" x-ref="password" wire:model="password" wire:keydown.enter="logoutOtherBrowserSessions" />
-                    </x-filament::input.wrapper>
-                </x-filament-forms::field-wrapper>
-
-                <x-slot name="footerActions">
-                    @if($modals['cancelButtonAction'])
-                        <x-filament::button color="gray" wire:click="cancelLogoutOtherBrowserSessions">
-                            {{ __('filament-tenants::default.buttons.cancel') }}
-                        </x-filament::button>
-                    @endif
-
-                    <x-filament::button wire:click="logoutOtherBrowserSessions">
-                        {{ __('filament-tenants::default.buttons.logout_browser_sessions') }}
-                    </x-filament::button>
-                </x-slot>
-            </x-filament::modal>
+                    </x-slot>
+                </x-filament::modal>
+            @else
+                <x-filament::button wire:click="logoutOtherBrowserSessions" class="justify-self-start" disabled="true" outlined="true" color="gray">
+                    {{ __('filament-tenants::default.buttons.no_browser_sessions') }}
+                </x-filament::button>
+            @endif
         </div>
     </x-filament::section>
 </x-filament-tenants::grid-section>
-@else
-<div></div>
-@endif

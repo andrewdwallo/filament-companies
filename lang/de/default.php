@@ -30,6 +30,7 @@ return [
         'login' => 'Anmelden',
         'logout' => 'Abmelden',
         'logout_browser_sessions' => 'Andere Browsersitzungen abmelden',
+        'no_browser_sessions' => 'Keine Browsersitzungen',
         'new_photo' => 'Neues Foto',
         'permissions' => 'Berechtigungen',
         'register' => 'Registrieren',

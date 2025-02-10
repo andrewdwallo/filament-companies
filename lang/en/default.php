@@ -30,6 +30,7 @@ return [
         'login' => 'Log in',
         'logout' => 'Log Out',
         'logout_browser_sessions' => 'Log Out Other Browser Sessions',
+        'no_browser_sessions' => 'No Browser Sessions',
         'new_photo' => 'New Photo',
         'permissions' => 'Permissions',
         'register' => 'Register',
