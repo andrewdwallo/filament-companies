@@ -2,9 +2,8 @@
     $modals = \Wallo\FilamentTenants\FilamentTenants::getModals();
 @endphp
 
-@if (count($this->sessions) > 0)
-
 <x-filament-tenants::grid-section md="2">
+    @if (count($this->sessions) > 0)
     <x-slot name="title">
         {{ __('filament-tenants::default.grid_section_titles.browser_sessions') }}
     </x-slot>
@@ -91,4 +90,6 @@
         </div>
     </x-filament::section>
 </x-filament-tenants::grid-section>
+@else
+<div></div>
 @endif
