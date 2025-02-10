@@ -218,7 +218,7 @@ return [
         'profile_information' => 'Profile Information',
         'set_password' => 'Set Password',
         'two_factor_authentication' => 'Two Factor Authentication',
-        'update_password' => 'Update Password',
+        'update_password' => 'Your Credentials',
     ],
 
     'grid_section_descriptions' => [

@@ -216,7 +216,7 @@ return [
         'profile_information' => 'Profilinformation',
         'set_password' => 'Passwort setzen',
         'two_factor_authentication' => 'Zwei-Faktor-Authentifizierung',
-        'update_password' => 'Passwort aktualisieren',
+        'update_password' => 'Ihre Zugangsdaten',
     ],
 
     'grid_section_descriptions' => [

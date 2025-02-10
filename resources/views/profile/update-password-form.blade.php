@@ -9,6 +9,12 @@
 
     <x-filament::section>
         <x-filament-panels::form wire:submit="updatePassword">
+            <x-filament-forms::field-wrapper id="email" statePath="email" disabled="true" label="{{ __('filament-tenants::default.fields.email') }}">
+                <x-filament::input.wrapper class="overflow-hidden">
+                    <x-filament::input id="email" type="text" wire:model="state.email" disabled="true" />
+                </x-filament::input.wrapper>
+            </x-filament-forms::field-wrapper>
+
             <x-filament-forms::field-wrapper id="current_password" statePath="current_password" required="required" label="{{ __('filament-tenants::default.fields.current_password') }}">
                 <x-filament::input.wrapper class="overflow-hidden">
                     <x-filament::input id="current_password" type="password" required="required" wire:model="state.current_password" autocomplete="current-password" />

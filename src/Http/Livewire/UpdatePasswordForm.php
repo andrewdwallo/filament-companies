@@ -24,6 +24,12 @@ class UpdatePasswordForm extends Component
         'password' => '',
         'password_confirmation' => '',
     ];
+    
+    public function mount(): void
+    {
+        $user = $this->user;
+        $this->state = ['email' => $user?->email, ...$this->state];
+    }
 
     /**
      * Update the user's password.
