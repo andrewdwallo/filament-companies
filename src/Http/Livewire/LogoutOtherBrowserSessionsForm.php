@@ -6,6 +6,7 @@ use DeviceDetector\DeviceDetector;
 use Filament\Facades\Filament;
 use Filament\Notifications\Notification;
 use Illuminate\Auth\AuthenticationException;
+use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
@@ -17,6 +18,8 @@ use Livewire\Component;
 
 class LogoutOtherBrowserSessionsForm extends Component
 {
+    public ?Authenticatable $user = null;
+
     /**
      * The user's current password.
      */
@@ -55,13 +58,17 @@ class LogoutOtherBrowserSessionsForm extends Component
             ]);
         }
 
-        $guard->logoutOtherDevices($this->password);
+        if ($this->user == Auth::user()) {
+            $guard->logoutOtherDevices($this->password);
+        }
 
         $this->deleteOtherSessionRecords();
 
-        session()->put([
-            'password_hash_' . Auth::getDefaultDriver() => Auth::user()?->getAuthPassword(),
-        ]);
+        if ($this->user == Auth::user()) {
+            session()->put([
+                'password_hash_' . Auth::getDefaultDriver() => Auth::user()?->getAuthPassword(),
+            ]);
+        }
 
         $this->browserSessionsTerminated();
 
@@ -86,7 +93,7 @@ class LogoutOtherBrowserSessionsForm extends Component
         }
 
         DB::connection(config('session.connection'))->table(config('session.table', 'sessions'))
-            ->where('user_id', Auth::user()?->getAuthIdentifier())
+            ->where('user_id', $this->user?->getAuthIdentifier())
             ->where('id', '!=', session()->getId())
             ->delete();
     }
@@ -102,7 +109,7 @@ class LogoutOtherBrowserSessionsForm extends Component
 
         return collect(
             DB::connection(config('session.connection'))->table(config('session.table', 'sessions'))
-                ->where('user_id', Auth::user()?->getAuthIdentifier())
+                ->where('user_id', $this->user?->getAuthIdentifier())
                 ->orderBy('last_activity', 'desc')
                 ->get()
         )->map(function ($session) {
@@ -129,6 +136,14 @@ class LogoutOtherBrowserSessionsForm extends Component
         $deviceDetector->parse();
 
         return $deviceDetector;
+    }
+
+    /**
+     * Get the user.
+     */
+    public function getUserProperty(): ?Authenticatable
+    {
+        return $this->user ?? Auth::user();
     }
 
     /**

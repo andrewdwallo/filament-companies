@@ -16,6 +16,8 @@ class UpdateProfileInformationForm extends Component
 {
     use WithFileUploads;
 
+    public ?Authenticatable $user = null;
+
     /**
      * The component's state.
      */
@@ -106,7 +108,7 @@ class UpdateProfileInformationForm extends Component
      */
     public function getUserProperty(): ?Authenticatable
     {
-        return Auth::user();
+        return $this->user ?? Auth::user();
     }
 
     /**

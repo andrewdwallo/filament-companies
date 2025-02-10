@@ -12,6 +12,8 @@ use Wallo\FilamentTenants\FilamentTenants;
 
 class UpdatePasswordForm extends Component
 {
+    public ?Authenticatable $user = null;
+
     /**
      * The component's state.
      *
@@ -54,11 +56,11 @@ class UpdatePasswordForm extends Component
     }
 
     /**
-     * Get the current user of the application.
+     * Get the user
      */
     public function getUserProperty(): ?Authenticatable
     {
-        return Auth::user();
+        return $this->user ?? Auth::user();
     }
 
     /**

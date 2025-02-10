@@ -2,6 +2,8 @@
     $modals = \Wallo\FilamentTenants\FilamentTenants::getModals();
 @endphp
 
+@if (count($this->sessions) > 0)
+
 <x-filament-tenants::grid-section md="2">
     <x-slot name="title">
         {{ __('filament-tenants::default.grid_section_titles.browser_sessions') }}
@@ -18,39 +20,37 @@
             </p>
 
             <!-- Browser Sessions -->
-            @if (count($this->sessions) > 0)
-                @foreach ($this->sessions as $session)
-                    <div class="flex items-center">
-                        <div class="pe-3">
-                            @if ($session->device === 'desktop')
-                                <x-heroicon-o-computer-desktop class="h-8 w-8 text-gray-500" />
-                            @elseif ($session->device === 'tablet')
-                                <x-heroicon-o-device-tablet class="h-8 w-8 text-gray-500" />
+            @foreach ($this->sessions as $session)
+                <div class="flex items-center">
+                    <div class="pe-3">
+                        @if ($session->device === 'desktop')
+                            <x-heroicon-o-computer-desktop class="h-8 w-8 text-gray-500" />
+                        @elseif ($session->device === 'tablet')
+                            <x-heroicon-o-device-tablet class="h-8 w-8 text-gray-500" />
+                        @else
+                            <x-heroicon-o-device-phone-mobile class="h-8 w-8 text-gray-500" />
+                        @endif
+                    </div>
+
+                    <div class="font-semibold">
+                        <div class="text-sm text-gray-800 dark:text-gray-200">
+                            {{ $session->os_name ? $session->os_name . ($session->os_version ? ' ' . $session->os_version : '') : 'filament-tenants::default.labels.unknown' }}
+                            -
+                            {{ $session->client_name ?: 'filament-tenants::default.labels.unknown' }}
+                        </div>
+
+                        <div class="text-xs text-gray-600 dark:text-gray-300">
+                            {{ $session->ip_address }},
+
+                            @if ($session->is_current_device)
+                                <span class="text-primary-700 dark:text-primary-500">{{ __('filament-tenants::default.labels.this_device') }}</span>
                             @else
-                                <x-heroicon-o-device-phone-mobile class="h-8 w-8 text-gray-500" />
+                                <span class="text-gray-400">{{ __('filament-tenants::default.labels.last_active') }}: {{ $session->last_active }}</span>
                             @endif
                         </div>
-
-                        <div class="font-semibold">
-                            <div class="text-sm text-gray-800 dark:text-gray-200">
-                                {{ $session->os_name ? $session->os_name . ($session->os_version ? ' ' . $session->os_version : '') : 'filament-tenants::default.labels.unknown' }}
-                                -
-                                {{ $session->client_name ?: 'filament-tenants::default.labels.unknown' }}
-                            </div>
-
-                            <div class="text-xs text-gray-600 dark:text-gray-300">
-                                {{ $session->ip_address }},
-
-                                @if ($session->is_current_device)
-                                    <span class="text-primary-700 dark:text-primary-500">{{ __('filament-tenants::default.labels.this_device') }}</span>
-                                @else
-                                    <span class="text-gray-400">{{ __('filament-tenants::default.labels.last_active') }}: {{ $session->last_active }}</span>
-                                @endif
-                            </div>
-                        </div>
                     </div>
-                @endforeach
-            @endif
+                </div>
+            @endforeach
 
             <!-- Log Out Other Devices Confirmation Modal -->
             <x-filament::modal id="confirmingLogout" icon="heroicon-o-information-circle" icon-color="primary" alignment="{{ $modals['alignment'] }}" footer-actions-alignment="{{ $modals['formActionsAlignment'] }}" width="{{ $modals['width'] }}">
@@ -91,3 +91,4 @@
         </div>
     </x-filament::section>
 </x-filament-tenants::grid-section>
+@endif
