@@ -40,7 +40,7 @@
                             </td>
                             <td colspan="1" class="px-6 py-4 whitespace-nowrap">
                                 <div class="space-x-2 text-right">
-                                        <x-filament::button size="sm" outlined="true" disabled="true" outlined="true" color="gray">
+                                        <x-filament::button size="sm" outlined="true" disabled="true" color="gray">
                                             {{ __('filament-tenants::default.labels.tenant_owner') }}
                                         </x-filament::button>
                                 </div>
