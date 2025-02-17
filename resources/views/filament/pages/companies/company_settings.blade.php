@@ -1,10 +1,19 @@
 <x-filament-panels::page>
-    @livewire(\Wallo\FilamentCompanies\Http\Livewire\UpdateCompanyNameForm::class, compact('company'))
+    @php
+        $components = \Wallo\FilamentCompanies\FilamentCompanies::getCompanyComponents();
+        $deleteCompanyForm = \Wallo\FilamentCompanies\FilamentCompanies::getDeleteCompanyForm();
+    @endphp
 
-    @livewire(\Wallo\FilamentCompanies\Http\Livewire\CompanyEmployeeManager::class, compact('company'))
-
-    @if (!$company->personal_company && Gate::check('delete', $company))
-        <x-filament-companies::section-border />
-        @livewire(\Wallo\FilamentCompanies\Http\Livewire\DeleteCompanyForm::class, compact('company'))
-    @endif
+    <div class="space-y-6">
+        @foreach($components as $component)
+            @if($component === $deleteCompanyForm)
+                @if (! $company->personal_company && Gate::check('delete', $company))
+                    @livewire($component, compact('company'))
+                @endif
+            @else
+                @livewire($component, compact('company'))
+            @endif
+        @endforeach
+    </div>
 </x-filament-panels::page>
+

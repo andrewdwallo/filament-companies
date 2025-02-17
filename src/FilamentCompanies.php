@@ -21,6 +21,7 @@ use Wallo\FilamentCompanies\Pages\Company\CreateCompany;
 
 class FilamentCompanies implements Plugin
 {
+    use Concerns\Base\HasAddedCompanyComponents;
     use Concerns\Base\HasAddedProfileComponents;
     use Concerns\Base\HasAutoAcceptInvitations;
     use Concerns\Base\HasBaseActionBindings;
@@ -34,6 +35,7 @@ class FilamentCompanies implements Plugin
     use Concerns\Base\HasPermissions;
     use Concerns\Base\HasRoutes;
     use Concerns\Base\HasTermsAndPrivacyPolicy;
+    use Concerns\ManagesCompanyComponents;
     use Concerns\ManagesProfileComponents;
     use Concerns\Socialite\CanEnableSocialite;
     use Concerns\Socialite\HasConnectedAccountModel;

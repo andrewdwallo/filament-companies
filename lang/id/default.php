@@ -256,7 +256,7 @@ return [
     ],
 
     'modal_descriptions' => [
-        'copy_token' => "Harap salin Token Akses Pribadi baru Anda. Untuk keamanan Anda, token ini tidak akan ditampilkan lagi.",
+        'copy_token' => 'Harap salin Token Akses Pribadi baru Anda. Untuk keamanan Anda, token ini tidak akan ditampilkan lagi.',
         'confirm_password' => 'Untuk keamanan Anda, silakan konfirmasi kata sandi Anda untuk melanjutkan.',
         'delete_account' => 'Silakan masukkan kata sandi Anda untuk mengonfirmasi bahwa Anda ingin menghapus akun Anda.',
         'delete_token' => 'Apakah Anda yakin ingin menghapus Token Akses Pribadi ini?',
@@ -279,7 +279,7 @@ return [
                 'emergency_recovery_code' => 'Silakan konfirmasi akses ke akun Anda dengan memasukkan salah satu kode pemulihan darurat Anda.',
             ],
             'verify_email' => [
-                'verification_link_not_sent' => "Sebelum melanjutkan, bisakah Anda memverifikasi alamat email Anda dengan mengklik tautan yang baru saja kami email ke Anda? Jika Anda tidak menerima email, kami akan dengan senang hati mengirimkan Anda yang lain.",
+                'verification_link_not_sent' => 'Sebelum melanjutkan, bisakah Anda memverifikasi alamat email Anda dengan mengklik tautan yang baru saja kami email ke Anda? Jika Anda tidak menerima email, kami akan dengan senang hati mengirimkan Anda yang lain.',
                 'verification_link_sent' => 'Tautan verifikasi baru telah dikirim ke alamat email yang Anda berikan dalam pengaturan profil Anda.',
             ],
         ],
@@ -325,10 +325,10 @@ return [
 
         'profile' => [
             'two_factor_authentication' => [
-                'enabled' => "Otentikasi dua faktor sekarang diaktifkan. Pindai kode QR berikut menggunakan aplikasi otentikator di ponsel Anda atau masukkan kunci pengaturan.",
-                'finish_enabling' => "Untuk menyelesaikan pengaktifan otentikasi dua faktor, pindai kode QR berikut menggunakan aplikasi otentikator di ponsel Anda atau masukkan kunci pengaturan dan berikan kode OTP yang dihasilkan.",
+                'enabled' => 'Otentikasi dua faktor sekarang diaktifkan. Pindai kode QR berikut menggunakan aplikasi otentikator di ponsel Anda atau masukkan kunci pengaturan.',
+                'finish_enabling' => 'Untuk menyelesaikan pengaktifan otentikasi dua faktor, pindai kode QR berikut menggunakan aplikasi otentikator di ponsel Anda atau masukkan kunci pengaturan dan berikan kode OTP yang dihasilkan.',
                 'store_codes' => 'Simpan kode pemulihan ini di manajer kata sandi yang aman. Kode ini dapat digunakan untuk memulihkan akses ke akun Anda jika perangkat otentikasi dua faktor Anda hilang.',
-                'summary' => "Ketika otentikasi dua faktor diaktifkan, Anda akan diminta token acak yang aman selama otentikasi. Anda dapat mengambil token ini dari aplikasi Google Authenticator di ponsel Anda.",
+                'summary' => 'Ketika otentikasi dua faktor diaktifkan, Anda akan diminta token acak yang aman selama otentikasi. Anda dapat mengambil token ini dari aplikasi Google Authenticator di ponsel Anda.',
             ],
 
             'connected_accounts' => 'Anda bebas untuk menghubungkan akun sosial apa pun ke profil Anda dan dapat menghapus akun yang terhubung kapan saja. Jika Anda merasa salah satu akun Anda telah dikompromikan, Anda harus segera memutuskannya dan mengubah kata sandi Anda.',

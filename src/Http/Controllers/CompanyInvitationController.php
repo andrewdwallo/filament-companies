@@ -19,7 +19,7 @@ class CompanyInvitationController extends Controller
     /**
      * Accept a company invitation.
      */
-    public function accept(Request $request, int|string $invitationId): Redirector | RedirectResponse | null
+    public function accept(Request $request, int | string $invitationId): Redirector | RedirectResponse | null
     {
         $model = FilamentCompanies::companyInvitationModel();
 

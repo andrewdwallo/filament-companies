@@ -227,11 +227,11 @@ return [
     'grid_section_descriptions' => [
         'add_company_employee' => 'Přidejte nového zaměstnance společnosti, který bude s vámi spolupracovat.',
         'browser_sessions' => 'Spravujte a odhlašujte své aktivní relace na jiných prohlížečích a zařízeních.',
-        'company_name' => "Název společnosti a informace o vlastníkovi.",
+        'company_name' => 'Název společnosti a informace o vlastníkovi.',
         'create_token' => 'Osobní přístupové tokeny umožňují ověření třetích stran s naší aplikací vaším jménem.',
         'create_company' => 'Vytvořte novou společnost pro spolupráci s ostatními na projektech.',
         'delete_account' => 'Trvale smazat váš účet.',
-        'profile_information' => "Aktualizujte profilové informace a e-mailovou adresu vašeho účtu.",
+        'profile_information' => 'Aktualizujte profilové informace a e-mailovou adresu vašeho účtu.',
         'set_password' => 'Zajistěte, aby váš účet používal dlouhé, náhodné heslo pro zajištění bezpečnosti.',
         'two_factor_authentication' => 'Přidejte další zabezpečení vašeho účtu pomocí dvoufaktorového ověřování.',
         'update_password' => 'Zajistěte, aby váš účet používal dlouhé, náhodné heslo pro zajištění bezpečnosti.',
@@ -267,7 +267,7 @@ return [
     ],
 
     'modal_descriptions' => [
-        'copy_token' => "Prosím, zkopírujte svůj nový osobní přístupový token. Pro vaši bezpečnost nebude znovu zobrazen.",
+        'copy_token' => 'Prosím, zkopírujte svůj nový osobní přístupový token. Pro vaši bezpečnost nebude znovu zobrazen.',
         'confirm_password' => 'Pro vaši bezpečnost prosím potvrďte své heslo pro pokračování.',
         'delete_account' => 'Prosím, zadejte své heslo pro potvrzení, že chcete smazat svůj účet.',
         'delete_token' => 'Opravdu chcete smazat tento osobní přístupový token?',
@@ -290,7 +290,7 @@ return [
                 'emergency_recovery_code' => 'Prosím potvrďte přístup k vašemu účtu zadáním jednoho z vašich nouzových obnovovacích kódů.',
             ],
             'verify_email' => [
-                'verification_link_not_sent' => "Před pokračováním, můžete ověřit svou e-mailovou adresu kliknutím na odkaz, který jsme vám právě zaslali? Pokud jste e-mail neobdrželi, rádi vám zašleme nový.",
+                'verification_link_not_sent' => 'Před pokračováním, můžete ověřit svou e-mailovou adresu kliknutím na odkaz, který jsme vám právě zaslali? Pokud jste e-mail neobdrželi, rádi vám zašleme nový.',
                 'verification_link_sent' => 'Nový ověřovací odkaz byl odeslán na e-mailovou adresu, kterou jste uvedli v nastavení profilu.',
             ],
         ],
@@ -336,10 +336,10 @@ return [
 
         'profile' => [
             'two_factor_authentication' => [
-                'enabled' => "Dvoufaktorové ověřování je nyní povoleno. Naskenujte následující QR kód pomocí autentizační aplikace vašeho telefonu nebo zadejte klíč nastavení.",
-                'finish_enabling' => "Pro dokončení povolení dvoufaktorového ověřování naskenujte následující QR kód pomocí autentizační aplikace vašeho telefonu nebo zadejte klíč nastavení a poskytněte vygenerovaný OTP kód.",
+                'enabled' => 'Dvoufaktorové ověřování je nyní povoleno. Naskenujte následující QR kód pomocí autentizační aplikace vašeho telefonu nebo zadejte klíč nastavení.',
+                'finish_enabling' => 'Pro dokončení povolení dvoufaktorového ověřování naskenujte následující QR kód pomocí autentizační aplikace vašeho telefonu nebo zadejte klíč nastavení a poskytněte vygenerovaný OTP kód.',
                 'store_codes' => 'Uložte tyto obnovovací kódy do bezpečného správce hesel. Mohou být použity k obnovení přístupu k vašemu účtu, pokud ztratíte vaše dvoufaktorové ověřovací zařízení.',
-                'summary' => "Když je povoleno dvoufaktorové ověřování, budete při přihlašování vyzváni k zadání zabezpečeného, náhodného tokenu. Tento token můžete získat z autentizační aplikace vašeho telefonu.",
+                'summary' => 'Když je povoleno dvoufaktorové ověřování, budete při přihlašování vyzváni k zadání zabezpečeného, náhodného tokenu. Tento token můžete získat z autentizační aplikace vašeho telefonu.',
             ],
 
             'connected_accounts' => 'Můžete připojit jakékoliv sociální účty k vašemu profilu a kdykoliv odstranit připojené účty. Pokud máte pocit, že byl některý z vašich připojených účtů kompromitován, měli byste je okamžitě odpojit a změnit heslo.',
