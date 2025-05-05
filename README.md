@@ -216,7 +216,7 @@ php artisan vendor:publish --tag=filament-companies-views
 
 If you are using [email verification](https://filamentphp.com/docs/3.x/panels/users#authentication-features) make sure to register your verify-email url. If this is not properly registerd, you may see errors on the user profile page. You can either add this via Filament's `VerifyEmail` facade or a new route in your app.
 
-### Registering the URL via the create URL Notification callback
+#### Registering the URL via the create URL Notification callback
 
 Place this in your `AppServiceProvider`'s boot method:
 
