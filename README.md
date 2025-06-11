@@ -212,6 +212,36 @@ If you wish to customize the views, you may publish them using:
 php artisan vendor:publish --tag=filament-companies-views
 ```
 
+### Email Verification
+
+If you are using [email verification](https://filamentphp.com/docs/3.x/panels/users#authentication-features) make sure to register your verify-email url. If this is not properly registerd, you may see errors on the user profile page. You can either add this via Filament's `VerifyEmail` facade or a new route in your app.
+
+#### Registering the URL via the create URL Notification callback
+
+Place this in your `AppServiceProvider`'s boot method:
+
+```php
+use Filament\Facades\Filament;
+use Filament\Notifications\Auth\VerifyEmail;
+
+// Verify email notification url
+VerifyEmail::createUrlUsing(function ($notifiable) {
+    return Filament::getVerifyEmailUrl($notifiable);
+});
+```
+
+#### Registering your email verification route through a new route
+
+Place this in routes file - typically `web.php`:
+
+```php
+use Filament\Http\Controllers\Auth\EmailVerificationController;
+
+Route::get('/email/verify/{id}/{hash}', [EmailVerificationController::class, '__invoke'])
+    ->middleware(['signed'])
+    ->name('verification.verify');
+```
+
 # Usage & Configuration
 
 ### Switching the Current Company

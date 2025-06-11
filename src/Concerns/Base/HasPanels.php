@@ -21,10 +21,6 @@ trait HasPanels
      */
     public function userPanel(string $panel): static
     {
-        if (isset(static::$userPanel)) {
-            throw new LogicException('The user panel has already been configured to [' . static::$userPanel . '].');
-        }
-
         static::$userPanel = $panel;
 
         return $this;
