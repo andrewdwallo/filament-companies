@@ -95,12 +95,12 @@ class PersonalAccessTokens extends Page implements HasTable
                         ->icon('heroicon-o-calendar-days')
                         ->formatStateUsing(static function ($state) {
                             return new HtmlString(
-                                '<div>'
+                                '<span>'
                                 . __('filament-companies::default.descriptions.token_created_state', [
                                     'time_ago' => '<span class="font-bold text-sm text-primary-600 dark:text-primary-400">' . __($state->diffForHumans()) . '</span>',
                                     'user_name' => '<a target="_blank" href="' . url(Profile::getUrl()) . '" class="font-bold text-sm text-primary-600 dark:text-primary-400 hover:text-primary-500 dark:hover:text-primary-300" style="text-decoration: underline;">' . __(Auth::user()?->name) . '</a>',
                                 ]) .
-                                '</div>'
+                                '</span>'
                             );
                         })
                         ->fontFamily('serif')
@@ -168,7 +168,7 @@ class PersonalAccessTokens extends Page implements HasTable
         ];
     }
 
-    protected function displayTokenValue($token): void
+    protected function displayTokenValue(#[\SensitiveParameter] $token): void
     {
         $this->dispatch('open-modal', id: 'displayingToken');
         $this->plainTextToken = explode('|', $token->plainTextToken, 2)[1];

@@ -11,9 +11,7 @@
         </x-slot>
 
         <x-slot name="description">
-            <div>
-                {{ __('filament-companies::default.modal_descriptions.copy_token') }}
-            </div>
+            {{ __('filament-companies::default.modal_descriptions.copy_token') }}
         </x-slot>
 
         <x-filament-companies::input x-ref="plaintextToken" type="text" readonly="readonly" :value="$plainTextToken"
