@@ -15,8 +15,6 @@ use Wallo\FilamentCompanies\FilamentCompanies;
 
 class CreateCompany extends FilamentRegisterTenant
 {
-    protected string $view = 'filament-companies::filament.pages.companies.create_company';
-
     public static function getLabel(): string
     {
         return __('filament-companies::default.pages.titles.create_company');

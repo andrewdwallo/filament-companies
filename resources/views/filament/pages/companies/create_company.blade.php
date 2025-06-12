@@ -1,10 +1,10 @@
 <x-filament-panels::page.simple>
-    <x-filament-panels::form wire:submit="register">
+    <form wire:submit="register">
         {{ $this->form }}
 
-        <x-filament-panels::form.actions
+        <x-filament-schemas::form.actions
             :actions="$this->getCachedFormActions()"
             :full-width="$this->hasFullWidthFormActions()"
         />
-    </x-filament-panels::form>
+    </form>
 </x-filament-panels::page.simple>

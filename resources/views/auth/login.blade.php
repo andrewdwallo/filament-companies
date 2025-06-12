@@ -9,14 +9,14 @@
 
     {{ \Filament\Support\Facades\FilamentView::renderHook(\Filament\View\PanelsRenderHook::AUTH_LOGIN_FORM_BEFORE, scopes: $this->getRenderHookScopes()) }}
 
-    <x-filament-panels::form wire:submit="authenticate">
+    <form wire:submit="authenticate">
         {{ $this->form }}
 
-        <x-filament-panels::form.actions
+        <x-filament-schemas::form.actions
             :actions="$this->getCachedFormActions()"
             :full-width="$this->hasFullWidthFormActions()"
         />
-    </x-filament-panels::form>
+    </form>
 
     @if (Wallo\FilamentCompanies\FilamentCompanies::hasSocialiteFeatures())
         <x-filament-companies::socialite :error-message="$errors->first('filament-companies')" />

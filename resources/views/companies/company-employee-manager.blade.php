@@ -15,62 +15,60 @@
                     {{ __('filament-companies::default.grid_section_descriptions.add_company_employee') }}
                 </x-slot>
 
-                <x-filament::section>
-                    <x-filament-panels::form wire:submit="addCompanyEmployee">
-                        <p class="text-sm text-gray-600 dark:text-gray-400">
-                            {{ __('filament-companies::default.subheadings.companies.company_employee_manager') }}
-                        </p>
+                <form wire:submit="addCompanyEmployee" class="fi-sc-form">
+                    <p class="text-sm text-gray-600 dark:text-gray-400">
+                        {{ __('filament-companies::default.subheadings.companies.company_employee_manager') }}
+                    </p>
 
-                        <!-- Employee Email -->
-                        <x-filament-forms::field-wrapper id="email" statePath="email" required="required" label="{{ __('filament-companies::default.fields.email') }}">
-                            <x-filament::input.wrapper class="overflow-hidden">
-                                <x-filament::input id="email" type="email" wire:model="addCompanyEmployeeForm.email" />
-                            </x-filament::input.wrapper>
-                        </x-filament-forms::field-wrapper>
+                    <!-- Employee Email -->
+                    <x-filament-forms::field-wrapper id="email" statePath="email" required="required" label="{{ __('filament-companies::default.fields.email') }}">
+                        <x-filament::input.wrapper class="overflow-hidden">
+                            <x-filament::input id="email" type="email" wire:model="addCompanyEmployeeForm.email" />
+                        </x-filament::input.wrapper>
+                    </x-filament-forms::field-wrapper>
 
-                        <!-- Role -->
-                        @if (count($this->roles) > 0)
-                            <x-filament-forms::field-wrapper id="role" statePath="role" required="required" label="{{ __('filament-companies::default.labels.role') }}">
-                                <div x-data="{ role: @entangle('addCompanyEmployeeForm.role').live }" class="relative z-0 mt-1 cursor-pointer rounded-lg border border-gray-200 dark:border-gray-700">
-                                    @foreach ($this->roles as $index => $role)
-                                        <button type="button"
-                                                @click="role = '{{ $role->key }}'"
-                                                @class([
-                                                    'relative inline-flex w-full rounded-lg px-4 py-3 transition focus:z-10 focus:outline-none focus:ring-2 focus:border-primary-500 focus:ring-primary-500 dark:focus:border-primary-600 dark:focus:ring-primary-600',
-                                                    'border-t border-gray-200 dark:border-gray-700 rounded-t-none' => ($index > 0),
-                                                    'rounded-b-none' => (! $loop->last),
-                                                ])
-                                        >
-                                            <div :class="role === '{{ $role->key }}' || 'opacity-50'">
-                                                <!-- Role Name -->
-                                                <div class="flex items-center">
-                                                    <div class="text-sm text-gray-600 dark:text-gray-400" :class="{'font-semibold': role === '{{ $role->key }}'}">
-                                                        {{ $role->name }}
-                                                    </div>
-
-                                                    <div x-cloak :class="{ 'hidden': role !== '{{ $role->key }}' }">
-                                                        <x-heroicon-o-check-badge class="text-primary-500 ml-2 h-5 w-5" />
-                                                    </div>
+                    <!-- Role -->
+                    @if (count($this->roles) > 0)
+                        <x-filament-forms::field-wrapper id="role" statePath="role" required="required" label="{{ __('filament-companies::default.labels.role') }}">
+                            <div x-data="{ role: @entangle('addCompanyEmployeeForm.role').live }" class="relative z-0 mt-1 cursor-pointer rounded-lg border border-gray-200 dark:border-gray-700">
+                                @foreach ($this->roles as $index => $role)
+                                    <button type="button"
+                                            @click="role = '{{ $role->key }}'"
+                                            @class([
+                                                'relative inline-flex w-full rounded-lg px-4 py-3 transition focus:z-10 focus:outline-hidden focus:ring-2 focus:border-primary-500 focus:ring-primary-500 dark:focus:border-primary-600 dark:focus:ring-primary-600',
+                                                'border-t border-gray-200 dark:border-gray-700 rounded-t-none' => ($index > 0),
+                                                'rounded-b-none' => (! $loop->last),
+                                            ])
+                                    >
+                                        <div :class="role === '{{ $role->key }}' || 'opacity-50'">
+                                            <!-- Role Name -->
+                                            <div class="flex items-center">
+                                                <div class="text-sm text-gray-600 dark:text-gray-400" :class="{'font-semibold': role === '{{ $role->key }}'}">
+                                                    {{ $role->name }}
                                                 </div>
 
-                                                <!-- Role Description -->
-                                                <div class="mt-2 text-left text-sm text-gray-600 dark:text-gray-400">
-                                                    {{ $role->description }}
+                                                <div x-cloak :class="{ 'hidden': role !== '{{ $role->key }}' }">
+                                                    <x-heroicon-o-check-badge class="text-primary-500 ml-2 h-5 w-5" />
                                                 </div>
                                             </div>
-                                        </button>
-                                    @endforeach
-                                </div>
-                            </x-filament-forms::field-wrapper>
-                        @endif
 
-                        <div class="text-left">
-                            <x-filament::button type="submit">
-                                {{ __('filament-companies::default.buttons.add') }}
-                            </x-filament::button>
-                        </div>
-                    </x-filament-panels::form>
-                </x-filament::section>
+                                            <!-- Role Description -->
+                                            <div class="mt-2 text-left text-sm text-gray-600 dark:text-gray-400">
+                                                {{ $role->description }}
+                                            </div>
+                                        </div>
+                                    </button>
+                                @endforeach
+                            </div>
+                        </x-filament-forms::field-wrapper>
+                    @endif
+
+                    <div class="text-left">
+                        <x-filament::button type="submit">
+                            {{ __('filament-companies::default.buttons.add') }}
+                        </x-filament::button>
+                    </div>
+                </form>
             </x-filament-companies::grid-section>
         @endif
 
@@ -85,7 +83,7 @@
                     {{ __('filament-companies::default.action_section_descriptions.pending_company_invitations') }}
                 </x-slot>
 
-                <div class="overflow-x-auto space-y-2 bg-white rounded-xl shadow dark:border-gray-600 dark:bg-gray-800 col-span-2 mt-5 sm:col-span-1 md:col-start-2 md:mt-0">
+                <div class="overflow-x-auto space-y-2 bg-white rounded-xl shadow-sm dark:border-gray-600 dark:bg-gray-800 col-span-2 mt-5 sm:col-span-1 md:col-start-2 md:mt-0">
                     <table class="w-full divide-y divide-gray-200 dark:divide-gray-700">
                         <thead class="bg-gray-100 dark:bg-gray-800">
                         <tr>
@@ -134,7 +132,7 @@
                 </x-slot>
 
                 <!-- Company Employee List -->
-                <div class="overflow-x-auto space-y-2 bg-white rounded-xl shadow dark:border-gray-600 dark:bg-gray-800 col-span-2 mt-5 sm:col-span-1 md:col-start-2 md:mt-0">
+                <div class="overflow-x-auto space-y-2 bg-white rounded-xl shadow-sm dark:border-gray-600 dark:bg-gray-800 col-span-2 mt-5 sm:col-span-1 md:col-start-2 md:mt-0">
                     <table class="w-full divide-y divide-gray-200 dark:divide-gray-700">
                         <thead class="bg-white dark:bg-gray-800">
                         <tr>
@@ -148,7 +146,7 @@
                             <tr>
                                 <td colspan="2" class="px-6 py-4 text-left whitespace-nowrap">
                                     <div class="flex items-center text-sm">
-                                        <div class="flex-shrink-0">
+                                        <div class="shrink-0">
                                             <x-filament-panels::avatar.user :user="$user" size="lg" />
                                         </div>
                                         <div class="ml-4">
@@ -206,7 +204,7 @@
                     <button type="button"
                             @click="role = '{{ $role->key }}'"
                             @class([
-                                'relative inline-flex w-full rounded-lg px-4 py-3 transition focus:z-10 focus:outline-none focus:ring-2 focus:border-primary-500 focus:ring-primary-500 dark:focus:border-primary-600 dark:focus:ring-primary-600',
+                                'relative inline-flex w-full rounded-lg px-4 py-3 transition focus:z-10 focus:outline-hidden focus:ring-2 focus:border-primary-500 focus:ring-primary-500 dark:focus:border-primary-600 dark:focus:ring-primary-600',
                                 'border-t border-gray-200 dark:border-gray-700 rounded-t-none' => ($index > 0),
                                 'rounded-b-none' => (! $loop->last),
                             ])

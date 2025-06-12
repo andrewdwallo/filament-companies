@@ -17,7 +17,7 @@
         </x-slot>
 
         <x-filament-companies::input x-ref="plaintextToken" type="text" readonly="readonly" :value="$plainTextToken"
-                    class="mt-4 bg-gray-100 dark:bg-gray-800 px-4 py-2 rounded font-mono text-sm text-gray-500 w-full break-all"
+                    class="mt-4 bg-gray-100 dark:bg-gray-800 px-4 py-2 rounded-sm font-mono text-sm text-gray-500 w-full break-all"
                     autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"
                     @showing-token-modal.window="setTimeout(() => $refs.plaintextToken.select(), 250)"
         />

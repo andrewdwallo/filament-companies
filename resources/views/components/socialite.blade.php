@@ -17,7 +17,7 @@
         @foreach (\Wallo\FilamentCompanies\Enums\Provider::cases() as $provider)
             @if ($provider->isEnabled())
                 <a href="{{ \Wallo\FilamentCompanies\FilamentCompanies::generateOAuthRedirectUrl($provider->value) }}"
-                   class="filament-companies-socialite-buttons inline-flex rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 dark:focus:border-primary-500 py-2 px-4 shadow-sm hover:bg-gray-50 dark:hover:bg-gray-600">
+                   class="filament-companies-socialite-buttons inline-flex rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 dark:focus:border-primary-500 py-2 px-4 shadow-xs hover:bg-gray-50 dark:hover:bg-gray-600">
                     <span class="sr-only">{{ $provider->getLabel() }}</span>
                     <div class="h-6 w-6">
                         {{ $provider->getIconView() }}
