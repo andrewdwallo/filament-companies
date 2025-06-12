@@ -3,9 +3,9 @@
 namespace Wallo\FilamentCompanies\Pages\Company;
 
 use Filament\Forms\Components\TextInput;
-use Filament\Forms\Form;
 use Filament\Notifications\Notification;
 use Filament\Pages\Tenancy\RegisterTenant as FilamentRegisterTenant;
+use Filament\Schemas\Schema;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
@@ -15,17 +15,17 @@ use Wallo\FilamentCompanies\FilamentCompanies;
 
 class CreateCompany extends FilamentRegisterTenant
 {
-    protected static string $view = 'filament-companies::filament.pages.companies.create_company';
+    protected string $view = 'filament-companies::filament.pages.companies.create_company';
 
     public static function getLabel(): string
     {
         return __('filament-companies::default.pages.titles.create_company');
     }
 
-    public function form(Form $form): Form
+    public function form(Schema $schema): Schema
     {
-        return $form
-            ->schema([
+        return $schema
+            ->components([
                 TextInput::make('name')
                     ->label(__('filament-companies::default.labels.company_name'))
                     ->autofocus()

@@ -4,7 +4,7 @@ namespace Wallo\FilamentCompanies\Pages\Auth;
 
 use Filament\Pages\Concerns\HasRoutes;
 use Filament\Pages\SimplePage;
-use Filament\Support\Enums\MaxWidth;
+use Filament\Support\Enums\Width;
 use Illuminate\Contracts\Support\Htmlable;
 use Illuminate\Support\Str;
 use Wallo\FilamentCompanies\FilamentCompanies;
@@ -13,7 +13,7 @@ class PrivacyPolicy extends SimplePage
 {
     use HasRoutes;
 
-    protected static string $view = 'filament-companies::auth.policy';
+    protected string $view = 'filament-companies::auth.policy';
 
     protected function getViewData(): array
     {
@@ -29,9 +29,9 @@ class PrivacyPolicy extends SimplePage
         return '';
     }
 
-    public function getMaxWidth(): MaxWidth | string | null
+    public function getMaxWidth(): Width | string | null
     {
-        return MaxWidth::TwoExtraLarge;
+        return Width::TwoExtraLarge;
     }
 
     public static function getSlug(): string

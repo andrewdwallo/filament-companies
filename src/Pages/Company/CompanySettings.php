@@ -11,7 +11,7 @@ use function Filament\authorize;
 
 class CompanySettings extends BaseEditTenantProfile
 {
-    protected static string $view = 'filament-companies::filament.pages.companies.company_settings';
+    protected string $view = 'filament-companies::filament.pages.companies.company_settings';
 
     public static function getLabel(): string
     {

@@ -2,9 +2,9 @@
 
 namespace Wallo\FilamentCompanies;
 
+use Filament\Auth\Http\Responses\Contracts\RegistrationResponse as RegistrationResponseContract;
 use Filament\Contracts\Plugin;
 use Filament\Events\TenantSet;
-use Filament\Http\Responses\Auth\Contracts\RegistrationResponse as RegistrationResponseContract;
 use Filament\Panel;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Support\Facades\Event;

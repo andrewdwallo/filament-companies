@@ -2,13 +2,13 @@
 
 namespace Wallo\FilamentCompanies\Http\Responses\Auth;
 
+use Filament\Auth\Http\Responses\RegistrationResponse;
 use Filament\Facades\Filament;
-use Filament\Http\Responses\Auth\RegistrationResponse as FilamentRegistrationResponse;
 use Illuminate\Http\RedirectResponse;
 use Livewire\Features\SupportRedirects\Redirector;
 use Wallo\FilamentCompanies\FilamentCompanies;
 
-class FilamentCompaniesRegistrationResponse extends FilamentRegistrationResponse
+class FilamentCompaniesRegistrationResponse extends RegistrationResponse
 {
     public function toResponse($request): RedirectResponse | Redirector
     {

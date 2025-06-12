@@ -2,8 +2,8 @@
 
 namespace Wallo\FilamentCompanies\Http\Controllers;
 
+use Filament\Auth\Http\Responses\LoginResponse;
 use Filament\Facades\Filament;
-use Filament\Http\Responses\Auth\LoginResponse;
 use Filament\Notifications\Notification;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Contracts\Auth\Authenticatable;
@@ -213,7 +213,7 @@ class OAuthController extends Controller
      */
     protected function alreadyAuthenticated(Authenticatable $user, ?ConnectedAccount $account, string $provider, ProviderUser $providerAccount): RedirectResponse
     {
-        $profileRoute = route(Profile::getRouteName(panel: $this->userPanel));
+        $profileRoute = route(Profile::getRouteName(Filament::getPanel($this->userPanel)));
 
         if ($account && $account->user_id !== $user->getAuthIdentifier()) {
             return $this->redirectToProfileWithNotification('belongs_to_other_user', 'danger', compact('provider'), $profileRoute);
