@@ -6,7 +6,10 @@ use Filament\Auth\Http\Responses\Contracts\RegistrationResponse as RegistrationR
 use Filament\Contracts\Plugin;
 use Filament\Events\TenantSet;
 use Filament\Panel;
+use Filament\Support\Facades\FilamentView;
+use Filament\View\PanelsRenderHook;
 use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Event;
 use Livewire\Livewire;
 use Wallo\FilamentCompanies\Contracts\CreatesConnectedAccounts;
@@ -88,5 +91,22 @@ class FilamentCompanies implements Plugin
         if (static::switchesCurrentCompany()) {
             Event::listen(TenantSet::class, SwitchCurrentCompany::class);
         }
+
+        if (static::hasSocialiteFeatures()) {
+            $this->registerSocialiteRenderHooks();
+        }
+    }
+
+    protected function registerSocialiteRenderHooks(): void
+    {
+        FilamentView::registerRenderHook(
+            PanelsRenderHook::AUTH_LOGIN_FORM_AFTER,
+            fn (): View => view('filament-companies::components.socialite-login'),
+        );
+
+        FilamentView::registerRenderHook(
+            PanelsRenderHook::AUTH_REGISTER_FORM_AFTER,
+            fn (): View => view('filament-companies::components.socialite-login'),
+        );
     }
 }

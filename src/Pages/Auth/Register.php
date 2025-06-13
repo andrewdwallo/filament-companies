@@ -11,8 +11,6 @@ use Wallo\FilamentCompanies\FilamentCompanies;
 
 class Register extends \Filament\Auth\Pages\Register
 {
-    protected string $view = 'filament-companies::auth.register';
-
     public function form(Schema $schema): Schema
     {
         return $schema

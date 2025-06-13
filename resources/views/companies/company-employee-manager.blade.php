@@ -198,7 +198,7 @@
                 {{ __('filament-companies::default.modal_titles.manage_role') }}
             </x-slot>
 
-            <div x-data="{ role: @entangle('currentRole').live }"
+            <div x-data="{ role: @entangle('currentRole') }"
                  class="relative z-0 mt-1 cursor-pointer rounded-lg border border-gray-200 dark:border-gray-700">
                 @foreach ($this->roles as $index => $role)
                     <button type="button"

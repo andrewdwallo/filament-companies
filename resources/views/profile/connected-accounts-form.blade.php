@@ -49,7 +49,7 @@
                             @endif
                         </div>
                     @else
-                        <x-filament::button tag="a" outlined color="gray" size="sm" href="{{ \Wallo\FilamentCompanies\FilamentCompanies::generateOAuthRedirectUrl($provider) }}">
+                        <x-filament::button tag="a" color="gray" size="sm" href="{{ \Wallo\FilamentCompanies\FilamentCompanies::generateOAuthRedirectUrl($provider) }}">
                             {{ __('filament-companies::default.buttons.connect') }}
                         </x-filament::button>
                     @endif

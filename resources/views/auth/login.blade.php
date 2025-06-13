@@ -18,9 +18,5 @@
         />
     </form>
 
-    @if (Wallo\FilamentCompanies\FilamentCompanies::hasSocialiteFeatures())
-        <x-filament-companies::socialite :error-message="$errors->first('filament-companies')" />
-    @endif
-
     {{ \Filament\Support\Facades\FilamentView::renderHook(\Filament\View\PanelsRenderHook::AUTH_LOGIN_FORM_AFTER, scopes: $this->getRenderHookScopes()) }}
 </x-filament-panels::page.simple>
