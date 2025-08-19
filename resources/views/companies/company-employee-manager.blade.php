@@ -74,7 +74,7 @@
 
         @if ($company->companyInvitations->isNotEmpty() && Gate::check('addCompanyEmployee', $company))
             <!-- Pending Employee Invitations -->
-            <x-filament-companies::grid-section md="2">
+            <x-filament-companies::grid-section :has-content-el="false" md="2">
                 <x-slot name="title">
                     {{ __('filament-companies::default.action_section_titles.pending_company_invitations') }}
                 </x-slot>
@@ -122,7 +122,7 @@
 
         @if ($company->users->isNotEmpty())
             <!-- Manage Company Employees -->
-            <x-filament-companies::grid-section md="2">
+            <x-filament-companies::grid-section :has-content-el="false" md="2">
                 <x-slot name="title">
                     {{ __('filament-companies::default.action_section_titles.company_employees') }}
                 </x-slot>

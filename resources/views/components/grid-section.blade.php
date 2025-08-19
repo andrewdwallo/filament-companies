@@ -1,7 +1,12 @@
-@props(['title','description'])
+@props([
+    'title',
+    'description',
+    'hasContentEl' => true,
+])
 
 <x-filament::section
     aside
+    :has-content-el="$hasContentEl"
     {{ $attributes->merge(['class' => 'filament-companies-grid-section']) }}
 >
     <x-slot name="heading">
