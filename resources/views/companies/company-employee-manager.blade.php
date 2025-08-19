@@ -83,7 +83,7 @@
                     {{ __('filament-companies::default.action_section_descriptions.pending_company_invitations') }}
                 </x-slot>
 
-                <div class="overflow-x-auto space-y-2 bg-white rounded-xl shadow-sm dark:border-gray-600 dark:bg-gray-800 col-span-2 mt-5 sm:col-span-1 md:col-start-2 md:mt-0">
+                <div class="overflow-x-auto space-y-2 bg-white rounded-xl shadow-xs dark:border-gray-600 dark:bg-gray-800 col-span-2 mt-5 sm:col-span-1 md:col-start-2 md:mt-0">
                     <table class="w-full divide-y divide-gray-200 dark:divide-gray-700">
                         <thead class="bg-gray-100 dark:bg-gray-800">
                         <tr>
@@ -132,7 +132,7 @@
                 </x-slot>
 
                 <!-- Company Employee List -->
-                <div class="overflow-x-auto space-y-2 bg-white rounded-xl shadow-sm dark:border-gray-600 dark:bg-gray-800 col-span-2 mt-5 sm:col-span-1 md:col-start-2 md:mt-0">
+                <div class="overflow-x-auto space-y-2 bg-white rounded-xl shadow-xs dark:border-gray-600 dark:bg-gray-800 col-span-2 mt-5 sm:col-span-1 md:col-start-2 md:mt-0">
                     <table class="w-full divide-y divide-gray-200 dark:divide-gray-700">
                         <thead class="bg-white dark:bg-gray-800">
                         <tr>
