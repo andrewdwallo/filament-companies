@@ -15,66 +15,68 @@
                     {{ __('filament-companies::default.grid_section_descriptions.add_company_employee') }}
                 </x-slot>
 
-                <form wire:submit="addCompanyEmployee" class="fi-sc-form">
-                    <p class="text-sm text-gray-600 dark:text-gray-400">
-                        {{ __('filament-companies::default.subheadings.companies.company_employee_manager') }}
-                    </p>
+                <x-filament::section>
+                    <form wire:submit="addCompanyEmployee" class="fi-sc-form">
+                        <p class="text-sm text-gray-600 dark:text-gray-400">
+                            {{ __('filament-companies::default.subheadings.companies.company_employee_manager') }}
+                        </p>
 
-                    <!-- Employee Email -->
-                    <x-filament-forms::field-wrapper id="email" statePath="email" required="required" label="{{ __('filament-companies::default.fields.email') }}">
-                        <x-filament::input.wrapper class="overflow-hidden">
-                            <x-filament::input id="email" type="email" wire:model="addCompanyEmployeeForm.email" />
-                        </x-filament::input.wrapper>
-                    </x-filament-forms::field-wrapper>
-
-                    <!-- Role -->
-                    @if (count($this->roles) > 0)
-                        <x-filament-forms::field-wrapper id="role" statePath="role" required="required" label="{{ __('filament-companies::default.labels.role') }}">
-                            <div x-data="{ role: @entangle('addCompanyEmployeeForm.role') }" class="relative z-0 mt-1 cursor-pointer rounded-lg border border-gray-200 dark:border-gray-700">
-                                @foreach ($this->roles as $index => $role)
-                                    <button type="button"
-                                            @click="role = '{{ $role->key }}'"
-                                            @class([
-                                                'relative inline-flex w-full rounded-lg px-4 py-3 transition focus:z-10 focus:outline-hidden focus:ring-2 focus:border-primary-500 focus:ring-primary-500 dark:focus:border-primary-600 dark:focus:ring-primary-600',
-                                                'border-t border-gray-200 dark:border-gray-700 rounded-t-none' => ($index > 0),
-                                                'rounded-b-none' => (! $loop->last),
-                                            ])
-                                    >
-                                        <div :class="role === '{{ $role->key }}' || 'opacity-50'">
-                                            <!-- Role Name -->
-                                            <div class="flex items-center">
-                                                <div class="text-sm text-gray-600 dark:text-gray-400" :class="{'font-semibold': role === '{{ $role->key }}'}">
-                                                    {{ $role->name }}
-                                                </div>
-
-                                                <div x-cloak :class="{ 'hidden': role !== '{{ $role->key }}' }">
-                                                    <x-heroicon-o-check-badge class="text-primary-500 ml-2 h-5 w-5" />
-                                                </div>
-                                            </div>
-
-                                            <!-- Role Description -->
-                                            <div class="mt-2 text-left text-sm text-gray-600 dark:text-gray-400">
-                                                {{ $role->description }}
-                                            </div>
-                                        </div>
-                                    </button>
-                                @endforeach
-                            </div>
+                        <!-- Employee Email -->
+                        <x-filament-forms::field-wrapper id="email" statePath="email" required="required" label="{{ __('filament-companies::default.fields.email') }}">
+                            <x-filament::input.wrapper class="overflow-hidden">
+                                <x-filament::input id="email" type="email" wire:model="addCompanyEmployeeForm.email" />
+                            </x-filament::input.wrapper>
                         </x-filament-forms::field-wrapper>
-                    @endif
 
-                    <div class="text-left">
-                        <x-filament::button type="submit">
-                            {{ __('filament-companies::default.buttons.add') }}
-                        </x-filament::button>
-                    </div>
-                </form>
+                        <!-- Role -->
+                        @if (count($this->roles) > 0)
+                            <x-filament-forms::field-wrapper id="role" statePath="role" required="required" label="{{ __('filament-companies::default.labels.role') }}">
+                                <div x-data="{ role: @entangle('addCompanyEmployeeForm.role') }" class="relative z-0 mt-1 cursor-pointer rounded-lg border border-gray-200 dark:border-gray-700">
+                                    @foreach ($this->roles as $index => $role)
+                                        <button type="button"
+                                                @click="role = '{{ $role->key }}'"
+                                                @class([
+                                                    'relative inline-flex w-full rounded-lg px-4 py-3 transition focus:z-10 focus:outline-hidden focus:ring-2 focus:border-primary-500 focus:ring-primary-500 dark:focus:border-primary-600 dark:focus:ring-primary-600',
+                                                    'border-t border-gray-200 dark:border-gray-700 rounded-t-none' => ($index > 0),
+                                                    'rounded-b-none' => (! $loop->last),
+                                                ])
+                                        >
+                                            <div :class="role === '{{ $role->key }}' || 'opacity-50'">
+                                                <!-- Role Name -->
+                                                <div class="flex items-center">
+                                                    <div class="text-sm text-gray-600 dark:text-gray-400" :class="{'font-semibold': role === '{{ $role->key }}'}">
+                                                        {{ $role->name }}
+                                                    </div>
+
+                                                    <div x-cloak :class="{ 'hidden': role !== '{{ $role->key }}' }">
+                                                        <x-heroicon-o-check-badge class="text-primary-500 ml-2 h-5 w-5" />
+                                                    </div>
+                                                </div>
+
+                                                <!-- Role Description -->
+                                                <div class="mt-2 text-left text-sm text-gray-600 dark:text-gray-400">
+                                                    {{ $role->description }}
+                                                </div>
+                                            </div>
+                                        </button>
+                                    @endforeach
+                                </div>
+                            </x-filament-forms::field-wrapper>
+                        @endif
+
+                        <div class="text-left">
+                            <x-filament::button type="submit">
+                                {{ __('filament-companies::default.buttons.add') }}
+                            </x-filament::button>
+                        </div>
+                    </form>
+                </x-filament::section>
             </x-filament-companies::grid-section>
         @endif
 
         @if ($company->companyInvitations->isNotEmpty() && Gate::check('addCompanyEmployee', $company))
             <!-- Pending Employee Invitations -->
-            <x-filament-companies::grid-section :has-content-el="false" md="2">
+            <x-filament-companies::grid-section>
                 <x-slot name="title">
                     {{ __('filament-companies::default.action_section_titles.pending_company_invitations') }}
                 </x-slot>
@@ -122,7 +124,7 @@
 
         @if ($company->users->isNotEmpty())
             <!-- Manage Company Employees -->
-            <x-filament-companies::grid-section :has-content-el="false" md="2">
+            <x-filament-companies::grid-section>
                 <x-slot name="title">
                     {{ __('filament-companies::default.action_section_titles.company_employees') }}
                 </x-slot>

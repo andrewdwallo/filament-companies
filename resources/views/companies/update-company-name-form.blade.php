@@ -7,39 +7,41 @@
         {{ __('filament-companies::default.grid_section_descriptions.company_name') }}
     </x-slot>
 
-    <form wire:submit="updateCompanyName" class="fi-sc-form">
-        <!-- Company Owner Information -->
-        <div class="fi-fo-field">
-            <div class="fi-fo-field-label">
-                <span class="fi-fo-field-label-content">
-                    {{ __('filament-companies::default.labels.company_owner') }}
-                </span>
+    <x-filament::section>
+        <form wire:submit="updateCompanyName" class="fi-sc-form">
+            <!-- Company Owner Information -->
+            <div class="fi-fo-field">
+                <div class="fi-fo-field-label">
+                    <span class="fi-fo-field-label-content">
+                        {{ __('filament-companies::default.labels.company_owner') }}
+                    </span>
+                </div>
             </div>
-        </div>
 
-        <div class="flex items-center text-sm">
-            <div class="shrink-0">
-                <x-filament-panels::avatar.user :user="$company->owner" style="height: 3rem; width: 3rem;" />
+            <div class="flex items-center text-sm">
+                <div class="shrink-0">
+                    <x-filament-panels::avatar.user :user="$company->owner" style="height: 3rem; width: 3rem;" />
+                </div>
+                <div class="ml-4">
+                    <div class="font-medium text-gray-900 dark:text-gray-200">{{ $company->owner->name }}</div>
+                    <div class="text-gray-600 dark:text-gray-400">{{ $company->owner->email }}</div>
+                </div>
             </div>
-            <div class="ml-4">
-                <div class="font-medium text-gray-900 dark:text-gray-200">{{ $company->owner->name }}</div>
-                <div class="text-gray-600 dark:text-gray-400">{{ $company->owner->email }}</div>
-            </div>
-        </div>
 
-        <!-- Company Name -->
-        <x-filament-forms::field-wrapper id="name" state-path="name" required label="{{ __('filament-companies::default.labels.company_name') }}">
-            <x-filament::input.wrapper>
-                <x-filament::input id="name" type="text" maxlength="255" wire:model="state.name" :disabled="!Gate::check('update', $company)" />
-            </x-filament::input.wrapper>
-        </x-filament-forms::field-wrapper>
+            <!-- Company Name -->
+            <x-filament-forms::field-wrapper id="name" state-path="name" required label="{{ __('filament-companies::default.labels.company_name') }}">
+                <x-filament::input.wrapper>
+                    <x-filament::input id="name" type="text" maxlength="255" wire:model="state.name" :disabled="!Gate::check('update', $company)" />
+                </x-filament::input.wrapper>
+            </x-filament-forms::field-wrapper>
 
-        @if (Gate::check('update', $company))
-            <div class="text-left">
-                <x-filament::button type="submit">
-                    {{ __('filament-companies::default.buttons.save') }}
-                </x-filament::button>
-            </div>
-        @endif
-    </form>
+            @if (Gate::check('update', $company))
+                <div class="text-left">
+                    <x-filament::button type="submit">
+                        {{ __('filament-companies::default.buttons.save') }}
+                    </x-filament::button>
+                </div>
+            @endif
+        </form>
+    </x-filament::section>
 </x-filament-companies::grid-section>

@@ -1,23 +1,15 @@
-@props([
-    'title',
-    'description',
-    'hasContentEl' => true,
-])
+@props(['title','description'])
+<div @class(["pt-6 grid grid-cols-1 md:grid-cols-2 gap-4 filament-companies-grid-section"]) {{ $attributes }}>
 
-<x-filament::section
-    aside
-    :has-content-el="$hasContentEl"
-    {{ $attributes->merge(['class' => 'filament-companies-grid-section']) }}
->
-    <x-slot name="heading">
-        {{ $title }}
-    </x-slot>
+    <div>
+        <h3 @class(['text-lg font-medium filament-companies-grid-title'])>{{$title}}</h3>
 
-    @if (filled($description))
-        <x-slot name="description">
-            {{ $description }}
-        </x-slot>
-    @endif
+        <p @class(['mt-1 text-sm text-gray-500 filament-companies-grid-description'])>
+            {{$description}}
+        </p>
+    </div>
 
-    {{ $slot }}
-</x-filament::section>
+    <div>
+        {{ $slot }}
+    </div>
+</div>
