@@ -107,7 +107,7 @@ class LogoutOtherBrowserSessionsForm extends Component
                 ->where('user_id', Auth::user()?->getAuthIdentifier())
                 ->orderBy('last_activity', 'desc')
                 ->get()
-        )->map(function ($session) {
+        )->map(function (#[\SensitiveParameter] $session) {
             $deviceDetector = $this->createAgent($session);
 
             return (object) [
@@ -125,7 +125,7 @@ class LogoutOtherBrowserSessionsForm extends Component
     /**
      * Create a new agent instance from the given session.
      */
-    protected function createAgent(mixed $session): DeviceDetector
+    protected function createAgent(#[\SensitiveParameter] mixed $session): DeviceDetector
     {
         $deviceDetector = new DeviceDetector($session->user_agent);
         $deviceDetector->parse();

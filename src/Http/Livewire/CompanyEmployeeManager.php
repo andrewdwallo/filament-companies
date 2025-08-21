@@ -7,6 +7,7 @@ use Filament\Notifications\Notification;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Contracts\View\View;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Redirector;
@@ -115,6 +116,7 @@ class CompanyEmployeeManager extends Component
     public function cancelCompanyInvitation(int $invitationId): void
     {
         if (! empty($invitationId)) {
+            /** @var class-string<Model> $model */
             $model = FilamentCompanies::companyInvitationModel();
 
             $model::whereKey($invitationId)->delete();
@@ -267,7 +269,7 @@ class CompanyEmployeeManager extends Component
         return view('filament-companies::companies.company-employee-manager');
     }
 
-    public function employeeInvitationSent($email): void
+    public function employeeInvitationSent(#[\SensitiveParameter] $email): void
     {
         Notification::make()
             ->title(__('filament-companies::default.notifications.company_invitation_sent.title'))

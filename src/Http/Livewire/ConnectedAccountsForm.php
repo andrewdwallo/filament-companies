@@ -107,7 +107,7 @@ class ConnectedAccountsForm extends Component
         }
 
         return $this->user->connectedAccounts
-            ->map(static function (ConnectedAccount $account) {
+            ->map(static function (#[\SensitiveParameter] ConnectedAccount $account) {
                 return (object) $account->getSharedData();
             });
     }
