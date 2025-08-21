@@ -6,6 +6,7 @@ use Filament\Notifications\Notification;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Auth;
+use Livewire\Attributes\Computed;
 use Livewire\Component;
 use Wallo\FilamentCompanies\Contracts\UpdatesUserPasswords;
 use Wallo\FilamentCompanies\FilamentCompanies;
@@ -56,7 +57,8 @@ class UpdatePasswordForm extends Component
     /**
      * Get the current user of the application.
      */
-    public function getUserProperty(): ?Authenticatable
+    #[Computed]
+    public function user(): ?Authenticatable
     {
         return Auth::user();
     }

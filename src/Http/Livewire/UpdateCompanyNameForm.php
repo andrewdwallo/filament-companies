@@ -7,6 +7,7 @@ use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
+use Livewire\Attributes\Computed;
 use Livewire\Component;
 use Wallo\FilamentCompanies\Contracts\UpdatesCompanyNames;
 use Wallo\FilamentCompanies\FilamentCompanies;
@@ -65,7 +66,8 @@ class UpdateCompanyNameForm extends Component
     /**
      * Get the current user of the application.
      */
-    public function getUserProperty(): ?Authenticatable
+    #[Computed]
+    public function user(): ?Authenticatable
     {
         return Auth::user();
     }

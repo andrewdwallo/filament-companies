@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
+use Livewire\Attributes\Computed;
 use Livewire\Component;
 
 class LogoutOtherBrowserSessionsForm extends Component
@@ -94,7 +95,8 @@ class LogoutOtherBrowserSessionsForm extends Component
     /**
      * Get the current sessions.
      */
-    public function getSessionsProperty(): Collection
+    #[Computed]
+    public function sessions(): Collection
     {
         if (config('session.driver') !== 'database') {
             return collect();
