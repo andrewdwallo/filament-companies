@@ -1,5 +1,30 @@
 # Upgrade Guide
 
+## Upgrading from FilamentCompanies 4.x to 5.x
+
+Version 5.x introduces more granular control over company features. Previously, enabling `companies()` would automatically enable all company management features. Now you must explicitly enable each feature you want to use.
+
+### Breaking Changes
+
+Company features now require explicit configuration:
+
+**Before (4.x):**
+```php
+FilamentCompanies::make()
+    ->companies(invitations: true)  // This enabled all company features
+```
+
+**After (5.x):**
+```php
+FilamentCompanies::make()
+    ->companies(invitations: true)           // Only enables basic company support
+    ->updateCompanyInformation()             // Explicitly enable company name updates
+    ->manageCompanyEmployees()               // Explicitly enable employee management
+    ->companyDeletion()                      // Explicitly enable company deletion
+```
+
+This change provides better security through the principle of least privilege and clearer understanding of which features are active in your application.
+
 ## Upgrading from FilamentCompanies 3.x to 4.x
 
 This major release introduces significant changes designed to streamline the usage of FilamentCompanies. Here’s how to migrate your project from 3.x to 4.x.
