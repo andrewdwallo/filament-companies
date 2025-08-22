@@ -32,7 +32,7 @@ A comprehensive multi-tenant authentication and authorization solution designed 
 
 * Create a fresh Laravel Project
 * Configure your database
-* Install the [Panel Builder](https://filamentphp.com/docs/3.x/panels/installation#installation)
+* Install the [Panel Builder](https://filamentphp.com/docs/4.x/introduction/installation#installing-the-panel-builder)
 
 After installing the Panel Builder, ensure you create a panel using the following command:
 ```shell
@@ -97,7 +97,7 @@ public function panel(Panel $panel): Panel
         ])
 }
 ```
-> 🛑 You may create a separate User Panel following the documentation for [creating a new panel](https://filamentphp.com/docs/3.x/panels/configuration#creating-a-new-panel)
+> 🛑 You may create a separate User Panel following the documentation for [creating a new panel](https://filamentphp.com/docs/4.x/panel-configuration#creating-a-new-panel)
 
 Ensure users have a way to navigate to the Profile and Personal Access Tokens pages.
 
@@ -195,7 +195,7 @@ php artisan vendor:publish --tag=filament-companies-views
 
 ### Email Verification
 
-If you are using [email verification](https://filamentphp.com/docs/3.x/panels/users#authentication-features) make sure to register your verify-email url. If this is not properly registerd, you may see errors on the user profile page. You can either add this via Filament's `VerifyEmail` facade or a new route in your app.
+If you are using [email verification](https://filamentphp.com/docs/4.x/users/overview#authentication-features) make sure to register your verify-email url. If this is not properly registerd, you may see errors on the user profile page. You can either add this via Filament's `VerifyEmail` facade or a new route in your app.
 
 #### Registering the URL via the create URL Notification callback
 
